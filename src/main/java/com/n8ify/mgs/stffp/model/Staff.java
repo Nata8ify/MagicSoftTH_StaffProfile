@@ -8,13 +8,15 @@ public class Staff {
 	private String division;
 	private String protraitPath;
 	private String hostManagerId;
-	
+
 	public Staff() {
 		super();
 	}
 
-	public Staff(String name, String email, String tel, String division, String protraitPath, String hostManagerId) {
+	public Staff(String staffId, String name, String email, String tel, String division, String protraitPath,
+			String hostManagerId) {
 		super();
+		this.staffId = staffId;
 		this.name = name;
 		this.email = email;
 		this.tel = tel;
@@ -71,8 +73,6 @@ public class Staff {
 		this.protraitPath = protraitPath;
 	}
 
-	
-	
 	public String getHostManagerId() {
 		return hostManagerId;
 	}
@@ -84,6 +84,6 @@ public class Staff {
 	@Override
 	public String toString() {
 		return "รหัสบุคคล=" + staffId + ", ชื่อ-สกุล=" + name + ", Email=" + email + ", Tel=" + tel + ", แผนก="
-				+ division + ", ที่อยู่ของรูปภาพ=" + protraitPath + "รหัสบุคคลหัวหน้าแผนก : "+hostManagerId+"=]";
+				+ division + ", ที่อยู่ของรูปภาพ=" + protraitPath + "รหัสบุคคลหัวหน้าแผนก : " + hostManagerId + "=]";
 	}
 }

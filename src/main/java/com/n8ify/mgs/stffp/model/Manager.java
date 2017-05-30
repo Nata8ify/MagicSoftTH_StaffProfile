@@ -56,7 +56,7 @@ public class Manager {
 	public void setProtraitPath(String protraitPath) {
 		this.protraitPath = protraitPath;
 	}
-	
+
 	public String getHostManagerId() {
 		return hostManagerId;
 	}

@@ -5,11 +5,15 @@
 
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<!--Data Source Conf -->
-	<bean id="mgsdb"
+	<bean id="mgsdbSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://54.169.83.168:3306/area11" />
-		<property name="username" value="area11" />
-		<property name="password" value="@Area11th" />
+		<property name="url" value="jdbc:mysql://54.169.83.168:3306/mgsdb" />
+		<property name="username" value="mgshost" />
+		<property name="password" value="@Nintendo64" />
+	</bean>
+	
+	<bean id="staffManager" class="com.n8ify.mgs.stffp.dealer.StaffManager">
+		<property name="dataSource" ref="mgsdbSource" />
 	</bean>
 </beans>
