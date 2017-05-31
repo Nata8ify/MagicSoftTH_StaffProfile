@@ -7,6 +7,17 @@ public class Administrator {
 	private String tel;
 	private String division;
 	private String protraitPath;
+	private String gender;
+	
+	public static final String TYPE_ADMINISTRATOR = "a";
+	
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
 
 	public String getAdminId() {
 		return adminId;

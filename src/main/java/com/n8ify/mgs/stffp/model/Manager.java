@@ -8,6 +8,17 @@ public class Manager {
 	private String division;
 	private String protraitPath;
 	private String hostManagerId;
+	private String gender;
+
+	public static final String TYPE_MANAGER = "m";
+	
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
 
 	public String getManagerId() {
 		return managerId;

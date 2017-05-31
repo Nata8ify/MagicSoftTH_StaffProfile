@@ -39,17 +39,17 @@ public class StaffManager implements StaffManagementInterface {
 	@Override
 	public boolean insertStaff(Staff staff) {
 		String sql = "INSERT INTO `Staff`"
-				+ "(`staffId`, `name`, `email`, `tel`, `division`, `protraitPath`, `hostManagerId`)"
+				+ "(`staffId`, `gender`, `name`, `email`, `tel`, `division`, `protraitPath`, `hostManagerId`)"
 				+ " VALUES (?, ?, ?, ?, ?, ?, ?);";
-		return jdbcTemplate.update(sql, new Object[] { staff.getStaffId(), staff.getName(), staff.getEmail(),
+		return jdbcTemplate.update(sql, new Object[] { staff.getStaffId(), staff.getGender(), staff.getName(), staff.getEmail(),
 				staff.getTel(), staff.getDivision(), staff.getProtraitPath(), staff.getHostManagerId() }) > 0;
 	}
 
 	@Override
 	public boolean editStaff(Staff staff) {
-		String sql = "UPDATE `Staff` SET ``name`=?,`email`=?,`tel`=?,`division`=?,`protraitPath`=?"
+		String sql = "UPDATE `Staff` SET `name`=?, `gender`=? ,`email`=?,`tel`=?,`division`=?,`protraitPath`=?"
 				+ ",`hostManagerId`=? WHERE `staffId` = ?;";
-		return jdbcTemplate.update(sql, new Object[] { staff.getName(), staff.getEmail(), staff.getTel(),
+		return jdbcTemplate.update(sql, new Object[] { staff.getName(), staff.getGender() , staff.getEmail(), staff.getTel(),
 				staff.getDivision(), staff.getProtraitPath(), staff.getHostManagerId(), staff.getStaffId() }) > 0;
 	}
 
@@ -83,6 +83,7 @@ public class StaffManager implements StaffManagementInterface {
 		public Staff mapRow(ResultSet rs, int i) throws SQLException {
 			Staff staff = new Staff();
 			staff.setStaffId(rs.getString("staffId"));
+			staff.setGender(rs.getString("gender"));
 			staff.setName(rs.getString("name"));
 			staff.setEmail(rs.getString("email"));
 			staff.setTel(rs.getString("tel"));
@@ -99,6 +100,7 @@ public class StaffManager implements StaffManagementInterface {
 		public Manager mapRow(ResultSet rs, int i) throws SQLException {
 			Manager manager = new Manager();
 			manager.setManagerId(rs.getString("managerId"));
+			manager.setGender(rs.getString("gender"));
 			manager.setName(rs.getString("name"));
 			manager.setEmail(rs.getString("email"));
 			manager.setTel(rs.getString("tel"));
@@ -115,6 +117,7 @@ public class StaffManager implements StaffManagementInterface {
 		public Administrator mapRow(ResultSet rs, int i) throws SQLException {
 			Administrator admin = new Administrator();
 			admin.setAdminId(rs.getString("adminId"));
+			admin.setGender(rs.getString("gender"));
 			admin.setName(rs.getString("name"));
 			admin.setEmail(rs.getString("email"));
 			admin.setTel(rs.getString("tel"));

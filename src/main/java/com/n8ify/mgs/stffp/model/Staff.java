@@ -8,12 +8,18 @@ public class Staff {
 	private String division;
 	private String protraitPath;
 	private String hostManagerId;
+	private String gender;
 
+
+	public static final String TYPE_STAFF = "s";
+	
 	public Staff() {
 		super();
 	}
 
-	public Staff(String staffId, String name, String email, String tel, String division, String protraitPath,
+
+
+	public Staff(String staffId, String gender, String name, String email, String tel, String division, String protraitPath,
 			String hostManagerId) {
 		super();
 		this.staffId = staffId;
@@ -23,12 +29,24 @@ public class Staff {
 		this.division = division;
 		this.protraitPath = protraitPath;
 		this.hostManagerId = hostManagerId;
+		this.gender = gender;
 	}
+
+
 
 	public String getStaffId() {
 		return staffId;
 	}
 
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+	
 	public void setStaffId(String staffId) {
 		this.staffId = staffId;
 	}

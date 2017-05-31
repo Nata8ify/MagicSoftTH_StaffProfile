@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.n8ify.mgs.stffp.dealer.StaffManager;
+import com.n8ify.mgs.stffp.model.Administrator;
+import com.n8ify.mgs.stffp.model.Manager;
 import com.n8ify.mgs.stffp.model.Staff;
 
 @Controller
@@ -27,13 +29,46 @@ public class StaffManagentController {
 
 	@RequestMapping(value = "/insertStaff", method = RequestMethod.POST)
 	public String insertPerson(Model model, @RequestParam(value = "staffId", required = true) String staffId,
+			@RequestParam(value = "gender", required = false) String gender,
+			@RequestParam(value = "name", required = true) String name,
+			@RequestParam(value = "email", required = true) String email,
+			@RequestParam(value = "tel", required = true) String tel,
+			@RequestParam(value = "division", required = true) String division,
+			@RequestParam(value = "protraitPath", required = false) String protraitPath,
+			@RequestParam(value = "hostManagerId", required = false) String hostManagerId,
+			@RequestParam(value = "insertType", required = true) String insertType) {
+
+		switch (insertType) {
+		case Staff.TYPE_STAFF:
+			if (staffManager.insertStaff(new Staff(staffId, gender, name, email, tel, division, protraitPath, hostManagerId))) {
+				model.addAttribute("msg", "สำเร็จ!");
+			} else {
+				model.addAttribute("msg", "ไม่สำเร็จ!");
+			}
+			break;
+		case Manager.TYPE_MANAGER:
+			break;
+		case Administrator.TYPE_ADMINISTRATOR:
+			break;
+		default: // TODO
+		}
+		return toManage();
+	}
+
+	@RequestMapping(value = "/editStaff", method = RequestMethod.POST)
+	public String insertPerson(Model model, @RequestParam(value = "staffId", required = true) String staffId,
+			@RequestParam(value = "gender", required = false) String gender,
 			@RequestParam(value = "name", required = true) String name,
 			@RequestParam(value = "email", required = true) String email,
 			@RequestParam(value = "tel", required = true) String tel,
 			@RequestParam(value = "division", required = true) String division,
 			@RequestParam(value = "protraitPath", required = false) String protraitPath,
 			@RequestParam(value = "hostManagerId", required = false) String hostManagerId) {
-		staffManager.insertStaff(new Staff(staffId, name, email, tel, division, protraitPath, hostManagerId));
+		if (staffManager.editStaff(new Staff(staffId, gender, name, email, tel, division, protraitPath, hostManagerId))) {
+			model.addAttribute("msg", "สำเร็จ!");
+		} else {
+			model.addAttribute("msg", "ไม่สำเร็จ!");
+		}
 		return toManage();
 	}
 }
