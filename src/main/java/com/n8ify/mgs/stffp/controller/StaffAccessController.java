@@ -13,20 +13,20 @@ import com.n8ify.mgs.stffp.dealer.SttfpAccess;
 public class StaffAccessController {
 
 	private static final Logger logger = LoggerFactory.getLogger(StaffAccessController.class);
-	
+
 	@Autowired
 	private SttfpAccess sttfpAccess;
-	
 
 	@RequestMapping(value = "/login")
-	public String login(Model model){
-		return "list"; //<-- Not the Finalize Destination May have to Make more Page.
+	public String login(Model model) {
+		return "list"; // <-- Not the Finalize Destination May have to Make more
+						// Page.
 	}
-	
 
 	@RequestMapping(value = "/editSelf")
-	public String editSelf(Model model){
-		return "list"; //<-- Not the Finalize Destination May have to Make more Page.
+	public String editSelf(Model model) {
+		return "list"; // <-- Not the Finalize Destination May have to Make more
+						// Page.
 	}
-	
+
 }

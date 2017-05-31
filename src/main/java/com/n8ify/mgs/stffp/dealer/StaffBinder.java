@@ -12,9 +12,7 @@ public class StaffBinder implements StaffBinderInterface {
 
 	private DataSource dataSource;
 	private JdbcTemplate jdbctemplate;
-	
-	
-	
+
 	public DataSource getDataSource() {
 		return dataSource;
 	}
@@ -27,45 +25,41 @@ public class StaffBinder implements StaffBinderInterface {
 	@Override
 	public void bindStaffToManager(String staffId, String managerId) {
 		String sql = "UPDATE `Staff` SET `hostManagerId`= ? WHERE `staffId`= ?;";
-		jdbctemplate.update(sql, new Object[]{managerId, staffId});
+		jdbctemplate.update(sql, new Object[] { managerId, staffId });
 	}
-
-	@Override
-	public void bindStaffsToManager(List<String> staffIds, String managerId) {
-		String sql = "UPDATE `Staff` SET `hostManagerId`= ? WHERE `staffId` IN(?);";
-		jdbctemplate.update(sql, new Object[]{managerId, staffIds.toArray()});
-	}
-
 
 	@Override
 	public void bindStaffsToManager(Object[] staffIds, String managerId) {
-		String sql = "UPDATE `Staff` SET `hostManagerId`= ? WHERE `staffId` IN(?);";
-		jdbctemplate.update(sql, new Object[]{managerId, staffIds});
-		
+		String sql = "UPDATE `Staff` SET `hostManagerId`= ? WHERE `staffId` "
+				.concat(getDynamicINClauseStatement(staffIds));
+		jdbctemplate.update(sql, new Object[] { managerId });
+
 	}
-	
-	
+
 	@Override
 	public void unbindStaffFromManager(String staffId) {
 		String sql = "UPDATE `Staff` SET `hostManagerId`= NULL WHERE `staffId` = ?;";
-		jdbctemplate.update(sql, new Object[]{staffId});
-
+		jdbctemplate.update(sql, new Object[] { staffId });
 	}
-
-	@Override
-	public void unbindStaffsFromManager(List<String> staffIds) {
-		String sql = "UPDATE `Staff` SET `hostManagerId`= NULL WHERE `staffId` IN (?);";
-		jdbctemplate.update(sql, new Object[]{staffIds.toArray()});
-
-	}
-
 
 	@Override
 	public void unbindStaffsFromManager(Object[] staffIds) {
-		String sql = "UPDATE `Staff` SET `hostManagerId`= NULL WHERE `staffId` IN (?);";
-		jdbctemplate.update(sql, new Object[]{staffIds});
-		
+		String sql = "UPDATE `Staff` SET `hostManagerId`= NULL WHERE `staffId` "
+				+ getDynamicINClauseStatement(staffIds);
+		jdbctemplate.update(sql);
+
 	}
 
+	public String getDynamicINClauseStatement(Object[] staffIds) {
+		StringBuilder strBd = new StringBuilder("IN (");
+		for (Object staffId : staffIds) {
+			strBd.append("'");
+			strBd.append(staffId);
+			strBd.append("',");
+		}
+		strBd.setCharAt(strBd.length()-1, ' ');
+		strBd.append(");");
+		return strBd.toString();
+	}
 
 }

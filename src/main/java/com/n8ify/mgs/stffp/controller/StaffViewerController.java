@@ -15,7 +15,7 @@ import com.n8ify.mgs.stffp.dealer.StaffManager;
 public class StaffViewerController {
 
 	private static final Logger logger = LoggerFactory.getLogger(StaffViewerController.class);
-	
+
 	@Autowired
 	private StaffManager staffManager;
 

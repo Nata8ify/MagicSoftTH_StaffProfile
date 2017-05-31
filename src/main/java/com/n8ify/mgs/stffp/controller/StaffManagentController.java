@@ -41,9 +41,10 @@ public class StaffManagentController {
 		// Checking Is this an Administrator Account Roll.
 		switch (insertType) {
 		case Staff.TYPE_STAFF:
-			if (staffManager.insertStaff(new Staff(staffId, name, email, tel, division, position, protraitPath,
-					hostManagerId, gender, Staff.TYPE_STAFF)
-					, password.equals("")?StaffAccessUtils.getInstance().getRandomPassword():password)) {
+			if (staffManager.insertStaff(
+					new Staff(staffId, name, email, tel, division, position, protraitPath, hostManagerId, gender,
+							Staff.TYPE_STAFF),
+					password.equals("") ? StaffAccessUtils.getInstance().getRandomPassword() : password)) {
 				model.addAttribute("msg", "สำเร็จ!");
 			} else {
 				model.addAttribute("msg", "ไม่สำเร็จ!");

@@ -33,7 +33,7 @@ public class StaffManager implements StaffManagementInterface {
 	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 	}
-	
+
 	/** If two operation was success, return true */
 	@Override
 	public boolean insertStaff(Staff staff, String password) {
@@ -43,10 +43,9 @@ public class StaffManager implements StaffManagementInterface {
 		boolean is1stSuccess = jdbcTemplate.update(sql,
 				new Object[] { staff.getStaffId(), staff.getGender(), staff.getName(), staff.getEmail(), staff.getTel(),
 						staff.getDivision(), staff.getPosition(), staff.getProtraitPath(),
-						staff.getHostManagerId()}) > 0;
+						staff.getHostManagerId() }) > 0;
 		sql = " INSERT INTO `StaffAccess`(`staffId`, `password`) VALUES (?,?);";
-		return jdbcTemplate.update(sql,
-				new Object[] {staff.getStaffId(), password }) > 0 & is1stSuccess;
+		return jdbcTemplate.update(sql, new Object[] { staff.getStaffId(), password }) > 0 & is1stSuccess;
 	}
 
 	@Override
