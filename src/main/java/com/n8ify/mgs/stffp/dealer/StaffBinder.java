@@ -57,7 +57,7 @@ public class StaffBinder implements StaffBinderInterface {
 			strBd.append(staffId);
 			strBd.append("',");
 		}
-		strBd.setCharAt(strBd.length()-1, ' ');
+		strBd.setCharAt(strBd.length() - 1, ' ');
 		strBd.append(");");
 		return strBd.toString();
 	}
