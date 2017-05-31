@@ -13,9 +13,10 @@
 			<option value="m">ชาย</option>
 			<option value="f">หญิง</option>
 		</select><br> <input type="text" name="name" placeholder="name" /><br>
-		<input type="text" name="email" placeholder="email" /><br> <input
+		<input type="text" name="email" placeholder="email" /><br /> <input
 			type="text" name="tel" placeholder="tel" /><br> <input
 			type="text" name="division" placeholder="division" /><br> <input
+			type="text" name="position" placeholder="position" /><br> <input
 			type="submit" />
 	</form>
 	<hr>
@@ -27,7 +28,8 @@
 		</select><br> <input type="text" name="name" placeholder="name" /><br>
 		<input type="text" name="email" placeholder="email" /><br> <input
 			type="text" name="tel" placeholder="tel" /><br> <input
-			type="text" name="division" placeholder="division" /><br> <input
+			type="text" name="division" placeholder="division" /><br><input
+			type="text" name="position" placeholder="position" /><br> <input
 			type="submit" />
 	</form>
 	<hr>

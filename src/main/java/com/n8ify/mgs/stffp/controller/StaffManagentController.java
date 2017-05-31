@@ -9,9 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.n8ify.mgs.stffp.dealer.PersonManager;
-import com.n8ify.mgs.stffp.model.Administrator;
-import com.n8ify.mgs.stffp.model.Manager;
+import com.n8ify.mgs.stffp.dealer.StaffManager;
 import com.n8ify.mgs.stffp.model.Staff;
 
 @Controller
@@ -20,7 +18,7 @@ public class StaffManagentController {
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
 	@Autowired
-	private PersonManager staffManager;
+	private StaffManager staffManager;
 
 	@RequestMapping(value = "/manage", method = RequestMethod.GET)
 	public String toManage() {
@@ -34,22 +32,23 @@ public class StaffManagentController {
 			@RequestParam(value = "email", required = true) String email,
 			@RequestParam(value = "tel", required = true) String tel,
 			@RequestParam(value = "division", required = true) String division,
+			@RequestParam(value = "position", required = true) String position,
 			@RequestParam(value = "protraitPath", required = false) String protraitPath,
 			@RequestParam(value = "hostManagerId", required = false) String hostManagerId,
 			@RequestParam(value = "insertType", required = true) String insertType) {
-
+		// Checking Is this an Administrator Account Roll.
 		switch (insertType) {
 		case Staff.TYPE_STAFF:
 			if (staffManager
-					.insertStaff(new Staff(staffId, gender, name, email, tel, division, protraitPath, hostManagerId))) {
+					.insertStaff(new Staff(staffId, name, email, tel, division, position, protraitPath, hostManagerId, gender, Staff.TYPE_STAFF))) {
 				model.addAttribute("msg", "สำเร็จ!");
 			} else {
 				model.addAttribute("msg", "ไม่สำเร็จ!");
 			}
 			break;
-		case Manager.TYPE_MANAGER:
+		case Staff.TYPE_MANAGER:
 			break;
-		case Administrator.TYPE_ADMINISTRATOR:
+		case Staff.TYPE_ADMINISTRATOR:
 			break;
 		default: // TODO
 		}
@@ -63,21 +62,22 @@ public class StaffManagentController {
 			@RequestParam(value = "email", required = true) String email,
 			@RequestParam(value = "tel", required = true) String tel,
 			@RequestParam(value = "division", required = true) String division,
+			@RequestParam(value = "position", required = true) String position,
 			@RequestParam(value = "protraitPath", required = false) String protraitPath,
 			@RequestParam(value = "hostManagerId", required = false) String hostManagerId,
 			@RequestParam(value = "editType", required = true) String editType) {
 		switch (editType) {
 		case Staff.TYPE_STAFF:
 			if (staffManager
-					.editStaff(new Staff(staffId, gender, name, email, tel, division, protraitPath, hostManagerId))) {
+					.editStaff(new Staff(staffId, name, email, tel, division, position, protraitPath, hostManagerId, gender, Staff.TYPE_STAFF))) {
 				model.addAttribute("msg", "สำเร็จ!");
 			} else {
 				model.addAttribute("msg", "ไม่สำเร็จ!");
 			}
 			break;
-		case Manager.TYPE_MANAGER:
+		case Staff.TYPE_MANAGER:
 			break;
-		case Administrator.TYPE_ADMINISTRATOR:
+		case Staff.TYPE_ADMINISTRATOR:
 			break;
 		default: // TODO
 		}
@@ -87,7 +87,7 @@ public class StaffManagentController {
 	@RequestMapping(value = "/deletePerson", method = RequestMethod.POST)
 	public String insertPerson(Model model, @RequestParam(value = "staffId", required = true) String staffId,
 			@RequestParam(value = "deleteType", required = true) String deleteType) {
-
+		// Checking Is this an Administrator Account Roll.
 		switch (deleteType) {
 		case Staff.TYPE_STAFF:
 			if (staffManager.deleteStaffById(staffId)) {
@@ -96,9 +96,9 @@ public class StaffManagentController {
 				model.addAttribute("msg", "ไม่สำเร็จ!");
 			}
 			break;
-		case Manager.TYPE_MANAGER:
+		case Staff.TYPE_MANAGER:
 			break;
-		case Administrator.TYPE_ADMINISTRATOR:
+		case Staff.TYPE_ADMINISTRATOR:
 			break;
 		default: // TODO
 		}

@@ -10,11 +10,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
 import com.n8ify.mgs.stffp.intface.StaffManagementInterface;
-import com.n8ify.mgs.stffp.model.Administrator;
-import com.n8ify.mgs.stffp.model.Manager;
 import com.n8ify.mgs.stffp.model.Staff;
 
-public class PersonManager implements StaffManagementInterface {
+public class StaffManager implements StaffManagementInterface {
 
 	private DataSource dataSource;
 	private JdbcTemplate jdbcTemplate;
@@ -39,18 +37,18 @@ public class PersonManager implements StaffManagementInterface {
 	@Override
 	public boolean insertStaff(Staff staff) {
 		String sql = "INSERT INTO `Staff`"
-				+ "(`staffId`, `gender`, `name`, `email`, `tel`, `division`, `protraitPath`, `hostManagerId`)"
-				+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+				+ "(`staffId`, `gender`, `name`, `email`, `tel`, `division`, `position`, `protraitPath`, `hostManagerId`)"
+				+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
 		return jdbcTemplate.update(sql, new Object[] { staff.getStaffId(), staff.getGender(), staff.getName(), staff.getEmail(),
-				staff.getTel(), staff.getDivision(), staff.getProtraitPath(), staff.getHostManagerId() }) > 0;
+				staff.getTel(), staff.getDivision(), staff.getPosition(), staff.getProtraitPath(), staff.getHostManagerId() }) > 0;
 	}
 
 	@Override
 	public boolean editStaff(Staff staff) {
-		String sql = "UPDATE `Staff` SET `name`=?, `gender`=? ,`email`=?,`tel`=?,`division`=?,`protraitPath`=?"
+		String sql = "UPDATE `Staff` SET `name`=?, `gender`=? ,`email`=?,`tel`=?,`division`=?, `position`=?,`protraitPath`=?"
 				+ ",`hostManagerId`=? WHERE `staffId` = ?;";
 		return jdbcTemplate.update(sql, new Object[] { staff.getName(), staff.getGender() , staff.getEmail(), staff.getTel(),
-				staff.getDivision(), staff.getProtraitPath(), staff.getHostManagerId(), staff.getStaffId() }) > 0;
+				staff.getDivision(), staff.getPosition(), staff.getProtraitPath(), staff.getHostManagerId(), staff.getStaffId() }) > 0;
 	}
 
 	@Override
@@ -65,6 +63,13 @@ public class PersonManager implements StaffManagementInterface {
 		return jdbcTemplate.queryForObject(sql, new Object[] { staffId }, new StaffMapper());
 	}
 
+
+	@Override
+	public List<Staff> getEntireStaffs() {
+		String sql = "SELECT * FROM `Staff`;";
+		return jdbcTemplate.query(sql, new StaffMapper());
+	}
+	
 	@Override
 	public List<Staff> getStaffsByNameLike(String nameLike) {
 		String sql = "SELECT * FROM `Staff` WHERE `name` like ?;";
@@ -72,7 +77,7 @@ public class PersonManager implements StaffManagementInterface {
 	}
 
 	@Override
-	public List<Staff> getStaffsByHostManagerId(int managerId) {
+	public List<Staff> getStaffsByHostManagerId(String managerId) {
 		String sql = "SELECT * FROM `Staff` WHERE `hostManagerId` = ?;";
 		return jdbcTemplate.query(sql, new Object[] { managerId }, new StaffMapper());
 	}
@@ -88,43 +93,13 @@ public class PersonManager implements StaffManagementInterface {
 			staff.setEmail(rs.getString("email"));
 			staff.setTel(rs.getString("tel"));
 			staff.setDivision(rs.getString("division"));
+			staff.setPosition(rs.getString("position"));
 			staff.setProtraitPath(rs.getString("protraitPath"));
 			staff.setHostManagerId(rs.getString("hostManagerId"));
 			return staff;
 		}
 	}
 
-	class ManagerMapper implements RowMapper<Manager> {
 
-		@Override
-		public Manager mapRow(ResultSet rs, int i) throws SQLException {
-			Manager manager = new Manager();
-			manager.setManagerId(rs.getString("managerId"));
-			manager.setGender(rs.getString("gender"));
-			manager.setName(rs.getString("name"));
-			manager.setEmail(rs.getString("email"));
-			manager.setTel(rs.getString("tel"));
-			manager.setDivision(rs.getString("division"));
-			manager.setProtraitPath(rs.getString("protraitPath"));
-			manager.setHostManagerId(rs.getString("hostManagerId"));
-			return manager;
-		}
-	}
-
-	class AdministratorMapper implements RowMapper<Administrator> {
-
-		@Override
-		public Administrator mapRow(ResultSet rs, int i) throws SQLException {
-			Administrator admin = new Administrator();
-			admin.setAdminId(rs.getString("adminId"));
-			admin.setGender(rs.getString("gender"));
-			admin.setName(rs.getString("name"));
-			admin.setEmail(rs.getString("email"));
-			admin.setTel(rs.getString("tel"));
-			admin.setDivision(rs.getString("division"));
-			admin.setProtraitPath(rs.getString("protraitPath"));
-			return admin;
-		}
-	}
 
 }

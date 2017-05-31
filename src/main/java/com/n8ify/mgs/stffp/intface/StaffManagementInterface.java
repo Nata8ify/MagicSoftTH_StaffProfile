@@ -13,7 +13,9 @@ public interface StaffManagementInterface {
 
 	public Staff getStaffById(String staffId);
 
+	public List<Staff> getEntireStaffs();
+	
 	public List<Staff> getStaffsByNameLike(String nameLike);
 
-	public List<Staff> getStaffsByHostManagerId(int managerId);
+	public List<Staff> getStaffsByHostManagerId(String managerId);
 }
