@@ -13,7 +13,7 @@
 		<property name="password" value="@Nintendo64" />
 	</bean>
 	
-	<bean id="staffManager" class="com.n8ify.mgs.stffp.dealer.StaffManager">
+	<bean id="staffManager" class="com.n8ify.mgs.stffp.dealer.PersonManager">
 		<property name="dataSource" ref="mgsdbSource" />
 	</bean>
 </beans>

@@ -9,9 +9,9 @@ public interface StaffManagementInterface {
 
 	public boolean editStaff(Staff staff);
 
-	public boolean deleteStaffById(int staffId);
+	public boolean deleteStaffById(String staffId);
 
-	public Staff getStaffById(int staffId);
+	public Staff getStaffById(String staffId);
 
 	public List<Staff> getStaffsByNameLike(String nameLike);
 

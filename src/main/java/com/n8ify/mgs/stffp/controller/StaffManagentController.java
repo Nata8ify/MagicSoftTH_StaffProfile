@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.n8ify.mgs.stffp.dealer.StaffManager;
+import com.n8ify.mgs.stffp.dealer.PersonManager;
 import com.n8ify.mgs.stffp.model.Administrator;
 import com.n8ify.mgs.stffp.model.Manager;
 import com.n8ify.mgs.stffp.model.Staff;
@@ -20,14 +20,14 @@ public class StaffManagentController {
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
 	@Autowired
-	private StaffManager staffManager;
+	private PersonManager staffManager;
 
 	@RequestMapping(value = "/manage", method = RequestMethod.GET)
 	public String toManage() {
 		return "manage/manage";
 	}
 
-	@RequestMapping(value = "/insertStaff", method = RequestMethod.POST)
+	@RequestMapping(value = "/insertPerson", method = RequestMethod.POST)
 	public String insertPerson(Model model, @RequestParam(value = "staffId", required = true) String staffId,
 			@RequestParam(value = "gender", required = false) String gender,
 			@RequestParam(value = "name", required = true) String name,
@@ -40,7 +40,8 @@ public class StaffManagentController {
 
 		switch (insertType) {
 		case Staff.TYPE_STAFF:
-			if (staffManager.insertStaff(new Staff(staffId, gender, name, email, tel, division, protraitPath, hostManagerId))) {
+			if (staffManager
+					.insertStaff(new Staff(staffId, gender, name, email, tel, division, protraitPath, hostManagerId))) {
 				model.addAttribute("msg", "สำเร็จ!");
 			} else {
 				model.addAttribute("msg", "ไม่สำเร็จ!");
@@ -55,19 +56,51 @@ public class StaffManagentController {
 		return toManage();
 	}
 
-	@RequestMapping(value = "/editStaff", method = RequestMethod.POST)
-	public String insertPerson(Model model, @RequestParam(value = "staffId", required = true) String staffId,
+	@RequestMapping(value = "/editPerson", method = RequestMethod.POST)
+	public String editPerson(Model model, @RequestParam(value = "staffId", required = true) String staffId,
 			@RequestParam(value = "gender", required = false) String gender,
 			@RequestParam(value = "name", required = true) String name,
 			@RequestParam(value = "email", required = true) String email,
 			@RequestParam(value = "tel", required = true) String tel,
 			@RequestParam(value = "division", required = true) String division,
 			@RequestParam(value = "protraitPath", required = false) String protraitPath,
-			@RequestParam(value = "hostManagerId", required = false) String hostManagerId) {
-		if (staffManager.editStaff(new Staff(staffId, gender, name, email, tel, division, protraitPath, hostManagerId))) {
-			model.addAttribute("msg", "สำเร็จ!");
-		} else {
-			model.addAttribute("msg", "ไม่สำเร็จ!");
+			@RequestParam(value = "hostManagerId", required = false) String hostManagerId,
+			@RequestParam(value = "editType", required = true) String editType) {
+		switch (editType) {
+		case Staff.TYPE_STAFF:
+			if (staffManager
+					.editStaff(new Staff(staffId, gender, name, email, tel, division, protraitPath, hostManagerId))) {
+				model.addAttribute("msg", "สำเร็จ!");
+			} else {
+				model.addAttribute("msg", "ไม่สำเร็จ!");
+			}
+			break;
+		case Manager.TYPE_MANAGER:
+			break;
+		case Administrator.TYPE_ADMINISTRATOR:
+			break;
+		default: // TODO
+		}
+		return toManage();
+	}
+
+	@RequestMapping(value = "/deletePerson", method = RequestMethod.POST)
+	public String insertPerson(Model model, @RequestParam(value = "staffId", required = true) String staffId,
+			@RequestParam(value = "deleteType", required = true) String deleteType) {
+
+		switch (deleteType) {
+		case Staff.TYPE_STAFF:
+			if (staffManager.deleteStaffById(staffId)) {
+				model.addAttribute("msg", "สำเร็จ!");
+			} else {
+				model.addAttribute("msg", "ไม่สำเร็จ!");
+			}
+			break;
+		case Manager.TYPE_MANAGER:
+			break;
+		case Administrator.TYPE_ADMINISTRATOR:
+			break;
+		default: // TODO
 		}
 		return toManage();
 	}

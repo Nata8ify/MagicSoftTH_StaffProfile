@@ -14,7 +14,7 @@ import com.n8ify.mgs.stffp.model.Administrator;
 import com.n8ify.mgs.stffp.model.Manager;
 import com.n8ify.mgs.stffp.model.Staff;
 
-public class StaffManager implements StaffManagementInterface {
+public class PersonManager implements StaffManagementInterface {
 
 	private DataSource dataSource;
 	private JdbcTemplate jdbcTemplate;
@@ -40,7 +40,7 @@ public class StaffManager implements StaffManagementInterface {
 	public boolean insertStaff(Staff staff) {
 		String sql = "INSERT INTO `Staff`"
 				+ "(`staffId`, `gender`, `name`, `email`, `tel`, `division`, `protraitPath`, `hostManagerId`)"
-				+ " VALUES (?, ?, ?, ?, ?, ?, ?);";
+				+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
 		return jdbcTemplate.update(sql, new Object[] { staff.getStaffId(), staff.getGender(), staff.getName(), staff.getEmail(),
 				staff.getTel(), staff.getDivision(), staff.getProtraitPath(), staff.getHostManagerId() }) > 0;
 	}
@@ -54,13 +54,13 @@ public class StaffManager implements StaffManagementInterface {
 	}
 
 	@Override
-	public boolean deleteStaffById(int staffId) {
+	public boolean deleteStaffById(String staffId) {
 		String sql = "DELETE FROM `Staff` WHERE `staffId` = ?;";
 		return jdbcTemplate.update(sql, new Object[] { staffId }) > 0;
 	}
 
 	@Override
-	public Staff getStaffById(int staffId) {
+	public Staff getStaffById(String staffId) {
 		String sql = "SELECT * FROM `Staff` WHERE `staffId` = ?;";
 		return jdbcTemplate.queryForObject(sql, new Object[] { staffId }, new StaffMapper());
 	}
