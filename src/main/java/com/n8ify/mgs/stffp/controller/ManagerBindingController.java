@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.n8ify.mgs.stffp.dealer.StaffBinder;
-import com.n8ify.mgs.stffp.dealer.StaffManager;
 
 @Controller
 public class ManagerBindingController {
