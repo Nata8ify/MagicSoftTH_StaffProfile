@@ -5,7 +5,7 @@ import java.util.List;
 import com.n8ify.mgs.stffp.model.Staff;
 
 public interface StaffManagementInterface {
-	public boolean insertStaff(Staff staff);
+	public boolean insertStaff(Staff staff, String password);
 
 	public boolean editStaff(Staff staff);
 

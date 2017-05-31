@@ -6,13 +6,14 @@ public interface StaffBinderInterface {
 
 	public void bindStaffToManager(String staffId, String managerId);
 
-	public void bindStaffsToManager(List<String> staffId, String managerId);
+	public void bindStaffsToManager(List<String> staffIds, String managerId);
+	
+	public void bindStaffsToManager(Object[] staffIds, String managerId);
 
 	public void unbindStaffFromManager(String staffId);
 
-	public void unbindStaffsFromManager(List<String> staffId);
+	public void unbindStaffsFromManager(List<String> staffIds);
 
-	public void changeManagerForStaff(String staffId, String managerId);
+	public void unbindStaffsFromManager(Object[] staffIds);
 
-	public void changeManagerForStaffs(List<String> staffId, String managerId);
 }

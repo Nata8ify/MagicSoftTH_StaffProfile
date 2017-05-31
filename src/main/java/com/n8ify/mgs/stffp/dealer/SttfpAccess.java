@@ -1,5 +1,17 @@
 package com.n8ify.mgs.stffp.dealer;
 
-public class SttfpAccess {
+import javax.sql.DataSource;
 
+public class SttfpAccess {
+	private DataSource dataSource;
+
+	public DataSource getDataSource() {
+		return dataSource;
+	}
+
+	public void setDataSource(DataSource dataSource) {
+		this.dataSource = dataSource;
+	}
+	
+	
 }

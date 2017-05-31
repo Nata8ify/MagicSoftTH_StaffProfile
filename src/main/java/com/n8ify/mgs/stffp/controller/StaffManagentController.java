@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.n8ify.mgs.stffp.dealer.StaffManager;
 import com.n8ify.mgs.stffp.model.Staff;
+import com.n8ify.mgs.stffp.utils.StaffAccessUtils;
 
 @Controller
 public class StaffManagentController {
@@ -35,12 +36,14 @@ public class StaffManagentController {
 			@RequestParam(value = "position", required = true) String position,
 			@RequestParam(value = "protraitPath", required = false) String protraitPath,
 			@RequestParam(value = "hostManagerId", required = false) String hostManagerId,
+			@RequestParam(value = "password", required = false, defaultValue = "") String password,
 			@RequestParam(value = "insertType", required = true) String insertType) {
 		// Checking Is this an Administrator Account Roll.
 		switch (insertType) {
 		case Staff.TYPE_STAFF:
 			if (staffManager.insertStaff(new Staff(staffId, name, email, tel, division, position, protraitPath,
-					hostManagerId, gender, Staff.TYPE_STAFF))) {
+					hostManagerId, gender, Staff.TYPE_STAFF)
+					, password.equals("")?StaffAccessUtils.getInstance().getRandomPassword():password)) {
 				model.addAttribute("msg", "สำเร็จ!");
 			} else {
 				model.addAttribute("msg", "ไม่สำเร็จ!");

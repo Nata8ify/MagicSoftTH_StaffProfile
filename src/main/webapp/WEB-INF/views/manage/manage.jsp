@@ -17,6 +17,7 @@
 			type="text" name="tel" placeholder="tel" /><br> <input
 			type="text" name="division" placeholder="division" /><br> <input
 			type="text" name="position" placeholder="position" /><br> <input
+			type="text" name="password" placeholder="password" /><br> <input
 			type="submit" />
 	</form>
 	<hr>
