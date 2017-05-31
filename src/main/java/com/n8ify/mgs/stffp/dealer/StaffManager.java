@@ -39,16 +39,20 @@ public class StaffManager implements StaffManagementInterface {
 		String sql = "INSERT INTO `Staff`"
 				+ "(`staffId`, `gender`, `name`, `email`, `tel`, `division`, `position`, `protraitPath`, `hostManagerId`)"
 				+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
-		return jdbcTemplate.update(sql, new Object[] { staff.getStaffId(), staff.getGender(), staff.getName(), staff.getEmail(),
-				staff.getTel(), staff.getDivision(), staff.getPosition(), staff.getProtraitPath(), staff.getHostManagerId() }) > 0;
+		return jdbcTemplate.update(sql,
+				new Object[] { staff.getStaffId(), staff.getGender(), staff.getName(), staff.getEmail(), staff.getTel(),
+						staff.getDivision(), staff.getPosition(), staff.getProtraitPath(),
+						staff.getHostManagerId() }) > 0;
 	}
 
 	@Override
 	public boolean editStaff(Staff staff) {
 		String sql = "UPDATE `Staff` SET `name`=?, `gender`=? ,`email`=?,`tel`=?,`division`=?, `position`=?,`protraitPath`=?"
 				+ ",`hostManagerId`=? WHERE `staffId` = ?;";
-		return jdbcTemplate.update(sql, new Object[] { staff.getName(), staff.getGender() , staff.getEmail(), staff.getTel(),
-				staff.getDivision(), staff.getPosition(), staff.getProtraitPath(), staff.getHostManagerId(), staff.getStaffId() }) > 0;
+		return jdbcTemplate.update(sql,
+				new Object[] { staff.getName(), staff.getGender(), staff.getEmail(), staff.getTel(),
+						staff.getDivision(), staff.getPosition(), staff.getProtraitPath(), staff.getHostManagerId(),
+						staff.getStaffId() }) > 0;
 	}
 
 	@Override
@@ -63,13 +67,16 @@ public class StaffManager implements StaffManagementInterface {
 		return jdbcTemplate.queryForObject(sql, new Object[] { staffId }, new StaffMapper());
 	}
 
-
+	// SELECT s.*, ss.name FROM `Staff` s JOIN Staff sm on s.`hostManagerId` =
+	// ss.staffId
 	@Override
 	public List<Staff> getEntireStaffs() {
-		String sql = "SELECT * FROM `Staff`;";
-		return jdbcTemplate.query(sql, new StaffMapper());
+		// String sql = "SELECT * FROM `Staff`;";
+
+		String sql = "SELECT s.*, sm.name AS managerName FROM `Staff` s LEFT JOIN Staff sm on s.`hostManagerId` = sm.staffId;";
+		return jdbcTemplate.query(sql, new StaffOnMoreDetailsMapper());
 	}
-	
+
 	@Override
 	public List<Staff> getStaffsByNameLike(String nameLike) {
 		String sql = "SELECT * FROM `Staff` WHERE `name` like ?;";
@@ -98,8 +105,26 @@ public class StaffManager implements StaffManagementInterface {
 			staff.setHostManagerId(rs.getString("hostManagerId"));
 			return staff;
 		}
+
 	}
 
+	class StaffOnMoreDetailsMapper implements RowMapper<Staff> {
 
+		@Override
+		public Staff mapRow(ResultSet rs, int i) throws SQLException {
+			Staff staff = new Staff();
+			staff.setStaffId(rs.getString("staffId"));
+			staff.setGender(rs.getString("gender"));
+			staff.setName(rs.getString("name"));
+			staff.setEmail(rs.getString("email"));
+			staff.setTel(rs.getString("tel"));
+			staff.setDivision(rs.getString("division"));
+			staff.setPosition(rs.getString("position"));
+			staff.setProtraitPath(rs.getString("protraitPath"));
+			staff.setHostManagerId(rs.getString("hostManagerId"));
+			staff.setHostManagerName(rs.getString("managerName"));
+			return staff;
+		}
 
+	}
 }

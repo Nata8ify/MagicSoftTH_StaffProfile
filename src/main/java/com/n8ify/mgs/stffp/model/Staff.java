@@ -15,14 +15,11 @@ public class Staff {
 	public static final String TYPE_STAFF = "s";
 	public static final String TYPE_ADMINISTRATOR = "a";
 	public static final String TYPE_MANAGER = "m";
-	
+
 	public Staff() {
 		super();
 	}
 
-
-	
-	
 	public Staff(String staffId, String name, String email, String tel, String division, String position,
 			String protraitPath, String hostManagerId, String gender, String staffType) {
 		this.staffId = staffId;
@@ -37,22 +34,13 @@ public class Staff {
 		this.staffType = staffType;
 	}
 
-
-
-
 	public String getPosition() {
 		return position;
 	}
 
-
-
-
 	public void setPosition(String position) {
 		this.position = position;
 	}
-
-
-
 
 	public String getStaffId() {
 		return staffId;
@@ -62,7 +50,6 @@ public class Staff {
 		return gender;
 	}
 
-	
 	public String getStaffType() {
 		return staffType;
 	}
@@ -132,4 +119,15 @@ public class Staff {
 		return "รหัสบุคคล=" + staffId + ", ชื่อ-สกุล=" + name + ", Email=" + email + ", Tel=" + tel + ", แผนก="
 				+ division + ", ที่อยู่ของรูปภาพ=" + protraitPath + "รหัสบุคคลหัวหน้าแผนก : " + hostManagerId + "=]";
 	}
+
+	private String hostManagerName;
+
+	public String getHostManagerName() {
+		return hostManagerName;
+	}
+
+	public void setHostManagerName(String hostManagerName) {
+		this.hostManagerName = hostManagerName;
+	}
+
 }

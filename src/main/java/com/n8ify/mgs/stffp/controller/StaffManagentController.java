@@ -39,8 +39,8 @@ public class StaffManagentController {
 		// Checking Is this an Administrator Account Roll.
 		switch (insertType) {
 		case Staff.TYPE_STAFF:
-			if (staffManager
-					.insertStaff(new Staff(staffId, name, email, tel, division, position, protraitPath, hostManagerId, gender, Staff.TYPE_STAFF))) {
+			if (staffManager.insertStaff(new Staff(staffId, name, email, tel, division, position, protraitPath,
+					hostManagerId, gender, Staff.TYPE_STAFF))) {
 				model.addAttribute("msg", "สำเร็จ!");
 			} else {
 				model.addAttribute("msg", "ไม่สำเร็จ!");
@@ -68,8 +68,8 @@ public class StaffManagentController {
 			@RequestParam(value = "editType", required = true) String editType) {
 		switch (editType) {
 		case Staff.TYPE_STAFF:
-			if (staffManager
-					.editStaff(new Staff(staffId, name, email, tel, division, position, protraitPath, hostManagerId, gender, Staff.TYPE_STAFF))) {
+			if (staffManager.editStaff(new Staff(staffId, name, email, tel, division, position, protraitPath,
+					hostManagerId, gender, Staff.TYPE_STAFF))) {
 				model.addAttribute("msg", "สำเร็จ!");
 			} else {
 				model.addAttribute("msg", "ไม่สำเร็จ!");

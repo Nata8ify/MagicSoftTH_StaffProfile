@@ -14,23 +14,22 @@ public class StaffViewerController {
 
 	@Autowired
 	private StaffManager staffManager;
-	
-	@RequestMapping(value="/viewAll", method =  RequestMethod.GET)
-	public String viewAllStaff(Model model){
+
+	@RequestMapping(value = "/viewAll", method = RequestMethod.GET)
+	public String viewAllStaff(Model model) {
 		model.addAttribute("staffs", staffManager.getEntireStaffs());
 		return "list";
 	}
-	
-	@RequestMapping(value="/searchNameLike", method =  RequestMethod.GET)
+
+	@RequestMapping(value = "/searchNameLike", method = RequestMethod.GET)
 	public String viewNameLikedStaff(Model model,
-			@RequestParam(value="searchWord", required = true)String searchWord){
+			@RequestParam(value = "searchWord", required = true) String searchWord) {
 		model.addAttribute("staffs", staffManager.getStaffsByNameLike(searchWord));
 		return "list";
 	}
 
-	@RequestMapping(value="/searchMngsStaff", method =  RequestMethod.GET)
-	public String viewMngsStaff(Model model,
-			@RequestParam(value="managerId", required = true)String managerId){
+	@RequestMapping(value = "/searchMngsStaff", method = RequestMethod.GET)
+	public String viewMngsStaff(Model model, @RequestParam(value = "managerId", required = true) String managerId) {
 		model.addAttribute("staffs", staffManager.getStaffsByHostManagerId(managerId));
 		return "list";
 	}

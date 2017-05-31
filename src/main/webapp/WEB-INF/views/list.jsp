@@ -29,7 +29,7 @@
 				<td>${staff.email}</td>
 				<td>${staff.tel}</td>
 				<td>${staff.division}</td>
-				<td>${staff.hostManagerId}</td>
+				<td><a href="searchMngsStaff?managerId=${staff.hostManagerId}">${staff.hostManagerName}</a></td>
 			</tr>
 		</c:forEach>
 	</tbody>
