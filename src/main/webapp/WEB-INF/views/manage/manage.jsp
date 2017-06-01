@@ -22,7 +22,7 @@
 	</form>
 	<hr>
 	<form action="editPerson?editType=s" method="post">
-		<input type="text" name="staffId" placeholder="staffId" /><br> <select
+		<input type="text" name="staffId" placeholder="staffId"   readonly value="${thisStaff.staffId}"/><br> <select
 			name="gender">
 			<option value="m">ชาย</option>
 			<option value="f">หญิง</option>

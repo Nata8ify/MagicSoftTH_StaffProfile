@@ -16,6 +16,18 @@ public class Staff {
 	public static final String TYPE_ADMINISTRATOR = "a";
 	public static final String TYPE_MANAGER = "m";
 
+	private static Staff staff;
+	
+	public static void setStaffInstance(Staff staff){
+		Staff.staff = staff;
+	}
+	
+	public static Staff getStaffInstance(){
+		if(Staff.staff == null)
+			Staff.staff = new Staff();
+		return Staff.staff;
+	}
+	
 	public Staff() {
 		super();
 	}

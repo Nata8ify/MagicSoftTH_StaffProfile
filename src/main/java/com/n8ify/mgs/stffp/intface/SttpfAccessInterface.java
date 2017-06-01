@@ -6,6 +6,7 @@ public interface SttpfAccessInterface {
 	
 	public Staff login(String staffId, String password);
 
+	@Deprecated
 	public Staff getProfile(String staffId);
 
 	public boolean editProfile(Staff staff);
