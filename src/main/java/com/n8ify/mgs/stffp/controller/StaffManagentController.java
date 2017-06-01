@@ -1,5 +1,7 @@
 package com.n8ify.mgs.stffp.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.n8ify.mgs.stffp.dealer.StaffManager;
 import com.n8ify.mgs.stffp.model.Staff;
-import com.n8ify.mgs.stffp.utils.StaffAccessUtils;
+import com.n8ify.mgs.stffp.utils.Generator;
 
 @Controller
 public class StaffManagentController {
@@ -46,7 +48,7 @@ public class StaffManagentController {
 			if (staffManager.insertStaff(
 					new Staff(staffId, name, email, tel, division, position, protraitPath, hostManagerId, gender,
 							Staff.TYPE_STAFF),
-					password.equals("") ? StaffAccessUtils.getInstance().getRandomPassword() : password)) {
+					password.equals("") ? Generator.getInstance().genPassword() : password)) {
 				model.addAttribute("msg", "สำเร็จ!");
 			} else {
 				model.addAttribute("msg", "ไม่สำเร็จ!");
@@ -119,10 +121,11 @@ public class StaffManagentController {
 			@RequestParam(value = "tel", required = true) String tel,
 			@RequestParam(value = "protraitPath", required = false) String protraitPath,
 			@RequestParam(value = "password", required = true) String password,
-			@RequestParam(value = "editType", required = true) String editType) {
-			if(staffManager.editSelfStaff(new Staff(staffId, name, email, tel, protraitPath), password)){
+			@RequestParam(value = "editType", required = false) String editType) {
+			
+		if(staffManager.editSelfStaff(new Staff(staffId, name, email, tel, protraitPath.equals("")?null:protraitPath), password)){
 				logger.info("UPDATED");
-				return "login?staffId="+staffId+"&password="+password;	
+				return "redirect:login?staffId="+staffId+"&password="+password;	
 			}
 			logger.info("NO UPDATE");
 			return "home";

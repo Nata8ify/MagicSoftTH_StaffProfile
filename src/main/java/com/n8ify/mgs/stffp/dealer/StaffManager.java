@@ -6,14 +6,17 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
+import com.n8ify.mgs.stffp.controller.StaffManagentController;
 import com.n8ify.mgs.stffp.intface.StaffManagementInterface;
 import com.n8ify.mgs.stffp.model.Staff;
 
 public class StaffManager implements StaffManagementInterface {
-
+	private static final Logger logger = LoggerFactory.getLogger(StaffManager.class);
 	private DataSource dataSource;
 	private JdbcTemplate jdbcTemplate;
 

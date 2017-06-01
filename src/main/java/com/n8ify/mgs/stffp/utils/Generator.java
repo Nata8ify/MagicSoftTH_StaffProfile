@@ -1,15 +1,18 @@
 package com.n8ify.mgs.stffp.utils;
 
-public class StaffAccessUtils {
-	private static StaffAccessUtils accessUtils;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-	public static StaffAccessUtils getInstance() {
+public class Generator {
+	private static Generator accessUtils;
+
+	public static Generator getInstance() {
 		if (accessUtils == null)
-			accessUtils = new StaffAccessUtils();
+			accessUtils = new Generator();
 		return accessUtils;
 	}
 
-	public String getRandomPassword() {
+	public String genPassword() {
 		char firstChar = (char) ((int) (Math.random() * (122 - 64 + 1) + 64));
 		char secondChar = (char) ((int) (Math.random() * (122 - 64 + 1) + 64));
 		char thirdChar = (char) ((int) (Math.random() * (122 - 64 + 1) + 64));
@@ -22,4 +25,15 @@ public class StaffAccessUtils {
 				+ eigththChar);
 	}
 
+	// In the beginning is the words and the words made the world when the word end the world end.
+	public String genMd5(String str){
+		return "";
+	}
+	
+	public String genImageName(String imgName){
+		String current = new SimpleDateFormat("yyyyMMddssSSS").format(new Date(System.currentTimeMillis()));
+		int randomSome = ((int) (Math.random() * (999 - 116 + 1) + 116));
+		return current.concat(String.valueOf(randomSome)).concat(imgName);
+	}
+	
 }

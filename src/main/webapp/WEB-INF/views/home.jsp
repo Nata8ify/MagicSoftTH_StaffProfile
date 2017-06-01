@@ -142,6 +142,7 @@
 					<br>
 					<table class="table table-responsive">
 						<thead>
+						<tr><td colspan="5"><h3>Managers</h3></td></tr>
 							<c:forEach items="${managers}" var="manager" varStatus="c">
 								<c:choose>
 									<c:when test="${c.first}">
@@ -161,8 +162,7 @@
 								</td>
 								<c:choose>
 									<c:when test="${c.index / 5 == 1}">
-										</tr>
-										<tr>
+										<br></tr><tr>
 									</c:when>
 									<c:when test="${c.last}">
 										</tr>
@@ -171,6 +171,7 @@
 							</c:forEach>
 						</thead>
 						<tbody>
+						<tr><td colspan="5"><h3>Staffs</h3></td></tr>
 							<c:forEach items="${staffs}" var="staff" varStatus="c">
 								<c:choose>
 									<c:when test="${c.first}">
@@ -190,8 +191,7 @@
 								</td>
 								<c:choose>
 									<c:when test="${c.index % 4 == 0 && !c.first}">
-										</tr>
-										<tr>
+										<br></tr><tr>
 									</c:when>
 									<c:when test="${c.last}">
 										</tr>

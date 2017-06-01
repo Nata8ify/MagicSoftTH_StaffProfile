@@ -6,7 +6,7 @@
 				<h4 class="modal-title">PROFILE EDITOR</h4>
 			</div>
 			<div class="modal-body">
-				<form name="signInForm" id="signInForm" novalidate action="login" method="POST">
+				<form name="signInForm" id="signInForm" novalidate action="editSelf?editType=s" method="POST">
 					<div class="row control-group">
 						<div
 							class="form-group col-xs-12 floating-label-form-group controls">

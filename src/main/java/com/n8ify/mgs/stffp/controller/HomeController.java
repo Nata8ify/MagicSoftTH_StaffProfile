@@ -35,5 +35,10 @@ public class HomeController {
 		model.addAttribute("staffs", staffManager.getTotalStaffs());
 		return "home";
 	}
-
+	
+	
+	@RequestMapping(value = "/admhome", method = RequestMethod.GET)
+	public String adminHome(Model model) {
+		return "admhome";
+	}
 }
