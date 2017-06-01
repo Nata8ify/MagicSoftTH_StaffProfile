@@ -30,7 +30,6 @@ public class StaffAccessController {
 			request.getSession(false).invalidate();
 		}
 		Staff staff = sttfpAccess.login(staffId, password);
-		logger.info("staffId, password"+staffId+":::"+password+">>>"+staff);
 		if(staff.getStaffId().equals(staffId)){
 			Staff.setStaffInstance(staff);
 			StaffAccess.setAccessInstance(new StaffAccess(staffId, password));
@@ -39,7 +38,7 @@ public class StaffAccessController {
 			logger.info("SESSION CREATED FOR :"+staff.getStaffId());
 			return "home";
 		}
-		return "manage"; 
+		return "manage/manage"; 
 	}	
 	
 	@RequestMapping("/logout")

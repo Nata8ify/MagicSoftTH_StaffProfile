@@ -1,5 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page session="true"%>
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,17 +16,17 @@
 
 <!-- Bootstrap Core CSS -->
 <link
-	href="${pageContext.request.contextPath}/resources/vendor/bootstrap/css/bootstrap.min.css"
+	href="${contextPath}/resources/vendor/bootstrap/css/bootstrap.min.css"
 	rel="stylesheet">
 
 <!-- Theme CSS -->
 <link
-	href="${pageContext.request.contextPath}/resources/css/freelancer.min.css"
+	href="${contextPath}/resources/css/freelancer.min.css"
 	rel="stylesheet">
 
 <!-- Custom Fonts -->
 <link
-	href="${pageContext.request.contextPath}/resources/vendor/font-awesome/css/font-awesome.min.css"
+	href="${contextPath}/resources/vendor/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet" type="text/css">
 <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700"
 	rel="stylesheet" type="text/css">
@@ -85,7 +86,7 @@
 			<div class="row">
 				<div class="col-lg-12">
 					<img class="img-responsive"
-						src="${pageContext.request.contextPath}/resources/img/profile.png"
+						src="${contextPath}/resources/img/profile.png"
 						alt="">
 					<div class="intro-text">
 						<h1 class="name">STTFP</h1>
@@ -132,7 +133,7 @@
 	</section>
 
 	<!-- Staff Board Section -->
-	<% if(request.getAttribute("managers") == null) response.sendRedirect("/mgs"); %>
+	<% if(request.getAttribute("managers") == null) response.sendRedirect(request.getContextPath()); %>
 	<section class="success" id="explore">
 		<div class="container">
 			<div class="row">
@@ -152,7 +153,7 @@
 								<td>
 									<div class="card" style="width: 20rem;">
 										<img class="card-img-top"
-											src="/mgs/resources/portraits/${manager.protraitPath==null?'noimg.png':manager.protraitPath}"
+											src="${contextPath}/resources/portraits/${manager.protraitPath==null?'noimg.png':manager.protraitPath}"
 											alt="Portrait">
 										<div class="card-block">
 											<h5 class="card-title">${manager.name}</h5>
@@ -181,7 +182,7 @@
 								<td>
 									<div class="card" style="width: 20rem;">
 										<img class="card-img-top"
-											src="/mgs/resources/portraits/${staff.protraitPath==null?'noimg.png':manager.protraitPath}"
+											src="${contextPath}/resources/portraits/${staff.protraitPath==null?'noimg.png':manager.protraitPath}"
 											alt="Portrait">
 										<div class="card-block">
 											<h5 class="card-title">${staff.name}</h5>
@@ -374,11 +375,11 @@
 
 	<!-- jQuery -->
 	<script
-		src="${pageContext.request.contextPath}/resources/vendor/jquery/jquery.min.js"></script>
+		src="${contextPath}/resources/vendor/jquery/jquery.min.js"></script>
 
 	<!-- Bootstrap Core JavaScript -->
 	<script
-		src="${pageContext.request.contextPath}/resources/vendor/bootstrap/js/bootstrap.min.js"></script>
+		src="${contextPath}/resources/vendor/bootstrap/js/bootstrap.min.js"></script>
 
 	<!-- Plugin JavaScript -->
 	<script
@@ -386,13 +387,13 @@
 
 	<!-- Contact Form JavaScript -->
 	<script
-		src="${pageContext.request.contextPath}/resources/js/jqBootstrapValidation.js"></script>
+		src="${contextPath}/resources/js/jqBootstrapValidation.js"></script>
 	<script
-		src="${pageContext.request.contextPath}/resources/js/contact_me.js"></script>
+		src="${contextPath}/resources/js/contact_me.js"></script>
 
 	<!-- Theme JavaScript -->
 	<script
-		src="${pageContext.request.contextPath}/resources/js/freelancer.min.js"></script>
+		src="${contextPath}/resources/js/freelancer.min.js"></script>
 
 </body>
 

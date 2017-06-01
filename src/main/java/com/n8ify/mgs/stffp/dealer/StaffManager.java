@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
-import com.n8ify.mgs.stffp.controller.StaffManagentController;
 import com.n8ify.mgs.stffp.intface.StaffManagementInterface;
 import com.n8ify.mgs.stffp.model.Staff;
 
@@ -78,7 +77,8 @@ public class StaffManager implements StaffManagementInterface {
 	@Override
 	public Staff getStaffById(String staffId) {
 		String sql = "SELECT * FROM `Staff` WHERE `staffId` = ?;";
-		return jdbcTemplate.queryForObject(sql, new Object[] { staffId }, new StaffMapper());
+		Staff.setStaffInstance(jdbcTemplate.queryForObject(sql, new Object[] { staffId }, new StaffMapper()));
+		return Staff.getStaffInstance();
 	}
 
 	// SELECT s.*, ss.name FROM `Staff` s JOIN Staff sm on s.`hostManagerId` =

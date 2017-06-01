@@ -115,7 +115,7 @@ public class StaffManagentController {
 	
 	//NOT WORING
 	@RequestMapping(value = "/editSelf",  method = RequestMethod.POST)
-	public String editSelf(Model model, @RequestParam(value = "staffId", required = true) String staffId,
+	public String editSelf(Model model, HttpServletRequest request, @RequestParam(value = "staffId", required = true) String staffId,
 			@RequestParam(value = "name", required = true) String name,
 			@RequestParam(value = "email", required = true) String email,
 			@RequestParam(value = "tel", required = true) String tel,
@@ -125,6 +125,14 @@ public class StaffManagentController {
 			
 		if(staffManager.editSelfStaff(new Staff(staffId, name, email, tel, protraitPath.equals("")?null:protraitPath), password)){
 				logger.info("UPDATED");
+//				HttpSession session;
+//				session = request.getSession(false);
+//				session.removeAttribute("thisStaff");
+//				session.removeAttribute("thisPassword");
+//				Staff.setStaffInstance(staffManager.getStaffById(staffId));
+//				session.setAttribute("thisStaff", Staff.getStaffInstance());
+//				StaffAccess.setAccessInstance(new StaffAccess(staffId, password));
+//				session.setAttribute("thisPassword", StaffAccess.getAccessInstance());
 				return "redirect:login?staffId="+staffId+"&password="+password;	
 			}
 			logger.info("NO UPDATE");
