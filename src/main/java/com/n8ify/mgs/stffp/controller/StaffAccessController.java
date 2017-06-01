@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.n8ify.mgs.stffp.dealer.SttfpAccess;
 import com.n8ify.mgs.stffp.model.Staff;
+import com.n8ify.mgs.stffp.model.StaffAccess;
 
 @Controller
 public class StaffAccessController {
@@ -25,22 +26,22 @@ public class StaffAccessController {
 	public String login(Model model, HttpServletRequest request,
 			@RequestParam(value = "staffId", required = true)String staffId,
 			@RequestParam(value = "password", required = true)String password) {
+		if(request.getSession(false).getAttribute("thisStaff") != null){
+			request.getSession(false).invalidate();
+		}
 		Staff staff = sttfpAccess.login(staffId, password);
+		logger.info("staffId, password"+staffId+":::"+password+">>>"+staff);
 		if(staff.getStaffId().equals(staffId)){
 			Staff.setStaffInstance(staff);
+			StaffAccess.setAccessInstance(new StaffAccess(staffId, password));
 			request.getSession(true).setAttribute("thisStaff", staff);
+			request.getSession(true).setAttribute("thisStaffAccess", StaffAccess.getAccessInstance());
 			logger.info("SESSION CREATED FOR :"+staff.getStaffId());
 			return "home";
 		}
 		return "manage"; 
 	}	
 	
-	@RequestMapping(value = "/editSelf")
-	public String editSelf(Model model) {
-		return "home"; // <-- Not the Finalize Destination May have to Make more
-						// Page.
-	}
-
 	@RequestMapping("/logout")
 	public String logout(Model model, HttpServletRequest request){
 		if(request.getSession(false).getAttribute("thisStaff") != null){

@@ -1,7 +1,5 @@
 package com.n8ify.mgs.stffp.dealer;
 
-import java.util.List;
-
 import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.JdbcTemplate;

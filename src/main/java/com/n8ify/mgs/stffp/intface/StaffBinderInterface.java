@@ -1,7 +1,5 @@
 package com.n8ify.mgs.stffp.intface;
 
-import java.util.List;
-
 public interface StaffBinderInterface {
 
 	public void bindStaffToManager(String staffId, String managerId);

@@ -58,6 +58,14 @@ public class StaffManager implements StaffManagementInterface {
 						staff.getStaffId() }) > 0;
 	}
 
+
+	@Override
+	public boolean editSelfStaff(Staff staff, String newPassword) {
+		String sql = "UPDATE `Staff` s JOIN `StaffAccess` sa on s.`staffId` = sa.`staffId` SET  s.`name`= ?, s.`email`= ?, s.`tel`= ?, s.`protraitPath`= ?, sa.`password`  = ? WHERE s.`staffId`= ?;";
+		return jdbcTemplate.update(sql
+				, new Object[]{staff.getName(), staff.getEmail(), staff.getTel(), staff.getProtraitPath(), newPassword, staff.getStaffId()}) > 0;
+	}
+	
 	@Override
 	public boolean deleteStaffById(String staffId) {
 		String sql = "DELETE FROM `Staff` WHERE `staffId` = ?;";
@@ -75,7 +83,6 @@ public class StaffManager implements StaffManagementInterface {
 	@Override
 	public List<Staff> getEntireStaffs() {
 		// String sql = "SELECT * FROM `Staff`;";
-
 		String sql = "SELECT s.*, sm.name AS managerName FROM `Staff` s LEFT JOIN Staff sm on s.`hostManagerId` = sm.staffId;";
 		return jdbcTemplate.query(sql, new StaffOnMoreDetailsMapper());
 	}
@@ -92,6 +99,26 @@ public class StaffManager implements StaffManagementInterface {
 		return jdbcTemplate.query(sql, new Object[] { managerId }, new StaffMapper());
 	}
 
+
+	@Override
+	public List<Staff> getTotalManagers() {
+		String sql = "SELECT * FROM `Staff` WHERE  `staffType` = ?;";
+		return jdbcTemplate.query(sql, new Object[]{Staff.TYPE_MANAGER}, new StaffMapper());
+	}
+
+	@Override
+	public List<Staff> getTotalStaffs() {
+		String sql = "SELECT * FROM `Staff` WHERE  `staffType` = ?;";
+		return jdbcTemplate.query(sql, new Object[]{Staff.TYPE_STAFF}, new StaffMapper());
+	}
+
+
+	@Override
+	public boolean editPassword(String staffId, String password) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
 	class StaffMapper implements RowMapper<Staff> {
 
 		@Override
@@ -130,4 +157,6 @@ public class StaffManager implements StaffManagementInterface {
 		}
 
 	}
+
+
 }

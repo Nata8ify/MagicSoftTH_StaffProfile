@@ -9,7 +9,6 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
-import com.n8ify.mgs.stffp.excp.UnauthorizedAccessException;
 import com.n8ify.mgs.stffp.intface.SttpfAccessInterface;
 import com.n8ify.mgs.stffp.model.Staff;
 import com.n8ify.mgs.stffp.model.StaffAccess;
@@ -33,7 +32,7 @@ public class SttfpAccess implements SttpfAccessInterface {
 		try {
 			return jdbcTemplate.queryForObject(sql, new Object[] { staffId, password }, new StaffMapper());
 		} catch (EmptyResultDataAccessException erex) {
-			return null; //<-- Please Change Handle Thing.
+			return null; // <-- Please Change Handle Thing.
 		}
 	}
 
@@ -42,18 +41,6 @@ public class SttfpAccess implements SttpfAccessInterface {
 		String sql = "SELECT * FROM `Staff` s JOIN StaffAccess sa on s.`staffId` = sa.staffId WHERE sa.staffId = ? AND sa.password = ?;";
 		//
 		return null;
-	}
-
-	@Override
-	public boolean editProfile(Staff staff) {
-		String sql = "UPDATE `Staff` SET `gender`= ?,`name`= ?,`email`= ?,`tel`= ?,`division`= ?,`position`= ?,`protraitPath`=?, WHERE `staffId`= ?;";
-		return false;
-	}
-
-	@Override
-	public boolean editPassword(String staffId, String password) {
-		String sql = "UPDATE `StaffAccess` SET `password`= ? WHERE `staffId`= ?;";
-		return false;
 	}
 
 	class StaffMapper implements RowMapper<Staff> {

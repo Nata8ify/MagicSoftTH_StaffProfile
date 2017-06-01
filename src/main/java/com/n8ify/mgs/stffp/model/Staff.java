@@ -46,6 +46,15 @@ public class Staff {
 		this.staffType = staffType;
 	}
 
+
+	public Staff(String staffId, String name, String email, String tel, String protraitPath) {
+		this.staffId = staffId;
+		this.name = name;
+		this.email = email;
+		this.tel = tel;
+		this.protraitPath = protraitPath;
+	}
+	
 	public String getPosition() {
 		return position;
 	}

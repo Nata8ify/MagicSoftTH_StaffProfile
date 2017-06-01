@@ -1,7 +1,5 @@
 package com.n8ify.mgs.stffp.controller;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +16,7 @@ import com.n8ify.mgs.stffp.utils.StaffAccessUtils;
 @Controller
 public class StaffManagentController {
 
-	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+	private static final Logger logger = LoggerFactory.getLogger(StaffManagentController.class);
 
 	@Autowired
 	private StaffManager staffManager;
@@ -111,5 +109,22 @@ public class StaffManagentController {
 		default: // TODO
 		}
 		return toManage();
+	}
+	
+	//NOT WORING
+	@RequestMapping(value = "/editSelf",  method = RequestMethod.POST)
+	public String editSelf(Model model, @RequestParam(value = "staffId", required = true) String staffId,
+			@RequestParam(value = "name", required = true) String name,
+			@RequestParam(value = "email", required = true) String email,
+			@RequestParam(value = "tel", required = true) String tel,
+			@RequestParam(value = "protraitPath", required = false) String protraitPath,
+			@RequestParam(value = "password", required = true) String password,
+			@RequestParam(value = "editType", required = true) String editType) {
+			if(staffManager.editSelfStaff(new Staff(staffId, name, email, tel, protraitPath), password)){
+				logger.info("UPDATED");
+				return "login?staffId="+staffId+"&password="+password;	
+			}
+			logger.info("NO UPDATE");
+			return "home";
 	}
 }

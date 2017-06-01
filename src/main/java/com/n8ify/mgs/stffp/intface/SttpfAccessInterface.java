@@ -9,7 +9,5 @@ public interface SttpfAccessInterface {
 	@Deprecated
 	public Staff getProfile(String staffId);
 
-	public boolean editProfile(Staff staff);
-	
-	public boolean editPassword(String staffId, String password);
+	 
 }

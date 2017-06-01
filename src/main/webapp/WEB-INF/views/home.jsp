@@ -58,7 +58,8 @@
 					<span class="sr-only">Toggle navigation</span> Menu <i
 						class="fa fa-bars"></i>
 				</button>
-				<a class="navbar-brand" href="#page-top"> ${thisStaff.name==null?'STFFP': 'Welcome! '}${thisStaff.name}</a>
+				<a class="navbar-brand" href="#page-top">
+					${thisStaff.name==null?'STFFP': 'Welcome! '}${thisStaff.name}${thisStaff.name==null?'': '<i><u><a href="#" data-toggle="modal" data-target="#modal-signin">Edit</a></u> <i>'}</a>
 			</div>
 
 			<!-- Collect the nav links, forms, and other content for toggling -->
@@ -89,33 +90,116 @@
 					<div class="intro-text">
 						<h1 class="name">STTFP</h1>
 						<hr class="star-light">
-						<span class="skills">Magic Software's Staffs Explorer
-							 </span>
+						<span class="skills">Magic Software's Staffs Board</span>
+
 					</div>
 				</div>
 			</div>
 		</div>
 	</header>
 
-	<!-- Portfolio Grid Section -->
+	<!-- Search Section -->
 	<section id='search'>
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12 text-center">
 					<h2>Search</h2>
 					<hr class="star-primary">
+					<form name="signInForm" id="signInForm" novalidate action="login"
+						method="POST">
+						<div class="row control-group">
+							<div
+								class="form-group col-xs-12 floating-label-form-group controls">
+								<label for="Staff ID">Name</label> <input type="text"
+									class="form-control text-center" placeholder="Staff ID"
+									id="staffId" name='staffId' required
+									data-validation-required-message="Please enter your Staff ID."
+									value="M60007">
+								<p class="help-block text-danger"></p>
+							</div>
+						</div>
+						<br>
+						<div id="success"></div>
+						<div class="row">
+							<div class="form-group col-xs-12">
+								<button type="submit" class="btn btn-success btn-lg">Search</button>
+							</div>
+						</div>
+					</form>
 				</div>
 			</div>
 		</div>
 	</section>
 
-	<!-- explore Section -->
+	<!-- Staff Board Section -->
+	<% if(request.getAttribute("managers") == null) response.sendRedirect("/mgs"); %>
 	<section class="success" id="explore">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12 text-center">
-					<h2>explore</h2>
+					<h2>Staff Board</h2>
 					<hr class="star-light">
+					<br>
+					<table class="table table-responsive">
+						<thead>
+							<c:forEach items="${managers}" var="manager" varStatus="c">
+								<c:choose>
+									<c:when test="${c.first}">
+										<tr>
+									</c:when>
+								</c:choose>
+								<td>
+									<div class="card" style="width: 20rem;">
+										<img class="card-img-top"
+											src="/mgs/resources/portraits/${manager.protraitPath==null?'noimg.png':manager.protraitPath}"
+											alt="Portrait">
+										<div class="card-block">
+											<h5 class="card-title">${manager.name}</h5>
+											<p class="card-text">${manager.position}</p>
+										</div>
+									</div>
+								</td>
+								<c:choose>
+									<c:when test="${c.index / 5 == 1}">
+										</tr>
+										<tr>
+									</c:when>
+									<c:when test="${c.last}">
+										</tr>
+									</c:when>
+								</c:choose>
+							</c:forEach>
+						</thead>
+						<tbody>
+							<c:forEach items="${staffs}" var="staff" varStatus="c">
+								<c:choose>
+									<c:when test="${c.first}">
+										<tr>
+									</c:when>
+								</c:choose>
+								<td>
+									<div class="card" style="width: 20rem;">
+										<img class="card-img-top"
+											src="/mgs/resources/portraits/${staff.protraitPath==null?'noimg.png':manager.protraitPath}"
+											alt="Portrait">
+										<div class="card-block">
+											<h5 class="card-title">${staff.name}</h5>
+											<h6 class="card-text">${staff.position}</h6>
+										</div>
+									</div>
+								</td>
+								<c:choose>
+									<c:when test="${c.index % 4 == 0 && !c.first}">
+										</tr>
+										<tr>
+									</c:when>
+									<c:when test="${c.last}">
+										</tr>
+									</c:when>
+								</c:choose>
+							</c:forEach>
+						</tbody>
+					</table>
 				</div>
 			</div>
 			<div class="row">
@@ -125,56 +209,62 @@
 				<div class="col-lg-4">
 					<!-- Offset Space -->
 				</div>
-				
-			</div>
-		</div>
-	</section>
 
-	<!-- Contact Section -->
-	<section id="contact">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12 text-center">
-					<h2>Sign In</h2>
-					<hr class="star-primary">
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-lg-8 col-lg-offset-2">
-					<!-- To configure the contact form email address, go to mail/contact_me.php and update the email address in the PHP file on line 19. -->
-					<!-- The form should work on most web servers, but if the form is not working you may need to configure your web server differently. -->
-					<form name="signInForm" id="signInForm" novalidate action="login" >
-						<div class="row control-group">
-							<div
-								class="form-group col-xs-12 floating-label-form-group controls">
-								<label for="Staff ID">Name</label> <input type="text"
-									class="form-control" placeholder="Staff ID" id="staffId" name='staffId' required
-									data-validation-required-message="Please enter your Staff ID." value="">
-								<p class="help-block text-danger"></p>
-							</div>
-						</div>
-						<div class="row control-group">
-							<div
-								class="form-group col-xs-12 floating-label-form-group controls">
-								<label for="password">Password</label> <input type="password"
-									class="form-control" placeholder="Password" id="password" name='password'
-									required
-									data-validation-required-message="Please enter your Password." value="">
-								<p class="help-block text-danger"></p>
-							</div>
-						</div>
-						<br>
-						<div id="success"></div>
-						<div class="row">
-							<div class="form-group col-xs-12">
-								<button type="submit" class="btn btn-success btn-lg">Submit</button>
-							</div>
-						</div>
-					</form>
-				</div>
 			</div>
 		</div>
 	</section>
+	<c:if test="${thisStaff == null }">
+
+		<!-- Contact Section -->
+		<section id="contact">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12 text-center">
+						<h2>Sign In</h2>
+						<hr class="star-primary">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-8 col-lg-offset-2">
+						<!-- To configure the contact form email address, go to mail/contact_me.php and update the email address in the PHP file on line 19. -->
+						<!-- The form should work on most web servers, but if the form is not working you may need to configure your web server differently. -->
+						<form name="signInForm" id="signInForm" novalidate action="login"
+							method="POST">
+							<div class="row control-group">
+								<div
+									class="form-group col-xs-12 floating-label-form-group controls">
+									<label for="Staff ID">Name</label> <input type="text"
+										class="form-control" placeholder="Staff ID" id="staffId"
+										name='staffId' required
+										data-validation-required-message="Please enter your Staff ID."
+										value="M60007">
+									<p class="help-block text-danger"></p>
+								</div>
+							</div>
+							<div class="row control-group">
+								<div
+									class="form-group col-xs-12 floating-label-form-group controls">
+									<label for="password">Password</label> <input type="password"
+										class="form-control" placeholder="Password" id="password"
+										name='password' required
+										data-validation-required-message="Please enter your Password."
+										value="default">
+									<p class="help-block text-danger"></p>
+								</div>
+							</div>
+							<br>
+							<div id="success"></div>
+							<div class="row">
+								<div class="form-group col-xs-12">
+									<button type="submit" class="btn btn-success btn-lg">Submit</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</section>
+	</c:if>
 
 	<!-- Footer -->
 	<footer class="text-center">
@@ -279,226 +369,8 @@
 			</div>
 		</div>
 	</div>
-	<div class="portfolio-modal modal fade" id="portfolioModal2"
-		tabindex="-1" role="dialog" aria-hidden="true">
-		<div class="modal-content">
-			<div class="close-modal" data-dismiss="modal">
-				<div class="lr">
-					<div class="rl"></div>
-				</div>
-			</div>
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-8 col-lg-offset-2">
-						<div class="modal-body">
-							<h2>Project Title</h2>
-							<hr class="star-primary">
-							<img src="img/portfolio/cake.png"
-								class="img-responsive img-centered" alt="">
-							<p>
-								Use this area of the page to describe your project. The icon
-								above is part of a free icon set by <a
-									href="https://sellfy.com/p/8Q9P/jV3VZ/">Flat Icons</a>. On
-								their website, you can download their free set with 16 icons, or
-								you can purchase the entire set with 146 icons for only $12!
-							</p>
-							<ul class="list-inline item-details">
-								<li>Client: <strong><a
-										href="http://startbootstrap.com">Start Bootstrap</a> </strong>
-								</li>
-								<li>Date: <strong><a
-										href="http://startbootstrap.com">April 2014</a> </strong>
-								</li>
-								<li>Service: <strong><a
-										href="http://startbootstrap.com">Web Development</a> </strong>
-								</li>
-							</ul>
-							<button type="button" class="btn btn-default"
-								data-dismiss="modal">
-								<i class="fa fa-times"></i> Close
-							</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="portfolio-modal modal fade" id="portfolioModal3"
-		tabindex="-1" role="dialog" aria-hidden="true">
-		<div class="modal-content">
-			<div class="close-modal" data-dismiss="modal">
-				<div class="lr">
-					<div class="rl"></div>
-				</div>
-			</div>
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-8 col-lg-offset-2">
-						<div class="modal-body">
-							<h2>Project Title</h2>
-							<hr class="star-primary">
-							<img src="img/portfolio/circus.png"
-								class="img-responsive img-centered" alt="">
-							<p>
-								Use this area of the page to describe your project. The icon
-								above is part of a free icon set by <a
-									href="https://sellfy.com/p/8Q9P/jV3VZ/">Flat Icons</a>. On
-								their website, you can download their free set with 16 icons, or
-								you can purchase the entire set with 146 icons for only $12!
-							</p>
-							<ul class="list-inline item-details">
-								<li>Client: <strong><a
-										href="http://startbootstrap.com">Start Bootstrap</a> </strong>
-								</li>
-								<li>Date: <strong><a
-										href="http://startbootstrap.com">April 2014</a> </strong>
-								</li>
-								<li>Service: <strong><a
-										href="http://startbootstrap.com">Web Development</a> </strong>
-								</li>
-							</ul>
-							<button type="button" class="btn btn-default"
-								data-dismiss="modal">
-								<i class="fa fa-times"></i> Close
-							</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="portfolio-modal modal fade" id="portfolioModal4"
-		tabindex="-1" role="dialog" aria-hidden="true">
-		<div class="modal-content">
-			<div class="close-modal" data-dismiss="modal">
-				<div class="lr">
-					<div class="rl"></div>
-				</div>
-			</div>
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-8 col-lg-offset-2">
-						<div class="modal-body">
-							<h2>Project Title</h2>
-							<hr class="star-primary">
-							<img src="img/portfolio/game.png"
-								class="img-responsive img-centered" alt="">
-							<p>
-								Use this area of the page to describe your project. The icon
-								above is part of a free icon set by <a
-									href="https://sellfy.com/p/8Q9P/jV3VZ/">Flat Icons</a>. On
-								their website, you can download their free set with 16 icons, or
-								you can purchase the entire set with 146 icons for only $12!
-							</p>
-							<ul class="list-inline item-details">
-								<li>Client: <strong><a
-										href="http://startbootstrap.com">Start Bootstrap</a> </strong>
-								</li>
-								<li>Date: <strong><a
-										href="http://startbootstrap.com">April 2014</a> </strong>
-								</li>
-								<li>Service: <strong><a
-										href="http://startbootstrap.com">Web Development</a> </strong>
-								</li>
-							</ul>
-							<button type="button" class="btn btn-default"
-								data-dismiss="modal">
-								<i class="fa fa-times"></i> Close
-							</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="portfolio-modal modal fade" id="portfolioModal5"
-		tabindex="-1" role="dialog" aria-hidden="true">
-		<div class="modal-content">
-			<div class="close-modal" data-dismiss="modal">
-				<div class="lr">
-					<div class="rl"></div>
-				</div>
-			</div>
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-8 col-lg-offset-2">
-						<div class="modal-body">
-							<h2>Project Title</h2>
-							<hr class="star-primary">
-							<img src="img/portfolio/safe.png"
-								class="img-responsive img-centered" alt="">
-							<p>
-								Use this area of the page to describe your project. The icon
-								above is part of a free icon set by <a
-									href="https://sellfy.com/p/8Q9P/jV3VZ/">Flat Icons</a>. On
-								their website, you can download their free set with 16 icons, or
-								you can purchase the entire set with 146 icons for only $12!
-							</p>
-							<ul class="list-inline item-details">
-								<li>Client: <strong><a
-										href="http://startbootstrap.com">Start Bootstrap</a> </strong>
-								</li>
-								<li>Date: <strong><a
-										href="http://startbootstrap.com">April 2014</a> </strong>
-								</li>
-								<li>Service: <strong><a
-										href="http://startbootstrap.com">Web Development</a> </strong>
-								</li>
-							</ul>
-							<button type="button" class="btn btn-default"
-								data-dismiss="modal">
-								<i class="fa fa-times"></i> Close
-							</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="portfolio-modal modal fade" id="portfolioModal6"
-		tabindex="-1" role="dialog" aria-hidden="true">
-		<div class="modal-content">
-			<div class="close-modal" data-dismiss="modal">
-				<div class="lr">
-					<div class="rl"></div>
-				</div>
-			</div>
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-8 col-lg-offset-2">
-						<div class="modal-body">
-							<h2>Project Title</h2>
-							<hr class="star-primary">
-							<img src="img/portfolio/submarine.png"
-								class="img-responsive img-centered" alt="">
-							<p>
-								Use this area of the page to describe your project. The icon
-								above is part of a free icon set by <a
-									href="https://sellfy.com/p/8Q9P/jV3VZ/">Flat Icons</a>. On
-								their website, you can download their free set with 16 icons, or
-								you can purchase the entire set with 146 icons for only $12!
-							</p>
-							<ul class="list-inline item-details">
-								<li>Client: <strong><a
-										href="http://startbootstrap.com">Start Bootstrap</a> </strong>
-								</li>
-								<li>Date: <strong><a
-										href="http://startbootstrap.com">April 2014</a> </strong>
-								</li>
-								<li>Service: <strong><a
-										href="http://startbootstrap.com">Web Development</a> </strong>
-								</li>
-							</ul>
-							<button id="btnSubmit" type="button" class="btn btn-default"
-								data-dismiss="modal">
-								<i class="fa fa-times"></i> Close
-							</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+
+	<jsp:include page="manage/modal_signin.jsp" />
 
 	<!-- jQuery -->
 	<script
