@@ -21,21 +21,24 @@
 	<bean id="staffBinder" class="com.n8ify.mgs.stffp.dealer.StaffBinder">
 		<property name="dataSource" ref="mgsdbSource" />
 	</bean>
-	
+
 	<bean id="staffAccess" class="com.n8ify.mgs.stffp.dealer.SttfpAccess">
 		<property name="dataSource" ref="mgsdbSource" />
 	</bean>
-	
-		<bean id="gen" class="com.n8ify.mgs.stffp.utils.Generator">
+
+	<bean id="gen" class="com.n8ify.mgs.stffp.utils.Generator">
 		<property name="dataSource" ref="mgsdbSource" />
 	</bean>
-	
-	<bean id="multipartResolver"
-        class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-        <!-- max upload size in bytes -->
-        <property name="maxUploadSize" value="20971520" /> <!-- 20MB -->
-        <!-- max size of file in memory (in bytes) -->
-        <property name="maxInMemorySize" value="1048576" /> <!-- 1MB -->
-    </bean>
 
+	<!-- Multipart Things -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- max upload size in bytes -->
+		<property name="maxUploadSize" value="20971520" /> <!-- 20MB -->
+		<!-- max size of file in memory (in bytes) -->
+		<property name="maxInMemorySize" value="1048576" /> <!-- 1MB -->
+	</bean>
+
+	<!-- Support JS Things -->
+	<bean id="gsonb" class="com.google.gson.GsonBuilder" scope="singleton"/>
 </beans>

@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.n8ify.mgs.stffp.dealer.StaffManager;
 
 @Controller
@@ -19,8 +21,18 @@ public class StaffViewerController {
 	@Autowired
 	private StaffManager staffManager;
 
+	@Autowired
+	private GsonBuilder gsonb;
+	
 	@RequestMapping(value = "/viewAll", method = RequestMethod.GET)
-	public String viewAllStaff(Model model) {
+	public String viewAllStaff(Model model,
+			@RequestParam(value = "json", required = true, defaultValue = "false")boolean json) {
+		
+		if(json){
+			gsonb.serializeNulls();
+			model.addAttribute("results", gsonb.create().toJson(staffManager.getEntireStaffs()));
+			return "result/result";
+		}
 		model.addAttribute("staffs", staffManager.getEntireStaffs());
 		return "list";
 	}
@@ -37,4 +49,6 @@ public class StaffViewerController {
 		model.addAttribute("staffs", staffManager.getStaffsByHostManagerId(managerId));
 		return "list";
 	}
+	
+	
 }

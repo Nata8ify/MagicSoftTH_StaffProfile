@@ -44,6 +44,24 @@ public class StaffManagentController {
 		return "manage/manage";
 	}
 
+	@RequestMapping(value = "/managechoice", method = RequestMethod.GET)
+	public String toManageByCase(Model model, @RequestParam(value = "to") String to) {
+		// HttpServletRequest request
+		// logger.info(((Staff)(request.getSession(false).getAttribute("thisStaff"))).toString());
+		switch (to) {
+		case "addstaff":
+			model.addAttribute("manage", "add");
+			break;
+		case "mngeditor":
+			model.addAttribute("manage", "mngeditor");
+			break;
+		default:
+			toManage();
+			break;
+		}
+		return "manage/manage";
+	}
+
 	@RequestMapping(value = "/insertPerson", method = RequestMethod.POST)
 	public String insertPerson(Model model, @RequestParam(value = "staffId", required = true) String staffId,
 			@RequestParam(value = "gender", required = false) String gender,
@@ -140,30 +158,41 @@ public class StaffManagentController {
 		if (staffManager.editSelfStaff(
 				new Staff(staffId, name, email, tel, protraitPath.equals("") ? null : protraitPath), password)) {
 			logger.info("UPDATED");
-			// HttpSession session;
-			// session = request.getSession(false);
-			// session.removeAttribute("thisStaff");
-			// session.removeAttribute("thisPassword");
-			// Staff.setStaffInstance(staffManager.getStaffById(staffId));
-			// session.setAttribute("thisStaff", Staff.getStaffInstance());
-			// StaffAccess.setAccessInstance(new StaffAccess(staffId,
-			// password));
-			// session.setAttribute("thisPassword",
-			// StaffAccess.getAccessInstance());
 			Resource res = new ClassPathResource("");
-			File oldImg = new File(request.getSession().getServletContext()
-					.getRealPath("/resources/portraits/" + Staff.getStaffInstance().getProtraitPath()));
-			if (!oldImg.delete()) {
-				logger.error(staffId + ": IMG NOT DEL : " + " : Name " + oldImg.getName() + " : is file : "
-						+ oldImg.isFile() + "::::" + oldImg.getPath());
-			} else {
-				logger.error(staffId + ": IMG DELED : " + " : Name " + oldImg.getName() + " : is file : "
-						+ oldImg.isFile() + "::::" + oldImg.getPath());
-			}
 			return "redirect:login?staffId=" + staffId + "&password=" + password;
 		}
 		logger.info("NO UPDATE");
 		return "home";
+	}
+
+	@RequestMapping(value = "/editPerson.f", method = RequestMethod.POST)
+	public String editPersonWithPortrait(Model model, HttpServletRequest request,
+			@RequestParam(value = "staffId", required = true) String staffId,
+			@RequestParam(value = "gender", required = true) String gender,
+			@RequestParam(value = "name", required = true) String name,
+			@RequestParam(value = "email", required = true) String email,
+			@RequestParam(value = "tel", required = true) String tel,
+			@RequestParam(value = "division", required = true) String division,
+			@RequestParam(value = "position", required = true) String position,
+			@RequestParam(value = "protraitPath") MultipartFile img,
+			@RequestParam(value = "hostManagerId", required = false) String hostManagerId,
+			@RequestParam(value = "editType", required = true) String editType)
+			throws IllegalStateException, IOException {
+		MultipartHttpServletRequest mrequest = multipartResolver.resolveMultipart(request);
+		String imgName = img.isEmpty() ? Staff.getStaffInstance().getProtraitPath()
+				: Generator.getInstance().genImageName(img.getOriginalFilename());
+		if (!img.isEmpty()) {
+			img.transferTo(new File(mrequest.getRealPath(PORTRAIT_DIR) + imgName));
+			File oldImg = new File(mrequest.getRealPath(PORTRAIT_DIR + Staff.getStaffInstance().getProtraitPath()));
+			oldImg.delete();
+		}
+		if (staffManager.editStaff(new Staff(staffId, name, email, tel, division, position, imgName, hostManagerId,
+				gender, Staff.TYPE_STAFF))) {
+			model.addAttribute("msg", "สำเร็จ!");
+		} else {
+			model.addAttribute("msg", "ไม่สำเร็จ!");
+		}
+		return toManage();
 	}
 
 	@RequestMapping(value = "/editSelf.f", method = RequestMethod.POST, headers = "content-type=multipart/*")
@@ -205,21 +234,21 @@ public class StaffManagentController {
 			@RequestParam(value = "hostManagerId", required = false) String hostManagerId,
 			@RequestParam(value = "password", required = false) String password,
 			@RequestParam(value = "insertType", required = true) String insertType,
-			MultipartHttpServletRequest mrequest,
-			@RequestParam(value = "protraitPath")MultipartFile img) {
+			MultipartHttpServletRequest mrequest, @RequestParam(value = "protraitPath") MultipartFile img) {
 		// Checking Is this an Administrator Account Roll.
-		
+
 		logger.info(new Staff(staffId, name, email, tel, division, position,
-				!img.isEmpty() ? null : Generator.getInstance().genImageName(img.getOriginalFilename()), mrequest.getParameter("hostManagerId"),
-						gender, Staff.TYPE_STAFF).toString());
+				!img.isEmpty() ? null : Generator.getInstance().genImageName(img.getOriginalFilename()),
+				mrequest.getParameter("hostManagerId"), gender, Staff.TYPE_STAFF).toString());
 		switch (insertType) {
 		case Staff.TYPE_STAFF:
-			if (staffManager.insertStaff(
-					new Staff(staffId, name, email, tel, division, position,
-							img.isEmpty() ? null
-									: Generator.getInstance().genImageName(img.getOriginalFilename()),
-							hostManagerId, gender, Staff.TYPE_STAFF),
-					password.equals("") ? Generator.getInstance().genPassword() : password)) {
+			if (staffManager
+					.insertStaff(
+							new Staff(staffId, name, email, tel, division, position,
+									img.isEmpty() ? null
+											: Generator.getInstance().genImageName(img.getOriginalFilename()),
+									hostManagerId, gender, Staff.TYPE_STAFF),
+							password.equals("") ? Generator.getInstance().genPassword() : password)) {
 				model.addAttribute("msg", "สำเร็จ!");
 			} else {
 				model.addAttribute("msg", "ไม่สำเร็จ!");
