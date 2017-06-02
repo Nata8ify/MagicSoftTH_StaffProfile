@@ -60,6 +60,15 @@ public class StaffManager implements StaffManagementInterface {
 						staff.getStaffId() }) > 0;
 	}
 
+	@Override
+	public boolean editStaffForNoImage(Staff staff) {
+		String sql = "UPDATE `Staff` SET `name`=?, `gender`=? ,`email`=?,`tel`=?,`division`=?, `position`=?"
+				+ ",`hostManagerId`=? WHERE `staffId` = ?;";
+		return jdbcTemplate.update(sql,
+				new Object[] { staff.getName(), staff.getGender(), staff.getEmail(), staff.getTel(),
+						staff.getDivision(), staff.getPosition(), staff.getHostManagerId(),
+						staff.getStaffId() }) > 0;
+	}
 
 	@Override
 	public boolean editSelfStaff(Staff staff, String newPassword) {

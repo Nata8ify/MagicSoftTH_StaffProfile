@@ -158,7 +158,6 @@ public class StaffManagentController {
 		if (staffManager.editSelfStaff(
 				new Staff(staffId, name, email, tel, protraitPath.equals("") ? null : protraitPath), password)) {
 			logger.info("UPDATED");
-			Resource res = new ClassPathResource("");
 			return "redirect:login?staffId=" + staffId + "&password=" + password;
 		}
 		logger.info("NO UPDATE");
@@ -185,13 +184,21 @@ public class StaffManagentController {
 			img.transferTo(new File(mrequest.getRealPath(PORTRAIT_DIR) + imgName));
 			File oldImg = new File(mrequest.getRealPath(PORTRAIT_DIR + Staff.getStaffInstance().getProtraitPath()));
 			oldImg.delete();
+			if (staffManager.editStaff(new Staff(staffId, name, email, tel, division, position, imgName, hostManagerId,
+					gender, editType))) {
+				model.addAttribute("msg", "สำเร็จ!");
+			} else {
+				model.addAttribute("msg", "ไม่สำเร็จ!");
+			}
+		}else{ //<-- Need Test
+			if (staffManager.editStaffForNoImage(new Staff(staffId, name, email, tel, division, position, null, hostManagerId,
+					gender, editType))) {
+				model.addAttribute("msg", "สำเร็จ!");
+			} else {
+				model.addAttribute("msg", "ไม่สำเร็จ!");
+			}
 		}
-		if (staffManager.editStaff(new Staff(staffId, name, email, tel, division, position, imgName, hostManagerId,
-				gender, Staff.TYPE_STAFF))) {
-			model.addAttribute("msg", "สำเร็จ!");
-		} else {
-			model.addAttribute("msg", "ไม่สำเร็จ!");
-		}
+		
 		return toManage();
 	}
 

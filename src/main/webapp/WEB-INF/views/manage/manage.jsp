@@ -64,6 +64,13 @@
 
 <!-- styles -->
 <link href="${resContextPath}admcss/styles.css" rel="stylesheet">
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"
+		integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+		crossorigin="anonymous"></script>
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="${resContextPath}vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script src="${resContextPath}admjs/custom.js"></script>
 
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -169,13 +176,6 @@
 		</div>
 	</footer>
 
-	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-	<script src="https://code.jquery.com/jquery-3.2.1.min.js"
-		integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-		crossorigin="anonymous"></script>
-	<!-- Include all compiled plugins (below), or include individual files as needed -->
-	<script src="${resContextPath}vendor/bootstrap/js/bootstrap.min.js"></script>
-	<script src="${resContextPath}admjs/custom.js"></script>
 
 	<script
 		src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>

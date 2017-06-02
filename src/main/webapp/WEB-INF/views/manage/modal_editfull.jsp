@@ -7,7 +7,7 @@
 			</div>
 			<div class="modal-body">
 				<form name="signInForm" id="signInForm" novalidate
-					action="editSelf.f" method="POST" enctype="multipart/form-data">
+					action="" method="POST" enctype="multipart/form-data">
 					<div class="row control-group">
 						<div
 							class="form-group col-xs-4 floating-label-form-group controls">
