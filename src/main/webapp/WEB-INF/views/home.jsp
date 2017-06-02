@@ -60,7 +60,7 @@
 						class="fa fa-bars"></i>
 				</button>
 				<a class="navbar-brand" href="#page-top">
-					${thisStaff.name==null?'STFFP': 'Welcome! '}${thisStaff.name}${thisStaff.name==null?'': '<i><u><a href="#" data-toggle="modal" data-target="#modal-signin">Edit</a></u> <i>'}</a>
+					${thisStaff.name==null?'STFFPF': 'Welcome! '}${thisStaff.name}${thisStaff.name==null?'': '<i><u><a href="#" data-toggle="modal" data-target="#modal-signin">Edit</a></u> <i>'}</a>
 			</div>
 
 			<!-- Collect the nav links, forms, and other content for toggling -->
@@ -89,7 +89,7 @@
 						src="${contextPath}/resources/img/profile.png"
 						alt="">
 					<div class="intro-text">
-						<h1 class="name">STTFP</h1>
+						<h1 class="name">STFFPF</h1>
 						<hr class="star-light">
 						<span class="skills">Magic Software's Staffs Board</span>
 
@@ -181,8 +181,8 @@
 								</c:choose>
 								<td>
 									<div class="card" style="width: 20rem;">
-										<img class="card-img-top"
-											src="${contextPath}/resources/portraits/${staff.protraitPath==null?'noimg.png':manager.protraitPath}"
+										<img class="card-img-top" width="150px"
+											src="${contextPath}/resources/portraits/${staff.protraitPath==null?'noimg.png':staff.protraitPath}"
 											alt="Portrait">
 										<div class="card-block">
 											<h5 class="card-title">${staff.name}</h5>
@@ -249,7 +249,7 @@
 										class="form-control" placeholder="Password" id="password"
 										name='password' required
 										data-validation-required-message="Please enter your Password."
-										value="default">
+										value="kogy9i8u">
 									<p class="help-block text-danger"></p>
 								</div>
 							</div>
@@ -311,7 +311,7 @@
 		<div class="footer-below">
 			<div class="container">
 				<div class="row">
-					<div class="col-lg-12">Copyright &copy; Your Website 2016</div>
+					<div class="col-lg-12">Copyright &copy; STFFPF 2016</div>
 				</div>
 			</div>
 		</div>

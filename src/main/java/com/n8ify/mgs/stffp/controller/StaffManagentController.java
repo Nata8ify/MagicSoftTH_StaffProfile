@@ -1,10 +1,14 @@
 package com.n8ify.mgs.stffp.controller;
 
+import java.io.File;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -133,6 +137,13 @@ public class StaffManagentController {
 //				session.setAttribute("thisStaff", Staff.getStaffInstance());
 //				StaffAccess.setAccessInstance(new StaffAccess(staffId, password));
 //				session.setAttribute("thisPassword", StaffAccess.getAccessInstance());
+				Resource res = new ClassPathResource("");
+				File oldImg = new File(request.getSession().getServletContext().getRealPath("/resources/portraits/"+Staff.getStaffInstance().getProtraitPath()));
+				if(!oldImg.delete()){
+					logger.error(staffId+ ": IMG NOT DEL : "+" : Name "+oldImg.getName()+" : is file : "+oldImg.isFile()+"::::"+oldImg.getPath());
+				} else {
+					logger.error(staffId+ ": IMG DELED : "+" : Name "+oldImg.getName()+" : is file : "+oldImg.isFile()+"::::"+oldImg.getPath());
+					}
 				return "redirect:login?staffId="+staffId+"&password="+password;	
 			}
 			logger.info("NO UPDATE");

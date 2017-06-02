@@ -9,11 +9,11 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
-import com.n8ify.mgs.stffp.intface.SttpfAccessInterface;
+import com.n8ify.mgs.stffp.intface.StffpfAccessInterface;
 import com.n8ify.mgs.stffp.model.Staff;
 import com.n8ify.mgs.stffp.model.StaffAccess;
 
-public class SttfpAccess implements SttpfAccessInterface {
+public class SttfpAccess implements StffpfAccessInterface {
 	private DataSource dataSource;
 	private JdbcTemplate jdbcTemplate;
 
