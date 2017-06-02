@@ -371,7 +371,7 @@
 		</div>
 	</div>
 
-	<jsp:include page="manage/modal_signin.jsp" />
+	<jsp:include page="manage/modal_editself.jsp" />
 
 	<!-- jQuery -->
 	<script

@@ -137,8 +137,8 @@ public class Staff {
 
 	@Override
 	public String toString() {
-		return "รหัสบุคคล=" + staffId + ", ชื่อ-สกุล=" + name + ", Email=" + email + ", Tel=" + tel + ", แผนก="
-				+ division + ", ที่อยู่ของรูปภาพ=" + protraitPath + "รหัสบุคคลหัวหน้าแผนก : " + hostManagerId + "=]";
+		return "*รหัสบุคคล=" + staffId + ", *ชื่อ-สกุล=" + name + ", *Email=" + email + ", *Tel=" + tel + ", *แผนก="
+				+ division + ", *ที่อยู่ของรูปภาพ=" + protraitPath + " *รหัสบุคคลหัวหน้าแผนก : " + hostManagerId + "=]";
 	}
 
 	private String hostManagerName;

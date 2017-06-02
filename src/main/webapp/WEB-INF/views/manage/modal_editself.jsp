@@ -6,7 +6,7 @@
 				<h4 class="modal-title">PROFILE EDITOR</h4>
 			</div>
 			<div class="modal-body">
-				<form name="signInForm" id="signInForm" novalidate action="editSelf?editType=s" method="POST">
+				<form name="signInForm" id="signInForm" novalidate action="editSelf.f" method="POST" enctype="multipart/form-data">
 					<div class="row control-group">
 						<div
 							class="form-group col-xs-12 floating-label-form-group controls">
@@ -53,7 +53,7 @@
 						<div
 							class="form-group col-xs-12 floating-label-form-group controls">
 							<label for="protraitPath">Portrait Image</label> <input
-								type="file" class="form-control" placeholder="Contact Number"
+								type="file" class="form-control"
 								id="protraitPath" name='protraitPath'
 								value="${thisStaff.protraitPath}">
 							<p class="help-block text-danger"></p>
