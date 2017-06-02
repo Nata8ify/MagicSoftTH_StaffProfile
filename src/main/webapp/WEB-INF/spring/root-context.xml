@@ -26,6 +26,10 @@
 		<property name="dataSource" ref="mgsdbSource" />
 	</bean>
 	
+		<bean id="gen" class="com.n8ify.mgs.stffp.utils.Generator">
+		<property name="dataSource" ref="mgsdbSource" />
+	</bean>
+	
 	<bean id="multipartResolver"
         class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <!-- max upload size in bytes -->

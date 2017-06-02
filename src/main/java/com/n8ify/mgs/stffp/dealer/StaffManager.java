@@ -40,12 +40,12 @@ public class StaffManager implements StaffManagementInterface {
 	@Override
 	public boolean insertStaff(Staff staff, String password) {
 		String sql = "INSERT INTO `Staff`"
-				+ "(`staffId`, `gender`, `name`, `email`, `tel`, `division`, `position`, `protraitPath`, `hostManagerId`)"
-				+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+				+ "(`staffId`, `gender`, `name`, `email`, `tel`, `division`, `position`, `protraitPath`, `hostManagerId`, `staffType`)"
+				+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 		boolean is1stSuccess = jdbcTemplate.update(sql,
 				new Object[] { staff.getStaffId(), staff.getGender(), staff.getName(), staff.getEmail(), staff.getTel(),
 						staff.getDivision(), staff.getPosition(), staff.getProtraitPath(),
-						staff.getHostManagerId() }) > 0;
+						staff.getHostManagerId(), staff.getStaffType() }) > 0;
 		sql = " INSERT INTO `StaffAccess`(`staffId`, `password`) VALUES (?,?);";
 		return jdbcTemplate.update(sql, new Object[] { staff.getStaffId(), password }) > 0 & is1stSuccess;
 	}

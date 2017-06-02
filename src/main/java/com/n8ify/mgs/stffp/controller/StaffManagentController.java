@@ -1,8 +1,6 @@
 package com.n8ify.mgs.stffp.controller;
 
-import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import com.n8ify.mgs.stffp.dealer.StaffManager;
@@ -171,35 +168,70 @@ public class StaffManagentController {
 
 	@RequestMapping(value = "/editSelf.f", method = RequestMethod.POST, headers = "content-type=multipart/*")
 	public String editSelfWithPortrait(Model model, HttpServletRequest request,
+			@RequestParam(value = "staffId", required = true) String staffId,
 			@RequestParam(value = "protraitPath") MultipartFile img) throws IllegalStateException, IOException {
 		logger.info("IS MULT : " + multipartResolver.isMultipart(request));
 		MultipartHttpServletRequest mrequest = multipartResolver.resolveMultipart(request);
 		String imgName = img.isEmpty() ? Staff.getStaffInstance().getProtraitPath()
 				: Generator.getInstance().genImageName(img.getOriginalFilename());
-		if (!img.isEmpty())
+		if (!img.isEmpty()) {
 			img.transferTo(new File(mrequest.getRealPath(PORTRAIT_DIR) + imgName));
+			File oldImg = new File(mrequest.getRealPath(PORTRAIT_DIR + Staff.getStaffInstance().getProtraitPath()));
+			oldImg.delete();
+		}
 
 		if (staffManager.editSelfStaff(
 				new Staff(mrequest.getParameter("staffId"), mrequest.getParameter("name"),
 						mrequest.getParameter("email"), mrequest.getParameter("tel"), imgName),
 				mrequest.getParameter("password"))) {
-			logger.info("UPDATED");//
-			if ((!img.isEmpty())) {
-				File oldImg = new File(mrequest.getRealPath(PORTRAIT_DIR + Staff.getStaffInstance().getProtraitPath()));
-				if (!oldImg.delete()) {
-					logger.error(": IMG NOT DEL : " + " : Name " + oldImg.getName() + " : is file : " + oldImg.isFile()
-							+ "::::" + oldImg.getPath());
-				} else {
-					logger.error(": IMG DELED : " + " : Name " + oldImg.getName() + " : is file : " + oldImg.isFile()
-							+ "::::" + oldImg.getPath());
-				}
-			}
+			logger.info("UPDATED" + mrequest.getPathInfo() + ":::: staffId " + staffId);//
 			return "redirect:login?staffId=" + mrequest.getParameter("staffId") + "&password="
 					+ mrequest.getParameter("password");
 
 		}
 
 		return "home";
+	}
+
+	@RequestMapping(value = "/insertPerson.f", method = RequestMethod.POST, headers = "content-type=multipart/*")
+	public String insertPersonWithPortrait(Model model, HttpServletRequest request,
+			@RequestParam(value = "staffId", required = true) String staffId,
+			@RequestParam(value = "gender", required = true) String gender,
+			@RequestParam(value = "name", required = true) String name,
+			@RequestParam(value = "email", required = true) String email,
+			@RequestParam(value = "tel", required = true) String tel,
+			@RequestParam(value = "division", required = true) String division,
+			@RequestParam(value = "position", required = true) String position,
+			@RequestParam(value = "hostManagerId", required = false) String hostManagerId,
+			@RequestParam(value = "password", required = false) String password,
+			@RequestParam(value = "insertType", required = true) String insertType,
+			MultipartHttpServletRequest mrequest,
+			@RequestParam(value = "protraitPath")MultipartFile img) {
+		// Checking Is this an Administrator Account Roll.
+		
+		logger.info(new Staff(staffId, name, email, tel, division, position,
+				!img.isEmpty() ? null : Generator.getInstance().genImageName(img.getOriginalFilename()), mrequest.getParameter("hostManagerId"),
+						gender, Staff.TYPE_STAFF).toString());
+		switch (insertType) {
+		case Staff.TYPE_STAFF:
+			if (staffManager.insertStaff(
+					new Staff(staffId, name, email, tel, division, position,
+							img.isEmpty() ? null
+									: Generator.getInstance().genImageName(img.getOriginalFilename()),
+							hostManagerId, gender, Staff.TYPE_STAFF),
+					password.equals("") ? Generator.getInstance().genPassword() : password)) {
+				model.addAttribute("msg", "สำเร็จ!");
+			} else {
+				model.addAttribute("msg", "ไม่สำเร็จ!");
+			}
+			break;
+		case Staff.TYPE_MANAGER:
+			break;
+		case Staff.TYPE_ADMINISTRATOR:
+			break;
+		default: // TODO
+		}
+		return toManage();
 	}
 
 	// private String imageVerify(MultipartFile img, MultipartHttpServletRequest

@@ -162,7 +162,7 @@
 									</div>
 								</td>
 								<c:choose>
-									<c:when test="${c.index / 5 == 1}">
+									<c:when test="${c.index % 5 == 0}">
 										<br></tr><tr>
 									</c:when>
 									<c:when test="${c.last}">

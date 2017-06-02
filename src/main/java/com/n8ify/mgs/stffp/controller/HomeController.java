@@ -39,4 +39,9 @@ public class HomeController {
 	public String adminHome(Model model) {
 		return "admhome";
 	}
+	
+	@RequestMapping(value = "/dbg", method = RequestMethod.GET)
+	public String dbg(Model model) {
+		return "admhome";
+	}
 }
