@@ -194,7 +194,7 @@
 	</script>
 
 	<script type="text/javascript">
-	/* modal_editfull */
+		/* modal_editfull */
 		var staffList;
 		$(document).ready(function() {
 			$.when($.ajax({
@@ -203,65 +203,183 @@
 				staffList = $.parseJSON(json);
 			});
 		});
-		$('#staff-explore-table tbody').on(
-				'click',
-				'tr .staff-edit',
-				function() {
-					var thisStaffId = staffTable.row($(this).parents('tr'))
-							.data().staffId;
-					$.each(staffList, function(index, value) {
-						if (value.staffId == thisStaffId) {
-							$('#editType').val(value.staffType);
-							$('#staffId').val(value.staffId);
-							$('#name').val(value.name);
-							$('#email').val(value.email);
-							$('#tel').val(value.tel);
-							$('#division').val(value.division);
-							$('#position').val(value.position);
-							$('#gender').val(value.gender);
-							$('#hostManagerId').val(value.hostManagerId);
-							$('#protraitPathOld').val(value.protraitPath);
-							$('#hostManagerName-show').val(value.hostManagerName!=null?value.hostManagerName:"Unassigned");
-							console.log(value);
-						}
-					})
-					$('#modal-staff-edit').modal();
-				});
+		$('#staff-explore-table tbody')
+				.on(
+						'click',
+						'tr .staff-edit',
+						function() {
+							var thisStaffId = staffTable.row(
+									$(this).parents('tr')).data().staffId;
+							$
+									.each(
+											staffList,
+											function(index, value) {
+												if (value.staffId == thisStaffId) {
+													$('#editType').val(
+															value.staffType);
+													$('#staffId').val(
+															value.staffId);
+													$('#name').val(value.name);
+													$('#email')
+															.val(value.email);
+													$('#tel').val(value.tel);
+													$('#division').val(
+															value.division);
+													$('#position').val(
+															value.position);
+													$('#gender').val(
+															value.gender);
+													$('#hostManagerId')
+															.val(
+																	value.hostManagerId);
+													$('#protraitPathOld').val(
+															value.protraitPath);
+													$('#hostManagerName-show')
+															.val(
+																	value.hostManagerName != null ? value.hostManagerName
+																			: "Unassigned");
+													console.log(value);
+												}
+											})
+							$('#modal-staff-edit').modal();
+						});
 	</script>
 	<script>
-/* modal_pickmng */
-	$('#btn-assign-mng').click(function() {
-		$.ajax({
-			"url" : "viewAllMngs?json=true",
-			"type" : "get",
-			"success" : function(mngList) {
-				$('#mnglist-tbody').html("");
-				$.each($.parseJSON(mngList), function(index, value){
-					var protraitPath = value.protraitPath;
-					var staffId = value.staffId;
-					var name = value.name;
-					$('#mnglist-tbody').append("<tr>");
-					$('#mnglist-tbody').append("<td>"+protraitPath+"</td>");
-					$('#mnglist-tbody').append("<td>"+staffId+"</td>");
-					$('#mnglist-tbody').append("<td>"+name+"</td>");
-					$('#mnglist-tbody').append("<td><button class='btn btn-default btn-assign-mng-pick' onclick='assignId(99999)'>Assign</button></td>");
-					$('#mnglist-tbody').append("</tr>");
-				});
-				$('#modal-assign-mng').modal();
-			}
-		});
-	});
-	
-function assignId(mngId){
-	alert(mngId);
-}
-</script>
-<script>
-/* include_mngeditor.jsp */
-$(document).ready(function(){
-	
-});
+		/* modal_pickmng */
+		$('#btn-assign-mng')
+				.click(
+						function() {
+							$
+									.ajax({
+										"url" : "viewAllMngs?json=true",
+										"type" : "get",
+										"success" : function(mngList) {
+											$('#mnglist-tbody').html("");
+											$
+													.each(
+															$
+																	.parseJSON(mngList),
+															function(index,
+																	value) {
+																var protraitPath = value.protraitPath;
+																var staffId = value.staffId;
+																var name = value.name;
+																$(
+																		'#mnglist-tbody')
+																		.append(
+																				"<tr>");
+																$(
+																		'#mnglist-tbody')
+																		.append(
+																				"<td>"
+																						+ protraitPath
+																						+ "</td>");
+																$(
+																		'#mnglist-tbody')
+																		.append(
+																				"<td>"
+																						+ staffId
+																						+ "</td>");
+																$(
+																		'#mnglist-tbody')
+																		.append(
+																				"<td>"
+																						+ name
+																						+ "</td>");
+																$(
+																		'#mnglist-tbody')
+																		.append(
+																				"<td><button class='btn btn-default btn-assign-mng-pick' onclick='assignId(99999)'>Assign</button></td>");
+																$(
+																		'#mnglist-tbody')
+																		.append(
+																				"</tr>");
+															});
+											$('#modal-assign-mng').modal();
+										}
+									});
+						});
 
-</script>
+		function assignId(mngId) {
+			alert(mngId);
+		}
+	</script>
+	<script>
+		/* include_mngeditor.jsp */
+		$(document).ready(function() {
+			var staffs;
+			var unassignedStaffs;
+			var managers;
+			$.ajax({
+				"url" : "viewAllUnassignedStaffs?json=true",
+				"success" : function(uslist) {
+					unassignedStaffs = $.parseJSON(uslist);
+				}
+			});
+			$.ajax({
+				"url" : "viewAllStaffs?json=true",
+				"success" : function(slist) {
+					unassignedStaffs = $.parseJSON(slist);
+				}
+			});
+			$.ajax({
+				"url" : "viewAllMngs?json=true",
+				"success" : function(mlist) {
+					managers = $.parseJSON(mlist);
+				}
+			});
+		});
+
+		var constCols = [ {
+			"data" : "staffId",
+			"width" : "5%"
+		}, {
+			"data" : "name",
+			"width" : "30%"
+		}, {
+			"data" : "position",
+			"width" : "30%"
+		}, {
+			"width" : "35%"
+		} ]
+
+		var managersDataTable = $('#table-managers')
+				.DataTable(
+						{
+							"ajax" : {
+								"url" : "${pageContext.request.contextPath}/viewAllMngs?json=true",
+								"dataSrc" : ""
+							},
+							"columns" : constCols,
+							"columnDefs" : [
+									{
+										"targets" : -1,
+										"data" : "",
+										"searchable" : false,
+										"defaultContent" : "<button class='staff-edit btn btn-default'><i class='glyphicon glyphicon-pencil'></i></button>"
+									}
+
+							],
+							"order" : [ [ 0, "asc" ] ]
+						});
+		var staffsDataTable = $('#table-staffs-assigned')
+				.DataTable(
+						{
+							"ajax" : {
+								"url" : "${pageContext.request.contextPath}/viewAllStaffs?json=true",
+								"dataSrc" : ""
+							},
+							"columns" : constCols
+						});
+		var unassignedStaffsDataTable = $('#table-staffs-unassigned')
+				.DataTable(
+						{
+							"ajax" : {
+								"url" : "${pageContext.request.contextPath}/viewAllUnassignedStaffs?json=true",
+								"dataSrc" : ""
+							},
+							"columns" : constCols
+						});
+	</script>
 </body>
 </html>

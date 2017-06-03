@@ -142,8 +142,8 @@ public class StaffManager implements StaffManagementInterface {
 
 	@Override
 	public List<Staff> getTotalUnassignedStaffs() {
-		String sql = "SELECT * FROM `Staff` WHERE  `staffType` = ? OR `staffType` = ? AND hostManagerId IS NULL;";
-		return jdbcTemplate.query(sql, new Object[] { Staff.TYPE_STAFF, Staff.TYPE_ADMINISTRATOR }, new StaffMapper());
+		String sql = "SELECT * FROM `Staff` WHERE  `staffType` != ? AND hostManagerId IS NULL;";
+		return jdbcTemplate.query(sql, new Object[] { Staff.TYPE_MANAGER}, new StaffMapper());
 	
 	}
 
