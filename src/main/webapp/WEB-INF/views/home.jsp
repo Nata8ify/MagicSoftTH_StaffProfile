@@ -1,6 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page session="true"%>
-<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+<c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,8 +20,7 @@
 	rel="stylesheet">
 
 <!-- Theme CSS -->
-<link
-	href="${contextPath}/resources/css/freelancer.min.css"
+<link href="${contextPath}/resources/css/freelancer.min.css"
 	rel="stylesheet">
 
 <!-- Custom Fonts -->
@@ -86,8 +85,7 @@
 			<div class="row">
 				<div class="col-lg-12">
 					<img class="img-responsive"
-						src="${contextPath}/resources/img/profile.png"
-						alt="">
+						src="${contextPath}/resources/img/profile.png" alt="">
 					<div class="intro-text">
 						<h1 class="name">STFFPF</h1>
 						<hr class="star-light">
@@ -111,13 +109,36 @@
 						<div class="row control-group">
 							<div
 								class="form-group col-xs-12 floating-label-form-group controls">
-								<label for="Staff ID">Name</label> <input type="text"
-									class="form-control text-center" placeholder="Staff ID"
-									id="staffId" name='staffId' required
+								<label for="Staff ID" id='label-search'>Part of the Name</label>
+								<input type="text" class="form-control text-center"
+									placeholder="Staff ID" id="input-search" name='staffId'
+									required
 									data-validation-required-message="Please enter your Staff ID."
-									value="M60007">
+									value="">
 								<p class="help-block text-danger"></p>
 							</div>
+						</div>
+						<div class="row control-group">
+							<div
+								class="form-group col-xs-3 floating-label-form-group controls"></div>
+							<div
+								class="form-group col-xs-2 floating-label-form-group controls">
+								<input type="radio" class="text-center"
+									id="mode-namelike-search" name='modeSearch' value="namelike" checked > :
+								Part of the Name
+							</div>
+							<div
+								class="form-group col-xs-2 floating-label-form-group controls">
+								<input type="radio" class="text-center" id="mode-bymng-search"
+									name='modeSearch' value="bymng"> : Host Manager
+							</div>
+							<div
+								class="form-group col-xs-2 floating-label-form-group controls">
+								<input type="radio" class="text-center" value="staffid" id="mode-staffid-search"
+									name='modeSearch'> : Staff ID
+							</div>
+							<div
+								class="form-group col-xs-3 floating-label-form-group controls"></div>
 						</div>
 						<br>
 						<div id="success"></div>
@@ -133,7 +154,10 @@
 	</section>
 
 	<!-- Staff Board Section -->
-	<% if(request.getAttribute("managers") == null) response.sendRedirect(request.getContextPath()); %>
+	<%
+		if (request.getAttribute("managers") == null)
+			response.sendRedirect(request.getContextPath());
+	%>
 	<section class="success" id="explore">
 		<div class="container">
 			<div class="row">
@@ -143,44 +167,52 @@
 					<br>
 					<table class="table table-responsive">
 						<thead>
-						
-						<tr><td colspan="5"><h3>Managers</h3></td></tr>
-						<tr><c:forEach items="${managers}" var="manager" varStatus="c">
-								<td>
-									<div class="card" style="width: 20rem;">
-										<img class="card-img-top"
-											src="${contextPath}/resources/portraits/${manager.protraitPath==null?'noimg.png':manager.protraitPath}"
-											alt="Portrait" width="170px">
-										<div class="card-block">
-											<h5 class="card-title">${manager.name}</h5>
-											<p class="card-text">${manager.position}</p>
+
+							<tr>
+								<td colspan="5"><h3>Managers</h3></td>
+							</tr>
+							<tr>
+								<c:forEach items="${managers}" var="manager" varStatus="c">
+									<td>
+										<div class="card" style="width: 20rem;">
+											<img class="card-img-top"
+												src="${contextPath}/resources/portraits/${manager.protraitPath==null?'noimg.png':manager.protraitPath}"
+												alt="Portrait" width="170px">
+											<div class="card-block">
+												<h5 class="card-title">${manager.name}</h5>
+												<p class="card-text">${manager.position}</p>
+											</div>
 										</div>
-									</div>
-								</td>
+									</td>
 									<c:if test="${c.count % 5 == 0}">
-										</tr><tr>
-									</c:if>
-							</c:forEach>
+							</tr>
+							<tr>
+								</c:if>
+								</c:forEach>
 							</tr>
 						</thead>
 						<tbody>
-						<tr><td colspan="5"><h3>Staffs</h3></td></tr><tr>
-							<c:forEach items="${staffs}" var="staff" varStatus="c">
-								<td>
-									<div class="card" style="width: 20rem;">
-										<img class="card-img-top" width="150px"
-											src="${contextPath}/resources/portraits/${staff.protraitPath==null?'noimg.png':staff.protraitPath}"
-											alt="Portrait">
-										<div class="card-block">
-											<h5 class="card-title">${staff.name}</h5>
-											<h6 class="card-text">${staff.position}</h6>
+							<tr>
+								<td colspan="5"><h3>Staffs</h3></td>
+							</tr>
+							<tr>
+								<c:forEach items="${staffs}" var="staff" varStatus="c">
+									<td>
+										<div class="card" style="width: 20rem;">
+											<img class="card-img-top" width="150px"
+												src="${contextPath}/resources/portraits/${staff.protraitPath==null?'noimg.png':staff.protraitPath}"
+												alt="Portrait">
+											<div class="card-block">
+												<h5 class="card-title">${staff.name}</h5>
+												<h6 class="card-text">${staff.position}</h6>
+											</div>
 										</div>
-									</div>
-								</td>
-								<c:if test="${c.count % 5 == 0}">
-										</tr><tr>
-									</c:if>
-							</c:forEach>
+									</td>
+									<c:if test="${c.count % 5 == 0}">
+							</tr>
+							<tr>
+								</c:if>
+								</c:forEach>
 							</tr>
 						</tbody>
 					</table>
@@ -357,8 +389,7 @@
 	<jsp:include page="manage/modal_editself.jsp" />
 
 	<!-- jQuery -->
-	<script
-		src="${contextPath}/resources/vendor/jquery/jquery.min.js"></script>
+	<script src="${contextPath}/resources/vendor/jquery/jquery.min.js"></script>
 
 	<!-- Bootstrap Core JavaScript -->
 	<script
@@ -369,15 +400,28 @@
 		src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
 
 	<!-- Contact Form JavaScript -->
-	<script
-		src="${contextPath}/resources/js/jqBootstrapValidation.js"></script>
-	<script
-		src="${contextPath}/resources/js/contact_me.js"></script>
+	<script src="${contextPath}/resources/js/jqBootstrapValidation.js"></script>
+	<script src="${contextPath}/resources/js/contact_me.js"></script>
 
 	<!-- Theme JavaScript -->
-	<script
-		src="${contextPath}/resources/js/freelancer.min.js"></script>
+	<script src="${contextPath}/resources/js/freelancer.min.js"></script>
 
+	<script type="text/javascript">
+		$('input[name = "modeSearch"]').click(function() {
+			switch($(this).val()){
+			case 'namelike' :
+				//TODO
+				break;
+			case 'bymng' :
+				//TODO
+				break;
+			case 'staffid' :
+				//TODO
+				break;
+			default : //TODO
+			}
+		});
+	</script>
 </body>
 
 </html>

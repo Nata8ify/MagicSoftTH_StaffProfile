@@ -107,7 +107,7 @@ public class StaffManager implements StaffManagementInterface {
 	@Override
 	public List<Staff> getEntireStaffs() {
 		// String sql = "SELECT * FROM `Staff`;";
-		String sql = "SELECT s.*, sm.name AS managerName FROM `Staff` s LEFT JOIN Staff sm on s.`hostManagerId` = sm.staffId;";
+		String sql = "SELECT s.*, sm.name AS managerName FROM `Staff` s LEFT JOIN Staff sm on s.`hostManagerId` = sm.staffId ;";
 		// String sql = "SELECT s.*, sm.name AS managerName FROM `Staff` s JOIN
 		// StaffAccess sa on s.`staffId` = sa.staffId;";
 		return jdbcTemplate.query(sql, new StaffOnMoreDetailsMapper());
@@ -127,14 +127,14 @@ public class StaffManager implements StaffManagementInterface {
 
 	@Override
 	public List<Staff> getTotalManagers() {
-		String sql = "SELECT * FROM `Staff` WHERE  `staffType` = ?;";
+		String sql = "SELECT * FROM `Staff` WHERE  `staffType` = ? ;";
 		return jdbcTemplate.query(sql, new Object[] { Staff.TYPE_MANAGER }, new StaffMapper());
 	}
 
 	@Override
 	public List<Staff> getTotalStaffs() {
-		String sql = "SELECT * FROM `Staff` WHERE  `staffType` = ?;";
-		return jdbcTemplate.query(sql, new Object[] { Staff.TYPE_STAFF }, new StaffMapper());
+		String sql = "SELECT * FROM `Staff` WHERE  `staffType` = ? OR `staffType` = ? ;";
+		return jdbcTemplate.query(sql, new Object[] { Staff.TYPE_STAFF, Staff.TYPE_ADMINISTRATOR }, new StaffMapper());
 	}
 
 	@Override

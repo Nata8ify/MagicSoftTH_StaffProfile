@@ -6,7 +6,7 @@
 				<h4 class="modal-title">PROFILE EDITOR</h4>
 			</div>
 			<div class="modal-body">
-				<form name="edit-self-form" id="edit-self-form" action="editPerson.f" method="post" enctype="multipart/form-data">
+				<form name="edit-self-form" id="edit-self-form" action="editSelf.f" method="post" enctype="multipart/form-data">
 					<div class="row control-group">
 						<div
 							class="form-group col-xs-12 floating-label-form-group controls">
