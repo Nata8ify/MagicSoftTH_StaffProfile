@@ -91,8 +91,10 @@ public class StaffManager implements StaffManagementInterface {
 
 	@Override
 	public boolean deleteStaffById(String staffId) {
-		String sql = "DELETE FROM `Staff` WHERE `staffId` = ?;";
-		return jdbcTemplate.update(sql, new Object[] { staffId }) > 0;
+		String sqlDelFromStaff = "DELETE FROM `Staff` WHERE `staffId` = ?;";
+		String sqlDelFromStaffAccess = "DELETE FROM `StaffAccess` WHERE `staffId` = ?;";
+		jdbcTemplate.update(sqlDelFromStaffAccess, new Object[] { staffId });
+		return jdbcTemplate.update(sqlDelFromStaff, new Object[] { staffId }) > 0;
 	}
 
 	@Override

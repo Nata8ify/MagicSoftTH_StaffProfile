@@ -34,15 +34,18 @@ public class StaffManagentController {
 	private CommonsMultipartResolver multipartResolver;
 
 	private final String PORTRAIT_DIR = "/resources/portraits/";
+	private final String RESULT_PATH = "result/result";
+	private final String MANAGE_PATH = "manage/manage";
 
 	@RequestMapping(value = "/manage", method = RequestMethod.GET)
 	public String toManage(HttpServletRequest request) throws UnauthorizedAccessException {
 		// HttpServletRequest request
 		// if(request.getSession(false).getAttribute("thisStaff"))));
-		if (request.getSession(false).getAttribute("thisStaff") == null){
-			if(!((Staff)(request.getSession(false).getAttribute("thisStaff"))).getStaffType().equals(Staff.TYPE_ADMINISTRATOR))
-			throw new UnauthorizedAccessException();
-			}
+		if (request.getSession(false).getAttribute("thisStaff") == null) {
+			if (!((Staff) (request.getSession(false).getAttribute("thisStaff"))).getStaffType()
+					.equals(Staff.TYPE_ADMINISTRATOR))
+				throw new UnauthorizedAccessException();
+		}
 		return "manage/manage";
 	}
 
@@ -123,22 +126,19 @@ public class StaffManagentController {
 	}
 
 	@RequestMapping(value = "/deletePerson", method = RequestMethod.POST)
-	public String insertPerson(Model model, @RequestParam(value = "staffId", required = true) String staffId,
-			@RequestParam(value = "deleteType", required = true) String deleteType) {
+	public String insertPerson(Model model, 
+			@RequestParam(value = "staffId", required = true) String staffId,
+			@RequestParam(value = "ajax", required = true, defaultValue = "false") boolean ajax) {
 		// Checking Is this an Administrator Account Roll.
-		switch (deleteType) {
-		case Staff.TYPE_STAFF:
-			if (staffManager.deleteStaffById(staffId)) {
-				model.addAttribute("msg", "สำเร็จ!");
-			} else {
-				model.addAttribute("msg", "ไม่สำเร็จ!");
+		boolean isSuccessDelete = staffManager.deleteStaffById(staffId);
+		if (staffManager.deleteStaffById(staffId)) {
+			if (ajax) {
+				model.addAttribute("results", isSuccessDelete);
+				return RESULT_PATH;
 			}
-			break;
-		case Staff.TYPE_MANAGER:
-			break;
-		case Staff.TYPE_ADMINISTRATOR:
-			break;
-		default: // TODO
+			model.addAttribute("msg", "สำเร็จ!");
+		} else {
+			model.addAttribute("msg", "ไม่สำเร็จ!");
 		}
 		return "redirect:managechoice?to=explore";
 	}
@@ -171,6 +171,7 @@ public class StaffManagentController {
 			@RequestParam(value = "tel", required = true) String tel,
 			@RequestParam(value = "division", required = true) String division,
 			@RequestParam(value = "position", required = true) String position,
+			@RequestParam(value = "protraitPathOld", required = false) String protraitPathOld,
 			@RequestParam(value = "protraitPath", required = false) MultipartFile img,
 			@RequestParam(value = "hostManagerId", required = false) String hostManagerId,
 			@RequestParam(value = "password", required = false) String password,
@@ -178,12 +179,13 @@ public class StaffManagentController {
 			throws IllegalStateException, IOException {
 		MultipartHttpServletRequest mrequest = multipartResolver.resolveMultipart(request);
 		Staff staff = new Staff(staffId, name, email, tel, division, position, null, hostManagerId, gender, editType);
-		logger.info(staff.toString()+" PWD : "+password);
+		logger.info(staff.toString() + " PWD : " + password);
 		String imgName = img.isEmpty() ? Staff.getStaffInstance().getProtraitPath()
 				: Generator.getInstance().genImageName(img.getOriginalFilename());
 		if (!img.isEmpty()) {
 			img.transferTo(new File(mrequest.getRealPath(PORTRAIT_DIR) + imgName));
-			File oldImg = new File(mrequest.getRealPath(PORTRAIT_DIR + Staff.getStaffInstance().getProtraitPath()));
+			logger.info("protraitInputName : "+protraitPathOld);
+			File oldImg = new File(mrequest.getRealPath(PORTRAIT_DIR + protraitPathOld));
 			oldImg.delete();
 			if (staffManager.editStaff(
 					new Staff(staffId, name, email, tel, division, position, imgName, hostManagerId, gender, editType),

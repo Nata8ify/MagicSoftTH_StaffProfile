@@ -64,13 +64,13 @@
 
 <!-- styles -->
 <link href="${resContextPath}admcss/styles.css" rel="stylesheet">
-	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-	<script src="https://code.jquery.com/jquery-3.2.1.min.js"
-		integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-		crossorigin="anonymous"></script>
-	<!-- Include all compiled plugins (below), or include individual files as needed -->
-	<script src="${resContextPath}vendor/bootstrap/js/bootstrap.min.js"></script>
-	<script src="${resContextPath}admjs/custom.js"></script>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"
+	integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+	crossorigin="anonymous"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="${resContextPath}vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="${resContextPath}admjs/custom.js"></script>
 
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -214,15 +214,15 @@
 												"columnDefs" : [
 														{
 															"targets" : 0,
-															"data" : null,
+															"data" : "protraitPath",
 															"searchable" : false,
 															"render" : function(
 																	url, type,
-																	full) {
-																var imgSource = full[0] == null ? "${resContextPath}portraits/noimg.png"
+																	row, meta) {
+																var imgSource = row.protraitPath == null ? "${resContextPath}portraits/noimg.png"
 																		: "${resContextPath}/portraits/"
-																				+ full[0];
-																return '<img src="'+imgSource+'" width="150px" alt="Portrait"/>';
+																				+ row.protraitPath;
+																return '<img src="'+imgSource+'" width="100px" alt="Portrait"/>';
 															}
 														},
 														{
@@ -251,7 +251,6 @@
 				'click',
 				'tr .staff-edit',
 				function() {
-					console.log("DDD");
 					var thisStaffId = staffTable.row($(this).parents('tr'))
 							.data().staffId;
 					$.each(staffList, function(index, value) {
@@ -265,7 +264,8 @@
 							$('#position').val(value.position);
 							$('#gender').val(value.gender);
 							$('#hostManagerId').val(value.hostManagerId);
-							return;
+							$('#protraitPathOld').val(value.protraitPath);
+							console.log(value.protraitPath);
 						}
 					})
 					$('#modal-staff-edit').modal();

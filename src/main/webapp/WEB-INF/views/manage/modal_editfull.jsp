@@ -86,7 +86,7 @@
 						<div
 							class="form-group col-xs-12 floating-label-form-group controls">
 							<label for="protraitPath">Portrait Image</label> <input
-								type="file" class="form-control" id="protraitPath"
+								type="file" class="form-control" id="protraitPathNew"
 								name='protraitPath'>
 							<p class="help-block text-danger"></p>
 						</div>
@@ -100,7 +100,8 @@
 							<label for="password">Password</label> <input type="password"
 								class="form-control" placeholder="Password" id="password"
 								name='password' required
-								data-validation-required-message="Please enter Password." disabled>
+								data-validation-required-message="Please enter Password."
+								disabled>
 							<p class="help-block text-danger"></p>
 						</div>
 						<div class="row control-group">
@@ -110,18 +111,24 @@
 									type="password" class="form-control"
 									placeholder="Confirm Password" id="cofmpassword"
 									name='cofmpassword' required
-									data-validation-required-message="Confirm New-password."  disabled>
+									data-validation-required-message="Confirm New-password."
+									disabled>
 								<p class="help-block text-danger"></p>
 							</div>
 						</div>
 					</div>
 					<div class="row control-group">
 						<div class="form-group col-xs-6  controls">
-							<input type="checkbox" class="" id="chkprvpass" name='chkprvpass' checked='true'>
-							: Leave to Staff's Original.
+							<input type="checkbox" class="" id="chkprvpass" name='chkprvpass'
+								checked> : Refer to Staff's Original.
+						</div>
+						<div class="form-group col-xs-6  controls">
+							<a href='#' style='color: red' id='lnk-delstaff'>Delete This
+								Staff from The System</a>
 						</div>
 					</div>
-					<input type="hidden" id="hostManagerId" value="" /> <br>
+					<input type="hidden" id="hostManagerId" name="hostManagerId"/> <br>
+					<input type="hidden" id="protraitPathOld" name="protraitPathOld"/> <br>
 					<div id="success"></div>
 					<div class="row">
 						<div class="form-group col-xs-12">
@@ -140,12 +147,29 @@
 <script>
 	////
 	$('#chkprvpass').click(function() {
-		if($('#chkprvpass').is(":checked")){
+		if ($('#chkprvpass').is(":checked")) {
 			$('#password').prop('disabled', true);
 			$('#cofmpassword').prop('disabled', true);
 		} else {
 			$('#password').prop('disabled', false);
 			$('#cofmpassword').prop('disabled', false);
+		}
+	});
+
+	$('#lnk-delstaff').click(function() {
+		/* document.location = "deletePerson?staffId="+$('#staffId').val(value.staffId); */
+		if(confirm("Please, Confirm this Permantly Staff Deleting Action...")){
+		$.ajax({
+			"url" : "deletePerson",
+			"type" : "POST",
+			"data" : {
+				ajax : true,
+				staffId : $('#staffId').val()
+			},
+			"success" : function(result) {
+				alert("Should be deled!");
+			}
+		});
 		}
 	});
 </script>
