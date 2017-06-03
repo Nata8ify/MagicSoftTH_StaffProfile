@@ -135,11 +135,17 @@ public class Staff {
 		this.hostManagerId = hostManagerId;
 	}
 
+	
+
 	@Override
 	public String toString() {
-		return "*รหัสบุคคล=" + staffId + ", *ชื่อ-สกุล=" + name + ", *Email=" + email + ", *Tel=" + tel + ", *แผนก="
-				+ division + ", *ที่อยู่ของรูปภาพ=" + protraitPath + " *รหัสบุคคลหัวหน้าแผนก : " + hostManagerId + "=]";
+		return "Staff [staffId=" + staffId + ", name=" + name + ", email=" + email + ", tel=" + tel + ", division="
+				+ division + ", position=" + position + ", protraitPath=" + protraitPath + ", hostManagerId="
+				+ hostManagerId + ", gender=" + gender + ", staffType=" + staffType + ", hostManagerName="
+				+ hostManagerName + "]";
 	}
+
+
 
 	private String hostManagerName;
 

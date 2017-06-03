@@ -39,7 +39,7 @@
 					<div class="col-lg-8 col-lg-offset-2">
 						<!-- To configure the contact form email address, go to mail/contact_me.php and update the email address in the PHP file on line 19. -->
 						<!-- The form should work on most web servers, but if the form is not working you may need to configure your web server differently. -->
-						<form name="signInForm" id="signInForm" novalidate action="admlogin"
+						<form name="signInForm" id="signInForm" action="admlogin"
 							method="POST">
 							<div class="row control-group">
 								<div
@@ -48,7 +48,7 @@
 										class="form-control text-center" placeholder="Staff ID" id="staffId"
 										name='staffId' required
 										data-validation-required-message="Please enter your Staff ID."
-										value="">
+										value="M60001">
 									<p class="help-block text-danger"></p>
 								</div>
 							</div>
@@ -59,7 +59,7 @@
 										class="form-control text-center" placeholder="Password" id="password"
 										name='password' required
 										data-validation-required-message="Please enter your Password."
-										value="">
+										value="4123">
 									<p class="help-block text-danger"></p>
 								</div>
 							</div>

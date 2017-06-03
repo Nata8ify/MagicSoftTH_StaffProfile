@@ -109,7 +109,7 @@
 							class="collapse navbar-collapse bs-navbar-collapse navbar-right"
 							role="navigation">
 							<ul class="nav navbar-nav">
-								<li><a href="logout">Logout</a></li>
+								<li><a href="logout">Logout ${msg }</a></li>
 							</ul>
 						</nav>
 					</div>
@@ -144,7 +144,6 @@
 				</div>
 			</div>
 			<div class="col-md-10">
-
 				<div class="row">
 					<c:choose>
 						<c:when test="${manage == 'mngeditor'}">
@@ -265,6 +264,7 @@
 							$('#division').val(value.division);
 							$('#position').val(value.position);
 							$('#gender').val(value.gender);
+							$('#hostManagerId').val(value.hostManagerId);
 							return;
 						}
 					})

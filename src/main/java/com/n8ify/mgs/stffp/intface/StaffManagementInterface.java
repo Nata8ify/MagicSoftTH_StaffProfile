@@ -7,9 +7,9 @@ import com.n8ify.mgs.stffp.model.Staff;
 public interface StaffManagementInterface {
 	public boolean insertStaff(Staff staff, String password);
 
-	public boolean editStaff(Staff staff);
+	public boolean editStaff(Staff staff, String newPassword);
 
-	public boolean editStaffForNoImage(Staff staff);
+	public boolean editStaffForNoImage(Staff staff, String newPassword);
 	
 	public boolean editSelfStaff(Staff staff, String newPassword);
 

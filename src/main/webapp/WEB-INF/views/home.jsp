@@ -150,7 +150,7 @@
 									<div class="card" style="width: 20rem;">
 										<img class="card-img-top"
 											src="${contextPath}/resources/portraits/${manager.protraitPath==null?'noimg.png':manager.protraitPath}"
-											alt="Portrait">
+											alt="Portrait" width="170px">
 										<div class="card-block">
 											<h5 class="card-title">${manager.name}</h5>
 											<p class="card-text">${manager.position}</p>

@@ -116,7 +116,6 @@
 	<br /> <br />
 </div>
 <script>
-	//<-- Problem...
 	$('#insertType').on('change', function() {
 		if ($('#insertType').val() == "m") {
 			$('#btn-assign-mng').prop('disabled', true);
