@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.n8ify.mgs.stffp.dealer.SttfpAccess;
+import com.n8ify.mgs.stffp.excp.UnauthorizedAccessException;
 import com.n8ify.mgs.stffp.model.Staff;
 import com.n8ify.mgs.stffp.model.StaffAccess;
 
@@ -39,6 +40,25 @@ public class StaffAccessController {
 			return "home";
 		}
 		return "manage/manage"; 
+	}	
+	
+	@RequestMapping(value = "/admlogin")
+	public String adminLogin(Model model, HttpServletRequest request,
+			@RequestParam(value = "staffId", required = true)String staffId,
+			@RequestParam(value = "password", required = true)String password) throws UnauthorizedAccessException {
+		if(request.getSession(false).getAttribute("thisStaff") != null){
+			request.getSession(false).invalidate();
+		}
+		Staff staff = sttfpAccess.login(staffId, password, Staff.TYPE_ADMINISTRATOR);
+		if(staff.getStaffId().equals(staffId)){
+			Staff.setStaffInstance(staff);
+			StaffAccess.setAccessInstance(new StaffAccess(staffId, password));
+			request.getSession(true).setAttribute("thisStaff", staff);
+			request.getSession(true).setAttribute("thisStaffAccess", StaffAccess.getAccessInstance());
+			logger.info("SESSION CREATED FOR ADMIN :"+staff.getStaffId());
+			return "manage/manage";
+		}
+		throw new UnauthorizedAccessException(); 
 	}	
 	
 	@RequestMapping("/logout")

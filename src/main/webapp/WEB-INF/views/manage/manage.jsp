@@ -1,5 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page session="false"%>
+<%@ page session="true"%>
 <%@page contentType="text/html; charset=UTF-8"%>
 <c:set var="resContextPath"
 	value="${pageContext.request.contextPath}/resources/" />
@@ -109,10 +109,7 @@
 							class="collapse navbar-collapse bs-navbar-collapse navbar-right"
 							role="navigation">
 							<ul class="nav navbar-nav">
-								<li class="dropdown"><a href="#" class="dropdown-toggle"
-									data-toggle="dropdown">${thisStaff.name}</a>
-								<li>${thisStaff != null ? '<a href="logout">Logout</a>':'-'}
-								</li>
+								<li><a href="logout">Logout</a></li>
 							</ul>
 						</nav>
 					</div>

@@ -60,7 +60,7 @@
 						class="fa fa-bars"></i>
 				</button>
 				<a class="navbar-brand" href="#page-top">
-					${thisStaff.name==null?'STFFPF': 'Welcome! '}${thisStaff.name}${thisStaff.name==null?'': '<i><u><a href="#" data-toggle="modal" data-target="#modal-signin">Edit</a></u> <i>'}</a>
+					${thisStaff.name==null?'STFFPF': 'Welcome! '}${thisStaff.name}${thisStaff.name==null?'': '<i><u><a href="#" data-toggle="modal" data-target="#modal-editself">Edit</a></u> <i>'}</a>
 			</div>
 
 			<!-- Collect the nav links, forms, and other content for toggling -->
@@ -143,13 +143,9 @@
 					<br>
 					<table class="table table-responsive">
 						<thead>
+						
 						<tr><td colspan="5"><h3>Managers</h3></td></tr>
-							<c:forEach items="${managers}" var="manager" varStatus="c">
-								<c:choose>
-									<c:when test="${c.first}">
-										<tr>
-									</c:when>
-								</c:choose>
+						<tr><c:forEach items="${managers}" var="manager" varStatus="c">
 								<td>
 									<div class="card" style="width: 20rem;">
 										<img class="card-img-top"
@@ -161,24 +157,15 @@
 										</div>
 									</div>
 								</td>
-								<c:choose>
-									<c:when test="${c.index % 5 == 0}">
-										<br></tr><tr>
-									</c:when>
-									<c:when test="${c.last}">
-										</tr>
-									</c:when>
-								</c:choose>
+									<c:if test="${c.count % 5 == 0}">
+										</tr><tr>
+									</c:if>
 							</c:forEach>
+							</tr>
 						</thead>
 						<tbody>
-						<tr><td colspan="5"><h3>Staffs</h3></td></tr>
+						<tr><td colspan="5"><h3>Staffs</h3></td></tr><tr>
 							<c:forEach items="${staffs}" var="staff" varStatus="c">
-								<c:choose>
-									<c:when test="${c.first}">
-										<tr>
-									</c:when>
-								</c:choose>
 								<td>
 									<div class="card" style="width: 20rem;">
 										<img class="card-img-top" width="150px"
@@ -190,15 +177,11 @@
 										</div>
 									</div>
 								</td>
-								<c:choose>
-									<c:when test="${c.index % 4 == 0 && !c.first}">
-										<br></tr><tr>
-									</c:when>
-									<c:when test="${c.last}">
-										</tr>
-									</c:when>
-								</c:choose>
+								<c:if test="${c.count % 5 == 0}">
+										</tr><tr>
+									</c:if>
 							</c:forEach>
+							</tr>
 						</tbody>
 					</table>
 				</div>
@@ -234,7 +217,7 @@
 							<div class="row control-group">
 								<div
 									class="form-group col-xs-12 floating-label-form-group controls">
-									<label for="Staff ID">Name</label> <input type="text"
+									<label for="Staff ID">Staff ID</label> <input type="text"
 										class="form-control" placeholder="Staff ID" id="staffId"
 										name='staffId' required
 										data-validation-required-message="Please enter your Staff ID."

@@ -5,7 +5,6 @@ import java.util.Date;
 
 import javax.sql.DataSource;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 public class Generator {
@@ -59,7 +58,16 @@ public class Generator {
 		String mgsIdSuffix = "";
 		String sql = "SELECT MAX(`staffId`) FROM `Staff`;";
 		mgsIdSuffix = this.jdbcTemplate.queryForObject(sql, String.class);
-		return mgsIdPrefix.concat(mgsIdSuffix);
+			String orderDigits = String.valueOf(Integer.valueOf(mgsIdSuffix.substring(3))+1);
+			if(orderDigits.length()==2){
+				return mgsIdPrefix.concat("0".concat(orderDigits));
+			}
+			else if(orderDigits.length()==1){
+				return mgsIdPrefix.concat("00".concat(orderDigits));
+			}
+			else{
+				return mgsIdPrefix.concat("".concat(orderDigits));
+			}
 	}
 	
 }

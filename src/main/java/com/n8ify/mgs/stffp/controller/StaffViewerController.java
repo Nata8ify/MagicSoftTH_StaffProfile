@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.n8ify.mgs.stffp.dealer.StaffManager;
 
@@ -25,7 +24,7 @@ public class StaffViewerController {
 	private GsonBuilder gsonb;
 	
 	@RequestMapping(value = "/viewAll", method = RequestMethod.GET)
-	public String viewAllStaff(Model model,
+	public String viewAll(Model model,
 			@RequestParam(value = "json", required = true, defaultValue = "false")boolean json) {
 		
 		if(json){
@@ -37,6 +36,30 @@ public class StaffViewerController {
 		return "list";
 	}
 
+	@RequestMapping(value = "/viewAllMngs", method = RequestMethod.GET)
+	public String viewAllManager(Model model,
+			@RequestParam(value = "json", required = true, defaultValue = "false")boolean json) {
+		if(json){
+			gsonb.serializeNulls();
+			model.addAttribute("results", gsonb.create().toJson(staffManager.getTotalManagers()));
+			return "result/result";
+		}
+		model.addAttribute("staffs", staffManager.getEntireStaffs());
+		return "list";
+	}
+	
+	@RequestMapping(value = "/viewAllStaffs", method = RequestMethod.GET)
+	public String viewAllStaffs(Model model,
+			@RequestParam(value = "json", required = true, defaultValue = "false")boolean json) {
+		if(json){
+			gsonb.serializeNulls();
+			model.addAttribute("results", gsonb.create().toJson(staffManager.getTotalStaffs()));
+			return "result/result";
+		}
+		model.addAttribute("staffs", staffManager.getEntireStaffs());
+		return "list";
+	}
+	
 	@RequestMapping(value = "/searchNameLike", method = RequestMethod.GET)
 	public String viewNameLikedStaff(Model model,
 			@RequestParam(value = "searchWord", required = true) String searchWord) {

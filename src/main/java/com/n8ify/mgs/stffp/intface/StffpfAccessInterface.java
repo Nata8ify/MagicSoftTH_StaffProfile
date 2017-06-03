@@ -6,6 +6,8 @@ public interface StffpfAccessInterface {
 	
 	public Staff login(String staffId, String password);
 
+	public Staff login(String staffId, String password, String staffType);
+	
 	public Staff getProfile(String staffId);
 
 	 

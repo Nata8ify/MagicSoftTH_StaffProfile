@@ -8,19 +8,17 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import com.n8ify.mgs.stffp.dealer.StaffManager;
+import com.n8ify.mgs.stffp.excp.UnauthorizedAccessException;
 import com.n8ify.mgs.stffp.model.Staff;
 import com.n8ify.mgs.stffp.utils.Generator;
 
@@ -40,14 +38,16 @@ public class StaffManagentController {
 	@RequestMapping(value = "/manage", method = RequestMethod.GET)
 	public String toManage() {
 		// HttpServletRequest request
-		// logger.info(((Staff)(request.getSession(false).getAttribute("thisStaff"))).toString());
+		// if(request.getSession(false).getAttribute("thisStaff"))));
 		return "manage/manage";
 	}
 
 	@RequestMapping(value = "/managechoice", method = RequestMethod.GET)
-	public String toManageByCase(Model model, @RequestParam(value = "to") String to) {
+	public String toManageByCase(Model model, HttpServletRequest request, @RequestParam(value = "to") String to)
+			throws UnauthorizedAccessException {
 		// HttpServletRequest request
-		// logger.info(((Staff)(request.getSession(false).getAttribute("thisStaff"))).toString());
+		if (request.getSession(false).getAttribute("thisStaff") == null)
+			throw new UnauthorizedAccessException();
 		switch (to) {
 		case "addstaff":
 			model.addAttribute("manage", "add");
@@ -56,7 +56,8 @@ public class StaffManagentController {
 			model.addAttribute("manage", "mngeditor");
 			break;
 		default:
-			toManage();
+			model.addAttribute("manage", "explore");
+			;
 			break;
 		}
 		return "manage/manage";
@@ -77,10 +78,11 @@ public class StaffManagentController {
 		// Checking Is this an Administrator Account Roll.
 		switch (insertType) {
 		case Staff.TYPE_STAFF:
-			if (staffManager.insertStaff(
-					new Staff(staffId, name, email, tel, division, position, protraitPath, hostManagerId, gender,
-							Staff.TYPE_STAFF),
-					password.equals("") ? Generator.getInstance().genPassword() : password)) {
+			if (staffManager
+					.insertStaff(
+							new Staff(staffId, name, email, tel, division, position, protraitPath, hostManagerId,
+									gender, insertType),
+							password.equals("") ? Generator.getInstance().genPassword() : password)) {
 				model.addAttribute("msg", "สำเร็จ!");
 			} else {
 				model.addAttribute("msg", "ไม่สำเร็จ!");
@@ -190,21 +192,20 @@ public class StaffManagentController {
 			} else {
 				model.addAttribute("msg", "ไม่สำเร็จ!");
 			}
-		}else{ //<-- Need Test
-			if (staffManager.editStaffForNoImage(new Staff(staffId, name, email, tel, division, position, null, hostManagerId,
-					gender, editType))) {
+		} else { // <-- Need Test
+			if (staffManager.editStaffForNoImage(
+					new Staff(staffId, name, email, tel, division, position, null, hostManagerId, gender, editType))) {
 				model.addAttribute("msg", "สำเร็จ!");
 			} else {
 				model.addAttribute("msg", "ไม่สำเร็จ!");
 			}
 		}
-		
+
 		return toManage();
 	}
 
 	@RequestMapping(value = "/editSelf.f", method = RequestMethod.POST, headers = "content-type=multipart/*")
 	public String editSelfWithPortrait(Model model, HttpServletRequest request,
-			@RequestParam(value = "staffId", required = true) String staffId,
 			@RequestParam(value = "protraitPath") MultipartFile img) throws IllegalStateException, IOException {
 		logger.info("IS MULT : " + multipartResolver.isMultipart(request));
 		MultipartHttpServletRequest mrequest = multipartResolver.resolveMultipart(request);
@@ -220,12 +221,10 @@ public class StaffManagentController {
 				new Staff(mrequest.getParameter("staffId"), mrequest.getParameter("name"),
 						mrequest.getParameter("email"), mrequest.getParameter("tel"), imgName),
 				mrequest.getParameter("password"))) {
-			logger.info("UPDATED" + mrequest.getPathInfo() + ":::: staffId " + staffId);//
 			return "redirect:login?staffId=" + mrequest.getParameter("staffId") + "&password="
 					+ mrequest.getParameter("password");
 
 		}
-
 		return "home";
 	}
 
@@ -241,33 +240,20 @@ public class StaffManagentController {
 			@RequestParam(value = "hostManagerId", required = false) String hostManagerId,
 			@RequestParam(value = "password", required = false) String password,
 			@RequestParam(value = "insertType", required = true) String insertType,
-			MultipartHttpServletRequest mrequest, @RequestParam(value = "protraitPath") MultipartFile img) {
+			MultipartHttpServletRequest mrequest, @RequestParam(value = "protraitPath") MultipartFile img) throws IllegalStateException, IOException {
 		// Checking Is this an Administrator Account Roll.
-
-		logger.info(new Staff(staffId, name, email, tel, division, position,
-				!img.isEmpty() ? null : Generator.getInstance().genImageName(img.getOriginalFilename()),
-				mrequest.getParameter("hostManagerId"), gender, Staff.TYPE_STAFF).toString());
-		switch (insertType) {
-		case Staff.TYPE_STAFF:
-			if (staffManager
-					.insertStaff(
-							new Staff(staffId, name, email, tel, division, position,
-									img.isEmpty() ? null
-											: Generator.getInstance().genImageName(img.getOriginalFilename()),
-									hostManagerId, gender, Staff.TYPE_STAFF),
-							password.equals("") ? Generator.getInstance().genPassword() : password)) {
-				model.addAttribute("msg", "สำเร็จ!");
-			} else {
-				model.addAttribute("msg", "ไม่สำเร็จ!");
-			}
-			break;
-		case Staff.TYPE_MANAGER:
-			break;
-		case Staff.TYPE_ADMINISTRATOR:
-			break;
-		default: // TODO
+		logger.info("i.f");
+		String imgName = img.isEmpty() ? null : Generator.getInstance().genImageName(img.getOriginalFilename());
+		if (staffManager.insertStaff(
+				new Staff(staffId, name, email, tel, division, position, imgName,
+						hostManagerId, gender, insertType),
+				password.equals("") ? Generator.getInstance().genPassword() : password)) {
+			img.transferTo(new File(mrequest.getRealPath(PORTRAIT_DIR)+imgName));
+			model.addAttribute("msg", "สำเร็จ!");
+		} else {
+			model.addAttribute("msg", "ไม่สำเร็จ!");
 		}
-		return toManage();
+		return "redirect:managechoice?to=add";
 	}
 
 	// private String imageVerify(MultipartFile img, MultipartHttpServletRequest
