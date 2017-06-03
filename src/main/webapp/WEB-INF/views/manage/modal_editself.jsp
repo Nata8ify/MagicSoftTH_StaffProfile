@@ -3,7 +3,7 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
-				<h4 class="modal-title">PROFILE EDITOR</h4>
+				<h4 class="modal-title">Profile Editor</h4>
 			</div>
 			<div class="modal-body">
 				<form name="edit-self-form" id="edit-self-form" action="editSelf.f" method="post" enctype="multipart/form-data">

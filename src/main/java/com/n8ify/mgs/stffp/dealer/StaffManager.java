@@ -138,6 +138,15 @@ public class StaffManager implements StaffManagementInterface {
 		String sql = "SELECT * FROM `Staff` WHERE  `staffType` = ? OR `staffType` = ? ;";
 		return jdbcTemplate.query(sql, new Object[] { Staff.TYPE_STAFF, Staff.TYPE_ADMINISTRATOR }, new StaffMapper());
 	}
+	
+
+	@Override
+	public List<Staff> getTotalUnassignedStaffs() {
+		String sql = "SELECT * FROM `Staff` WHERE  `staffType` = ? OR `staffType` = ? AND hostManagerId IS NULL;";
+		return jdbcTemplate.query(sql, new Object[] { Staff.TYPE_STAFF, Staff.TYPE_ADMINISTRATOR }, new StaffMapper());
+	
+	}
+
 
 	@Override
 	public boolean editPassword(String staffId, String password) {
@@ -158,6 +167,7 @@ public class StaffManager implements StaffManagementInterface {
 			staff.setDivision(rs.getString("division"));
 			staff.setPosition(rs.getString("position"));
 			staff.setProtraitPath(rs.getString("protraitPath"));
+			staff.setStaffType(rs.getString("staffType"));
 			staff.setHostManagerId(rs.getString("hostManagerId"));
 			return staff;
 		}
@@ -178,6 +188,7 @@ public class StaffManager implements StaffManagementInterface {
 			staff.setPosition(rs.getString("position"));
 			staff.setProtraitPath(rs.getString("protraitPath"));
 			staff.setHostManagerId(rs.getString("hostManagerId"));
+			staff.setStaffType(rs.getString("staffType"));
 			staff.setHostManagerName(rs.getString("managerName"));
 			return staff;
 		}

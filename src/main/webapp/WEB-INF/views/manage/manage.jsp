@@ -3,52 +3,6 @@
 <%@page contentType="text/html; charset=UTF-8"%>
 <c:set var="resContextPath"
 	value="${pageContext.request.contextPath}/resources/" />
-<%-- <html>
-<head>
-<title>Home</title>
-</head>
-<body>
-	<h1>Hello world! : ${msg}</h1>
-	<form action="insertPerson.f" method="post"
-		enctype="multipart/form-data">
-		<select name="insertType">
-			<option value="m">Manager</option>
-			<option value="s">Staff</option>
-		</select> <input type="text" name="staffId" placeholder="staffId" /><br>
-		<select name="gender">
-			<option value="m">ชาย</option>
-			<option value="f">หญิง</option>
-		</select><br> <input type="text" name="name" placeholder="name" /><br>
-		<input type="text" name="email" placeholder="email" /><br /> <input
-			type="text" name="tel" placeholder="tel" /><br>
-		<input type="file" name="protraitPath" /><br> <input type="text"
-			name="division" placeholder="division" /><br> <input
-			type="text" name="position" placeholder="position" /><br> <input
-			type="text" name="password" placeholder="password" /><br>
-		<input type="hidden" name="insertType" value="s" /><br> <input
-			type="submit" />
-	</form>
-	<hr>
-	<form action="editPerson?editType=s" method="post">
-		<input type="text" name="staffId" placeholder="staffId" readonly
-			value="${thisStaff.staffId}" /><br> <select name="gender">
-			<option value="m">ชาย</option>
-			<option value="f">หญิง</option>
-		</select><br> <input type="text" name="name" placeholder="name" /><br>
-		<input type="text" name="email" placeholder="email" /><br> <input
-			type="text" name="tel" placeholder="tel" /><br> <input
-			type="text" name="division" placeholder="division" /><br>
-		<input type="text" name="position" placeholder="position" /><br>
-		<input type="submit" />
-	</form>
-	<hr>
-	<form action="deletePerson?deleteType=s" method="post">
-		<input type="text" name="staffId" placeholder="staffId" /><br> <input
-			type="submit" />
-	</form>
-	<P>The time on the server is ${serverTime}.</P>
-</body>
-</html> --%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -147,7 +101,7 @@
 				<div class="row">
 					<c:choose>
 						<c:when test="${manage == 'mngeditor'}">
-							<jsp:include page="include_mngeditor.jsp" />
+							<jsp:include page="include_mngeditor.jsp" flush="true" />
 						</c:when>
 						<c:when test="${manage == 'add'}">
 							<jsp:include page="include_addstaff.jsp" />
@@ -155,6 +109,7 @@
 						<c:otherwise>
 							<jsp:include page="include_explore.jsp" />
 							<jsp:include page="modal_editfull.jsp" />
+							<jsp:include page="modal_pickmng.jsp" />
 						</c:otherwise>
 					</c:choose>
 				</div>
@@ -239,6 +194,7 @@
 	</script>
 
 	<script type="text/javascript">
+	/* modal_editfull */
 		var staffList;
 		$(document).ready(function() {
 			$.when($.ajax({
@@ -255,7 +211,7 @@
 							.data().staffId;
 					$.each(staffList, function(index, value) {
 						if (value.staffId == thisStaffId) {
-							$('#insertType').val(value.staffType);
+							$('#editType').val(value.staffType);
 							$('#staffId').val(value.staffId);
 							$('#name').val(value.name);
 							$('#email').val(value.email);
@@ -265,11 +221,47 @@
 							$('#gender').val(value.gender);
 							$('#hostManagerId').val(value.hostManagerId);
 							$('#protraitPathOld').val(value.protraitPath);
-							console.log(value.protraitPath);
+							$('#hostManagerName-show').val(value.hostManagerName!=null?value.hostManagerName:"Unassigned");
+							console.log(value);
 						}
 					})
 					$('#modal-staff-edit').modal();
 				});
 	</script>
+	<script>
+/* modal_pickmng */
+	$('#btn-assign-mng').click(function() {
+		$.ajax({
+			"url" : "viewAllMngs?json=true",
+			"type" : "get",
+			"success" : function(mngList) {
+				$('#mnglist-tbody').html("");
+				$.each($.parseJSON(mngList), function(index, value){
+					var protraitPath = value.protraitPath;
+					var staffId = value.staffId;
+					var name = value.name;
+					$('#mnglist-tbody').append("<tr>");
+					$('#mnglist-tbody').append("<td>"+protraitPath+"</td>");
+					$('#mnglist-tbody').append("<td>"+staffId+"</td>");
+					$('#mnglist-tbody').append("<td>"+name+"</td>");
+					$('#mnglist-tbody').append("<td><button class='btn btn-default btn-assign-mng-pick' onclick='assignId(99999)'>Assign</button></td>");
+					$('#mnglist-tbody').append("</tr>");
+				});
+				$('#modal-assign-mng').modal();
+			}
+		});
+	});
+	
+function assignId(mngId){
+	alert(mngId);
+}
+</script>
+<script>
+/* include_mngeditor.jsp */
+$(document).ready(function(){
+	
+});
+
+</script>
 </body>
 </html>

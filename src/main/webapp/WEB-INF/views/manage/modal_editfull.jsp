@@ -3,7 +3,7 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
-				<h4 class="modal-title">PROFILE EDITOR</h4>
+				<h4 class="modal-title">Profile Editor</h4>
 			</div>
 			<div class="modal-body">
 				<form name="staff-edit-form" id="staff-edit-form"
@@ -84,6 +84,20 @@
 					</div>
 					<div class="row control-group">
 						<div
+							class="form-group col-xs-6 floating-label-form-group controls">
+							<label for="hostManagerName-show">Staff's Manager</label> <input
+								type="text" class="form-control" id="hostManagerName-show"
+								disabled>
+						</div>
+						<input type="hidden" id="hostManagerId" name="hostManagerId" /> <br>
+						<div
+							class="form-group col-xs-6 floating-label-form-group controls">
+							<button type="button" class='btn btn-info'
+								id='btn-assign-mng'>Assign Manager</button>
+						</div>
+					</div>
+					<div class="row control-group">
+						<div
 							class="form-group col-xs-12 floating-label-form-group controls">
 							<label for="protraitPath">Portrait Image</label> <input
 								type="file" class="form-control" id="protraitPathNew"
@@ -127,8 +141,8 @@
 								Staff from The System</a>
 						</div>
 					</div>
-					<input type="hidden" id="hostManagerId" name="hostManagerId"/> <br>
-					<input type="hidden" id="protraitPathOld" name="protraitPathOld"/> <br>
+					<input type="hidden" id="protraitPathOld" name="protraitPathOld" />
+					<br>
 					<div id="success"></div>
 					<div class="row">
 						<div class="form-group col-xs-12">
@@ -156,20 +170,22 @@
 		}
 	});
 
-	$('#lnk-delstaff').click(function() {
-		/* document.location = "deletePerson?staffId="+$('#staffId').val(value.staffId); */
-		if(confirm("Please, Confirm this Permantly Staff Deleting Action...")){
-		$.ajax({
-			"url" : "deletePerson",
-			"type" : "POST",
-			"data" : {
-				ajax : true,
-				staffId : $('#staffId').val()
-			},
-			"success" : function(result) {
-				alert("Should be deled!");
-			}
-		});
-		}
-	});
+	$('#lnk-delstaff')
+			.click(
+					function() {
+						/* document.location = "deletePerson?staffId="+$('#staffId').val(value.staffId); */
+						if (confirm("Please, Confirm this Permantly Staff Deleting Action...")) {
+							$.ajax({
+								"url" : "deletePerson",
+								"type" : "POST",
+								"data" : {
+									ajax : true,
+									staffId : $('#staffId').val()
+								},
+								"success" : function(result) {
+									alert("Should be deled!");
+								}
+							});
+						}
+					});
 </script>

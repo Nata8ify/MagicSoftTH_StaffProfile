@@ -60,6 +60,9 @@ public class StaffManagentController {
 			model.addAttribute("manage", "add");
 			break;
 		case "mngeditor":
+			model.addAttribute("staffs", staffManager.getTotalStaffs());
+			model.addAttribute("unassignedStaffs", staffManager.getTotalUnassignedStaffs());
+			model.addAttribute("managers", staffManager.getTotalManagers());
 			model.addAttribute("manage", "mngeditor");
 			break;
 		default:
