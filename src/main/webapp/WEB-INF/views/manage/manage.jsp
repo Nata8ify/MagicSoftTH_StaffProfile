@@ -1,31 +1,45 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib
+	uri="http://java.sun.com/jsp/jstl/core"
+	prefix="c"
+%>
 <%@ page session="true"%>
 <%@page contentType="text/html; charset=UTF-8"%>
-<c:set var="resContextPath"
-	value="${pageContext.request.contextPath}/resources/" />
+<c:set
+	var="resContextPath"
+	value="${pageContext.request.contextPath}/resources/"
+/>
 <!DOCTYPE html>
 <html>
 <head>
 <title>STFFPS | Administrator Section</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta
+	name="viewport"
+	content="width=device-width, initial-scale=1.0"
+>
 <!-- Bootstrap -->
-<link href="${resContextPath}admbootstrap/css/bootstrap.min.css"
-	rel="stylesheet">
+<link
+	href="${resContextPath}admbootstrap/css/bootstrap.min.css"
+	rel="stylesheet"
+>
 <!-- Data Table -->
 <link
 	href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css"
-	rel="stylesheet">
-
+	rel="stylesheet"
+>
 <!-- styles -->
-<link href="${resContextPath}admcss/styles.css" rel="stylesheet">
+<link
+	href="${resContextPath}admcss/styles.css"
+	rel="stylesheet"
+>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="https://code.jquery.com/jquery-3.2.1.min.js"
+<script
+	src="https://code.jquery.com/jquery-3.2.1.min.js"
 	integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-	crossorigin="anonymous"></script>
+	crossorigin="anonymous"
+></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="${resContextPath}vendor/bootstrap/js/bootstrap.min.js"></script>
 <script src="${resContextPath}admjs/custom.js"></script>
-
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>
@@ -58,10 +72,14 @@
 					</div>
 				</div>
 				<div class="col-md-2">
-					<div class="navbar navbar-inverse" role="banner">
+					<div
+						class="navbar navbar-inverse"
+						role="banner"
+					>
 						<nav
 							class="collapse navbar-collapse bs-navbar-collapse navbar-right"
-							role="navigation">
+							role="navigation"
+						>
 							<ul class="nav navbar-nav">
 								<li><a href="logout">Logout ${msg }</a></li>
 							</ul>
@@ -71,24 +89,30 @@
 			</div>
 		</div>
 	</div>
-
 	<div class="page-content">
 		<div class="row">
 			<div class="col-md-2">
-				<div class="sidebar content-box" style="display: block;">
+				<div
+					class="sidebar content-box"
+					style="display: block;"
+				>
 					<ul class="nav">
 						<!-- Main menu -->
 						<li class="current"><a href="manage"><i
-								class="glyphicon glyphicon-search"></i> Explore</a></li>
+								class="glyphicon glyphicon-search"
+							></i> Explore</a></li>
 						<li><a href="managechoice?to=addstaff"><i
-								class="glyphicon glyphicon-plus"></i> Add</a></li>
+								class="glyphicon glyphicon-plus"
+							></i> Add</a></li>
 						<li><a href="managechoice?to=mngeditor"><i
-								class="glyphicon glyphicon-pencil"></i> Manager Editors</a></li>
+								class="glyphicon glyphicon-pencil"
+							></i> Manager Binder</a></li>
 						<li><a href="forms.html"><i
-								class="glyphicon glyphicon-tasks"></i> Forms</a></li>
+								class="glyphicon glyphicon-tasks"
+							></i> Forms</a></li>
 						<li class="submenu"><a href="#"> <i
-								class="glyphicon glyphicon-list"></i> Pages <span
-								class="caret pull-right"></span>
+								class="glyphicon glyphicon-list"
+							></i> Pages <span class="caret pull-right"></span>
 						</a> <!-- Sub menu -->
 							<ul>
 								<li><a href="login.html">Login</a></li>
@@ -101,7 +125,11 @@
 				<div class="row">
 					<c:choose>
 						<c:when test="${manage == 'mngeditor'}">
-							<jsp:include page="include_mngeditor.jsp" flush="true" />
+							<jsp:include
+								page="include_mngeditor.jsp"
+								flush="true"
+							/>
+							<jsp:include page="modal_pickmng.jsp" />
 						</c:when>
 						<c:when test="${manage == 'add'}">
 							<jsp:include page="include_addstaff.jsp" />
@@ -116,20 +144,16 @@
 			</div>
 		</div>
 	</div>
-
 	<footer>
 		<div class="container">
-
 			<div class="copy text-center">
 				Copyright 2014 <a href='#'>STFFPS</a>
 			</div>
-
 		</div>
 	</footer>
-
-
 	<script
-		src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+		src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"
+	></script>
 	<script type="text/javascript">
 		var staffTable;
 		$(document)
@@ -192,15 +216,36 @@
 											});
 						});
 	</script>
-
 	<script type="text/javascript">
 		/* modal_editfull */
 		var staffList;
+		var staffs;
+		var unassignedStaffs;
+		var managers;
 		$(document).ready(function() {
 			$.when($.ajax({
 				"url" : "${pageContext.request.contextPath}/viewAll?json=true"
 			})).then(function(json) {
 				staffList = $.parseJSON(json);
+			});
+
+			$.ajax({
+				"url" : "viewAllUnassignedStaffs?json=true",
+				"success" : function(uslist) {
+					unassignedStaffs = $.parseJSON(uslist);
+				}
+			});
+			$.ajax({
+				"url" : "viewAllStaffs?json=true",
+				"success" : function(slist) {
+					unassignedStaffs = $.parseJSON(slist);
+				}
+			});
+			$.ajax({
+				"url" : "viewAllMngs?json=true",
+				"success" : function(mlist) {
+					managers = $.parseJSON(mlist);
+				}
 			});
 		});
 		$('#staff-explore-table tbody')
@@ -249,55 +294,35 @@
 		$('#btn-assign-mng')
 				.click(
 						function() {
+							$('#mnglist-tbody').html("");
 							$
-									.ajax({
-										"url" : "viewAllMngs?json=true",
-										"type" : "get",
-										"success" : function(mngList) {
-											$('#mnglist-tbody').html("");
-											$
-													.each(
-															$
-																	.parseJSON(mngList),
-															function(index,
-																	value) {
-																var protraitPath = value.protraitPath;
-																var staffId = value.staffId;
-																var name = value.name;
-																$(
-																		'#mnglist-tbody')
-																		.append(
-																				"<tr>");
-																$(
-																		'#mnglist-tbody')
-																		.append(
-																				"<td>"
-																						+ protraitPath
-																						+ "</td>");
-																$(
-																		'#mnglist-tbody')
-																		.append(
-																				"<td>"
-																						+ staffId
-																						+ "</td>");
-																$(
-																		'#mnglist-tbody')
-																		.append(
-																				"<td>"
-																						+ name
-																						+ "</td>");
-																$(
-																		'#mnglist-tbody')
-																		.append(
-																				"<td><button class='btn btn-default btn-assign-mng-pick' onclick='assignId(99999)'>Assign</button></td>");
-																$(
-																		'#mnglist-tbody')
-																		.append(
-																				"</tr>");
-															});
-											$('#modal-assign-mng').modal();
-										}
-									});
+									.each(
+											managers,
+											function(index, value) {
+												var protraitPath = value.protraitPath;
+												var staffId = value.staffId;
+												var name = value.name;
+												$('#mnglist-tbody').append(
+														"<tr>");
+												$('#mnglist-tbody').append(
+														"<td>" + protraitPath
+																+ "</td>");
+												$('#mnglist-tbody').append(
+														"<td>" + staffId
+																+ "</td>");
+												$('#mnglist-tbody')
+														.append(
+																"<td>"
+																		+ name
+																		+ "</td>");
+												$('#mnglist-tbody')
+														.append(
+																"<td><button class='btn btn-default btn-assign-mng-pick' onclick='assignId(99999)'>Assign</button></td>");
+												$('#mnglist-tbody').append(
+														"</tr>");
+											});
+							$('#modal-assign-mng').modal();
+
 						});
 
 		function assignId(mngId) {
@@ -306,29 +331,6 @@
 	</script>
 	<script>
 		/* include_mngeditor.jsp */
-		$(document).ready(function() {
-			var staffs;
-			var unassignedStaffs;
-			var managers;
-			$.ajax({
-				"url" : "viewAllUnassignedStaffs?json=true",
-				"success" : function(uslist) {
-					unassignedStaffs = $.parseJSON(uslist);
-				}
-			});
-			$.ajax({
-				"url" : "viewAllStaffs?json=true",
-				"success" : function(slist) {
-					unassignedStaffs = $.parseJSON(slist);
-				}
-			});
-			$.ajax({
-				"url" : "viewAllMngs?json=true",
-				"success" : function(mlist) {
-					managers = $.parseJSON(mlist);
-				}
-			});
-		});
 
 		var constCols = [ {
 			"data" : "staffId",
@@ -351,15 +353,12 @@
 								"dataSrc" : ""
 							},
 							"columns" : constCols,
-							"columnDefs" : [
-									{
-										"targets" : -1,
-										"data" : "",
-										"searchable" : false,
-										"defaultContent" : "<button class='staff-edit btn btn-default'><i class='glyphicon glyphicon-pencil'></i></button>"
-									}
-
-							],
+							"columnDefs" : [ {
+								"targets" : -1,
+								"data" : "",
+								"searchable" : false,
+								"defaultContent" : "<button class='mng-bind btn btn-default'><i class='glyphicon glyphicon-eye-open'></i></button>"
+							} ],
 							"order" : [ [ 0, "asc" ] ]
 						});
 		var staffsDataTable = $('#table-staffs-assigned')
@@ -369,7 +368,16 @@
 								"url" : "${pageContext.request.contextPath}/viewAllStaffs?json=true",
 								"dataSrc" : ""
 							},
-							"columns" : constCols
+							"columns" : constCols,
+							"columnDefs" : [ {
+								"targets" : -1,
+								"data" : "",
+								"searchable" : false,
+								"defaultContent" : "<button class='staff-bind btn btn-default'><i class='glyphicon glyphicon-pencil'></i></button>"
+							}
+
+							],
+							"order" : [ [ 0, "asc" ] ]
 						});
 		var unassignedStaffsDataTable = $('#table-staffs-unassigned')
 				.DataTable(
@@ -380,6 +388,24 @@
 							},
 							"columns" : constCols
 						});
+		$('#table-managers').on(
+				'click',
+				'tr .mng-bind',
+				function() {
+					var mngId = managersDataTable.row($(this).parents('tr'))
+							.data().staffId;
+					console.log(mngId);
+					$.ajax({
+						"url" : "searchMngsStaff?json=true&managerId=" + mngId,
+						"success" : function(slist) {
+							unassignedStaffs = $.parseJSON(slist);
+							staffsDataTable.clear().draw();
+							staffsDataTable.rows.add(unassignedStaffs);
+							staffsDataTable.columns.adjust().draw();
+						}
+					});
+
+				});
 	</script>
 </body>
 </html>

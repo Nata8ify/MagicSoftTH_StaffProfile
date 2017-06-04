@@ -80,7 +80,14 @@ public class StaffViewerController {
 	}
 
 	@RequestMapping(value = "/searchMngsStaff", method = RequestMethod.GET)
-	public String viewMngsStaff(Model model, @RequestParam(value = "managerId", required = true) String managerId) {
+	public String viewMngsStaff(Model model,
+			@RequestParam(value = "json", required = true, defaultValue = "false")boolean json,
+			@RequestParam(value = "managerId", required = true) String managerId) {
+		if(json){
+			gsonb.serializeNulls();
+			model.addAttribute("results", gsonb.create().toJson(staffManager.getStaffsByHostManagerId(managerId)));
+			return "result/result";
+		}
 		model.addAttribute("staffs", staffManager.getStaffsByHostManagerId(managerId));
 		return "list";
 	}
