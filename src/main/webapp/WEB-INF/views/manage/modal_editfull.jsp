@@ -24,7 +24,7 @@
 						<div
 							class="form-group col-xs-4 floating-label-form-group controls"
 						>
-							<label for="editType">Role</label> <select
+							<label for="editType">Role</label> <select required
 								name="editType"
 								class="form-control"
 								id='editType'
