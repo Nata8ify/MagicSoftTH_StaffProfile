@@ -81,7 +81,7 @@
 							role="navigation"
 						>
 							<ul class="nav navbar-nav">
-								<li><a href="logout">Logout ${msg }</a></li>
+								<li><a href="logout">Logout</a></li>
 							</ul>
 						</nav>
 					</div>

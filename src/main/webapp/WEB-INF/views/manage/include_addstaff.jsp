@@ -49,8 +49,8 @@
 				<button
 					type="button"
 					class='btn btn-lg btn-info'
-					id='btn-assign-mng'
-				>Assign Manager</button>
+					id='btn-assign-mng' disabled
+				>Loading Managers</button>
 			</div>
 		</div>
 		<div class="row control-group">
@@ -214,6 +214,8 @@
 			"url" : "viewAllMngs?json=true",
 			"success" : function(mlist) {
 				managers = $.parseJSON(mlist);
+				$('#btn-assign-mng').prop("disabled", false);
+				$('#btn-assign-mng').html("Assign Manager");
 			}
 		});
 	});
