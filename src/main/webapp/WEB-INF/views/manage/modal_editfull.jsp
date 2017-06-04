@@ -181,7 +181,7 @@
 						<div
 							class="form-group col-xs-6 floating-label-form-group controls"
 						>
-							<label for="password">Password</label> <input
+							<label for="password">Password <b id='b-pwd-msg'></b></label> <input
 								type="password"
 								class="form-control"
 								placeholder="Password"
@@ -219,7 +219,7 @@
 								id="chkprvpass"
 								name='chkprvpass'
 								checked
-							> : Refer to Staff's Original.
+							> : Prefer to Staff's Original.
 						</div>
 						<div class="form-group col-xs-6  controls">
 							<a
@@ -237,7 +237,7 @@
 					<div id="success"></div>
 					<div class="row">
 						<div class="form-group col-xs-12">
-							<button
+							<button id='btn-submit-edit'
 								type="submit"
 								class="btn btn-success btn-lg"
 							>Submit</button>
@@ -257,17 +257,23 @@
 	</div>
 </div>
 <script>
-	////
+	/* 	This Event will disabled the password form and its confirm form 
+	 if admin prefer to not change this staff's password.  */
 	$('#chkprvpass').click(function() {
 		if ($('#chkprvpass').is(":checked")) {
 			$('#password').prop('disabled', true);
 			$('#cofmpassword').prop('disabled', true);
+			$('#btn-submit-edit').prop("disabled", false);
+			$('#b-pwd-msg').html('');
+			$('#cofmpassword').val('');
+			$('#password').val('');
 		} else {
 			$('#password').prop('disabled', false);
 			$('#cofmpassword').prop('disabled', false);
 		}
 	});
 
+	/* This Event will performs the permantly delete action of selected staff. */
 	$('#lnk-delstaff')
 			.click(
 					function() {
@@ -286,4 +292,18 @@
 							});
 						}
 					});
+
+	/* This is the Password Validator */
+	$('#cofmpassword, #password').keyup(function() {
+		console.log($('#cofmpassword').val()+" ><><"+ $('#password').val());
+		if($('#cofmpassword').val() != $('#password').val()){
+			$('#b-pwd-msg').html('Mismatched Password!');
+			$('#b-pwd-msg').css('color', 'red');
+			$('#btn-submit-edit').prop("disabled", true);
+		} else {
+			$('#b-pwd-msg').html('Matched');
+			$('#b-pwd-msg').css('color', 'green');
+			$('#btn-submit-edit').prop("disabled", false);
+		}
+	});
 </script>

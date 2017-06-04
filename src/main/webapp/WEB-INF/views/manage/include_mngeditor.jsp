@@ -29,7 +29,6 @@
 		&nbsp;
 		<button
 			class='btn btn-default'
-			disabled
 			id='btn-view-all'
 		><i class='glyphicon glyphicon-eye-open'></i> View All</button>
 		&nbsp;
@@ -281,8 +280,22 @@
 						});
 
 					});
+	
+	/* This Event will request for total staffs and draw on the datatable. */
+	$('#btn-view-all').click(function() {
+						$.ajax({
+							"url" : "${pageContext.request.contextPath}/viewAllStaffs?json=true",
+							"success" : function(slist) {
+								unassignedStaffs = $.parseJSON(slist);
+								staffsDataTable.clear().draw();
+								staffsDataTable.rows.add(unassignedStaffs);
+								staffsDataTable.columns.adjust().draw();
+							}
+						});
 
-	/* This var will contain a list of selected staff's row. */
+					});
+
+	/* This var will contain a list of selected staff's row. on staffsDataTable */
 	var staffIds = [];
 	var selectedManagerId;
 	$('#table-staffs-assigned tbody').on('click', 'tr', function() {
@@ -301,6 +314,7 @@
 		console.log(staffIds);
 	});
 
+	/* This var will contain a list of selected staff's row. on unassignedStaffsDataTable */
 	$(' #table-staffs-unassigned tbody').on('click', 'tr', function() {
 		var selectedStaffId = unassignedStaffsDataTable.row($(this)).data().staffId;
 		if (!$(this).hasClass('selected')) {

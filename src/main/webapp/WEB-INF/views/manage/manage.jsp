@@ -109,7 +109,7 @@
 							></i> Manager Binder</a></li>
 						<li><a href="forms.html"><i
 								class="glyphicon glyphicon-tasks"
-							></i> Forms</a></li>
+							></i> Advance Tools</a></li>
 						<li class="submenu"><a href="#"> <i
 								class="glyphicon glyphicon-list"
 							></i> Pages <span class="caret pull-right"></span>
