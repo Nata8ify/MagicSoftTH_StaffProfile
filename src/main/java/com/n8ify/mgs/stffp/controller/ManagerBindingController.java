@@ -38,7 +38,9 @@ public class ManagerBindingController {
 	}
 
 	@RequestMapping(value = "/unbindFromMng")
-	public String unbindFromMng(Model model, @RequestParam(value = "staffId", required = true) String staffId) {
+	public String unbindFromMng(Model model,
+			@RequestParam(value = "staffId", required = true) String staffId) {
+		staffBinder.unbindStaffFromManager(staffId);
 		return "list"; // <-- Not the Finalize Destination May have to Make more
 						// Page.
 	}

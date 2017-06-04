@@ -10,7 +10,7 @@
 				<th>ID</th>
 				<th>Name</th>
 				<th>Position</th>
-				<th>Bind</th>
+				<th>Staff Review</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -28,10 +28,10 @@
 		</h3>
 		&nbsp;
 		<button
-			class='btn btn-default btn-staction'
+			class='btn btn-default'
 			disabled
-			id='btn-bind-this-staff'
-		>Bind</button>
+			id='btn-view-all'
+		><i class='glyphicon glyphicon-eye-open'></i> View All</button>
 		&nbsp;
 		<button
 			class='btn btn-warning btn-staction'
@@ -55,7 +55,7 @@
 				<th>ID</th>
 				<th>Name</th>
 				<th>Position</th>
-				<th>Assign To</th>
+				<th></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -76,7 +76,7 @@
 				<th>ID</th>
 				<th>Name</th>
 				<th>Position</th>
-				<th>Assign To</th>
+				<th></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -177,7 +177,18 @@
 							"url" : "${pageContext.request.contextPath}/viewAllMngs?json=true",
 							"dataSrc" : ""
 						},
-						"columns" : constCols,
+						"columns" : [ {
+							"data" : "staffId",
+							"width" : "5%"
+						}, {
+							"data" : "name",
+							"width" : "30%"
+						}, {
+							"data" : "position",
+							"width" : "30%"
+						}, {
+							"width" : "35%"
+						} ],
 						"columnDefs" : [ {
 							"targets" : -1,
 							"data" : "",
@@ -195,7 +206,19 @@
 							"url" : "${pageContext.request.contextPath}/viewAllStaffs?json=true",
 							"dataSrc" : ""
 						},
-						"columns" : constCols,
+						"columns" : [ {
+							"data" : "staffId",
+							"width" : "15%"
+						}, {
+							"data" : "name",
+							"width" : "30%"
+						}, {
+							"data" : "position",
+							"width" : "30%"
+						}, {
+							"data" : "division",
+							"width" : "25%"
+						} ],
 						"columnDefs" : [ {
 							"targets" : -1,
 							"data" : "",
@@ -214,7 +237,27 @@
 							"url" : "${pageContext.request.contextPath}/viewAllUnassignedStaffs?json=true",
 							"dataSrc" : ""
 						},
-						"columns" : constCols
+						"columns" : [ {
+							"data" : "staffId",
+							"width" : "15%"
+						}, {
+							"data" : "name",
+							"width" : "30%"
+						}, {
+							"data" : "position",
+							"width" : "30%"
+						}, {
+							"data" : "division",
+							"width" : "25%"
+						} ],
+						"columnDefs" : [ {
+							"targets" : -1,
+							"data" : "",
+							"searchable" : false,
+							"defaultContent" : "<button class='staff-bind btn btn-default'><i class='glyphicon glyphicon-pencil'></i></button>"
+						}
+
+						],
 					});
 
 	/* This Event will do Staff filter that working on the selected manager*/
@@ -258,6 +301,22 @@
 		console.log(staffIds);
 	});
 
+	$(' #table-staffs-unassigned tbody').on('click', 'tr', function() {
+		var selectedStaffId = unassignedStaffsDataTable.row($(this)).data().staffId;
+		if (!$(this).hasClass('selected')) {
+			$('.btn-staction').prop('disabled', false);
+			$(this).addClass('selected');
+			staffIds.push(selectedStaffId);
+		} else {
+			$(this).removeClass('selected');
+			staffIds.splice($.inArray(staffIds, selectedStaffId), 1);
+			if (staffIds.length == 0) {
+				$('.btn-staction').prop('disabled', true);
+			}
+		}
+		console.log(staffIds);
+	});
+	
 	/* Let's Transfer the staffs to seleted manager.*/
 	$('#btn-transfer-all')
 			.click(
@@ -292,30 +351,25 @@
 																			});
 																			$('#modal-assign-mng').modal('hide');
 																		});
-
+																		location.reload();
 																	}));
 										});
 						$('#modal-assign-mng').modal();
-/* 
-						var buildParams = {};
-						$.each(staffIds, function(index, value) {
-							buildParams.staffIds.push(value);
-							$.ajax({
-								"url" : "bindMoreToMng",
-								"data" : {
-									staffId : value,
-									managerId : selectedManagerId
-								},
-								"success" : function(result) {
-									console.log(value + " binded!");
-								}
-							});
-						}); */
-
 					});
 
 	/* Let's Transfer the staffs to seleted manager.*/
 	$('#btn-unbind-all').click(function() {
-		alert('btn-unbind-all');
+		$.each(staffIds, function(index, value) {
+			$.ajax({
+				"url" : "unbindFromMng",
+				"data" : {
+					staffId : value
+				},
+				"success" : function(result) {
+					console.log(value + " unbinded! "+result);
+				}
+			});
+		});
+		location.reload();
 	});
 </script>
