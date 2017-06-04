@@ -23,15 +23,15 @@ public class ManagerBindingController {
 	@RequestMapping(value = "/bindToMng")
 	public String bindToMng(Model model, @RequestParam(value = "staffId", required = true) String staffId,
 			@RequestParam(value = "managerId", required = true) String managerId) {
-
+		staffBinder.bindStaffToManager(staffId, managerId);
 		return "list"; // <-- Not the Finalize Destination May have to Make more
 						// Page.
 	}
 
 	@RequestMapping(value = "/bindMoreToMng")
-	public String bindMoreToMng(Model model, @RequestParam(value = "staffId", required = true) List<String> staffIds,
+	public String bindMoreToMng(Model model, @RequestParam(value = "staffIds", required = true)String[] staffIds,
 			@RequestParam(value = "managerId", required = true) String managerId) {
-		staffBinder.bindStaffsToManager(staffIds.toArray(), managerId);
+		staffBinder.bindStaffsToManager(staffIds, managerId);
 		return "/viewAll"; // <-- Not the Finalize Destination May have to Make
 							// more
 							// Page.
@@ -45,7 +45,7 @@ public class ManagerBindingController {
 
 	@RequestMapping(value = "/unbindMoreFromMng")
 	public String unbindMoreFromMng(Model model,
-			@RequestParam(value = "staffId", required = true) List<String> staffIds) {
+			@RequestParam(value = "staffIds", required = true)String[] staffIds) {
 		return "list"; // <-- Not the Finalize Destination May have to Make more
 						// Page.
 	}
