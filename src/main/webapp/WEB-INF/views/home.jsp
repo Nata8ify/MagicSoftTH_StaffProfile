@@ -139,86 +139,89 @@
 				<div class="col-lg-12 text-center">
 					<h2>Search</h2>
 					<hr class="star-primary">
-					<form
-						name="signInForm"
-						id="signInForm"
-						novalidate
-						action="login"
-						method="POST"
-					>
-						<div class="row control-group">
-							<div
-								class="form-group col-xs-12 floating-label-form-group controls"
+					<div class="row control-group">
+						<div
+							class="form-group col-xs-12 floating-label-form-group controls"
+						>
+							<label
+								for="Staff ID"
+								id='label-search'
+							>Part of the Name</label> <input
+								type="text"
+								class="form-control text-center"
+								placeholder="Staff ID"
+								id="input-search"
+								name='staffId'
+								required
+								data-validation-required-message="Please enter your Staff ID."
+								value=""
 							>
-								<label
-									for="Staff ID"
-									id='label-search'
-								>Part of the Name</label> <input
-									type="text"
-									class="form-control text-center"
-									placeholder="Staff ID"
-									id="input-search"
-									name='staffId'
-									required
-									data-validation-required-message="Please enter your Staff ID."
-									value=""
-								>
-								<p class="help-block text-danger"></p>
-							</div>
+							<p class="help-block text-danger"></p>
 						</div>
-						<div class="row control-group">
-							<div
-								class="form-group col-xs-3 floating-label-form-group controls"
-							></div>
-							<div
-								class="form-group col-xs-2 floating-label-form-group controls"
-							>
-								<input
-									type="radio"
-									class="text-center"
-									id="mode-namelike-search"
-									name='modeSearch'
-									value="namelike"
-									checked
-								> : Part of the Name
-							</div>
-							<div
-								class="form-group col-xs-2 floating-label-form-group controls"
-							>
-								<input
-									type="radio"
-									class="text-center"
-									id="mode-bymng-search"
-									name='modeSearch'
-									value="bymng"
-								> : Host Manager
-							</div>
-							<div
-								class="form-group col-xs-2 floating-label-form-group controls"
-							>
-								<input
-									type="radio"
-									class="text-center"
-									value="staffid"
-									id="mode-staffid-search"
-									name='modeSearch'
-								> : Staff ID
-							</div>
-							<div
-								class="form-group col-xs-3 floating-label-form-group controls"
-							></div>
+					</div>
+					<div class="row control-group">
+						<div
+							class="form-group col-xs-2 floating-label-form-group controls"
+						></div>
+						<div
+							class="form-group col-xs-2 floating-label-form-group controls"
+						>
+							<input
+								type="radio"
+								class="text-center"
+								id="mode-namelike-search"
+								name='modeSearch'
+								value="namelike"
+								checked
+							> : Part of the Name
 						</div>
-						<br>
-						<div id="success"></div>
-						<div class="row">
-							<div class="form-group col-xs-12">
-								<button
-									type="submit"
-									class="btn btn-success btn-lg"
-								>Search</button>
-							</div>
+						<div
+							class="form-group col-xs-2 floating-label-form-group controls"
+						>
+							<input
+								type="radio"
+								class="text-center"
+								id="mode-bymng-search"
+								name='modeSearch'
+								value="bymng"
+							> : Host Manager
 						</div>
-					</form>
+						<div
+							class="form-group col-xs-2 floating-label-form-group controls"
+						>
+							<input
+								type="radio"
+								class="text-center"
+								value="staffid"
+								id="mode-staffid-search"
+								name='modeSearch'
+							> : Staff ID
+						</div>
+						<div
+							class="form-group col-xs-2 floating-label-form-group controls"
+						>
+							<input
+								type="radio"
+								class="text-center"
+								value="viewAll"
+								id="mode-viewall-search"
+								name='modeSearch'
+							> : Everybodys
+						</div>
+						<div
+							class="form-group col-xs-2 floating-label-form-group controls"
+						></div>
+					</div>
+					<br>
+					<div id="success"></div>
+					<div class="row">
+						<div class="form-group col-xs-12">
+							<button
+								type="submit"
+								class="btn btn-success btn-lg"
+							>Search</button>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -529,6 +532,7 @@
 		</div>
 	</div>
 	<jsp:include page="manage/modal_editself.jsp" />
+	<jsp:include page="manage/modal_pickmng.jsp" />
 	<!-- jQuery -->
 	<script src="${contextPath}/resources/vendor/jquery/jquery.min.js"></script>
 	<!-- Bootstrap Core JavaScript -->
@@ -545,20 +549,81 @@
 	<!-- Theme JavaScript -->
 	<script src="${contextPath}/resources/js/freelancer.min.js"></script>
 	<script type="text/javascript">
-		$('input[name = "modeSearch"]').click(function() {
-			switch($(this).val()){
-			case 'namelike' :
-				//TODO
-				break;
-			case 'bymng' :
-				//TODO
-				break;
-			case 'staffid' :
-				//TODO
-				break;
-			default : //TODO
-			}
+		/* initial stuffs */
+		var staffs;var managers;
+		$(document).ready(function() {
+			$.ajax({
+				"url" : "viewAllStaffs?json=true",
+				"success" : function(slist) {
+					staffs = $.parseJSON(slist);
+					console.log(staffs);
+				}
+			});
+			$.ajax({
+				"url" : "viewAllMngs?json=true",
+				"success" : function(mlist) {
+					managers = $.parseJSON(mlist);
+					console.log(managers);
+				}
+			});
 		});
+
+		$('input[name = "modeSearch"]').click(
+				function() {
+					$('#input-search').prop('disabled', false);
+					switch ($(this).val()) {
+					case 'namelike':
+						$('#input-search').prop("placeholder",
+								"ex. Anserson, Cean, Lee, etc.");
+						$('#label-search').html("Name Like Searching");
+						break;
+					case 'bymng':
+						/* Pop the Modal Manager up! */
+						pickMngModal();
+						break;
+					case 'staffid':
+						$('#input-search').prop("placeholder", "ex. M60999.");
+						$('#label-search').html("Staff ID Searching");
+						break;
+					case 'viewAll':
+						$('#input-search').prop("placeholder",
+								"Submit to View for Entire Staffs");
+						$('#input-search').prop('disabled', true);
+						break;
+					default: //TODO
+					}
+				});
+
+		/* modal_pickmng */
+		function pickMngModal() {
+			$('#mnglist-tbody').html("");
+			$
+					.each(
+							managers,
+							function(index, value) {
+								var staffId = value.staffId;
+								var portraitPath = value.protraitPath == null ? 'noimg.png'
+										: value.protraitPath;
+								var name = value.name;
+								var position = value.position;
+								var btnAssignHtml = $("<tr><td><img style='text-align:center' width='70px' class='img-respomsive' src='${contextPath}/resources/portraits/"
+										+ portraitPath
+										+ "' alt='Manager's Portriat</td><td>"
+										+ staffId
+										+ "</td><td>"
+										+ name
+										+ "</td><td>"
+										+ position
+										+ "</td><td><button class='btn btn-default .btn-assign-mng'><i class='glyphicon glyphicon-ok'></i></button></td></tr>");
+								$('#mnglist-tbody').append(
+										btnAssignHtml.click(function() {
+											$('#hostManagerId').val(staffId);
+											$('#modal-assign-mng')
+													.modal('hide');
+										}));
+							});
+			$('#modal-assign-mng').modal();
+		};
 	</script>
 </body>
 </html>

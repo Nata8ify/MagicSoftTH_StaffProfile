@@ -94,9 +94,7 @@
 </script>
 <script type="text/javascript">
 	/* modal_editfull */
-	var staffList;
-	var staffs;
-	var unassignedStaffs;
+	var staffList; /* This is a total */
 	$(document).ready(function() {
 		$.when($.ajax({
 			"url" : "${pageContext.request.contextPath}/viewAll?json=true"
@@ -104,16 +102,19 @@
 			staffList = $.parseJSON(json);
 		});
 
+		var unassignedStaffs;
 		$.ajax({
 			"url" : "viewAllUnassignedStaffs?json=true",
 			"success" : function(uslist) {
 				unassignedStaffs = $.parseJSON(uslist);
 			}
 		});
+
+		var staffs;
 		$.ajax({
 			"url" : "viewAllStaffs?json=true",
 			"success" : function(slist) {
-				unassignedStaffs = $.parseJSON(slist);
+				staffs = $.parseJSON(slist);
 			}
 		});
 		var managers;
