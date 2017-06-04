@@ -17,17 +17,17 @@ public class Staff {
 	public static final String TYPE_MANAGER = "m";
 
 	private static Staff staff;
-	
-	public static void setStaffInstance(Staff staff){
+
+	public static void setStaffInstance(Staff staff) {
 		Staff.staff = staff;
 	}
-	
-	public static Staff getStaffInstance(){
-		if(Staff.staff == null)
+
+	public static Staff getStaffInstance() {
+		if (Staff.staff == null)
 			Staff.staff = new Staff();
 		return Staff.staff;
 	}
-	
+
 	public Staff() {
 		super();
 	}
@@ -46,7 +46,6 @@ public class Staff {
 		this.staffType = staffType;
 	}
 
-
 	public Staff(String staffId, String name, String email, String tel, String protraitPath) {
 		this.staffId = staffId;
 		this.name = name;
@@ -54,7 +53,7 @@ public class Staff {
 		this.tel = tel;
 		this.protraitPath = protraitPath;
 	}
-	
+
 	public String getPosition() {
 		return position;
 	}
@@ -135,8 +134,6 @@ public class Staff {
 		this.hostManagerId = hostManagerId;
 	}
 
-	
-
 	@Override
 	public String toString() {
 		return "Staff [staffId=" + staffId + ", name=" + name + ", email=" + email + ", tel=" + tel + ", division="
@@ -144,8 +141,6 @@ public class Staff {
 				+ hostManagerId + ", gender=" + gender + ", staffType=" + staffType + ", hostManagerName="
 				+ hostManagerName + "]";
 	}
-
-
 
 	private String hostManagerName;
 

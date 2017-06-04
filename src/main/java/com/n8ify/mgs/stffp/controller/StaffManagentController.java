@@ -129,8 +129,7 @@ public class StaffManagentController {
 	}
 
 	@RequestMapping(value = "/deletePerson", method = RequestMethod.POST)
-	public String insertPerson(Model model, 
-			@RequestParam(value = "staffId", required = true) String staffId,
+	public String insertPerson(Model model, @RequestParam(value = "staffId", required = true) String staffId,
 			@RequestParam(value = "ajax", required = true, defaultValue = "false") boolean ajax) {
 		// Checking Is this an Administrator Account Roll.
 		boolean isSuccessDelete = staffManager.deleteStaffById(staffId);
@@ -187,7 +186,7 @@ public class StaffManagentController {
 				: Generator.getInstance().genImageName(img.getOriginalFilename());
 		if (!img.isEmpty()) {
 			img.transferTo(new File(mrequest.getRealPath(PORTRAIT_DIR) + imgName));
-			logger.info("protraitInputName : "+protraitPathOld);
+			logger.info("protraitInputName : " + protraitPathOld);
 			File oldImg = new File(mrequest.getRealPath(PORTRAIT_DIR + protraitPathOld));
 			oldImg.delete();
 			if (staffManager.editStaff(

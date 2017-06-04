@@ -21,8 +21,7 @@ public class ManagerBindingController {
 	private StaffBinder staffBinder;
 
 	@RequestMapping(value = "/bindToMng")
-	public String bindToMng(Model model,
-			@RequestParam(value = "staffId", required = true) String staffId,
+	public String bindToMng(Model model, @RequestParam(value = "staffId", required = true) String staffId,
 			@RequestParam(value = "managerId", required = true) String managerId) {
 
 		return "list"; // <-- Not the Finalize Destination May have to Make more
@@ -30,24 +29,23 @@ public class ManagerBindingController {
 	}
 
 	@RequestMapping(value = "/bindMoreToMng")
-	public String bindMoreToMng(Model model,
-			@RequestParam(value = "staffId", required = true)List<String> staffIds,
-			@RequestParam(value = "managerId", required = true)String managerId) {
+	public String bindMoreToMng(Model model, @RequestParam(value = "staffId", required = true) List<String> staffIds,
+			@RequestParam(value = "managerId", required = true) String managerId) {
 		staffBinder.bindStaffsToManager(staffIds.toArray(), managerId);
-		return "/viewAll"; // <-- Not the Finalize Destination May have to Make more
-						// Page.
+		return "/viewAll"; // <-- Not the Finalize Destination May have to Make
+							// more
+							// Page.
 	}
 
 	@RequestMapping(value = "/unbindFromMng")
-	public String unbindFromMng(Model model,
-			@RequestParam(value = "staffId", required = true) String staffId) {
+	public String unbindFromMng(Model model, @RequestParam(value = "staffId", required = true) String staffId) {
 		return "list"; // <-- Not the Finalize Destination May have to Make more
 						// Page.
 	}
 
 	@RequestMapping(value = "/unbindMoreFromMng")
 	public String unbindMoreFromMng(Model model,
-			@RequestParam(value = "staffId", required = true)List<String> staffIds) {
+			@RequestParam(value = "staffId", required = true) List<String> staffIds) {
 		return "list"; // <-- Not the Finalize Destination May have to Make more
 						// Page.
 	}

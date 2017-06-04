@@ -10,11 +10,11 @@ public interface StaffManagementInterface {
 	public boolean editStaff(Staff staff, String newPassword);
 
 	public boolean editStaffForNoImage(Staff staff, String newPassword);
-	
+
 	public boolean editSelfStaff(Staff staff, String newPassword);
 
 	public boolean editPassword(String staffId, String password);
-	
+
 	public boolean deleteStaffById(String staffId);
 
 	public Staff getStaffById(String staffId);
@@ -24,7 +24,7 @@ public interface StaffManagementInterface {
 	public List<Staff> getStaffsByNameLike(String nameLike);
 
 	public List<Staff> getStaffsByHostManagerId(String managerId);
-	
+
 	public List<Staff> getTotalManagers();
 
 	public List<Staff> getTotalStaffs();

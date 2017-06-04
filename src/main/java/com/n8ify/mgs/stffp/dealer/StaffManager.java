@@ -72,8 +72,8 @@ public class StaffManager implements StaffManagementInterface {
 				+ ",s.`hostManagerId`=?, s.staffType = ? WHERE s.`staffId` = ?;";
 		boolean is1stSuccess = jdbcTemplate.update(sql,
 				new Object[] { staff.getName(), staff.getGender(), staff.getEmail(), staff.getTel(),
-						staff.getDivision(), staff.getPosition(), staff.getHostManagerId(),
-						staff.getStaffType(), staff.getStaffId() }) > 0;
+						staff.getDivision(), staff.getPosition(), staff.getHostManagerId(), staff.getStaffType(),
+						staff.getStaffId() }) > 0;
 		if (newPassword == null) {// <-- No Password? then Skip Access Update.
 			return is1stSuccess;
 		}
@@ -138,15 +138,13 @@ public class StaffManager implements StaffManagementInterface {
 		String sql = "SELECT * FROM `Staff` WHERE  `staffType` = ? OR `staffType` = ? ;";
 		return jdbcTemplate.query(sql, new Object[] { Staff.TYPE_STAFF, Staff.TYPE_ADMINISTRATOR }, new StaffMapper());
 	}
-	
 
 	@Override
 	public List<Staff> getTotalUnassignedStaffs() {
 		String sql = "SELECT * FROM `Staff` WHERE  `staffType` != ? AND hostManagerId IS NULL;";
-		return jdbcTemplate.query(sql, new Object[] { Staff.TYPE_MANAGER}, new StaffMapper());
-	
-	}
+		return jdbcTemplate.query(sql, new Object[] { Staff.TYPE_MANAGER }, new StaffMapper());
 
+	}
 
 	@Override
 	public boolean editPassword(String staffId, String password) {

@@ -25,7 +25,7 @@ public class HomeController {
 	 */
 	@Autowired
 	private StaffManager staffManager;
-	
+
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		logger.info("Welcome home! The client locale is {}.", locale);
@@ -33,13 +33,12 @@ public class HomeController {
 		model.addAttribute("staffs", staffManager.getTotalStaffs());
 		return "home";
 	}
-	
-	
+
 	@RequestMapping(value = "/admhome", method = RequestMethod.GET)
 	public String adminHome(Model model) {
 		return "admhome";
 	}
-	
+
 	@RequestMapping(value = "/dbg", method = RequestMethod.GET)
 	public String dbg(Model model) {
 		return "admhome";

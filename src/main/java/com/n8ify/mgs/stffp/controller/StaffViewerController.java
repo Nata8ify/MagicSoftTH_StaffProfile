@@ -22,12 +22,12 @@ public class StaffViewerController {
 
 	@Autowired
 	private GsonBuilder gsonb;
-	
+
 	@RequestMapping(value = "/viewAll", method = RequestMethod.GET)
 	public String viewAll(Model model,
-			@RequestParam(value = "json", required = true, defaultValue = "false")boolean json) {
-		
-		if(json){
+			@RequestParam(value = "json", required = true, defaultValue = "false") boolean json) {
+
+		if (json) {
 			gsonb.serializeNulls();
 			model.addAttribute("results", gsonb.create().toJson(staffManager.getEntireStaffs()));
 			return "result/result";
@@ -38,8 +38,8 @@ public class StaffViewerController {
 
 	@RequestMapping(value = "/viewAllMngs", method = RequestMethod.GET)
 	public String viewAllManager(Model model,
-			@RequestParam(value = "json", required = true, defaultValue = "false")boolean json) {
-		if(json){
+			@RequestParam(value = "json", required = true, defaultValue = "false") boolean json) {
+		if (json) {
 			gsonb.serializeNulls();
 			model.addAttribute("results", gsonb.create().toJson(staffManager.getTotalManagers()));
 			return "result/result";
@@ -47,11 +47,11 @@ public class StaffViewerController {
 		model.addAttribute("staffs", staffManager.getEntireStaffs());
 		return "list";
 	}
-	
+
 	@RequestMapping(value = "/viewAllStaffs", method = RequestMethod.GET)
 	public String viewAllStaffs(Model model,
-			@RequestParam(value = "json", required = true, defaultValue = "false")boolean json) {
-		if(json){
+			@RequestParam(value = "json", required = true, defaultValue = "false") boolean json) {
+		if (json) {
 			gsonb.serializeNulls();
 			model.addAttribute("results", gsonb.create().toJson(staffManager.getTotalStaffs()));
 			return "result/result";
@@ -59,11 +59,11 @@ public class StaffViewerController {
 		model.addAttribute("staffs", staffManager.getEntireStaffs());
 		return "list";
 	}
-	
+
 	@RequestMapping(value = "/viewAllUnassignedStaffs", method = RequestMethod.GET)
 	public String viewAllUnassignedStaffs(Model model,
-			@RequestParam(value = "json", required = true, defaultValue = "false")boolean json) {
-		if(json){
+			@RequestParam(value = "json", required = true, defaultValue = "false") boolean json) {
+		if (json) {
 			gsonb.serializeNulls();
 			model.addAttribute("results", gsonb.create().toJson(staffManager.getTotalUnassignedStaffs()));
 			return "result/result";
@@ -71,7 +71,7 @@ public class StaffViewerController {
 		model.addAttribute("staffs", staffManager.getEntireStaffs());
 		return "list";
 	}
-	
+
 	@RequestMapping(value = "/searchNameLike", method = RequestMethod.GET)
 	public String viewNameLikedStaff(Model model,
 			@RequestParam(value = "searchWord", required = true) String searchWord) {
@@ -81,9 +81,9 @@ public class StaffViewerController {
 
 	@RequestMapping(value = "/searchMngsStaff", method = RequestMethod.GET)
 	public String viewMngsStaff(Model model,
-			@RequestParam(value = "json", required = true, defaultValue = "false")boolean json,
+			@RequestParam(value = "json", required = true, defaultValue = "false") boolean json,
 			@RequestParam(value = "managerId", required = true) String managerId) {
-		if(json){
+		if (json) {
 			gsonb.serializeNulls();
 			model.addAttribute("results", gsonb.create().toJson(staffManager.getStaffsByHostManagerId(managerId)));
 			return "result/result";
@@ -91,6 +91,5 @@ public class StaffViewerController {
 		model.addAttribute("staffs", staffManager.getStaffsByHostManagerId(managerId));
 		return "list";
 	}
-	
-	
+
 }

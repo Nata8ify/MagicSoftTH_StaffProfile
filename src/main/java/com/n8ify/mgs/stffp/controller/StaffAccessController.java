@@ -25,47 +25,48 @@ public class StaffAccessController {
 
 	@RequestMapping(value = "/login")
 	public String login(Model model, HttpServletRequest request,
-			@RequestParam(value = "staffId", required = true)String staffId,
-			@RequestParam(value = "password", required = true)String password) {
-		if(request.getSession(false).getAttribute("thisStaff") != null){
+			@RequestParam(value = "staffId", required = true) String staffId,
+			@RequestParam(value = "password", required = true) String password) {
+		if (request.getSession(false).getAttribute("thisStaff") != null) {
 			request.getSession(false).invalidate();
 		}
 		Staff staff = sttfpAccess.login(staffId, password);
-		if(staff.getStaffId().equals(staffId)){
+		if (staff.getStaffId().equals(staffId)) {
 			Staff.setStaffInstance(staff);
 			StaffAccess.setAccessInstance(new StaffAccess(staffId, password));
 			request.getSession(true).setAttribute("thisStaff", staff);
 			request.getSession(true).setAttribute("thisStaffAccess", StaffAccess.getAccessInstance());
-			logger.info("SESSION CREATED FOR :"+staff.getStaffId());
+			logger.info("SESSION CREATED FOR :" + staff.getStaffId());
 			return "home";
 		}
-		return "manage/manage"; 
-	}	
-	
+		return "manage/manage";
+	}
+
 	@RequestMapping(value = "/admlogin")
 	public String adminLogin(Model model, HttpServletRequest request,
-			@RequestParam(value = "staffId", required = true)String staffId,
-			@RequestParam(value = "password", required = true)String password) throws UnauthorizedAccessException {
-		if(request.getSession(false).getAttribute("thisStaff") != null){
+			@RequestParam(value = "staffId", required = true) String staffId,
+			@RequestParam(value = "password", required = true) String password) throws UnauthorizedAccessException {
+		if (request.getSession(false).getAttribute("thisStaff") != null) {
 			request.getSession(false).invalidate();
 		}
 		Staff staff = sttfpAccess.login(staffId, password, Staff.TYPE_ADMINISTRATOR);
-		if(staff.getStaffId().equals(staffId)){
+		if (staff.getStaffId().equals(staffId)) {
 			Staff.setStaffInstance(staff);
 			StaffAccess.setAccessInstance(new StaffAccess(staffId, password));
 			request.getSession(true).setAttribute("thisStaff", staff);
 			request.getSession(true).setAttribute("thisStaffAccess", StaffAccess.getAccessInstance());
-			logger.info("SESSION CREATED FOR ADMIN :"+staff.getStaffId());
+			logger.info("SESSION CREATED FOR ADMIN :" + staff.getStaffId());
 			return "manage/manage";
 		}
-		throw new UnauthorizedAccessException(); 
-	}	
-	
+		throw new UnauthorizedAccessException();
+	}
+
 	@RequestMapping("/logout")
-	public String logout(Model model, HttpServletRequest request){
-		if(request.getSession(false).getAttribute("thisStaff") != null){
+	public String logout(Model model, HttpServletRequest request) {
+		if (request.getSession(false).getAttribute("thisStaff") != null) {
 			logger.info("NOT NULL STAFF");
-				request.getSession(false).invalidate();}
+			request.getSession(false).invalidate();
+		}
 		return "home";
 	}
 }

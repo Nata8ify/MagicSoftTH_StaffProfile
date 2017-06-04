@@ -11,10 +11,10 @@ import com.n8ify.mgs.stffp.utils.Generator;
 
 @Controller
 public class NonFunctionController {
-	
+
 	@Autowired
 	private Generator gen;
-	
+
 	@RequestMapping(value = "/utils/latestMgsId", method = RequestMethod.GET)
 	public String getLatestMgsId(Model model) {
 		model.addAttribute("results", gen.genLatestMGSStaffId());

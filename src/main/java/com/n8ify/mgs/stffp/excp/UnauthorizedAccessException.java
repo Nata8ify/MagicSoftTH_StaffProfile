@@ -13,7 +13,5 @@ public class UnauthorizedAccessException extends Exception {
 		// TODO Auto-generated method stub
 		return super.toString();
 	}
-	
-	
 
 }
