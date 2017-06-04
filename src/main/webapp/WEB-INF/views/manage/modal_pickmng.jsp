@@ -21,6 +21,7 @@
 						<tr>
 							<th>ID</th>
 							<th>Name</th>
+							<th>Position</th>
 							<th>Assign</th>
 						</tr>
 					</thead>

@@ -8,7 +8,7 @@
 		enctype="multipart/form-data"
 	>
 		<div class="row control-group">
-			<div class="form-group col-xs-4 floating-label-form-group controls">
+			<div class="form-group col-xs-2 floating-label-form-group controls">
 				<label for="Staff ID">Staff ID</label> <input
 					type="text"
 					class="form-control"
@@ -26,7 +26,7 @@
 					id='btn-gen-id'
 				>Generate</button>
 			</div>
-			<div class="form-group col-xs-3 floating-label-form-group controls">
+			<div class="form-group col-xs-6 floating-label-form-group controls">
 				<label for="insertType">Role</label> <select
 					name="insertType"
 					class="form-control"
@@ -35,12 +35,17 @@
 					<option value="m">Manager</option>
 					<option
 						value="s"
+						id='opt-staff'
 						selected
 					>Staff</option>
 				</select>
 			</div>
-			<div class="form-group col-xs-3 floating-label-form-group controls">
-				<br>
+			<div class="form-group col-xs-2 floating-label-form-group controls">
+				<br> <input
+					type="hidden"
+					name='hostManagerId'
+					id='hostManagerId'
+				/>
 				<button
 					type="button"
 					class='btn btn-lg btn-info'
@@ -201,4 +206,49 @@
 			$('form #add-staff-form').prop("action", "insertPerson");
 		}
 	});
+</script>
+<script>
+	var managers;
+	$(document).ready(function() {
+		$.ajax({
+			"url" : "viewAllMngs?json=true",
+			"success" : function(mlist) {
+				managers = $.parseJSON(mlist);
+			}
+		});
+	});
+	/* modal_pickmng */
+	$('#btn-assign-mng')
+			.click(
+					function() {
+
+						$('#mnglist-tbody').html("");
+						$
+								.each(
+										managers,
+										function(index, value) {
+											var staffId = value.staffId;
+											var name = value.name;
+											var position = value.position;
+											var btnAssignHtml = $("<tr><td>"
+													+ staffId
+													+ "</td><td>"
+													+ name 
+													+ "</td><td>"
+													+ position
+													+ "</td><td><button class='btn btn-default .btn-assign-mng'><i class='glyphicon glyphicon-thumbs-up'></i></button></td></tr>");
+											$('#mnglist-tbody')
+													.append(
+															btnAssignHtml
+																	.click(function() {
+																		$('#hostManagerId').val(staffId);$("#opt-staff").html("Staff (assign to "+name+")");
+																		$(
+																				'#modal-assign-mng')
+																				.modal(
+																						'hide');
+																	}));
+										});
+						$('#modal-assign-mng').modal();
+
+					});
 </script>
