@@ -677,14 +677,13 @@
 			var cardResultBody = null; /* Keep it to build appened body.*/
 			log(mode+" :: "+searchElement);
 			var varStatus = 1;
-			var appendedTable = $('#table-view-staff-result tbody');
-			var appendTbody = $('#tbody-view-staff-result-result');
-			$('#table-view-staff-result tbody').html("");
+			var divResultBody = $('#div-searchrs-out');
+			divResultBody.empty();
 			var searchTitle;
 			
 			switch (mode) {
 			case 'namelike':
-				appendTbody.after($("<tr>"));
+				 divResultBody.append($("<div class='row'>"));
 				$.each(staffList, function(index, val){
 					if(val.name.indexOf(searchElement) !== -1){
 						log(varStatus);
@@ -697,14 +696,14 @@
 							var position = val.position;
 							var  hostManagerName = val.hostManagerName;
 							var staffType  = val.staffType ;
-							cardResultBody = $("<td><div class='card' style='width: 20rem;'>"+
+							cardResultBody = $("<div class='col-sm-2'><div class='card' style='width: 20rem;'>"+
 								"<img class='card-img-top' width='150px' src='${contextPath}/resources/portraits/"+protraitPath+"' alt='Portrait'>"+
-								"<div class='card-block'> <h5 class='card-title'>"+name+"</h5> <h6 class='card-text'>"+position+"</h6></div></div></td>");
+								"<div class='card-block'> <h5 class='card-title'>"+name+"</h5> <h6 class='card-text'>"+position+"</h6></div></div></div>");
 							if(varStatus % 5 == 0){
 								log(varStatus % 5 == 0);
-								appendTbody.after($("<tr></tr>"));
+								divResultBody.append($("<tr></tr>"));
 							}
-							appendTbody.after(cardResultBody.click(function(){
+							divResultBody.append(cardResultBody.click(function(){
 								$('#h4-view-staff-info-title').html("Information of "+val.name);
 								$('#img-info-portrait').attr('src', "${contextPath}/resources/portraits/"+protraitPath);
 								$('#span-info-name').html(name);
@@ -722,8 +721,8 @@
 						varStatus++;
 					}	
 				});
-				appendTbody.after($("</tr>"));
-				/* TODO Render */
+				divResultBody.append($("</div>"));
+				
 			log("cardResultBody: "+cardResultBody);
 				if(tmpSearcTotalStaffs.length > 0){
 					searchTitle = "Results of Name Like Search ("+tmpSearcTotalStaffs.length+").";
@@ -731,7 +730,8 @@
 					searchTitle = "No Results for ["+tmpSearcTotalStaffs.length+"].";
 				}
 				
-				log(tmpSearcTotalStaffs);
+				log(tmpSearcTotalStaffs); 
+				/* appendNameLikeSearchResult(); */
 				break;
 			case 'bymng':
 				$.each(staffList, function(index, val){
@@ -774,11 +774,69 @@
 		}
 			$('#modal-view-staff').modal();
 			$('#h2-view-staff-topic').html(searchTitle);
-			appendedTable.empty();
 			}
 		
 		function log(str){
 			console.log(str);
+		}
+		
+		function appendNameLikeSearchResult(){
+			tmpSearcTotalStaffs = [];
+			tmpSearchStaffs = [];
+			tmpSearchManager = [];
+			var cardResultBody = null; /* Keep it to build appened body.*/
+			var varStatus = 1;
+			var resultBodyHtml = $('#hr-search-dline');
+			resultBodyHtml.html("");
+			var searchTitle;
+			resultBodyHtml.append($("<div class='row'>"));
+			$.each(staffList, function(index, val){
+				if(val.name.indexOf($('#input-search').val()) !== -1){
+					log(varStatus);
+					tmpSearcTotalStaffs.push(val);
+					var protraitPath = val.protraitPath==null?'noimg.png':val.protraitPath;
+					var name = val.name;
+						var email = val.email;
+						var tel = val.tel;
+						var division = val.division;
+						var position = val.position;
+						var  hostManagerName = val.hostManagerName;
+						var staffType  = val.staffType ;
+						cardResultBody = $("<div class='col-lg-2'><div class='card' style='width: 20rem;'>"+
+							"<img class='card-img-top' width='150px' src='${contextPath}/resources/portraits/"+protraitPath+"' alt='Portrait'>"+
+							"<div class='card-block'> <h5 class='card-title'>"+name+"</h5> <h6 class='card-text'>"+position+"</h6></div></div></div>");
+						if(varStatus % 5 == 0){
+							log(varStatus % 5 == 0);
+							resultBodyHtml.append($("</div><div class='row'>"));
+						}
+						resultBodyHtml.append(cardResultBody.click(function(){
+							$('#h4-view-staff-info-title').html("Information of "+val.name);
+							$('#img-info-portrait').attr('src', "${contextPath}/resources/portraits/"+protraitPath);
+							$('#span-info-name').html(name);
+							$('#span-info-email').html(email);
+							$('#span-info-tel').html(tel);
+							$('#span-info-division').html(division);
+							$('#span-info-position').html(position);
+							if(staffType != 'm'){
+							$('#span-info-mng').html(hostManagerName != null?hostManagerName:'-');
+							} else {
+								$('#span-info-mng').html(hostManagerName != null?hostManagerName:'-');
+							}
+							$('#modal-view-staff-info').modal();
+						}));
+					varStatus++;
+				}	
+			});
+			resultBodyHtml.append($("</div>"));
+			/* TODO Render */
+		log("cardResultBody: "+cardResultBody);
+			if(tmpSearcTotalStaffs.length > 0){
+				searchTitle = "Results of Name Like Search ("+tmpSearcTotalStaffs.length+").";
+			} else {
+				searchTitle = "No Results for ["+tmpSearcTotalStaffs.length+"].";
+			}
+			
+			log(tmpSearcTotalStaffs);
 		}
 		
 		/* Not understand this trick so much! but will come to see another day, lol. */

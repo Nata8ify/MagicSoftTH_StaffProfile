@@ -26,6 +26,7 @@
 						</tr>
 					</thead>
 					<tbody id='mnglist-tbody'>
+
 					</tbody>
 				</table>
 			</div>
