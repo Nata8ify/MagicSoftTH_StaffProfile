@@ -601,6 +601,7 @@
 						break;
 					case 'bymng':
 						/* Pop the Modal Manager up! */
+						$('#input-search').prop('disabled', true);
 						pickMngModal();
 						break;
 					case 'staffid':
@@ -639,9 +640,8 @@
 										+ "</td><td><button class='btn btn-default .btn-assign-mng'><i class='glyphicon glyphicon-ok'></i></button></td></tr>");
 								$('#mnglist-tbody').append(
 										btnAssignHtml.click(function() {
-											$('#hostManagerId').val(staffId);
-											$('#modal-assign-mng')
-													.modal('hide');
+											searchStaff(modeSearch, staffId);
+											$('#modal-assign-mng').modal('hide');
 										}));
 							});
 			$('#modal-assign-mng').modal();
@@ -653,11 +653,12 @@
 			searchStaff(modeSearch, searchElement);
 		});
 		var tmpSearcTotalStaffs; /* keep the everytime search result. But this included total staff/manager. */
-		var tmpSearchStaff; /* keep the everytime search result. */
-		var tmpSearchManager; /* keep the everytime search result. */
+		var tmpSearchStaffs; /* keep the everytime search result. */
+		var tmpSearchManagers; /* keep the everytime search result. */
+		var tmpSearchManager; /* Just Single Manager Result. */
 		function searchStaff(mode, searchElement){
 			tmpSearcTotalStaffs = [];
-			tmpSearchStaff = [];
+			tmpSearchStaffs = [];
 			tmpSearchManager = [];
 			log(mode+" :: "+searchElement);
 			switch (mode) {
@@ -670,7 +671,16 @@
 				log(tmpSearcTotalStaffs);
 				break;
 			case 'bymng':
-
+				$.each(staffList, function(index, val){
+					if(val.hostManagerId == searchElement){
+						tmpSearchStaffs.push(val);
+					}	
+					if(val.staffId == searchElement){
+						tmpSearchManager = val;
+					}
+				})
+				log(tmpSearchManager);
+				log(tmpSearchStaffs);
 				break;
 			case 'staffid':
 
