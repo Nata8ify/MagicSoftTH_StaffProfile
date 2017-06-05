@@ -533,6 +533,7 @@
 	</div>
 	<jsp:include page="manage/modal_editself.jsp" />
 	<jsp:include page="manage/modal_pickmng.jsp" />
+	<jsp:include page="manage/modal_viewstaff.jsp" />
 	<!-- jQuery -->
 	<script src="${contextPath}/resources/vendor/jquery/jquery.min.js"></script>
 	<!-- Bootstrap Core JavaScript -->
@@ -642,6 +643,9 @@
 										btnAssignHtml.click(function() {
 											searchStaff(modeSearch, staffId);
 											$('#modal-assign-mng').modal('hide');
+
+											/* TODO Render */
+											$('#modal-view-staff').modal();
 										}));
 							});
 			$('#modal-assign-mng').modal();
@@ -661,14 +665,33 @@
 			tmpSearcTotalStaffs = [];
 			tmpSearchStaffs = [];
 			tmpSearchManager = [];
+			var cardResultBody; /* Keep it to build appened body.*/
 			log(mode+" :: "+searchElement);
 			switch (mode) {
 			case 'namelike':
+				var varStatus = 1;
+				$('#table-view-staff-result').append("<tr>");
 				$.each(staffList, function(index, val){
 					if(val.name.indexOf(searchElement) !== -1){
 						tmpSearcTotalStaffs.push(val);
+						var protraitPath = val.protraitPath==null?'noimg.png':val.protraitPath;
+						if(varStatus % 5 == 0){
+							cardResultBody = $("<tr><td><div class='card' style='width: 20rem;'>"+
+									"<img class='card-img-top' width='150px' src='${contextPath}/resources/portraits/"+protraitPath+"' alt='Portrait'>"+
+									"<div class='card-block'> <h5 class='card-title'>"+val.name+"</h5> <h6 class='card-text'>"+val.position+"</h6></div></div></td></tr>");
+							
+						} else {
+							cardResultBody = $("<td><div class='card' style='width: 20rem;'>"+
+								"<img class='card-img-top' width='150px' src='${contextPath}/resources/portraits/"+protraitPath+"' alt='Portrait'>"+
+								"<div class='card-block'> <h5 class='card-title'>"+val.name+"</h5> <h6 class='card-text'>"+val.position+"</h6></div></div></td>");
+						}
+						$('#table-view-staff-result').append(cardResultBody);
+						varStatus++;
 					}	
 				});
+				$('#table-view-staff-result').append("</tr>");
+				/* TODO Render */
+				$('#modal-view-staff').modal();
 				log(tmpSearcTotalStaffs);
 				break;
 			case 'bymng':
@@ -691,6 +714,8 @@
 					}
 				});
 				log(tmpStaffOrManagerID);
+				/* TODO Render */
+				$('#modal-view-staff').modal();
 				break;
 			case 'viewAll':
 				tmpStaffOrManagerID = null;
@@ -699,6 +724,8 @@
 				tmpSearchManagers = managers;
 				log(managers);
 				log(staffs);
+				/* TODO Render */
+				$('#modal-view-staff').modal();
 				break;
 			default: //TODO
 		}
