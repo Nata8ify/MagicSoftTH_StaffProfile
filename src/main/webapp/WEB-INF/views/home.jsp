@@ -149,13 +149,11 @@
 							>Part of the Name</label> <input
 								type="text"
 								class="form-control text-center"
-								placeholder="Staff ID"
+								placeholder="Part of the Name"
 								id="input-search"
-								name='staffId'
 								required
-								data-validation-required-message="Please enter your Staff ID."
-								value=""
-							>
+								data-validation-required-message="Please enter a Part of the Staff Name."
+								>
 							<p class="help-block text-danger"></p>
 						</div>
 					</div>
@@ -217,6 +215,8 @@
 					<div class="row">
 						<div class="form-group col-xs-12">
 							<button
+							disabled
+								id='btn-search'
 								type="submit"
 								class="btn btn-success btn-lg"
 							>Search</button>
@@ -550,13 +550,16 @@
 	<script src="${contextPath}/resources/js/freelancer.min.js"></script>
 	<script type="text/javascript">
 		/* initial stuffs */
-		var staffs;var managers;
+		var staffs;var managers;var staffList; /* This is a total */
+		var isStaffsReady  = false;var isManagerReady  = false;var isStaffListReady = false;
 		$(document).ready(function() {
 			$.ajax({
 				"url" : "viewAllStaffs?json=true",
 				"success" : function(slist) {
 					staffs = $.parseJSON(slist);
 					console.log(staffs);
+					isStaffsReady = true;
+					enableSearch();
 				}
 			});
 			$.ajax({
@@ -564,13 +567,32 @@
 				"success" : function(mlist) {
 					managers = $.parseJSON(mlist);
 					console.log(managers);
+					isManagerReady = true;
+					enableSearch();
 				}
 			});
+			
+			$.when($.ajax({
+				"url" : "${pageContext.request.contextPath}/viewAll?json=true"
+			})).then(function(json) {
+				staffList = $.parseJSON(json);
+				isStaffListReady = true;
+				enableSearch();
+			});
+	
 		});
 
+		function enableSearch(){
+			if(isStaffListReady & isManagerReady & isStaffsReady){
+				$('#btn-search').prop('disabled', false);
+			}
+		}
+
+		var modeSearch = 'namelike'; /* As Default */
 		$('input[name = "modeSearch"]').click(
 				function() {
 					$('#input-search').prop('disabled', false);
+					modeSearch = $(this).val();
 					switch ($(this).val()) {
 					case 'namelike':
 						$('#input-search').prop("placeholder",
@@ -587,7 +609,7 @@
 						break;
 					case 'viewAll':
 						$('#input-search').prop("placeholder",
-								"Submit to View for Entire Staffs");
+								"'Search' to View");
 						$('#input-search').prop('disabled', true);
 						break;
 					default: //TODO
@@ -608,7 +630,7 @@
 								var position = value.position;
 								var btnAssignHtml = $("<tr><td><img style='text-align:center' width='70px' class='img-respomsive' src='${contextPath}/resources/portraits/"
 										+ portraitPath
-										+ "' alt='Manager's Portriat</td><td>"
+										+ "' alt='Manager's Portriat'/></td><td>"
 										+ staffId
 										+ "</td><td>"
 										+ name
@@ -624,6 +646,45 @@
 							});
 			$('#modal-assign-mng').modal();
 		};
+		
+		/* Action after do Searching */
+		$('#btn-search').click(function(){
+			var searchElement = $('#input-search').val();
+			searchStaff(modeSearch, searchElement);
+		});
+		var tmpSearcTotalStaffs; /* keep the everytime search result. But this included total staff/manager. */
+		var tmpSearchStaff; /* keep the everytime search result. */
+		var tmpSearchManager; /* keep the everytime search result. */
+		function searchStaff(mode, searchElement){
+			tmpSearcTotalStaffs = [];
+			tmpSearchStaff = [];
+			tmpSearchManager = [];
+			log(mode+" :: "+searchElement);
+			switch (mode) {
+			case 'namelike':
+				$.each(staffList, function(index, val){
+					if(val.name.indexOf(searchElement) !== -1){
+						tmpSearcTotalStaffs.push(val);
+					}	
+				})
+				log(tmpSearcTotalStaffs);
+				break;
+			case 'bymng':
+
+				break;
+			case 'staffid':
+
+				break;
+			case 'viewAll':
+
+				break;
+			default: //TODO
+		}
+			}
+		
+		function log(str){
+			console.log(str);
+		}
 	</script>
 </body>
 </html>
