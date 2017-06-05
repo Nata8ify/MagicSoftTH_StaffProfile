@@ -89,7 +89,7 @@ public class StaffManagentController {
 		case Staff.TYPE_STAFF:
 			if (staffManager
 					.insertStaff(
-							new Staff(staffId, name, email, tel, division, position, protraitPath, hostManagerId,
+							new Staff(staffId, name, email, tel, division, position, protraitPath, hostManagerId.equals("")?null:hostManagerId,
 									gender, insertType),
 							password.equals("") ? Generator.getInstance().genPassword() : password)) {
 				model.addAttribute("msg", "สำเร็จ!");
@@ -251,7 +251,7 @@ public class StaffManagentController {
 		logger.info("i.f");
 		String imgName = img.isEmpty() ? null : Generator.getInstance().genImageName(img.getOriginalFilename());
 		if (staffManager.insertStaff(
-				new Staff(staffId, name, email, tel, division, position, imgName, hostManagerId, gender, insertType),
+				new Staff(staffId, name, email, tel, division, position, imgName, hostManagerId.equals("")?null:hostManagerId, gender, insertType),
 				password.equals("") ? Generator.getInstance().genPassword() : password)) {
 			img.transferTo(new File(mrequest.getRealPath(PORTRAIT_DIR) + imgName));
 			model.addAttribute("msg", "สำเร็จ!");

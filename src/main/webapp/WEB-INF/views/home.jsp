@@ -153,7 +153,7 @@
 								id="input-search"
 								required
 								data-validation-required-message="Please enter a Part of the Staff Name."
-								>
+							>
 							<p class="help-block text-danger"></p>
 						</div>
 					</div>
@@ -215,7 +215,7 @@
 					<div class="row">
 						<div class="form-group col-xs-12">
 							<button
-							disabled
+								disabled
 								id='btn-search'
 								type="submit"
 								class="btn btn-success btn-lg"
@@ -652,10 +652,11 @@
 			var searchElement = $('#input-search').val();
 			searchStaff(modeSearch, searchElement);
 		});
+		
 		var tmpSearcTotalStaffs; /* keep the everytime search result. But this included total staff/manager. */
 		var tmpSearchStaffs; /* keep the everytime search result. */
 		var tmpSearchManagers; /* keep the everytime search result. */
-		var tmpSearchManager; /* Just Single Manager Result. */
+		var tmpStaffOrManagerID; /* Just Single Staff / Manager Result. */
 		function searchStaff(mode, searchElement){
 			tmpSearcTotalStaffs = [];
 			tmpSearchStaffs = [];
@@ -667,7 +668,7 @@
 					if(val.name.indexOf(searchElement) !== -1){
 						tmpSearcTotalStaffs.push(val);
 					}	
-				})
+				});
 				log(tmpSearcTotalStaffs);
 				break;
 			case 'bymng':
@@ -676,17 +677,28 @@
 						tmpSearchStaffs.push(val);
 					}	
 					if(val.staffId == searchElement){
-						tmpSearchManager = val;
+						tmpStaffOrManagerID = val;
 					}
-				})
-				log(tmpSearchManager);
+				});
+				log(tmpStaffOrManagerID);
 				log(tmpSearchStaffs);
 				break;
 			case 'staffid':
-
+				tmpStaffOrManagerID = null;
+				$.each(staffList, function(index, val){
+					if(val.staffId == searchElement){
+						tmpStaffOrManagerID = val;
+					}
+				});
+				log(tmpStaffOrManagerID);
 				break;
 			case 'viewAll':
-
+				tmpStaffOrManagerID = null;
+				tmpSearchStaffs = staffList; /* This is a total */
+				tmpSearchStaffs = staffs;
+				tmpSearchManagers = managers;
+				log(managers);
+				log(staffs);
 				break;
 			default: //TODO
 		}
