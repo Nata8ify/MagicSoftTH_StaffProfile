@@ -678,12 +678,10 @@
 			var varStatus = 1;
 			var appendedTable = $('#table-view-staff-result');
 			var searchTitle;
-			appendedTable.html("");
 			switch (mode) {
 			case 'namelike':
 				appendedTable.append("<tr>");
 				$.each(staffList, function(index, val){
-					
 					if(val.name.indexOf(searchElement) !== -1){
 						log(varStatus);
 						tmpSearcTotalStaffs.push(val);
@@ -763,6 +761,7 @@
 		}
 			$('#modal-view-staff').modal();
 			$('#h2-view-staff-topic').html(searchTitle);
+			appendedTable.remove();
 			}
 		
 		function log(str){

@@ -4,8 +4,9 @@
 	id="modal-view-staff-info"
 	role="dialog"
 	aria-hidden="true"
+	
 >
-	<div class="modal-content">
+	<div class="modal-content"  tabindex="-2">
 		<div
 			class="close-modal"
 			data-dismiss="modal"
