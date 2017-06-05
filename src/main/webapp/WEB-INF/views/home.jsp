@@ -534,6 +534,7 @@
 	<jsp:include page="manage/modal_editself.jsp" />
 	<jsp:include page="manage/modal_pickmng.jsp" />
 	<jsp:include page="manage/modal_viewstaff.jsp" />
+	<jsp:include page="manage/modal_viewstaff_info.jsp" />
 	<!-- jQuery -->
 	<script src="${contextPath}/resources/vendor/jquery/jquery.min.js"></script>
 	<!-- Bootstrap Core JavaScript -->
@@ -645,6 +646,8 @@
 											$('#modal-assign-mng').modal('hide');
 
 											/* TODO Render */
+											
+											$('#h2-view-staff-topic').html("Summary of Search by Manager ("+name+").");
 											$('#modal-view-staff').modal();
 										}));
 							});
@@ -653,8 +656,13 @@
 		
 		/* Action after do Searching */
 		$('#btn-search').click(function(){
+			log($('#input-search').is(":disabled"));
+			if($('#input-search').val() != '' || $('#input-search').is(":disabled") ){
 			var searchElement = $('#input-search').val();
 			searchStaff(modeSearch, searchElement);
+			} else {
+			alert("Empty Field is Unaccepted.");	
+			}
 		});
 		
 		var tmpSearcTotalStaffs; /* keep the everytime search result. But this included total staff/manager. */
@@ -667,31 +675,51 @@
 			tmpSearchManager = [];
 			var cardResultBody; /* Keep it to build appened body.*/
 			log(mode+" :: "+searchElement);
+			var varStatus = 1;
+			var appendedTable = $('#table-view-staff-result');
+			var searchTitle;
+			appendedTable.html("");
 			switch (mode) {
 			case 'namelike':
-				var varStatus = 1;
-				$('#table-view-staff-result').append("<tr>");
+				appendedTable.append("<tr>");
 				$.each(staffList, function(index, val){
+					
 					if(val.name.indexOf(searchElement) !== -1){
+						log(varStatus);
 						tmpSearcTotalStaffs.push(val);
 						var protraitPath = val.protraitPath==null?'noimg.png':val.protraitPath;
-						if(varStatus % 5 == 0){
-							cardResultBody = $("<tr><td><div class='card' style='width: 20rem;'>"+
-									"<img class='card-img-top' width='150px' src='${contextPath}/resources/portraits/"+protraitPath+"' alt='Portrait'>"+
-									"<div class='card-block'> <h5 class='card-title'>"+val.name+"</h5> <h6 class='card-text'>"+val.position+"</h6></div></div></td></tr>");
-							
-						} else {
-							cardResultBody = $("<td><div class='card' style='width: 20rem;'>"+
+							cardResultBody = "<td><div class='card' style='width: 20rem;'>"+
 								"<img class='card-img-top' width='150px' src='${contextPath}/resources/portraits/"+protraitPath+"' alt='Portrait'>"+
-								"<div class='card-block'> <h5 class='card-title'>"+val.name+"</h5> <h6 class='card-text'>"+val.position+"</h6></div></div></td>");
-						}
-						$('#table-view-staff-result').append(cardResultBody);
+								"<div class='card-block'> <h5 class='card-title'>"+val.name+"</h5> <h6 class='card-text'>"+val.position+"</h6></div></div></td>";
+							if(varStatus % 5 == 0){
+								log(varStatus % 5 == 0);
+								appendedTable.after($("<tr></tr>"));
+							}
+							appendedTable.after($(cardResultBody).click(function(){
+								$('#h4-view-staff-info-title').html("Information of "+val.name);
+								$('#img-info-portrait').attr('src', "${contextPath}/resources/portraits/"+protraitPath);
+								$('#span-info-name').html(val.name);
+								$('#span-info-email').html(val.email);
+								$('#span-info-tel').html(val.tel);
+								$('#span-info-division').html(val.division);
+								$('#span-info-position').html(val.position);
+								if(val.staffType != 'm'){
+								$('#span-info-mng').html(val.hostManagerName != null?val.hostManagerName:'-');
+								} else {
+									$('#span-info-mng').html(val.hostManagerName != null?val.hostManagerName:'-');
+								}
+								$('#modal-view-staff-info').modal();
+							}));
 						varStatus++;
 					}	
 				});
-				$('#table-view-staff-result').append("</tr>");
 				/* TODO Render */
-				$('#modal-view-staff').modal();
+				if(tmpSearcTotalStaffs.length > 0){
+					searchTitle = "Results of Name Like Search ("+tmpSearcTotalStaffs.length+").";
+				} else {
+					searchTitle = "No Results for ["+tmpSearcTotalStaffs.length+"].";
+				}
+				
 				log(tmpSearcTotalStaffs);
 				break;
 			case 'bymng':
@@ -715,7 +743,11 @@
 				});
 				log(tmpStaffOrManagerID);
 				/* TODO Render */
-				$('#modal-view-staff').modal();
+				if(tmpSearcTotalStaffs.length > 0){
+					searchTitle = " Result of Staff ID Search.";
+				} else {
+					searchTitle = "No Results for ["+thisID+"].";
+				}
 				break;
 			case 'viewAll':
 				tmpStaffOrManagerID = null;
@@ -725,10 +757,12 @@
 				log(managers);
 				log(staffs);
 				/* TODO Render */
-				$('#modal-view-staff').modal();
+
 				break;
 			default: //TODO
 		}
+			$('#modal-view-staff').modal();
+			$('#h2-view-staff-topic').html(searchTitle);
 			}
 		
 		function log(str){
