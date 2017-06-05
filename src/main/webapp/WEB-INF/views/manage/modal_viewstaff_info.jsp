@@ -4,7 +4,6 @@
 	id="modal-view-staff-info"
 	role="dialog"
 	aria-hidden="true"
-	
 >
 	<div class="modal-content"  tabindex="-2">
 		<div
@@ -21,6 +20,7 @@
 					<div
 						class="modal-body"
 						style='margin: auto'
+						id='modal-search-result'
 					>
 						<h4 id='h4-view-staff-info-title'>TITLE</h4>
 						<table  cellpadding='20px'>

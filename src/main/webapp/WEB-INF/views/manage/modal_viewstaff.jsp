@@ -9,7 +9,7 @@
             </div>
             <div class="container" >
                 <div class="row">
-                    <div class="col-lg-11" >
+                    <div class="col-lg-12" >
                         <div class="modal-body" style='margin:auto'>
                             <h2 id='h2-view-staff-topic'></h2>
                             <hr class="star-primary">

@@ -647,7 +647,7 @@
 
 											/* TODO Render */
 											
-											$('#h2-view-staff-topic').html("Summary of Search by Manager ("+name+").");
+											$('#h2-view-staff-topic').html("Results for ("+name+").");
 											$('#modal-view-staff').modal();
 										}));
 							});
@@ -678,9 +678,10 @@
 			var varStatus = 1;
 			var appendedTable = $('#table-view-staff-result');
 			var searchTitle;
+			
 			switch (mode) {
 			case 'namelike':
-				appendedTable.append("<tr>");
+				appendedTable.after("<tr>");
 				$.each(staffList, function(index, val){
 					if(val.name.indexOf(searchElement) !== -1){
 						log(varStatus);
@@ -711,6 +712,7 @@
 						varStatus++;
 					}	
 				});
+				appendedTable.after("</tr>");
 				/* TODO Render */
 				if(tmpSearcTotalStaffs.length > 0){
 					searchTitle = "Results of Name Like Search ("+tmpSearcTotalStaffs.length+").";
@@ -761,12 +763,17 @@
 		}
 			$('#modal-view-staff').modal();
 			$('#h2-view-staff-topic').html(searchTitle);
-			appendedTable.remove();
+			appendedTable.detach();
 			}
 		
 		function log(str){
 			console.log(str);
 		}
+		
+		/* Not understand this trick so much! but will come to see another day, lol. */
+		$(document).on('hidden.bs.modal', '.modal', function () {
+		    $('.modal:visible').length && $(document.body).addClass('modal-open');
+		});
 	</script>
 </body>
 </html>
