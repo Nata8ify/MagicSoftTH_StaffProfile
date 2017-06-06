@@ -197,7 +197,7 @@
 	/* System will generate the recomendation and usable MagicSoftware Staff ID. */
 	$('#btn-gen-id').click(function() {
 		$.ajax({
-			"url" : "utils/latestMgsId",
+			"url" : "${pageContext.request.contextPath}/utils/latestMgsId",
 			"success" : function(rawId) {
 				$('#staffId').val(rawId);
 			}
@@ -238,7 +238,7 @@
 	var managers;
 	$(document).ready(function() {
 		$.ajax({
-			"url" : "viewAllMngs?json=true",
+			"url" : "${pageContext.request.contextPath}/viewAllMngs?json=true",
 			"success" : function(mlist) {
 				managers = $.parseJSON(mlist);
 				$('#btn-assign-mng').prop("disabled", false);

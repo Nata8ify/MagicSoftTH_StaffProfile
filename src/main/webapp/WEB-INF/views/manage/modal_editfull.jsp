@@ -287,7 +287,7 @@
 									staffId : $('#staffId').val()
 								},
 								"success" : function(result) {
-									alert("Should be deled!");
+									alert("Deleted");
 								}
 							});
 						}

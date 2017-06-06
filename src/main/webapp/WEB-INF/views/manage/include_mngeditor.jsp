@@ -147,7 +147,7 @@
 	var managers;
 	$('document').ready(function() {
 		$.ajax({
-			"url" : "viewAllMngs?json=true",
+			"url" : "${pageContext.request.contextPath}/viewAllMngs?json=true",
 			"success" : function(mlist) {
 				managers = $.parseJSON(mlist);
 			}
@@ -269,7 +269,7 @@
 								.row($(this).parents('tr')).data().staffId;
 						console.log(mngId);
 						$.ajax({
-							"url" : "searchMngsStaff?json=true&managerId="
+							"url" : "${pageContext.request.contextPath}/searchMngsStaff?json=true&managerId="
 									+ mngId,
 							"success" : function(slist) {
 								unassignedStaffs = $.parseJSON(slist);
@@ -354,7 +354,7 @@
 											$('#mnglist-tbody').append(btnAssignHtml.click(function() {
 																		$.each(staffIds, function(index, value) {
 																			$.ajax({
-																				"url" : "bindToMng",
+																				"url" : "${pageContext.request.contextPath}/bindToMng",
 																				"data" : {
 																					staffId : value,
 																					managerId : mngId
@@ -375,7 +375,7 @@
 	$('#btn-unbind-all').click(function() {
 		$.each(staffIds, function(index, value) {
 			$.ajax({
-				"url" : "unbindFromMng",
+				"url" : "${pageContext.request.contextPath}/unbindFromMng",
 				"data" : {
 					staffId : value
 				},

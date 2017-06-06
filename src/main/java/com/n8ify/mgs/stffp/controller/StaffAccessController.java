@@ -43,7 +43,7 @@ public class StaffAccessController {
 			logger.info("SESSION CREATED FOR :" + staff.getStaffId());
 			return "home";
 		}
-		return "manage/manage";
+		return "qhrqhrqhqrhqrhqrhqrhqrh";
 	}
 
 	@RequestMapping(value = "/admlogin")
@@ -60,12 +60,12 @@ public class StaffAccessController {
 			request.getSession(true).setAttribute("thisStaff", staff);
 			request.getSession(true).setAttribute("thisStaffAccess", StaffAccess.getAccessInstance());
 			logger.info("SESSION CREATED FOR ADMIN :" + staff.getStaffId());
-			return "manage/manage";
+			return "redirect:adm/manage";
 		}
 		throw new UnauthorizedAccessException();
 	}
 
-	@RequestMapping("/logout")
+	@RequestMapping(value={"/logout","/adm/logout"})
 	public String logout(Model model, HttpServletRequest request) {
 		if (request.getSession(false).getAttribute("thisStaff") != null) {
 			logger.info("NOT NULL STAFF");

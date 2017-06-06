@@ -41,21 +41,24 @@ public class StaffManagentController {
 	private final String RESULT_PATH = "result/result";
 	private final String MANAGE_PATH = "manage/manage";
 
-	@RequestMapping(value = "/adm/*", method = RequestMethod.GET)
-	public void m(HttpServletRequest request) throws UnauthorizedAccessException {
+
+	public void authenCheck(HttpServletRequest request) throws UnauthorizedAccessException {
 		Staff accessStaff = (Staff)request.getSession(false).getAttribute("thisStaff");
 		if(accessStaff == null) throw new UnauthorizedAccessException();
+		logger.info(">>>>"+accessStaff.getStaffType());
 		if(!accessStaff.getStaffType().equals(Staff.TYPE_ADMINISTRATOR)) throw new UnauthorizedAccessException();
 	}
 	
 	@RequestMapping(value = "/adm/manage", method = RequestMethod.GET)
 	public String toManage(HttpServletRequest request) throws UnauthorizedAccessException {
+		authenCheck(request);
 		return "manage/manage";
 	}
 
 	@RequestMapping(value = "/adm/managechoice", method = RequestMethod.GET)
 	public String toManageByCase(Model model, HttpServletRequest request,
 			@RequestParam(value = "to", required = true) String to) throws UnauthorizedAccessException {
+		authenCheck(request);
 		switch (to) {
 		case "addstaff":
 			model.addAttribute("manage", "add");
@@ -73,8 +76,8 @@ public class StaffManagentController {
 		return "manage/manage";
 	}
 
-	@RequestMapping(value = "/insertPerson", method = RequestMethod.POST)
-	public String insertPerson(Model model, @RequestParam(value = "staffId", required = true) String staffId,
+	@RequestMapping(value = "/adm/insertPerson", method = RequestMethod.POST)
+	public String insertPerson(Model model, HttpServletRequest request, @RequestParam(value = "staffId", required = true) String staffId,
 			@RequestParam(value = "gender", required = false) String gender,
 			@RequestParam(value = "name", required = true) String name,
 			@RequestParam(value = "email", required = true) String email,
@@ -84,8 +87,9 @@ public class StaffManagentController {
 			@RequestParam(value = "protraitPath", required = false) String protraitPath,
 			@RequestParam(value = "hostManagerId", required = false) String hostManagerId,
 			@RequestParam(value = "password", required = false, defaultValue = "") String password,
-			@RequestParam(value = "insertType", required = true) String insertType) {
+			@RequestParam(value = "insertType", required = true) String insertType) throws UnauthorizedAccessException {
 		// Checking Is this an Administrator Account Roll.
+		authenCheck(request);
 		switch (insertType) {
 		case Staff.TYPE_STAFF:
 			if (staffManager
@@ -107,8 +111,8 @@ public class StaffManagentController {
 		return "redirect:managechoice?to=addstaff";
 	}
 
-	@RequestMapping(value = "/editPerson", method = RequestMethod.POST)
-	public String editPerson(Model model, @RequestParam(value = "staffId", required = true) String staffId,
+	@RequestMapping(value = "/adm/editPerson", method = RequestMethod.POST)
+	public String editPerson(Model model, HttpServletRequest request, @RequestParam(value = "staffId", required = true) String staffId,
 			@RequestParam(value = "gender", required = false) String gender,
 			@RequestParam(value = "name", required = true) String name,
 			@RequestParam(value = "email", required = true) String email,
@@ -118,7 +122,8 @@ public class StaffManagentController {
 			@RequestParam(value = "protraitPath", required = false) String protraitPath,
 			@RequestParam(value = "hostManagerId", required = false) String hostManagerId,
 			@RequestParam(value = "password", required = true) String password,
-			@RequestParam(value = "editType", required = true) String editType) {
+			@RequestParam(value = "editType", required = true) String editType) throws UnauthorizedAccessException {
+		authenCheck(request);
 		if (staffManager.editStaff(
 				new Staff(staffId, name, email, tel, division, position, null, hostManagerId, gender, editType),
 				password)) {
@@ -129,10 +134,11 @@ public class StaffManagentController {
 		return "redirect:managechoice?to=explore";
 	}
 
-	@RequestMapping(value = "/deletePerson", method = RequestMethod.POST)
-	public String insertPerson(Model model, @RequestParam(value = "staffId", required = true) String staffId,
-			@RequestParam(value = "ajax", required = true, defaultValue = "false") boolean ajax) {
+	@RequestMapping(value = "/adm/deletePerson", method = RequestMethod.POST)
+	public String insertPerson(Model model, HttpServletRequest request, @RequestParam(value = "staffId", required = true) String staffId,
+			@RequestParam(value = "ajax", required = true, defaultValue = "false") boolean ajax) throws UnauthorizedAccessException {
 		// Checking Is this an Administrator Account Roll.
+		authenCheck(request);
 		boolean isSuccessDelete = staffManager.deleteStaffById(staffId);
 		if (staffManager.deleteStaffById(staffId)) {
 			if (ajax) {
@@ -165,7 +171,7 @@ public class StaffManagentController {
 		return "home";
 	}
 
-	@RequestMapping(value = "/editPerson.f", method = RequestMethod.POST)
+	@RequestMapping(value = "/adm/editPerson.f", method = RequestMethod.POST)
 	public String editPersonWithPortrait(Model model, HttpServletRequest request,
 			@RequestParam(value = "staffId", required = true) String staffId,
 			@RequestParam(value = "gender", required = true) String gender,
@@ -179,7 +185,8 @@ public class StaffManagentController {
 			@RequestParam(value = "hostManagerId", required = false) String hostManagerId,
 			@RequestParam(value = "password", required = false) String password,
 			@RequestParam(value = "editType", required = true) String editType)
-			throws IllegalStateException, IOException {
+			throws IllegalStateException, IOException, UnauthorizedAccessException {
+		authenCheck(request);
 		MultipartHttpServletRequest mrequest = multipartResolver.resolveMultipart(request);
 		Staff staff = new Staff(staffId, name, email, tel, division, position, null, hostManagerId, gender, editType);
 		logger.info(staff.toString() + " PWD : " + password);
@@ -234,7 +241,7 @@ public class StaffManagentController {
 		return "home";
 	}
 
-	@RequestMapping(value = "/insertPerson.f", method = RequestMethod.POST, headers = "content-type=multipart/*")
+	@RequestMapping(value = "/adm/insertPerson.f", method = RequestMethod.POST, headers = "content-type=multipart/*")
 	public String insertPersonWithPortrait(Model model, HttpServletRequest request,
 			@RequestParam(value = "staffId", required = true) String staffId,
 			@RequestParam(value = "gender", required = true) String gender,
@@ -247,8 +254,9 @@ public class StaffManagentController {
 			@RequestParam(value = "password", required = false) String password,
 			@RequestParam(value = "insertType", required = true) String insertType,
 			MultipartHttpServletRequest mrequest, @RequestParam(value = "protraitPath") MultipartFile img)
-			throws IllegalStateException, IOException {
+			throws IllegalStateException, IOException, UnauthorizedAccessException {
 		// Checking Is this an Administrator Account Roll.
+		authenCheck(request);
 		logger.info("i.f");
 		String imgName = img.isEmpty() ? null : Generator.getInstance().genImageName(img.getOriginalFilename());
 		if (staffManager.insertStaff(

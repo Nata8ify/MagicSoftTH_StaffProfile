@@ -104,7 +104,7 @@
 
 		var unassignedStaffs;
 		$.ajax({
-			"url" : "viewAllUnassignedStaffs?json=true",
+			"url" : "${pageContext.request.contextPath}/viewAllUnassignedStaffs?json=true",
 			"success" : function(uslist) {
 				unassignedStaffs = $.parseJSON(uslist);
 			}
@@ -112,14 +112,14 @@
 
 		var staffs;
 		$.ajax({
-			"url" : "viewAllStaffs?json=true",
+			"url" : "${pageContext.request.contextPath}/viewAllStaffs?json=true",
 			"success" : function(slist) {
 				staffs = $.parseJSON(slist);
 			}
 		});
 		var managers;
 		$.ajax({
-			"url" : "viewAllMngs?json=true",
+			"url" : "${pageContext.request.contextPath}/viewAllMngs?json=true",
 			"success" : function(mlist) {
 				managers = $.parseJSON(mlist);
 			}
@@ -167,7 +167,7 @@
 	/* modal_pickmng */
 	var managers;
 	$.ajax({
-		"url" : "viewAllMngs?json=true",
+		"url" : "${pageContext.request.contextPath}/viewAllMngs?json=true",
 		"success" : function(mlist) {
 			managers = $.parseJSON(mlist);
 		}
