@@ -639,7 +639,7 @@
 										+ name
 										+ "</td><td>"
 										+ position
-										+ "</td><td><button class='btn btn-default .btn-assign-mng'><i class='glyphicon glyphicon-ok'></i></button></td></tr>");
+										+ "</td><td><button class='btn btn-default btn-assign-mng'><i class='glyphicon glyphicon-ok'></i></button></td></tr>");
 								$('#mnglist-tbody').append(
 										btnAssignHtml.click(function() {
 											searchStaff(modeSearch, staffId);
@@ -658,7 +658,7 @@
 		$('#btn-search').click(function(){
 			log($('#input-search').is(":disabled"));
 			if($('#input-search').val() != '' || $('#input-search').is(":disabled") ){
-				$('#btn-search').prop('disabled', true);
+				
 			var searchElement = $('#input-search').val();
 			searchStaff(modeSearch, searchElement);
 			} else {
@@ -669,7 +669,7 @@
 		var tmpSearcTotalStaffs; /* keep the everytime search result. But this included total staff/manager. */
 		var tmpSearchStaffs; /* keep the everytime search result. */
 		var tmpSearchManagers; /* keep the everytime search result. */
-		var tmpStaffOrManagerID; /* Just Single Staff / Manager Result. */
+		var tmpSearchStaffOrMng; /* Just Single Staff / Manager Result. */
 		function searchStaff(mode, searchElement){
 			tmpSearcTotalStaffs = [];
 			tmpSearchStaffs = [];
@@ -696,6 +696,7 @@
 							var position = val.position;
 							var  hostManagerName = val.hostManagerName;
 							var staffType  = val.staffType ;
+							var staffId = val.staffId;
 							cardResultBody = $("<div class='col-sm-2'><div class='card' style='width: 20rem;'>"+
 								"<img class='card-img-top' width='150px' src='${contextPath}/resources/portraits/"+protraitPath+"' alt='Portrait'>"+
 								"<div class='card-block'> <h5 class='card-title'>"+name+"</h5> <h6 class='card-text'>"+position+"</h6></div></div></div>");
@@ -706,6 +707,7 @@
 							divResultBody.append(cardResultBody.click(function(){
 								$('#h4-view-staff-info-title').html("Information of "+val.name);
 								$('#img-info-portrait').attr('src', "${contextPath}/resources/portraits/"+protraitPath);
+								$('#span-info-staffid').html(staffId);
 								$('#span-info-name').html(name);
 								$('#span-info-email').html(email);
 								$('#span-info-tel').html(tel);
@@ -734,37 +736,149 @@
 				/* appendNameLikeSearchResult(); */
 				break;
 			case 'bymng':
-				$.each(staffList, function(index, val){
-					if(val.hostManagerId == searchElement){
-						tmpSearchStaffs.push(val);
-					}	
-					if(val.staffId == searchElement){
-						tmpStaffOrManagerID = val;
-					}
-				});
-				log(tmpStaffOrManagerID);
+				divResultBody.empty();
+				$.each(staffList,function(index, val) {
+									if(val.hostManagerId == searchElement){
+										tmpSearchStaffs.push(val);
+										/* TODO FOund Staff */
+										var protraitPath = val.protraitPath==null?'noimg.png':val.protraitPath;
+										var name = val.name;
+											var email = val.email;
+											var tel = val.tel;
+											var division = val.division;
+											var position = val.position;
+											var  hostManagerName = val.hostManagerName;
+											var staffType  = val.staffType ;
+											var staffId = val.staffId;
+											cardResultBody = $("<div class='col-sm-2'><div class='card' style='width: 20rem;'>"+
+													"<img class='card-img-top' width='150px' src='${contextPath}/resources/portraits/"+protraitPath+"' alt='Portrait'>"+
+													"<div class='card-block'> <h5 class='card-title'>"+name+"</h5> <h6 class='card-text'>"+position+"</h6></div></div></div>");
+												if(varStatus % 5 == 0){
+													log(varStatus % 5 == 0);
+													divResultBody.append($("<tr></tr>"));
+												}
+												divResultBody.append(cardResultBody.click(function(){
+													$('#h4-view-staff-info-title').html("Information of "+val.name);
+													$('#img-info-portrait').attr('src', "${contextPath}/resources/portraits/"+protraitPath);
+													$('#span-info-staffid').html(staffId);
+													$('#span-info-name').html(name);
+													$('#span-info-email').html(email);
+													$('#span-info-tel').html(tel);
+													$('#span-info-division').html(division);
+													$('#span-info-position').html(position);
+													if(staffType != 'm'){
+													$('#span-info-mng').html(hostManagerName != null?hostManagerName:'-');
+													} else {
+														$('#span-info-mng').html(hostManagerName != null?hostManagerName:'-');
+													}
+													$('#modal-view-staff-info').modal();
+												}));
+											varStatus++;
+									}
+									if(val.staffId == searchElement){
+										tmpSearchStaffOrMng = val;
+										
+									}
+								});
+				divResultBody.append($("</div>"));
+				if(tmpSearcTotalStaffs.length > 0){
+					$('#h2-view-staff-topic').html("Results for ["+name+"].");
+				} else {
+					searchTitle = "No Results for ["+name+"].";
+				}
+				
+				$('#modal-view-staff').modal();
+				log(tmpSearchStaffOrMng);
 				log(tmpSearchStaffs);
 				break;
 			case 'staffid':
-				tmpStaffOrManagerID = null;
+				tmpSearchStaffOrMng = null;
 				$.each(staffList, function(index, val){
 					if(val.staffId == searchElement){
-						tmpStaffOrManagerID = val;
+						/* TODO FOund Staff */
+						tmpSearchStaffOrMng = val;
+						var protraitPath = val.protraitPath==null?'noimg.png':val.protraitPath;
+						var name = val.name;
+							var email = val.email;
+							var tel = val.tel;
+							var division = val.division;
+							var position = val.position;
+							var  hostManagerName = val.hostManagerName;
+							var staffType  = val.staffType ;
+							var staffId = val.staffId;
+									$('#h4-view-staff-info-title').html("Information of "+name);
+									$('#span-info-staffid').html(staffId);
+									$('#img-info-portrait').attr('src', "${contextPath}/resources/portraits/"+protraitPath);
+									$('#span-info-name').html(name);
+									$('#span-info-email').html(email);
+									$('#span-info-tel').html(tel);
+									$('#span-info-division').html(division);
+									$('#span-info-position').html(position);
+									if(staffType != 'm'){
+									$('#span-info-mng').html(hostManagerName != null?hostManagerName:'-');
+									} else {
+										$('#span-info-mng').html(hostManagerName != null?hostManagerName:'-');
+									}
+									
 					}
 				});
-				log(tmpStaffOrManagerID);
+				log(tmpSearchStaffOrMng);
 				/* TODO Render */
-				if(tmpSearcTotalStaffs.length > 0){
-					searchTitle = " Result of Staff ID Search.";
+				if(tmpSearchStaffOrMng != null){
+					$('#modal-view-staff-info').modal();
 				} else {
-					searchTitle = "No Results for ["+thisID+"].";
+					alert(searchElement+" is Not Found.");
 				}
-				break;
+				return;
 			case 'viewAll':
-				tmpStaffOrManagerID = null;
+				tmpSearchStaffOrMng = null;
 				tmpSearchStaffs = staffList; /* This is a total */
 				tmpSearchStaffs = staffs;
 				tmpSearchManagers = managers;
+				
+				divResultBody.empty();
+				$.each(staffList,function(index, val) {
+
+										tmpSearchStaffs.push(val);
+										/* TODO FOund Staff */
+										var protraitPath = val.protraitPath==null?'noimg.png':val.protraitPath;
+										var name = val.name;
+											var email = val.email;
+											var tel = val.tel;
+											var division = val.division;
+											var position = val.position;
+											var  hostManagerName = val.hostManagerName;
+											var staffType  = val.staffType ;
+											var staffId = val.staffId;
+											cardResultBody = $("<div class='col-sm-2'><div class='card' style='width: 20rem;'>"+
+													"<img class='card-img-top' width='150px' src='${contextPath}/resources/portraits/"+protraitPath+"' alt='Portrait'>"+
+													"<div class='card-block'> <h5 class='card-title'>"+name+"</h5> <h6 class='card-text'>"+position+"</h6></div></div></div>");
+												if(varStatus % 5 == 0){
+													log(varStatus % 5 == 0);
+													divResultBody.append($("<tr></tr>"));
+												}
+												divResultBody.append(cardResultBody.click(function(){
+													$('#h4-view-staff-info-title').html("Information of "+val.name);
+													$('#img-info-portrait').attr('src', "${contextPath}/resources/portraits/"+protraitPath);
+													$('#span-info-staffid').html(staffId);
+													$('#span-info-name').html(name);
+													$('#span-info-email').html(email);
+													$('#span-info-tel').html(tel);
+													$('#span-info-division').html(division);
+													$('#span-info-position').html(position);
+													if(staffType != 'm'){
+													$('#span-info-mng').html(hostManagerName != null?hostManagerName:'-');
+													} else {
+														$('#span-info-mng').html(hostManagerName != null?hostManagerName:'-');
+													}
+													$('#modal-view-staff-info').modal();
+												}));
+
+								});
+				divResultBody.append($("</div>"));
+				$('#h2-view-staff-topic').html("Magic Software Staff's Board.");
+				$('#modal-view-staff').modal();
+				
 				log(managers);
 				log(staffs);
 				/* TODO Render */
@@ -844,8 +958,12 @@
 		    $('.modal:visible').length && $(document.body).addClass('modal-open');
 		});
 		
-		$('#modal-view-staff').on('hidden.bs.modal', function (e) {
+		
+		$('#modal-view-staff, #modal-view-staff-info').on('hidden.bs.modal', function (e) {
 			  $('#btn-search').prop('disabled', false);
+		});
+		$('#modal-view-staff, #modal-view-staff-info').on('shown.bs.modal', function (e) {
+			$('#btn-search').prop('disabled', true);
 		});
 	</script>
 </body>

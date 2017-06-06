@@ -26,9 +26,14 @@
 						<table  cellpadding='20px'>
 							<tbody>
 								<tr>
-									<td rowspan="7"><img id='img-info-portrait' /></td>
+									<td rowspan="8"><img id='img-info-portrait' /></td>
 									<td></td>
 									<td></td>
+								</tr>
+								<tr>
+									<td></td>
+									<td>Staff ID :</td>
+									<td><span id='span-info-staffid'></span></td>
 								</tr>
 								<tr>
 									<td></td>
@@ -60,20 +65,21 @@
 									<td>Manager :</td>
 									<td><span id='span-info-mng'></span></td>
 								</tr>
-								<tr>
-									<td></td>
-									<td></td>
-									<td><button
+							</tbody>
+						</table>
+						<div class='row'>
+							<div class='col-lg-12'>
+							<br>
+								<button
 											style='margin-right: 1%'
 											type="button"
 											class="btn btn-default btn-close-modal"
 											data-dismiss="modal"
 										>
 											<i class="fa fa-times"></i> Close
-										</button></td>
-								</tr>
-							</tbody>
-						</table>
+										</button>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
