@@ -66,6 +66,7 @@ public class SttfpAccess implements StffpfAccessInterface {
 			staff.setDivision(rs.getString("division"));
 			staff.setPosition(rs.getString("position"));
 			staff.setProtraitPath(rs.getString("protraitPath"));
+			staff.setStaffType(rs.getString("staffType"));
 			staff.setHostManagerId(rs.getString("hostManagerId"));
 			return staff;
 		}

@@ -41,18 +41,21 @@ public class StaffManagentController {
 	private final String RESULT_PATH = "result/result";
 	private final String MANAGE_PATH = "manage/manage";
 
-	@RequestMapping(value = "/manage", method = RequestMethod.GET)
+	@RequestMapping(value = "/adm/*", method = RequestMethod.GET)
+	public void m(HttpServletRequest request) throws UnauthorizedAccessException {
+		Staff accessStaff = (Staff)request.getSession(false).getAttribute("thisStaff");
+		if(accessStaff == null) throw new UnauthorizedAccessException();
+		if(!accessStaff.getStaffType().equals(Staff.TYPE_ADMINISTRATOR)) throw new UnauthorizedAccessException();
+	}
+	
+	@RequestMapping(value = "/adm/manage", method = RequestMethod.GET)
 	public String toManage(HttpServletRequest request) throws UnauthorizedAccessException {
-		// HttpServletRequest request
-		// if(request.getSession(false).getAttribute("thisStaff"))));
-		permitCheck(request);
 		return "manage/manage";
 	}
 
-	@RequestMapping(value = "/managechoice", method = RequestMethod.GET)
+	@RequestMapping(value = "/adm/managechoice", method = RequestMethod.GET)
 	public String toManageByCase(Model model, HttpServletRequest request,
 			@RequestParam(value = "to", required = true) String to) throws UnauthorizedAccessException {
-		permitCheck(request);
 		switch (to) {
 		case "addstaff":
 			model.addAttribute("manage", "add");
@@ -71,7 +74,7 @@ public class StaffManagentController {
 	}
 
 	@RequestMapping(value = "/insertPerson", method = RequestMethod.POST)
-	public String insertPerson(Model model, HttpServletRequest request, @RequestParam(value = "staffId", required = true) String staffId,
+	public String insertPerson(Model model, @RequestParam(value = "staffId", required = true) String staffId,
 			@RequestParam(value = "gender", required = false) String gender,
 			@RequestParam(value = "name", required = true) String name,
 			@RequestParam(value = "email", required = true) String email,
@@ -81,15 +84,15 @@ public class StaffManagentController {
 			@RequestParam(value = "protraitPath", required = false) String protraitPath,
 			@RequestParam(value = "hostManagerId", required = false) String hostManagerId,
 			@RequestParam(value = "password", required = false, defaultValue = "") String password,
-			@RequestParam(value = "insertType", required = true) String insertType) throws UnauthorizedAccessException {
+			@RequestParam(value = "insertType", required = true) String insertType) {
 		// Checking Is this an Administrator Account Roll.
-		permitCheck(request);
 		switch (insertType) {
 		case Staff.TYPE_STAFF:
-			if (staffManager.insertStaff(
-					new Staff(staffId, name, email, tel, division, position, protraitPath,
-							hostManagerId.equals("") ? null : hostManagerId, gender, insertType),
-					password.equals("") ? Generator.getInstance().genPassword() : password)) {
+			if (staffManager
+					.insertStaff(
+							new Staff(staffId, name, email, tel, division, position, protraitPath, hostManagerId.equals("")?null:hostManagerId,
+									gender, insertType),
+							password.equals("") ? Generator.getInstance().genPassword() : password)) {
 				model.addAttribute("msg", "สำเร็จ!");
 			} else {
 				model.addAttribute("msg", "ไม่สำเร็จ!");
@@ -105,7 +108,7 @@ public class StaffManagentController {
 	}
 
 	@RequestMapping(value = "/editPerson", method = RequestMethod.POST)
-	public String editPerson(Model model, HttpServletRequest request, @RequestParam(value = "staffId", required = true) String staffId,
+	public String editPerson(Model model, @RequestParam(value = "staffId", required = true) String staffId,
 			@RequestParam(value = "gender", required = false) String gender,
 			@RequestParam(value = "name", required = true) String name,
 			@RequestParam(value = "email", required = true) String email,
@@ -115,8 +118,7 @@ public class StaffManagentController {
 			@RequestParam(value = "protraitPath", required = false) String protraitPath,
 			@RequestParam(value = "hostManagerId", required = false) String hostManagerId,
 			@RequestParam(value = "password", required = true) String password,
-			@RequestParam(value = "editType", required = true) String editType) throws UnauthorizedAccessException {
-		permitCheck(request);
+			@RequestParam(value = "editType", required = true) String editType) {
 		if (staffManager.editStaff(
 				new Staff(staffId, name, email, tel, division, position, null, hostManagerId, gender, editType),
 				password)) {
@@ -128,10 +130,9 @@ public class StaffManagentController {
 	}
 
 	@RequestMapping(value = "/deletePerson", method = RequestMethod.POST)
-	public String insertPerson(Model model, HttpServletRequest request, @RequestParam(value = "staffId", required = true) String staffId,
-			@RequestParam(value = "ajax", required = true, defaultValue = "false") boolean ajax) throws UnauthorizedAccessException {
+	public String insertPerson(Model model, @RequestParam(value = "staffId", required = true) String staffId,
+			@RequestParam(value = "ajax", required = true, defaultValue = "false") boolean ajax) {
 		// Checking Is this an Administrator Account Roll.
-		permitCheck(request);
 		boolean isSuccessDelete = staffManager.deleteStaffById(staffId);
 		if (staffManager.deleteStaffById(staffId)) {
 			if (ajax) {
@@ -178,8 +179,7 @@ public class StaffManagentController {
 			@RequestParam(value = "hostManagerId", required = false) String hostManagerId,
 			@RequestParam(value = "password", required = false) String password,
 			@RequestParam(value = "editType", required = true) String editType)
-			throws IllegalStateException, IOException, UnauthorizedAccessException {
-		permitCheck(request);
+			throws IllegalStateException, IOException {
 		MultipartHttpServletRequest mrequest = multipartResolver.resolveMultipart(request);
 		Staff staff = new Staff(staffId, name, email, tel, division, position, null, hostManagerId, gender, editType);
 		logger.info(staff.toString() + " PWD : " + password);
@@ -247,13 +247,12 @@ public class StaffManagentController {
 			@RequestParam(value = "password", required = false) String password,
 			@RequestParam(value = "insertType", required = true) String insertType,
 			MultipartHttpServletRequest mrequest, @RequestParam(value = "protraitPath") MultipartFile img)
-			throws IllegalStateException, IOException, UnauthorizedAccessException {
+			throws IllegalStateException, IOException {
 		// Checking Is this an Administrator Account Roll.
-		permitCheck(request);
+		logger.info("i.f");
 		String imgName = img.isEmpty() ? null : Generator.getInstance().genImageName(img.getOriginalFilename());
 		if (staffManager.insertStaff(
-				new Staff(staffId, name, email, tel, division, position, imgName,
-						hostManagerId.equals("") ? null : hostManagerId, gender, insertType),
+				new Staff(staffId, name, email, tel, division, position, imgName, hostManagerId.equals("")?null:hostManagerId, gender, insertType),
 				password.equals("") ? Generator.getInstance().genPassword() : password)) {
 			img.transferTo(new File(mrequest.getRealPath(PORTRAIT_DIR) + imgName));
 			model.addAttribute("msg", "สำเร็จ!");
@@ -263,22 +262,9 @@ public class StaffManagentController {
 		return "redirect:managechoice?to=add";
 	}
 
-	@ExceptionHandler({ UnauthorizedAccessException.class })
-	public ModelAndView unauthAccountException(UnauthorizedAccessException npex) {
+	@ExceptionHandler({UnauthorizedAccessException.class})
+	public ModelAndView nullAccountException(UnauthorizedAccessException npex){
 		ModelAndView mav = new ModelAndView("result/errpage");
-		return ModelBody.setErrorBody(HttpStatus.INTERNAL_SERVER_ERROR, ModelBody.ERR_ICO_UNAUTH, "Halt!",
-				"This Section is Authorized for Administrator.", mav);
-	}
-
-	private void permitCheck(HttpServletRequest request) throws UnauthorizedAccessException {
-		Staff staff = (Staff) request.getSession(false).getAttribute("thisStaff");
-
-		if (staff == null) {
-			throw new UnauthorizedAccessException();
-		}
-		if (!staff.getStaffType().equals(Staff.TYPE_ADMINISTRATOR)) {
-			throw new UnauthorizedAccessException();
-		}
-		logger.info(staff.toString());
+		return ModelBody.setErrorBody(HttpStatus.INTERNAL_SERVER_ERROR, ModelBody.ERR_ICO_UNAUTH, "Oops!", "This Section is Authorized for Administrator.", mav);
 	}
 }
