@@ -17,6 +17,7 @@ import com.n8ify.mgs.stffp.dealer.SttfpAccess;
 import com.n8ify.mgs.stffp.excp.UnauthorizedAccessException;
 import com.n8ify.mgs.stffp.model.Staff;
 import com.n8ify.mgs.stffp.model.StaffAccess;
+import com.n8ify.mgs.stffp.utils.Generator;
 import com.n8ify.mgs.stffp.utils.ModelBody;
 
 @Controller
@@ -34,7 +35,7 @@ public class StaffAccessController {
 		if (request.getSession(false).getAttribute("thisStaff") != null) {
 			request.getSession(false).invalidate();
 		}
-		Staff staff = sttfpAccess.login(staffId, password);
+		Staff staff = sttfpAccess.login(staffId, Generator.getInstance().genMd5(password));
 		if (staff.getStaffId().equals(staffId)) {
 			Staff.setStaffInstance(staff);
 			StaffAccess.setAccessInstance(new StaffAccess(staffId, password));
@@ -53,10 +54,10 @@ public class StaffAccessController {
 		if (request.getSession(false).getAttribute("thisStaff") != null) {
 			request.getSession(false).invalidate();
 		}
-		Staff staff = sttfpAccess.login(staffId, password, Staff.TYPE_ADMINISTRATOR);
+		Staff staff = sttfpAccess.login(staffId, Generator.getInstance().genMd5(password), Staff.TYPE_ADMINISTRATOR);
 		if (staff.getStaffId().equals(staffId)) {
 			Staff.setStaffInstance(staff);
-			StaffAccess.setAccessInstance(new StaffAccess(staffId, password));
+			StaffAccess.setAccessInstance(new StaffAccess(staffId, Generator.getInstance().genMd5(password)));
 			request.getSession(true).setAttribute("thisStaff", staff);
 			request.getSession(true).setAttribute("thisStaffAccess", StaffAccess.getAccessInstance());
 			logger.info("SESSION CREATED FOR ADMIN :" + staff.getStaffId());

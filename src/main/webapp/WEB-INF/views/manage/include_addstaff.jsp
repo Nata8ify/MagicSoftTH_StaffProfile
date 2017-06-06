@@ -3,7 +3,7 @@
 	<form
 		name="add-staff-form"
 		id="add-staff-form"
-		action="adm/insertPerson.f"
+		action="insertPerson.f"
 		method="POST"
 		enctype="multipart/form-data"
 	>

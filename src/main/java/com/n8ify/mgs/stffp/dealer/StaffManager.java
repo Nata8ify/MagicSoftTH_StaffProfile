@@ -13,12 +13,13 @@ import org.springframework.jdbc.core.RowMapper;
 
 import com.n8ify.mgs.stffp.intface.StaffManagementInterface;
 import com.n8ify.mgs.stffp.model.Staff;
+import com.n8ify.mgs.stffp.utils.Generator;
 
 public class StaffManager implements StaffManagementInterface {
 	private static final Logger logger = LoggerFactory.getLogger(StaffManager.class);
 	private DataSource dataSource;
 	private JdbcTemplate jdbcTemplate;
-
+ 
 	public DataSource getDataSource() {
 		return dataSource;
 	}
@@ -47,7 +48,7 @@ public class StaffManager implements StaffManagementInterface {
 						staff.getDivision(), staff.getPosition(), staff.getProtraitPath(), staff.getHostManagerId(),
 						staff.getStaffType() }) > 0;
 		sql = " INSERT INTO `StaffAccess`(`staffId`, `password`) VALUES (?,?);";
-		return jdbcTemplate.update(sql, new Object[] { staff.getStaffId(), password }) > 0 & is1stSuccess;
+		return jdbcTemplate.update(sql, new Object[] { staff.getStaffId(), Generator.getInstance().genMd5(password) }) > 0 & is1stSuccess;
 	}
 
 	@Override
@@ -62,7 +63,7 @@ public class StaffManager implements StaffManagementInterface {
 			return is1stSuccess;
 		}
 		String updateAccessSql = "UPDATE `StaffAccess` SET `password`= ? WHERE `staffId`= ?;";
-		return jdbcTemplate.update(updateAccessSql, new Object[] { newPassword, staff.getStaffId() }) > 0
+		return jdbcTemplate.update(updateAccessSql, new Object[] { Generator.getInstance().genMd5(newPassword), staff.getStaffId() }) > 0
 				& is1stSuccess;
 	}
 
@@ -78,7 +79,7 @@ public class StaffManager implements StaffManagementInterface {
 			return is1stSuccess;
 		}
 		String updateAccessSql = "UPDATE `StaffAccess` SET `password`= ? WHERE `staffId`= ?;";
-		return jdbcTemplate.update(updateAccessSql, new Object[] { newPassword, staff.getStaffId() }) > 0
+		return jdbcTemplate.update(updateAccessSql, new Object[] { Generator.getInstance().genMd5(newPassword), staff.getStaffId() }) > 0
 				& is1stSuccess;
 	}
 
@@ -86,7 +87,7 @@ public class StaffManager implements StaffManagementInterface {
 	public boolean editSelfStaff(Staff staff, String newPassword) {
 		String sql = "UPDATE `Staff` s JOIN `StaffAccess` sa on s.`staffId` = sa.`staffId` SET  s.`name`= ?, s.`email`= ?, s.`tel`= ?, s.`protraitPath`= ?, sa.`password`  = ? WHERE s.`staffId`= ?;";
 		return jdbcTemplate.update(sql, new Object[] { staff.getName(), staff.getEmail(), staff.getTel(),
-				staff.getProtraitPath(), newPassword, staff.getStaffId() }) > 0;
+				staff.getProtraitPath(), Generator.getInstance().genMd5(newPassword), staff.getStaffId() }) > 0;
 	}
 
 	@Override
