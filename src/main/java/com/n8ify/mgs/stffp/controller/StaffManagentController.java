@@ -8,19 +8,23 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.n8ify.mgs.stffp.dealer.StaffManager;
 import com.n8ify.mgs.stffp.excp.UnauthorizedAccessException;
 import com.n8ify.mgs.stffp.model.Staff;
 import com.n8ify.mgs.stffp.utils.Generator;
+import com.n8ify.mgs.stffp.utils.ModelBody;
 
 @Controller
 public class StaffManagentController {
@@ -261,20 +265,9 @@ public class StaffManagentController {
 		return "redirect:managechoice?to=add";
 	}
 
-	// private String imageVerify(MultipartFile img, MultipartHttpServletRequest
-	// mrequest) throws IllegalStateException, IOException{
-	// if(img.isEmpty())return "";
-	// File oldImg = new File(mrequest.getRealPath(PORTRAIT_DIR +
-	// Staff.getStaffInstance().getProtraitPath()));
-	// if (!oldImg.delete()) {
-	// logger.error(": IMG NOT DEL : " + " : Name " + oldImg.getName() + " : is
-	// file : "
-	// + oldImg.isFile() + "::::" + oldImg.getPath());
-	// } else {
-	// logger.error(": IMG DELED : " + " : Name " + oldImg.getName() + " : is
-	// file : "
-	// + oldImg.isFile() + "::::" + oldImg.getPath());
-	// }
-	// return Generator.getInstance().genImageName(img.getOriginalFilename());
-	// }
+	@ExceptionHandler({UnauthorizedAccessException.class})
+	public ModelAndView nullAccountException(UnauthorizedAccessException npex){
+		ModelAndView mav = new ModelAndView("result/errpage");
+		return ModelBody.setErrorBody(HttpStatus.INTERNAL_SERVER_ERROR, ModelBody.ERR_ICO_UNAUTH, "Oops!", "It seem your Staff ID or Password is not valid or not exists.", mav);
+	}
 }

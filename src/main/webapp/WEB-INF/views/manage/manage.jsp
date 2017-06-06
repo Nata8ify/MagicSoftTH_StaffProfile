@@ -107,16 +107,12 @@
 						<li><a href="managechoice?to=mngeditor"><i
 								class="glyphicon glyphicon-pencil"
 							></i> Manager Binder</a></li>
-						<li><a href="forms.html"><i
-								class="glyphicon glyphicon-tasks"
-							></i> Advance Tools</a></li>
 						<li class="submenu"><a href="#"> <i
 								class="glyphicon glyphicon-list"
-							></i> Pages <span class="caret pull-right"></span>
+							></i> Advance Tools <span class="caret pull-right"></span>
 						</a> <!-- Sub menu -->
 							<ul>
-								<li><a href="login.html">Login</a></li>
-								<li><a href="signup.html">Signup</a></li>
+								<li><a href="#" onclick='javascript:alert("To import staff list with .xls, xlsx that will do another day lol...")'>Import Staffs</a></li>
 							</ul></li>
 					</ul>
 				</div>

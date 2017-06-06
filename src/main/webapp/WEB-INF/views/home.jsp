@@ -261,7 +261,7 @@
 												class="card-img-top"
 												src="${contextPath}/resources/portraits/${manager.protraitPath==null?'noimg.png':manager.protraitPath}"
 												alt="Portrait"
-												width="170px"
+												width="170em"
 											>
 											<div class="card-block">
 												<h5 class="card-title">${manager.name}</h5>
@@ -281,11 +281,7 @@
 								<td colspan="5"><h3>Staffs</h3></td>
 							</tr>
 							<tr>
-								<c:forEach
-									items="${staffs}"
-									var="staff"
-									varStatus="c"
-								>
+								<c:forEach items="${staffs}" var="staff" varStatus="c" >
 									<td>
 										<div
 											class="card"
@@ -293,7 +289,7 @@
 										>
 											<img
 												class="card-img-top"
-												width="150px"
+												width="150rm"
 												src="${contextPath}/resources/portraits/${staff.protraitPath==null?'noimg.png':staff.protraitPath}"
 												alt="Portrait"
 											>
@@ -340,7 +336,6 @@
 						<form
 							name="signInForm"
 							id="signInForm"
-							novalidate
 							action="login"
 							method="POST"
 						>
@@ -851,7 +846,7 @@
 											var staffType  = val.staffType ;
 											var staffId = val.staffId;
 											cardResultBody = $("<div class='col-sm-2'><div class='card' style='width: 20rem;'>"+
-													"<img class='card-img-top' width='150px' src='${contextPath}/resources/portraits/"+protraitPath+"' alt='Portrait'>"+
+													"<img class='card-img-top' width='150em' src='${contextPath}/resources/portraits/"+protraitPath+"' alt='Portrait'>"+
 													"<div class='card-block'> <h5 class='card-title'>"+name+"</h5> <h6 class='card-text'>"+position+"</h6></div></div></div>");
 												if(varStatus % 5 == 0){
 													log(varStatus % 5 == 0);
