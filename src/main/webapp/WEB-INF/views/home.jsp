@@ -61,8 +61,12 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 <style>
+.card-staff {
+	padding-top:10px;
+}
 .card-staff:hover {
 	cursor: pointer;
+	background-color: #eee;
 }
 </style>
 </head>
