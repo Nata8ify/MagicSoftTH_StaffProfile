@@ -46,6 +46,9 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
+    <style>
+    	#table-staffs-unassigned tr:hover,  #table-staffs-assigned tr:hover {cursor: pointer;}
+    </style>
 </head>
 <body>
 	<div class="header">

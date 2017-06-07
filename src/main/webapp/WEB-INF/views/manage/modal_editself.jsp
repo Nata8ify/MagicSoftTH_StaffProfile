@@ -105,7 +105,7 @@
 						<div
 							class="form-group col-xs-6 floating-label-form-group controls"
 						>
-							<label for="password">Password</label> <input
+							<label for="password" id='label-pwd-msg'>Password</label> <input
 								type="password"
 								class="form-control"
 								placeholder="Password"
@@ -142,6 +142,7 @@
 							<button
 								type="submit"
 								class="btn btn-success btn-lg"
+								id='btn-submit-editself'
 							>Submit</button>
 						</div>
 					</div>
@@ -157,3 +158,19 @@
 		</div>
 	</div>
 </div>
+<script>
+
+/* This is the Password Validator */
+$('#cofmpassword, #password').keyup(function() {
+	console.log($('#cofmpassword').val()+" ><><"+ $('#password').val());
+	if($('#cofmpassword').val() != $('#password').val()){
+		$('#label-pwd-msg').html('Mismatched Password!');
+		$('#label-pwd-msg').css('color', 'red');
+		$('#btn-submit-editself').prop("disabled", true);
+	} else {
+		$('#label-pwd-msg').html('Matched');
+		$('#label-pwd-msg').css('color', 'green');
+		$('#btn-submit-editself').prop("disabled", false);
+	}
+});
+</script>

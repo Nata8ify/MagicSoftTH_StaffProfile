@@ -46,7 +46,7 @@
 	</div>
 	<hr>
 	<table
-		class="table table-responsive"
+		class="table table-responsive table-hover"
 		id='table-staffs-assigned'
 	>
 		<thead>
@@ -54,7 +54,7 @@
 				<th>ID</th>
 				<th>Name</th>
 				<th>Position</th>
-				<th></th>
+				<th>Department</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -67,7 +67,7 @@
 	<h3>Unassigned Staffs</h3>
 	<hr>
 	<table
-		class="table table-responsive"
+		class="table table-responsive  table-hover"
 		id='table-staffs-unassigned'
 	>
 		<thead>
@@ -75,7 +75,7 @@
 				<th>ID</th>
 				<th>Name</th>
 				<th>Position</th>
-				<th></th>
+				<th>Department</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -142,7 +142,8 @@
 ></script>
 <script>
 	/* include_mngeditor.jsp */
-
+	
+	
 	/* Keep some things to do when document was loaded; */
 	var managers;
 	$('document').ready(function() {
