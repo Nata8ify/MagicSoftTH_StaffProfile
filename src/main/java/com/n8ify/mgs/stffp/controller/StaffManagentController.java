@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.mysql.jdbc.MysqlDataTruncation;
 import com.n8ify.mgs.stffp.dealer.StaffManager;
 import com.n8ify.mgs.stffp.excp.UnauthorizedAccessException;
 import com.n8ify.mgs.stffp.model.Staff;
@@ -274,5 +275,11 @@ public class StaffManagentController {
 	public ModelAndView nullAccountException(UnauthorizedAccessException npex){
 		ModelAndView mav = new ModelAndView("result/errpage");
 		return ModelBody.setErrorBody(HttpStatus.INTERNAL_SERVER_ERROR, ModelBody.ERR_ICO_UNAUTH, "Oops!", "This Section is Authorized for Administrator.", mav);
+	}
+	
+	@ExceptionHandler({MysqlDataTruncation.class})
+	public ModelAndView staffInfotruncationException(MysqlDataTruncation mdtex){
+		ModelAndView mav = new ModelAndView("result/errpage");
+		return ModelBody.setErrorBody(HttpStatus.INTERNAL_SERVER_ERROR, ModelBody.ERR_ICO_UNAUTH, "Oops!", "Some of your Information is Invalid form, Please Check.", mav);
 	}
 }

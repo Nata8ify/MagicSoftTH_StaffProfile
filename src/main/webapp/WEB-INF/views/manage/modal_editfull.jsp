@@ -306,4 +306,13 @@
 			$('#btn-submit-edit').prop("disabled", false);
 		}
 	});
+	
+	/* If the Staff is Manager then 'Assign manager' Should be disable. */
+	$('#editType').on('change', function(e){
+		if($('#editType').val() != 'm'){
+			$('#btn-assign-mng').prop('disabled', false);
+		} else {
+			$('#btn-assign-mng').prop('disabled', true);
+		}
+	});
 </script>

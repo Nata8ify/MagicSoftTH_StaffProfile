@@ -60,9 +60,11 @@
         <script src="https://oss.maxcdn.c21`m/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <style>
-    	.card-staff:hover{cursor:pointer;}
-    </style>
+<style>
+.card-staff:hover {
+	cursor: pointer;
+}
+</style>
 </head>
 <body
 	id="page-top"
@@ -104,6 +106,7 @@
 					<li class="page-scroll"><a href="#home">Home</a></li>
 					<li class="page-scroll"><a href="#search">Search</a></li>
 					<li class="page-scroll"><a href="#explore">Explore</a></li>
+					${thisStaff.staffType == 'm'?'<li class="page-scroll" ><a href="#a-view-my-staff" id="a-view-my-staff" >My Staff</a></li>':''}
 					<li class="page-scroll">${thisStaff.name==null?'<a href="#contact">For Staff Only</a>': '<a href="logout" style="color:red">Sign Out</a> '}
 					</li>
 				</ul>
@@ -275,8 +278,8 @@
 									<c:if test="${c.count % 5 == 0}">
 							</tr>
 							<tr>
-								</c:if>
-								</c:forEach>
+							</c:if>
+							</c:forEach>
 							</tr>
 						</thead>
 						<tbody>
@@ -1040,98 +1043,10 @@
 			console.log(str);
 		}
 
-		function appendNameLikeSearchResult() {
-			tmpSearcTotalStaffs = [];
-			tmpSearchStaffs = [];
-			tmpSearchManager = [];
-			var cardResultBody = null; /* Keep it to build appened body.*/
-			var varStatus = 1;
-			var resultBodyHtml = $('#hr-search-dline');
-			resultBodyHtml.html("");
-			var searchTitle;
-			resultBodyHtml.append($("<div class='row'>"));
-			$
-					.each(
-							staffList,
-							function(index, val) {
-								if (val.name.indexOf($('#input-search').val()) !== -1) {
-									log(varStatus);
-									tmpSearcTotalStaffs.push(val);
-									var protraitPath = val.protraitPath == null ? 'noimg.png'
-											: val.protraitPath;
-									var name = val.name;
-									var email = val.email;
-									var tel = val.tel;
-									var division = val.division;
-									var position = val.position;
-									var hostManagerName = val.hostManagerName;
-									var staffType = val.staffType;
-									cardResultBody = $("<div class='col-lg-2'><div class='card card-staff' style='width: 20rem;'>"
-											+ "<img class='card-img-top' width='150px' src='${contextPath}/resources/portraits/"+protraitPath+"' alt='Portrait'>"
-											+ "<div class='card-block'> <h5 class='card-title'>"
-											+ name
-											+ "</h5> <h6 class='card-text'>"
-											+ position
-											+ "</h6></div></div></div>");
-									if (varStatus % 5 == 0) {
-										log(varStatus % 5 == 0);
-										resultBodyHtml
-												.append($("</div><div class='row'>"));
-									}
-									resultBodyHtml
-											.append(cardResultBody
-													.click(function() {
-														$(
-																'#h4-view-staff-info-title')
-																.html(
-																		"Information of "
-																				+ val.name);
-														$('#img-info-portrait')
-																.attr(
-																		'src',
-																		"${contextPath}/resources/portraits/"
-																				+ protraitPath);
-														$('#span-info-name')
-																.html(name);
-														$('#span-info-email')
-																.html(email);
-														$('#span-info-tel')
-																.html(tel);
-														$('#span-info-division')
-																.html(division);
-														$('#span-info-position')
-																.html(position);
-														if (staffType != 'm') {
-															$('#span-info-mng')
-																	.html(
-																			hostManagerName != null ? hostManagerName
-																					: '-');
-														} else {
-															$('#span-info-mng')
-																	.html(
-																			hostManagerName != null ? hostManagerName
-																					: '-');
-														}
-														$(
-																'#modal-view-staff-info')
-																.modal();
-													}));
-									varStatus++;
-								}
-							});
-			resultBodyHtml.append($("</div>"));
-			/* TODO Render */
-			log("cardResultBody: " + cardResultBody);
-			if (tmpSearcTotalStaffs.length > 0) {
-				searchTitle = "Results of Name Like Search ("
-						+ tmpSearcTotalStaffs.length + ").";
-			} else {
-				searchTitle = "No Results for [" + tmpSearcTotalStaffs.length
-						+ "].";
-			}
-
-			log(tmpSearcTotalStaffs);
-		}
+		/* Just for the manager view their staffs. */
+		$('#a-view-my-staff').click(function() {
+			searchStaff("bymng", "${thisStaff.staffId}");
+		});
 
 		/* Not understand this trick so much! but will come to see another day, lol. */
 		$(document).on(
