@@ -15,7 +15,7 @@ public interface StaffManagementInterface {
 
 	public boolean editPassword(String staffId, String password);
 
-	public boolean deleteStaffById(String staffId);
+	public boolean deleteStaffById(String staffId, String staffType);
 
 	public Staff getStaffById(String staffId);
 

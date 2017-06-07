@@ -136,12 +136,14 @@ public class StaffManagentController {
 	}
 
 	@RequestMapping(value = "/adm/deletePerson", method = RequestMethod.POST)
-	public String insertPerson(Model model, HttpServletRequest request, @RequestParam(value = "staffId", required = true) String staffId,
+	public String insertPerson(Model model, HttpServletRequest request, 
+			@RequestParam(value = "staffId", required = true) String staffId,
+			@RequestParam(value = "staffType", required = true) String staffType,
 			@RequestParam(value = "ajax", required = true, defaultValue = "false") boolean ajax) throws UnauthorizedAccessException {
 		// Checking Is this an Administrator Account Roll.
 		authenCheck(request);
-		boolean isSuccessDelete = staffManager.deleteStaffById(staffId);
-		if (staffManager.deleteStaffById(staffId)) {
+		boolean isSuccessDelete = staffManager.deleteStaffById(staffId, staffType);
+		if (staffManager.deleteStaffById(staffId, staffType)) {
 			if (ajax) {
 				model.addAttribute("results", isSuccessDelete);
 				return RESULT_PATH;

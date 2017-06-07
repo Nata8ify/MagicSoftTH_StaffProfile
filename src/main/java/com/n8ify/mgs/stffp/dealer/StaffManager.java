@@ -19,7 +19,7 @@ public class StaffManager implements StaffManagementInterface {
 	private static final Logger logger = LoggerFactory.getLogger(StaffManager.class);
 	private DataSource dataSource;
 	private JdbcTemplate jdbcTemplate;
- 
+
 	public DataSource getDataSource() {
 		return dataSource;
 	}
@@ -48,7 +48,8 @@ public class StaffManager implements StaffManagementInterface {
 						staff.getDivision(), staff.getPosition(), staff.getProtraitPath(), staff.getHostManagerId(),
 						staff.getStaffType() }) > 0;
 		sql = " INSERT INTO `StaffAccess`(`staffId`, `password`) VALUES (?,?);";
-		return jdbcTemplate.update(sql, new Object[] { staff.getStaffId(), Generator.getInstance().genMd5(password) }) > 0 & is1stSuccess;
+		return jdbcTemplate.update(sql,
+				new Object[] { staff.getStaffId(), Generator.getInstance().genMd5(password) }) > 0 & is1stSuccess;
 	}
 
 	@Override
@@ -59,12 +60,16 @@ public class StaffManager implements StaffManagementInterface {
 				new Object[] { staff.getName(), staff.getGender(), staff.getEmail(), staff.getTel(),
 						staff.getDivision(), staff.getPosition(), staff.getProtraitPath(), staff.getHostManagerId(),
 						staff.getStaffType(), staff.getStaffId() }) > 0;
+		if (staff.getStaffType().equals(Staff.TYPE_MANAGER)) {
+			String sqlNullHostMng = "UPDATE `Staff` SET `hostManagerId`= NULL WHERE `hostManagerId` = ?;";
+			return jdbcTemplate.update(sqlNullHostMng, new Object[] { null }) >= 0;
+		}
 		if (newPassword == null) {// <-- No Password? then Skip Access Update.
 			return is1stSuccess;
 		}
 		String updateAccessSql = "UPDATE `StaffAccess` SET `password`= ? WHERE `staffId`= ?;";
-		return jdbcTemplate.update(updateAccessSql, new Object[] { Generator.getInstance().genMd5(newPassword), staff.getStaffId() }) > 0
-				& is1stSuccess;
+		return jdbcTemplate.update(updateAccessSql,
+				new Object[] { Generator.getInstance().genMd5(newPassword), staff.getStaffId() }) > 0 & is1stSuccess;
 	}
 
 	@Override
@@ -78,9 +83,13 @@ public class StaffManager implements StaffManagementInterface {
 		if (newPassword == null) {// <-- No Password? then Skip Access Update.
 			return is1stSuccess;
 		}
+		if (staff.getStaffType().equals(Staff.TYPE_MANAGER)) {
+			String sqlNullHostMng = "UPDATE `Staff` SET `hostManagerId`= NULL WHERE `hostManagerId` = ?;";
+			return jdbcTemplate.update(sqlNullHostMng, new Object[] { null }) >= 0;
+		}
 		String updateAccessSql = "UPDATE `StaffAccess` SET `password`= ? WHERE `staffId`= ?;";
-		return jdbcTemplate.update(updateAccessSql, new Object[] { Generator.getInstance().genMd5(newPassword), staff.getStaffId() }) > 0
-				& is1stSuccess;
+		return jdbcTemplate.update(updateAccessSql,
+				new Object[] { Generator.getInstance().genMd5(newPassword), staff.getStaffId() }) > 0 & is1stSuccess;
 	}
 
 	@Override
@@ -91,11 +100,17 @@ public class StaffManager implements StaffManagementInterface {
 	}
 
 	@Override
-	public boolean deleteStaffById(String staffId) {
+	public boolean deleteStaffById(String staffId, String staffType) {
 		String sqlDelFromStaff = "DELETE FROM `Staff` WHERE `staffId` = ?;";
 		String sqlDelFromStaffAccess = "DELETE FROM `StaffAccess` WHERE `staffId` = ?;";
 		jdbcTemplate.update(sqlDelFromStaffAccess, new Object[] { staffId });
-		return jdbcTemplate.update(sqlDelFromStaff, new Object[] { staffId }) > 0;
+		boolean isDelThingsSuccess = jdbcTemplate.update(sqlDelFromStaff, new Object[] { staffId }) > 0;
+		/* Unbind the Staffs from Deleted Manager too. */
+		if (isDelThingsSuccess && staffType.equals(Staff.TYPE_MANAGER)) {
+			String sqlNullHostMng = "UPDATE `Staff` SET `hostManagerId`= NULL WHERE `hostManagerId` = ?;";
+			return jdbcTemplate.update(sqlNullHostMng, new Object[] { staffId }) >= 0;
+		}
+		return false;
 	}
 
 	@Override

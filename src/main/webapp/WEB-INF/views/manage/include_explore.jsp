@@ -95,36 +95,44 @@
 <script type="text/javascript">
 	/* modal_editfull */
 	var staffList; /* This is a total */
-	$(document).ready(function() {
-		$.when($.ajax({
-			"url" : "${pageContext.request.contextPath}/viewAll?json=true"
-		})).then(function(json) {
-			staffList = $.parseJSON(json);
-		});
+	$(document)
+			.ready(
+					function() {
+						$
+								.when(
+										$
+												.ajax({
+													"url" : "${pageContext.request.contextPath}/viewAll?json=true"
+												})).then(function(json) {
+									staffList = $.parseJSON(json);
+								});
 
-		var unassignedStaffs;
-		$.ajax({
-			"url" : "${pageContext.request.contextPath}/viewAllUnassignedStaffs?json=true",
-			"success" : function(uslist) {
-				unassignedStaffs = $.parseJSON(uslist);
-			}
-		});
+						var unassignedStaffs;
+						$
+								.ajax({
+									"url" : "${pageContext.request.contextPath}/viewAllUnassignedStaffs?json=true",
+									"success" : function(uslist) {
+										unassignedStaffs = $.parseJSON(uslist);
+									}
+								});
 
-		var staffs;
-		$.ajax({
-			"url" : "${pageContext.request.contextPath}/viewAllStaffs?json=true",
-			"success" : function(slist) {
-				staffs = $.parseJSON(slist);
-			}
-		});
-		var managers;
-		$.ajax({
-			"url" : "${pageContext.request.contextPath}/viewAllMngs?json=true",
-			"success" : function(mlist) {
-				managers = $.parseJSON(mlist);
-			}
-		});
-	});
+						var staffs;
+						$
+								.ajax({
+									"url" : "${pageContext.request.contextPath}/viewAllStaffs?json=true",
+									"success" : function(slist) {
+										staffs = $.parseJSON(slist);
+									}
+								});
+						var managers;
+						$
+								.ajax({
+									"url" : "${pageContext.request.contextPath}/viewAllMngs?json=true",
+									"success" : function(mlist) {
+										managers = $.parseJSON(mlist);
+									}
+								});
+					});
 	$('#staff-explore-table tbody')
 			.on(
 					'click',
@@ -153,6 +161,8 @@
 														value.hostManagerId);
 												$('#protraitPathOld').val(
 														value.protraitPath);
+												$('#hide-cur-staffType').val(
+														value.staffType)
 												$('#hostManagerName-show')
 														.val(
 																value.hostManagerName != null ? value.hostManagerName

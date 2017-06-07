@@ -33,6 +33,7 @@
 								<option value="s">Staff</option>
 								<option value="a">Administrator (System User)</option>
 							</select>
+							<input type='hidden' id='hide-cur-staffType' />
 						</div>
 						<div
 							class="form-group col-xs-8 floating-label-form-group controls"
@@ -283,16 +284,19 @@
 			.click(
 					function() {
 						/* document.location = "deletePerson?staffId="+$('#staffId').val(value.staffId); */
+						alert($('#hide-cur-staffType').val());
 						if (confirm("Please, Confirm this Permantly Staff Deleting Action...")) {
 							$.ajax({
 								"url" : "deletePerson",
 								"type" : "POST",
 								"data" : {
 									ajax : true,
-									staffId : $('#staffId').val()
+									staffId : $('#staffId').val(),
+									staffType : $('#hide-cur-staffType').val()
 								},
 								"success" : function(result) {
 									alert("Deleted");
+									location.reload();
 								}
 							});
 						}
