@@ -280,6 +280,6 @@ public class StaffManagentController {
 	@ExceptionHandler({MysqlDataTruncation.class})
 	public ModelAndView staffInfotruncationException(MysqlDataTruncation mdtex){
 		ModelAndView mav = new ModelAndView("result/errpage");
-		return ModelBody.setErrorBody(HttpStatus.INTERNAL_SERVER_ERROR, ModelBody.ERR_ICO_UNAUTH, "Oops!", "Some of your Information is Invalid form, Please Check.", mav);
+		return ModelBody.setErrorBody(HttpStatus.INTERNAL_SERVER_ERROR, ModelBody.ERR_ICO_ERROR, "Oops!", "Some of your Information is Invalid form, Please Check.", mav);
 	}
 }

@@ -46,6 +46,7 @@
 								placeholder="Name & Lastname"
 								id="name"
 								name='name'
+								maxlength="40"
 								required
 								data-validation-required-message="Please enter your Name and Lastname."
 								value="${thisStaff.name}"
@@ -63,6 +64,7 @@
 								placeholder="Email Address"
 								id="email"
 								name='email'
+								maxlength="30"
 								required
 								data-validation-required-message="Please enter your Email Address."
 								value="${thisStaff.email}"
@@ -78,6 +80,7 @@
 								placeholder="Contact Number"
 								id="tel"
 								name='tel'
+								maxlength="12"
 								required
 								data-validation-required-message="Please enter your Contact Number."
 								value="${thisStaff.tel}"

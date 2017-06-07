@@ -70,6 +70,7 @@
 								placeholder="Name & Lastname"
 								id="name"
 								name='name'
+								maxlength="40"
 								required
 								data-validation-required-message="Please enter Name and Lastname."
 							>
@@ -86,6 +87,7 @@
 								placeholder="Email Address"
 								id="email"
 								name='email'
+								maxlength="30"
 								required
 								data-validation-required-message="Please enter Email Address."
 							>
@@ -100,6 +102,7 @@
 								placeholder="Contact Number"
 								id="tel"
 								name='tel'
+								maxlength="12"
 								required
 								data-validation-required-message="Please enter Contact Number."
 							>
@@ -116,6 +119,7 @@
 								placeholder="Staff's Department"
 								id="division"
 								name='division'
+								maxlength="30"
 								required
 								data-validation-required-message="Please enter Staff's Department."
 							>
@@ -130,6 +134,7 @@
 								placeholder="Staff's Position"
 								id="position"
 								name='position'
+								maxlength="50"
 								required
 								data-validation-required-message="Please enter Staff's Position."
 							>

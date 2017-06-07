@@ -795,6 +795,7 @@
 				/* appendNameLikeSearchResult(); */
 				break;
 			case 'bymng':
+				tmpSearchStaffOrMng = null;
 				divResultBody.empty();
 				$
 						.each(
@@ -883,11 +884,11 @@
 									}
 								});
 				divResultBody.append($("</div>"));
-				if (tmpSearcTotalStaffs.length > 0) {
+				if (tmpSearchStaffOrMng == null) {
 					$('#h2-view-staff-topic').html(
-							"Results for [" + name + "].");
+							"Results for [" + tmpSearchStaffOrMng.name + "].");
 				} else {
-					searchTitle = "No Results for [" + name + "].";
+					searchTitle = "No Results for [" + tmpSearchStaffOrMng.name + "].";
 				}
 
 				$('#modal-view-staff').modal();
