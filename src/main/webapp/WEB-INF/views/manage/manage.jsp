@@ -58,7 +58,7 @@
 					<!-- Logo -->
 					<div class="logo">
 						<h1>
-							<a href="${pageContext.request.contextPath}/">STFFPS | Administrator Section </a>
+							<a href="${pageContext.request.contextPath}/manage">STFFPS | Administrator </a>
 						</h1>
 					</div>
 				</div>
