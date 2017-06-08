@@ -44,7 +44,7 @@ public class StaffAccessController {
 			logger.info("SESSION CREATED FOR :" + staff.getStaffId());
 			return "home";
 		}
-		return "qhrqhrqhqrhqrhqrhqrhqrh";
+		return "NO_WHERE_LOGIN_MODULE_IS_DEFECTED";
 	}
 
 	@RequestMapping(value = "/admlogin")
@@ -57,7 +57,7 @@ public class StaffAccessController {
 		Staff staff = sttfpAccess.login(staffId, Generator.getInstance().genMd5(password), Staff.TYPE_ADMINISTRATOR);
 		if (staff.getStaffId().equals(staffId)) {
 			Staff.setStaffInstance(staff);
-			StaffAccess.setAccessInstance(new StaffAccess(staffId, Generator.getInstance().genMd5(password)));
+			StaffAccess.setAccessInstance(new StaffAccess(staffId, password));
 			request.getSession(true).setAttribute("thisStaff", staff);
 			request.getSession(true).setAttribute("thisStaffAccess", StaffAccess.getAccessInstance());
 			logger.info("SESSION CREATED FOR ADMIN :" + staff.getStaffId());

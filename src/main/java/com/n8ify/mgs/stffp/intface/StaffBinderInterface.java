@@ -9,5 +9,8 @@ public interface StaffBinderInterface {
 	public void unbindStaffFromManager(String staffId);
 
 	public void unbindStaffsFromManager(Object[] staffIds);
+	
+	public void unbindStaffsFromManager(String managerId);
+
 
 }

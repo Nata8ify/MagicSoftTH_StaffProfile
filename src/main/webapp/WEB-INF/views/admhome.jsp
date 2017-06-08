@@ -76,7 +76,7 @@
 								name='staffId'
 								required
 								data-validation-required-message="Please enter your Staff ID."
-								value="M60001"
+								 
 							>
 							<p class="help-block text-danger"></p>
 						</div>
@@ -93,7 +93,7 @@
 								name='password'
 								required
 								data-validation-required-message="Please enter your Password."
-								value="4123"
+								 
 							>
 							<p class="help-block text-danger"></p>
 						</div>

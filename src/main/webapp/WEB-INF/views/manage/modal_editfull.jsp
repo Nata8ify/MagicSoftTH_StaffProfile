@@ -33,7 +33,7 @@
 								<option value="s">Staff</option>
 								<option value="a">Administrator (System User)</option>
 							</select>
-							<input type='hidden' id='hide-cur-staffType' />
+							<input type='hidden' id='hide-cur-staffType' name='prevEditType'/>
 						</div>
 						<div
 							class="form-group col-xs-8 floating-label-form-group controls"

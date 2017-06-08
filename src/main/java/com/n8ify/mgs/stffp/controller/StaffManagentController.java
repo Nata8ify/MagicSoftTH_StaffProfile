@@ -21,6 +21,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.mysql.jdbc.MysqlDataTruncation;
+import com.n8ify.mgs.stffp.dealer.StaffBinder;
 import com.n8ify.mgs.stffp.dealer.StaffManager;
 import com.n8ify.mgs.stffp.excp.UnauthorizedAccessException;
 import com.n8ify.mgs.stffp.model.Staff;
@@ -35,6 +36,9 @@ public class StaffManagentController {
 	@Autowired
 	private StaffManager staffManager;
 
+	@Autowired
+	private StaffBinder staffBinder;
+	
 	@Autowired
 	private CommonsMultipartResolver multipartResolver;
 
@@ -65,9 +69,6 @@ public class StaffManagentController {
 			model.addAttribute("manage", "add");
 			break;
 		case "mngeditor":
-			model.addAttribute("staffs", staffManager.getTotalStaffs());
-			model.addAttribute("unassignedStaffs", staffManager.getTotalUnassignedStaffs());
-			model.addAttribute("managers", staffManager.getTotalManagers());
 			model.addAttribute("manage", "mngeditor");
 			break;
 		default:
@@ -88,7 +89,7 @@ public class StaffManagentController {
 			@RequestParam(value = "protraitPath", required = false) String protraitPath,
 			@RequestParam(value = "hostManagerId", required = false) String hostManagerId,
 			@RequestParam(value = "password", required = false, defaultValue = "") String password,
-			@RequestParam(value = "insertType", required = true) String insertType) throws UnauthorizedAccessException {
+			@RequestParam(value = "insertType", required = true) String insertType) throws UnauthorizedAccessException {  //insertType is staffType. 
 		// Checking Is this an Administrator Account Roll.
 		authenCheck(request);
 		switch (insertType) {
@@ -123,11 +124,15 @@ public class StaffManagentController {
 			@RequestParam(value = "protraitPath", required = false) String protraitPath,
 			@RequestParam(value = "hostManagerId", required = false) String hostManagerId,
 			@RequestParam(value = "password", required = true) String password,
-			@RequestParam(value = "editType", required = true) String editType) throws UnauthorizedAccessException {
+			@RequestParam(value = "editType", required = true) String staffType,  //editType is staffType. 
+			@RequestParam(value = "prevEditType", required = true) String prevStaffType) throws UnauthorizedAccessException {
 		authenCheck(request);
 		if (staffManager.editStaff(
-				new Staff(staffId, name, email, tel, division, position, null, hostManagerId, gender, editType),
+				new Staff(staffId, name, email, tel, division, position, null, hostManagerId, gender, staffType),
 				password)) {
+			if(prevStaffType.equals(Staff.TYPE_MANAGER) && staffType.equals(Staff.TYPE_STAFF)){ // If Manager became a staff then.. unbind staff;
+				staffBinder.unbindStaffFromManager(staffId); //<-- This Id is surely Manager.
+			}
 			model.addAttribute("msg", "สำเร็จ!");
 		} else {
 			model.addAttribute("msg", "ไม่สำเร็จ!");
@@ -163,7 +168,7 @@ public class StaffManagentController {
 			@RequestParam(value = "tel", required = true) String tel,
 			@RequestParam(value = "protraitPath", required = false) String protraitPath,
 			@RequestParam(value = "password", required = true) String password,
-			@RequestParam(value = "editType", required = false) String editType) {
+			@RequestParam(value = "editType", required = false) String editType) { //editType is staffType. 
 
 		if (staffManager.editSelfStaff(
 				new Staff(staffId, name, email, tel, protraitPath.equals("") ? null : protraitPath), password)) {
@@ -187,11 +192,12 @@ public class StaffManagentController {
 			@RequestParam(value = "protraitPath", required = false) MultipartFile img,
 			@RequestParam(value = "hostManagerId", required = false) String hostManagerId,
 			@RequestParam(value = "password", required = false) String password,
-			@RequestParam(value = "editType", required = true) String editType)
+			@RequestParam(value = "prevEditType", required = true) String prevStaffType,
+			@RequestParam(value = "editType", required = true) String staffType) //editType is staffType. 
 			throws IllegalStateException, IOException, UnauthorizedAccessException {
 		authenCheck(request);
 		MultipartHttpServletRequest mrequest = multipartResolver.resolveMultipart(request);
-		Staff staff = new Staff(staffId, name, email, tel, division, position, null, hostManagerId, gender, editType);
+		Staff staff = new Staff(staffId, name, email, tel, division, position, null, hostManagerId, gender, staffType);
 		logger.info(staff.toString() + " PWD : " + password);
 		String imgName = img.isEmpty() ? Staff.getStaffInstance().getProtraitPath()
 				: Generator.getInstance().genImageName(img.getOriginalFilename());
@@ -201,16 +207,24 @@ public class StaffManagentController {
 			File oldImg = new File(mrequest.getRealPath(PORTRAIT_DIR + protraitPathOld));
 			oldImg.delete();
 			if (staffManager.editStaff(
-					new Staff(staffId, name, email, tel, division, position, imgName, hostManagerId, gender, editType),
+					new Staff(staffId, name, email, tel, division, position, imgName, hostManagerId, gender, staffType),
 					password)) {
+				logger.info("prev "+prevStaffType+" ::: new "+staffType);
+				if(prevStaffType.equals(Staff.TYPE_MANAGER) && staffType.equals(Staff.TYPE_STAFF)){ // If Manager became a staff then.. unbind staff;
+					logger.info("TRUE UNB");
+					staffBinder.unbindStaffsFromManager(staffId); //<-- This Id is surely Manager.
+				}
 				model.addAttribute("msg", "สำเร็จ!");
 			} else {
 				model.addAttribute("msg", "ไม่สำเร็จ!");
 			}
 		} else { // <-- Need Test
 			if (staffManager.editStaffForNoImage(
-					new Staff(staffId, name, email, tel, division, position, null, hostManagerId, gender, editType),
+					new Staff(staffId, name, email, tel, division, position, null, hostManagerId, gender, staffType),
 					password)) {
+				if(prevStaffType.equals(Staff.TYPE_MANAGER) && staffType.equals(Staff.TYPE_STAFF)){ // If Manager became a staff then.. unbind staff;
+					staffBinder.unbindStaffsFromManager(staffId); //<-- This Id is surely Manager.
+				}
 				model.addAttribute("msg", "สำเร็จ!");
 			} else {
 				model.addAttribute("msg", "ไม่สำเร็จ!");
@@ -237,6 +251,7 @@ public class StaffManagentController {
 				new Staff(mrequest.getParameter("staffId"), mrequest.getParameter("name"),
 						mrequest.getParameter("email"), mrequest.getParameter("tel"), imgName),
 				mrequest.getParameter("password"))) {
+			
 			return "redirect:login?staffId=" + mrequest.getParameter("staffId") + "&password="
 					+ mrequest.getParameter("password");
 
@@ -255,7 +270,7 @@ public class StaffManagentController {
 			@RequestParam(value = "position", required = true) String position,
 			@RequestParam(value = "hostManagerId", required = false) String hostManagerId,
 			@RequestParam(value = "password", required = false) String password,
-			@RequestParam(value = "insertType", required = true) String insertType,
+			@RequestParam(value = "insertType", required = true) String insertType, //insertType is staffType. 
 			MultipartHttpServletRequest mrequest, @RequestParam(value = "protraitPath") MultipartFile img)
 			throws IllegalStateException, IOException, UnauthorizedAccessException {
 		// Checking Is this an Administrator Account Roll.

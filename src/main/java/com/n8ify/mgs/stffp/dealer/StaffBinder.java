@@ -48,6 +48,12 @@ public class StaffBinder implements StaffBinderInterface {
 
 	}
 
+	@Override
+	public void unbindStaffsFromManager(String managerId) {
+		String sql = "UPDATE `Staff` SET `hostManagerId` = NULL WHERE `hostManagerId` = ?;";
+		jdbctemplate.update(sql, new Object[] { managerId });
+	}
+	
 	public String getDynamicINClauseStatement(Object[] staffIds) {
 		StringBuilder strBd = new StringBuilder("IN (");
 		for (Object staffId : staffIds) {
@@ -59,5 +65,6 @@ public class StaffBinder implements StaffBinderInterface {
 		strBd.append(");");
 		return strBd.toString();
 	}
+
 
 }

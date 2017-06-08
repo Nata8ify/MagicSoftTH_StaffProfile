@@ -136,7 +136,7 @@
 					<div class="intro-text">
 						<h1 class="name">STFFPF</h1>
 						<hr class="star-light">
-						<span class="skills">Magic Software's Staffs Board</span>
+						<span class="skills">Magic Software's Staffs System</span>
 					</div>
 				</div>
 			</div>
@@ -175,7 +175,7 @@
 					</div>
 					<div class="row control-group">
 						<div
-							class="form-group col-xs-2 floating-label-form-group controls"
+							class="form-group col-xs-3 floating-label-form-group controls"
 						></div>
 						<div
 							class="form-group col-xs-2 floating-label-form-group controls"
@@ -189,7 +189,7 @@
 								checked
 							> : Part of the Name
 						</div>
-						<div
+						<div style='display: none;' /* Yoc can't see me... */
 							class="form-group col-xs-2 floating-label-form-group controls"
 						>
 							<input
@@ -223,7 +223,7 @@
 							> : Everybodys
 						</div>
 						<div
-							class="form-group col-xs-2 floating-label-form-group controls"
+							class="form-group col-xs-3 floating-label-form-group controls"
 						></div>
 					</div>
 					<br>
@@ -371,7 +371,7 @@
 										name='staffId'
 										required
 										data-validation-required-message="Please enter your Staff ID."
-										value="M60007"
+										 
 									>
 									<p class="help-block text-danger"></p>
 								</div>
@@ -388,7 +388,7 @@
 										name='password'
 										required
 										data-validation-required-message="Please enter your Password."
-										value="kogy9i8u"
+										 
 									>
 									<p class="help-block text-danger"></p>
 								</div>
