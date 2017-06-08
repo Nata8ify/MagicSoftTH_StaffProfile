@@ -26,7 +26,7 @@
 						<table  cellpadding='20px'>
 							<tbody>
 								<tr>
-									<td rowspan="8"><img id='img-info-portrait' /></td>
+									<td rowspan="8"><img id='img-info-portrait' width='150px' /></td>
 									<td></td>
 									<td></td>
 								</tr>

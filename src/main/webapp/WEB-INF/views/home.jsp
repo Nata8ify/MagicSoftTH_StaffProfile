@@ -164,6 +164,12 @@
 								required
 								data-validation-required-message="Please enter a Part of the Staff Name."
 							>
+<!-- 							<input
+								type="button"
+								class="btn btn-default text-center"
+								id="btn-search-bymng"
+								required
+							 > -->
 							<p class="help-block text-danger"></p>
 						</div>
 					</div>
@@ -616,6 +622,7 @@
 						break;
 					case 'bymng':
 						/* Pop the Modal Manager up! */
+						
 						$('#input-search').prop('disabled', true);
 						pickMngModal();
 						break;
@@ -888,7 +895,8 @@
 									}
 								});
 				divResultBody.append($("</div>"));
-				if (tmpSearchStaffOrMng == null) {
+				log(tmpSearchStaffOrMng);
+				if (tmpSearchStaffs != null) {
 					$('#h2-view-staff-topic').html(
 							"Results for [" + tmpSearchStaffOrMng.name + "].");
 				} else {
