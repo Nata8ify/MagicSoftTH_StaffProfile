@@ -8,18 +8,21 @@ import javax.sql.DataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
 import com.n8ify.mgs.stffp.intface.StaffManagementInterface;
 import com.n8ify.mgs.stffp.model.Staff;
+import com.n8ify.mgs.stffp.utils.ForwardMail;
 import com.n8ify.mgs.stffp.utils.Generator;
 
 public class StaffManager implements StaffManagementInterface {
 	private static final Logger logger = LoggerFactory.getLogger(StaffManager.class);
 	private DataSource dataSource;
 	private JdbcTemplate jdbcTemplate;
-
+private ForwardMail forwardMail;
+	
 	public DataSource getDataSource() {
 		return dataSource;
 	}
@@ -35,6 +38,12 @@ public class StaffManager implements StaffManagementInterface {
 
 	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
+	}
+
+	
+	
+	public void setForwardMail(ForwardMail forwardMail) {
+		this.forwardMail = forwardMail;
 	}
 
 	/** If two operation was success, return true */
@@ -53,7 +62,7 @@ public class StaffManager implements StaffManagementInterface {
 	}
 
 	@Override
-	public boolean editStaff(Staff staff, String newPassword) {
+	public boolean editStaff(final Staff staff, final String newPassword) {
 		String sql = "UPDATE `Staff` s SET s.`name`=?, s.`gender`=? ,s.`email`=?,s.`tel`=?,s.`division`=?, s.`position`=?,s.`protraitPath`=?"
 				+ ",s.`hostManagerId`=?, s.staffType = ? WHERE s.`staffId` = ?;";
 		boolean is1stSuccess = jdbcTemplate.update(sql,
@@ -67,34 +76,56 @@ public class StaffManager implements StaffManagementInterface {
 		if (newPassword == null) {// <-- No Password? then Skip Access Update.
 			return is1stSuccess;
 		}
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				forwardMail.sendEditByAdministratorInfoMail(staff, newPassword);
+			}
+		}).run();
 		String updateAccessSql = "UPDATE `StaffAccess` SET `password`= ? WHERE `staffId`= ?;";
 		return jdbcTemplate.update(updateAccessSql,
 				new Object[] { Generator.getInstance().genMd5(newPassword), staff.getStaffId() }) > 0 & is1stSuccess;
 	}
 
 	@Override
-	public boolean editStaffForNoImage(Staff staff, String newPassword) {
+	public boolean editStaffForNoImage(final Staff staff, final String newPassword) {
 		String sql = "UPDATE `Staff` s SET s.`name`=?, s.`gender`=? ,s.`email`=?,s.`tel`=?,s.`division`=?, s.`position`=?"
 				+ ",s.`hostManagerId`=?, s.staffType = ? WHERE s.`staffId` = ?;";
 		boolean is1stSuccess = jdbcTemplate.update(sql,
 				new Object[] { staff.getName(), staff.getGender(), staff.getEmail(), staff.getTel(),
 						staff.getDivision(), staff.getPosition(), staff.getHostManagerId(), staff.getStaffType(),
 						staff.getStaffId() }) > 0;
-		if (newPassword == null) {// <-- No Password? then Skip Access Update.
-			return is1stSuccess;
-		}
+
 		if (staff.getStaffType().equals(Staff.TYPE_MANAGER)) {
 			String sqlNullHostMng = "UPDATE `Staff` SET `hostManagerId`= NULL WHERE `hostManagerId` = ?;";
 			return jdbcTemplate.update(sqlNullHostMng, new Object[] { null }) >= 0;
 		}
+		if (newPassword == null) {// <-- No Password? then Skip Access Update.
+			return is1stSuccess;
+		}
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				forwardMail.sendEditByAdministratorInfoMail(staff, newPassword);
+				
+			}
+		}).run();
 		String updateAccessSql = "UPDATE `StaffAccess` SET `password`= ? WHERE `staffId`= ?;";
 		return jdbcTemplate.update(updateAccessSql,
 				new Object[] { Generator.getInstance().genMd5(newPassword), staff.getStaffId() }) > 0 & is1stSuccess;
 	}
 
 	@Override
-	public boolean editSelfStaff(Staff staff, String newPassword) {
+	public boolean editSelfStaff(final Staff staff, final String newPassword) {
 		String sql = "UPDATE `Staff` s JOIN `StaffAccess` sa on s.`staffId` = sa.`staffId` SET  s.`name`= ?, s.`email`= ?, s.`tel`= ?, s.`protraitPath`= ?, sa.`password`  = ? WHERE s.`staffId`= ?;";
+		
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				forwardMail.sendIfPasswordSelfEditedMail(staff, newPassword);
+				
+			}
+		}).run();
 		return jdbcTemplate.update(sql, new Object[] { staff.getName(), staff.getEmail(), staff.getTel(),
 				staff.getProtraitPath(), Generator.getInstance().genMd5(newPassword), staff.getStaffId() }) > 0;
 	}

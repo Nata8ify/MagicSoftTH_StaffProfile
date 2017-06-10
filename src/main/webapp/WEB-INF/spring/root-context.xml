@@ -23,6 +23,7 @@
 
 	<bean id="staffManager" class="com.n8ify.mgs.stffp.dealer.StaffManager">
 		<property name="dataSource" ref="mgsdbSource" />
+		<property name="forwardMail" ref="forwardMail"></property>
 	</bean>
 
 	<bean id="staffBinder" class="com.n8ify.mgs.stffp.dealer.StaffBinder">
@@ -46,6 +47,26 @@
 		<property name="maxInMemorySize" value="1048576" /> <!-- 1MB -->
 	</bean>
 
+	<!-- E-mail Support Things -->
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.gmail.com" />
+		<property name="port" value="587" />
+		<property name="username" value="fure4ify@gmail.com" />
+		<property name="password" value="412369875" />
+		<property name="defaultEncoding" value="UTF-8"/> 
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+			</props>
+		</property>
+	</bean>
+	<bean id="forwardMail" class="com.n8ify.mgs.stffp.utils.ForwardMail">
+		<property name="mailSender" ref="mailSender" />
+	</bean>
+
 	<!-- Support JS Things -->
 	<bean id="gsonb" class="com.google.gson.GsonBuilder" scope="singleton" />
+
+
 </beans>
