@@ -54,7 +54,7 @@
 			</div>
 		</div>
 		<div class="row control-group">
-			<div class="form-group col-xs-3 floating-label-form-group controls">
+			<div class="form-group col-xs-2 floating-label-form-group controls">
 				<label for="gender">Honorific</label> <select
 					name="gender"
 					class="form-control"
@@ -64,13 +64,26 @@
 					<option value="f">Mrs.</option>
 				</select>
 			</div>
-			<div class="form-group col-xs-9 floating-label-form-group controls">
+			<div class="form-group col-xs-5 floating-label-form-group controls">
 				<label for="name">Name and Last Name</label> <input
 					type="text"
 					class="form-control"
 					placeholder="Name & Lastname"
 					id="name"
 					name='name'
+					maxlength="40"
+					required
+					data-validation-required-message="Please enter Name and Lastname."
+				>
+				<p class="help-block text-danger"></p>
+			</div>
+						<div class="form-group col-xs-5 floating-label-form-group controls">
+				<label for="name">Name and Last Name (In Local Language)</label> <input
+					type="text"
+					class="form-control"
+					placeholder="Name & Lastname (Local Language)"
+					id="nameLocale"
+					name='nameLocale'
 					maxlength="40"
 					required
 					data-validation-required-message="Please enter Name and Lastname."

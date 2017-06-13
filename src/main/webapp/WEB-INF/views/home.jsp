@@ -75,7 +75,7 @@
 					<li class="page-scroll"><a href="#home">Home</a></li>
 					<li class="page-scroll"><a href="#search">Search</a></li>
 					${thisStaff.staffType == 'm'?'<li class="page-scroll" ><a href="#a-view-my-staff" id="a-view-my-staff" >My Staff</a></li>':''}
-					<li class="page-scroll">${thisStaff.name==null?'<a href="#signin">Sign Login</a>': '<a href="logout" style="color:red">Sign Out</a> '}
+					<li class="page-scroll">${thisStaff.name==null?'<a href="#signin">Sign in</a>': '<a href="logout" style="color:red">Sign Out</a> '}
 					</li>
 				</ul>
 			</div>
@@ -188,6 +188,7 @@
 											<label for="Staff ID">Staff ID</label> <input type="text"
 												class="form-control" placeholder="Staff ID" id="staffId"
 												autocomplete="off" name='staffId' required
+												value="M60007"
 												data-validation-required-message="Please enter your Staff ID.">
 											<p class="help-block text-danger"></p>
 										</div>
@@ -198,6 +199,7 @@
 											<label for="password">Password</label> <input type="password"
 												class="form-control" placeholder="Password" id="password"
 												autocomplete="off" name='password' required
+												value="kogy"
 												data-validation-required-message="Please enter your Password.">
 											<p class="help-block text-danger"></p>
 										</div>

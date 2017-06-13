@@ -3,6 +3,7 @@ package com.n8ify.mgs.stffp.model;
 public class Staff {
 	private String staffId;
 	private String name;
+	private String nameLocale;
 	private String email;
 	private String tel;
 	private String division;
@@ -32,10 +33,11 @@ public class Staff {
 		super();
 	}
 
-	public Staff(String staffId, String name, String email, String tel, String division, String position,
+	public Staff(String staffId, String name, String nameLocale, String email, String tel, String division, String position,
 			String protraitPath, String hostManagerId, String gender, String staffType) {
 		this.staffId = staffId;
 		this.name = name;
+		this.nameLocale = nameLocale;
 		this.email = email;
 		this.tel = tel;
 		this.division = division;
@@ -46,9 +48,10 @@ public class Staff {
 		this.staffType = staffType;
 	}
 
-	public Staff(String staffId, String name, String email, String tel, String protraitPath) {
+	public Staff(String staffId, String name, String nameLocale, String email, String tel, String protraitPath) {
 		this.staffId = staffId;
 		this.name = name;
+		this.nameLocale = nameLocale;
 		this.email = email;
 		this.tel = tel;
 		this.protraitPath = protraitPath;
@@ -94,6 +97,16 @@ public class Staff {
 		this.name = name;
 	}
 
+	
+	
+	public String getNameLocale() {
+		return nameLocale;
+	}
+
+	public void setNameLocale(String nameLocale) {
+		this.nameLocale = nameLocale;
+	}
+
 	public String getEmail() {
 		return email;
 	}
@@ -134,13 +147,17 @@ public class Staff {
 		this.hostManagerId = hostManagerId;
 	}
 
+	
+
 	@Override
 	public String toString() {
-		return "Staff [staffId=" + staffId + ", name=" + name + ", email=" + email + ", tel=" + tel + ", division="
-				+ division + ", position=" + position + ", protraitPath=" + protraitPath + ", hostManagerId="
-				+ hostManagerId + ", gender=" + gender + ", staffType=" + staffType + ", hostManagerName="
-				+ hostManagerName + "]";
+		return "Staff [staffId=" + staffId + ", name=" + name + ", nameLocale=" + nameLocale + ", email=" + email
+				+ ", tel=" + tel + ", division=" + division + ", position=" + position + ", protraitPath="
+				+ protraitPath + ", hostManagerId=" + hostManagerId + ", gender=" + gender + ", staffType=" + staffType
+				+ ", hostManagerName=" + hostManagerName + "]";
 	}
+
+
 
 	private String hostManagerName;
 
