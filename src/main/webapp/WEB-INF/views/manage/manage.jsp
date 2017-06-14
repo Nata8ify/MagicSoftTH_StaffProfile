@@ -11,7 +11,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>STFFPS | Administrator Section</title>
+<title>MST Staff Profile | Administrator Section</title>
 <meta
 	name="viewport"
 	content="width=device-width, initial-scale=1.0"

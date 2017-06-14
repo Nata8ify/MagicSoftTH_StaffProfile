@@ -15,6 +15,7 @@
 					<th></th>
 					<th>StaffId</th>
 					<th>Name</th>
+					<th>Name (Local)</th>
 					<th>E-mail</th>
 					<th>Tel</th>
 					<th>Division</th>
@@ -28,8 +29,7 @@
 	</div>
 </div>
 <script
-	src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"
-></script>
+	src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript">
 	var staffTable;
 	$(document)
@@ -50,7 +50,10 @@
 												"width" : "5%"
 											}, {
 												"data" : "name",
-												"width" : "20%"
+												"width" : "15%"
+											}, {
+												"data" : "nameLocale",
+												"width" : "15%"
 											}, {
 												"data" : "email",
 												"width" : "10%"
@@ -62,7 +65,7 @@
 												"width" : "10%"
 											}, {
 												"data" : "position",
-												"width" : "20%"
+												"width" : "10%"
 											}, {
 												"width" : "5%"
 											} ],
@@ -150,6 +153,8 @@
 												$('#staffId')
 														.val(value.staffId);
 												$('#name').val(value.name);
+												$('#nameLocale').val(
+														value.nameLocale);
 												$('#email').val(value.email);
 												$('#tel').val(value.tel);
 												$('#division').val(

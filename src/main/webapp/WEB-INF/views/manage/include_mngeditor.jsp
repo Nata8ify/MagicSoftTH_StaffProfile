@@ -9,8 +9,9 @@
 			<tr>
 				<th>ID</th>
 				<th>Name</th>
+				<th>Name (Local)</th>
 				<th>Position</th>
-				<th>Staff Review</th>
+				<th>View Staff</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -53,6 +54,7 @@
 			<tr>
 				<th>ID</th>
 				<th>Name</th>
+				<th>Name (Local)</th>
 				<th>Position</th>
 				<th>Department</th>
 			</tr>
@@ -74,6 +76,7 @@
 			<tr>
 				<th>ID</th>
 				<th>Name</th>
+				<th>Name (Local)</th>
 				<th>Position</th>
 				<th>Department</th>
 			</tr>
@@ -184,10 +187,13 @@
 							"data" : "name",
 							"width" : "30%"
 						}, {
+							"data" : "nameLocale",
+							"width" : "30%"
+						}, {
 							"data" : "position",
 							"width" : "30%"
 						}, {
-							"width" : "35%"
+							"width" : "5%"
 						} ],
 						"columnDefs" : [ {
 							"targets" : -1,
@@ -211,22 +217,17 @@
 							"width" : "15%"
 						}, {
 							"data" : "name",
-							"width" : "30%"
+							"width" : "25%"
+						}, {
+							"data" : "nameLocale",
+							"width" : "25%"
 						}, {
 							"data" : "position",
 							"width" : "30%"
 						}, {
 							"data" : "division",
-							"width" : "25%"
+							"width" : "5%"
 						} ],
-						"columnDefs" : [ {
-							"targets" : -1,
-							"data" : "",
-							"searchable" : false,
-							"defaultContent" : "<button class='staff-bind btn btn-default'><i class='glyphicon glyphicon-pencil'></i></button>"
-						}
-
-						],
 						"order" : [ [ 0, "asc" ] ]
 					});
 
@@ -242,22 +243,17 @@
 							"width" : "15%"
 						}, {
 							"data" : "name",
-							"width" : "30%"
+							"width" : "25%"
+						}, {
+							"data" : "nameLocale",
+							"width" : "25%"
 						}, {
 							"data" : "position",
 							"width" : "30%"
 						}, {
 							"data" : "division",
-							"width" : "25%"
+							"width" : "5%"
 						} ],
-						"columnDefs" : [ {
-							"targets" : -1,
-							"data" : "",
-							"searchable" : false,
-							"defaultContent" : "<button class='staff-bind btn btn-default'><i class='glyphicon glyphicon-pencil'></i></button>"
-						}
-
-						],
 					});
 
 	/* This Event will do Staff filter that working on the selected manager*/
