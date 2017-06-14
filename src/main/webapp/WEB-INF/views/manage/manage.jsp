@@ -58,7 +58,7 @@
 					<!-- Logo -->
 					<div class="logo">
 						<h1>
-							<a href="${pageContext.request.contextPath}/adm/manage">STFFPS | Administrator </a>
+							<a href="${pageContext.request.contextPath}/adm/manage">MST Staff Profile | Administrator </a>
 						</h1>
 					</div>
 				</div>

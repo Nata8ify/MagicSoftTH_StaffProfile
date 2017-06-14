@@ -50,10 +50,10 @@ private ForwardMail forwardMail;
 	@Override
 	public boolean insertStaff(Staff staff, String password) {
 		String sql = "INSERT INTO `Staff`"
-				+ "(`staffId`, `gender`, `name`, `nameLocale`, `email`, `tel`, `division`, `position`, `protraitPath`, `hostManagerId`, `staffType`)"
-				+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+				+ "(`staffId`, `gender`, `name`, `nameLocale`, `email`, `tel`, `mobileTel`, `division`, `position`, `protraitPath`, `hostManagerId`, `staffType`)"
+				+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 		boolean is1stSuccess = jdbcTemplate.update(sql,
-				new Object[] { staff.getStaffId(), staff.getGender(), staff.getName(), staff.getNameLocale(), staff.getEmail(), staff.getTel(),
+				new Object[] { staff.getStaffId(), staff.getGender(), staff.getName(), staff.getNameLocale(), staff.getEmail(), staff.getTel(), staff.getMobileTel(),
 						staff.getDivision(), staff.getPosition(), staff.getProtraitPath(), staff.getHostManagerId(),
 						staff.getStaffType() }) > 0;
 		sql = " INSERT INTO `StaffAccess`(`staffId`, `password`) VALUES (?,?);";
@@ -63,10 +63,10 @@ private ForwardMail forwardMail;
 
 	@Override
 	public boolean editStaff(final Staff staff, final String newPassword) {
-		String sql = "UPDATE `Staff` s SET s.`name`=?, `nameLocale`=?, s.`gender`=? ,s.`email`=?,s.`tel`=?,s.`division`=?, s.`position`=?,s.`protraitPath`=?"
+		String sql = "UPDATE `Staff` s SET s.`name`=?, `nameLocale`=?, s.`gender`=? ,s.`email`=?,s.`tel`=?, `mobileTel`=?,s.`division`=?, s.`position`=?,s.`protraitPath`=?"
 				+ ",s.`hostManagerId`=?, s.staffType = ? WHERE s.`staffId` = ?;";
 		boolean is1stSuccess = jdbcTemplate.update(sql,
-				new Object[] { staff.getName(), staff.getNameLocale(), staff.getGender(), staff.getEmail(), staff.getTel(),
+				new Object[] { staff.getName(), staff.getNameLocale(), staff.getGender(), staff.getEmail(), staff.getTel(), staff.getMobileTel(),
 						staff.getDivision(), staff.getPosition(), staff.getProtraitPath(), staff.getHostManagerId(),
 						staff.getStaffType(), staff.getStaffId() }) > 0;
 		if (staff.getStaffType().equals(Staff.TYPE_MANAGER)) {
@@ -89,10 +89,10 @@ private ForwardMail forwardMail;
 
 	@Override
 	public boolean editStaffForNoImage(final Staff staff, final String newPassword) {
-		String sql = "UPDATE `Staff` s SET s.`name`=?, `nameLocale`=?, s.`gender`=? ,s.`email`=?,s.`tel`=?,s.`division`=?, s.`position`=?"
+		String sql = "UPDATE `Staff` s SET s.`name`=?, `nameLocale`=?, s.`gender`=? ,s.`email`=?,s.`tel`=?, `mobileTel`=?,s.`division`=?, s.`position`=?"
 				+ ",s.`hostManagerId`=?, s.staffType = ? WHERE s.`staffId` = ?;";
 		boolean is1stSuccess = jdbcTemplate.update(sql,
-				new Object[] { staff.getName(), staff.getNameLocale(), staff.getGender(), staff.getEmail(), staff.getTel(),
+				new Object[] { staff.getName(), staff.getNameLocale(), staff.getGender(), staff.getEmail(), staff.getTel(), staff.getMobileTel(),
 						staff.getDivision(), staff.getPosition(), staff.getHostManagerId(), staff.getStaffType(),
 						staff.getStaffId() }) > 0;
 
@@ -117,7 +117,7 @@ private ForwardMail forwardMail;
 
 	@Override
 	public boolean editSelfStaff(final Staff staff, final String newPassword) {
-		String sql = "UPDATE `Staff` s JOIN `StaffAccess` sa on s.`staffId` = sa.`staffId` SET  s.`name`= ?, s.`nameLocale`= ?, s.`email`= ?, s.`tel`= ?, s.`protraitPath`= ?, sa.`password`  = ? WHERE s.`staffId`= ?;";
+		String sql = "UPDATE `Staff` s JOIN `StaffAccess` sa on s.`staffId` = sa.`staffId` SET  s.`name`= ?, s.`nameLocale`= ?, s.`email`= ?, s.`tel`= ?, `mobileTel`=?, s.`protraitPath`= ?, sa.`password`  = ? WHERE s.`staffId`= ?;";
 		
 		new Thread(new Runnable() {
 			@Override
@@ -127,7 +127,7 @@ private ForwardMail forwardMail;
 			}
 		}).run();
 		logger.error(" locale "+staff.toString());
-		return jdbcTemplate.update(sql, new Object[] { staff.getName(), staff.getNameLocale(), staff.getEmail(), staff.getTel(),
+		return jdbcTemplate.update(sql, new Object[] { staff.getName(), staff.getNameLocale(), staff.getEmail(), staff.getTel(), staff.getMobileTel(),
 				staff.getProtraitPath(), Generator.getInstance().genMd5(newPassword), staff.getStaffId() }) > 0;
 	}
 
@@ -157,7 +157,7 @@ private ForwardMail forwardMail;
 	@Override
 	public List<Staff> getEntireStaffs() {
 		// String sql = "SELECT * FROM `Staff`;";
-		String sql = "SELECT s.*, sm.name AS managerName FROM `Staff` s LEFT JOIN Staff sm on s.`hostManagerId` = sm.staffId ;";
+		String sql = "SELECT s.*, sm.name AS managerName, sm.email AS managerEmail FROM `Staff` s LEFT JOIN Staff sm on s.`hostManagerId` = sm.staffId ;";
 		// String sql = "SELECT s.*, sm.name AS managerName FROM `Staff` s JOIN
 		// StaffAccess sa on s.`staffId` = sa.staffId;";
 		return jdbcTemplate.query(sql, new StaffOnMoreDetailsMapper());
@@ -211,6 +211,7 @@ private ForwardMail forwardMail;
 			staff.setNameLocale(rs.getString("nameLocale"));
 			staff.setEmail(rs.getString("email"));
 			staff.setTel(rs.getString("tel"));
+			staff.setMobileTel(rs.getString("mobileTel"));
 			staff.setDivision(rs.getString("division"));
 			staff.setPosition(rs.getString("position"));
 			staff.setProtraitPath(rs.getString("protraitPath"));
@@ -232,12 +233,14 @@ private ForwardMail forwardMail;
 			staff.setNameLocale(rs.getString("nameLocale"));
 			staff.setEmail(rs.getString("email"));
 			staff.setTel(rs.getString("tel"));
+			staff.setMobileTel(rs.getString("mobileTel"));
 			staff.setDivision(rs.getString("division"));
 			staff.setPosition(rs.getString("position"));
 			staff.setProtraitPath(rs.getString("protraitPath"));
 			staff.setHostManagerId(rs.getString("hostManagerId"));
 			staff.setStaffType(rs.getString("staffType"));
 			staff.setHostManagerName(rs.getString("managerName"));
+			staff.setHostManagerEmail(rs.getString("managerEmail"));
 			return staff;
 		}
 

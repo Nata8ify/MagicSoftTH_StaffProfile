@@ -58,10 +58,10 @@
 				<label for="gender">Honorific</label> <select
 					name="gender"
 					class="form-control"
-					id='gender'
-				>
-					<option value="m">Mr.</option>
-					<option value="f">Mrs.</option>
+					id='gender'>
+					<option value="mr">Mr.</option>
+					<option value="mrs">Mrs.</option>
+					<option value="ms">Ms.</option>
 				</select>
 			</div>
 			<div class="form-group col-xs-5 floating-label-form-group controls">
@@ -105,7 +105,7 @@
 				>
 				<p class="help-block text-danger"></p>
 			</div>
-			<div class="form-group col-xs-6 floating-label-form-group controls">
+			<div class="form-group col-xs-3 floating-label-form-group controls">
 				<label for="tel">Contact Number</label> <input
 					type="tel"
 					class="form-control"
@@ -115,6 +115,19 @@
 					maxlength="12"
 					required
 					data-validation-required-message="Please enter Contact Number."
+				>
+				<p class="help-block text-danger"></p>
+			</div>
+			<div class="form-group col-xs-3 floating-label-form-group controls">
+				<label for="tel">Mobile Contact Number</label> <input
+					type="tel"
+					class="form-control"
+					placeholder="Mobile Contact Number"
+					id="mobileTel"
+					name='mobileTel'
+					maxlength="12"
+					required
+					data-validation-required-message="Please enter Mobile Contact Number."
 				>
 				<p class="help-block text-danger"></p>
 			</div>

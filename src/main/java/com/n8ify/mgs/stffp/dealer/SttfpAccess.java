@@ -64,6 +64,7 @@ public class SttfpAccess implements StffpfAccessInterface {
 			staff.setNameLocale(rs.getString("nameLocale"));
 			staff.setEmail(rs.getString("email"));
 			staff.setTel(rs.getString("tel"));
+			staff.setMobileTel(rs.getString("mobileTel"));
 			staff.setDivision(rs.getString("division"));
 			staff.setPosition(rs.getString("position"));
 			staff.setProtraitPath(rs.getString("protraitPath"));

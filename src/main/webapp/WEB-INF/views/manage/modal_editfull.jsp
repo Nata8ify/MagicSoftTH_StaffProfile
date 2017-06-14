@@ -31,8 +31,9 @@
 							class="form-group col-xs-2 floating-label-form-group controls">
 							<label for="gender">Honorific</label> <select name="gender"
 								class="form-control" id='gender'>
-								<option value="m">Mr.</option>
-								<option value="f">Mrs.</option>
+								<option value="mr">Mr.</option>
+								<option value="mrs">Mrs.</option>
+								<option value="ms">Ms.</option>
 							</select>
 						</div>
 						<div
@@ -45,8 +46,8 @@
 						</div>
 						<div
 							class="form-group col-xs-5 floating-label-form-group controls">
-							<label for="name">Name and Last Name</label> <input type="text"
-								class="form-control"
+							<label for="name">Name and Last Name (In Local Language)</label>
+							<input type="text" class="form-control"
 								placeholder="Name & Lastname (In Local Language)"
 								id="nameLocale" name='nameLocale' maxlength="40" required
 								data-validation-required-message="Please enter Name and Lastname.">
@@ -63,11 +64,19 @@
 							<p class="help-block text-danger"></p>
 						</div>
 						<div
-							class="form-group col-xs-6 floating-label-form-group controls">
+							class="form-group col-xs-3 floating-label-form-group controls">
 							<label for="tel">Contact Number</label> <input type="tel"
 								class="form-control" placeholder="Contact Number" id="tel"
 								name='tel' maxlength="12" required
 								data-validation-required-message="Please enter Contact Number.">
+							<p class="help-block text-danger"></p>
+						</div>
+						<div
+							class="form-group col-xs-3 floating-label-form-group controls">
+							<label for="tel">Mobile No.</label> <input type="tel"
+								class="form-control" placeholder="Mobile No." id="mobileTel"
+								name='mobileTel' maxlength="12" required
+								data-validation-required-message="Please enter Mobile Contact Number.">
 							<p class="help-block text-danger"></p>
 						</div>
 					</div>
@@ -97,8 +106,7 @@
 								type="text" class="form-control" id="hostManagerName-show"
 								disabled>
 						</div>
-						<input type="hidden" id="hostManagerId" name="hostManagerId" />
-						<br>
+						<input type="hidden" id="hostManagerId" name="hostManagerId" /> <br>
 						<div
 							class="form-group col-xs-6 floating-label-form-group controls">
 							<button type="button" class='btn btn-info' id='btn-assign-mng'>Assign
@@ -145,8 +153,8 @@
 								checked> : Prefer to Staff's Original.
 						</div>
 						<div class="form-group col-xs-6  controls">
-							<a href='#' style='color: red' id='lnk-delstaff'>Delete
-								This Staff from The System</a>
+							<a href='#' style='color: red' id='lnk-delstaff'>Delete This
+								Staff from The System</a>
 						</div>
 					</div>
 					<input type="hidden" id="protraitPathOld" name="protraitPathOld" />

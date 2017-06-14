@@ -6,6 +6,7 @@ public class Staff {
 	private String nameLocale;
 	private String email;
 	private String tel;
+	private String mobileTel;
 	private String division;
 	private String position;
 	private String protraitPath;
@@ -33,13 +34,14 @@ public class Staff {
 		super();
 	}
 
-	public Staff(String staffId, String name, String nameLocale, String email, String tel, String division, String position,
-			String protraitPath, String hostManagerId, String gender, String staffType) {
+	public Staff(String staffId, String name, String nameLocale, String email, String tel, String mobileTel, String division,
+			String position, String protraitPath, String hostManagerId, String gender, String staffType) {
 		this.staffId = staffId;
 		this.name = name;
 		this.nameLocale = nameLocale;
 		this.email = email;
 		this.tel = tel;
+		this.mobileTel = mobileTel;
 		this.division = division;
 		this.position = position;
 		this.protraitPath = protraitPath;
@@ -48,12 +50,13 @@ public class Staff {
 		this.staffType = staffType;
 	}
 
-	public Staff(String staffId, String name, String nameLocale, String email, String tel, String protraitPath) {
+	public Staff(String staffId, String name, String nameLocale, String email, String tel, String mobileTel, String protraitPath) {
 		this.staffId = staffId;
 		this.name = name;
 		this.nameLocale = nameLocale;
 		this.email = email;
 		this.tel = tel;
+		this.mobileTel = mobileTel;
 		this.protraitPath = protraitPath;
 	}
 
@@ -97,8 +100,6 @@ public class Staff {
 		this.name = name;
 	}
 
-	
-	
 	public String getNameLocale() {
 		return nameLocale;
 	}
@@ -121,6 +122,16 @@ public class Staff {
 
 	public void setTel(String tel) {
 		this.tel = tel;
+	}
+
+	
+	
+	public String getMobileTel() {
+		return mobileTel;
+	}
+
+	public void setMobileTel(String mobileTel) {
+		this.mobileTel = mobileTel;
 	}
 
 	public String getDivision() {
@@ -147,19 +158,17 @@ public class Staff {
 		this.hostManagerId = hostManagerId;
 	}
 
-	
-
 	@Override
 	public String toString() {
 		return "Staff [staffId=" + staffId + ", name=" + name + ", nameLocale=" + nameLocale + ", email=" + email
 				+ ", tel=" + tel + ", division=" + division + ", position=" + position + ", protraitPath="
 				+ protraitPath + ", hostManagerId=" + hostManagerId + ", gender=" + gender + ", staffType=" + staffType
-				+ ", hostManagerName=" + hostManagerName + "]";
+				+ ", hostManagerName=" + hostManagerName + ", hostManagerEmail=" + hostManagerEmail + "]";
 	}
 
-
-
+	// Required Information every Non-manager Staff must have.
 	private String hostManagerName;
+	private String hostManagerEmail;
 
 	public String getHostManagerName() {
 		return hostManagerName;
@@ -167,6 +176,14 @@ public class Staff {
 
 	public void setHostManagerName(String hostManagerName) {
 		this.hostManagerName = hostManagerName;
+	}
+
+	public String getHostManagerEmail() {
+		return hostManagerEmail;
+	}
+
+	public void setHostManagerEmail(String hostManagerEmail) {
+		this.hostManagerEmail = hostManagerEmail;
 	}
 
 }

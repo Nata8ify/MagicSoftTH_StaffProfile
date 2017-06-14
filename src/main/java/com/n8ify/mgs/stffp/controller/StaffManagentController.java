@@ -85,6 +85,7 @@ public class StaffManagentController {
 			@RequestParam(value = "nameLocale", required = false) String nameLocale,
 			@RequestParam(value = "email", required = true) String email,
 			@RequestParam(value = "tel", required = true) String tel,
+			@RequestParam(value = "mobileTel", required = false) String mobileTel,
 			@RequestParam(value = "division", required = true) String division,
 			@RequestParam(value = "position", required = true) String position,
 			@RequestParam(value = "protraitPath", required = false) String protraitPath,
@@ -97,7 +98,7 @@ public class StaffManagentController {
 		case Staff.TYPE_STAFF:
 			if (staffManager
 					.insertStaff(
-							new Staff(staffId, name, nameLocale, email, tel, division, position, protraitPath, hostManagerId.equals("")?null:hostManagerId,
+							new Staff(staffId, name, nameLocale, email, tel, mobileTel, division, position, protraitPath, hostManagerId.equals("")?null:hostManagerId,
 									gender, insertType),
 							password.equals("") ? Generator.getInstance().genPassword() : password)) {
 				model.addAttribute("msg", "done");
@@ -121,6 +122,7 @@ public class StaffManagentController {
 			@RequestParam(value = "nameLocale", required = false) String nameLocale,
 			@RequestParam(value = "email", required = true) String email,
 			@RequestParam(value = "tel", required = true) String tel,
+			@RequestParam(value = "mobileTel", required = false) String mobileTel,
 			@RequestParam(value = "division", required = true) String division,
 			@RequestParam(value = "position", required = true) String position,
 			@RequestParam(value = "protraitPath", required = false) String protraitPath,
@@ -130,7 +132,7 @@ public class StaffManagentController {
 			@RequestParam(value = "prevEditType", required = true) String prevStaffType) throws UnauthorizedAccessException {
 		authenCheck(request);
 		if (staffManager.editStaff(
-				new Staff(staffId, name, nameLocale, email, tel, division, position, null, hostManagerId, gender, staffType),
+				new Staff(staffId, name, nameLocale, email, tel, mobileTel, division, position, null, hostManagerId, gender, staffType),
 				password)) {
 			if(prevStaffType.equals(Staff.TYPE_MANAGER) && staffType.equals(Staff.TYPE_STAFF)){ // If Manager became a staff then.. unbind staff;
 				staffBinder.unbindStaffFromManager(staffId); //<-- This Id is surely Manager.
@@ -169,12 +171,13 @@ public class StaffManagentController {
 			@RequestParam(value = "nameLocale", required = false) String nameLocale,
 			@RequestParam(value = "email", required = true) String email,
 			@RequestParam(value = "tel", required = true) String tel,
+			@RequestParam(value = "mobileTel", required = false) String mobileTel,
 			@RequestParam(value = "protraitPath", required = false) String protraitPath,
 			@RequestParam(value = "password", required = true) String password,
 			@RequestParam(value = "editType", required = false) String editType) { //editType is staffType. 
 
 		if (staffManager.editSelfStaff(
-				new Staff(staffId, name, nameLocale, email, tel, protraitPath.equals("") ? null : protraitPath), password)) {
+				new Staff(staffId, name, nameLocale, email, tel, mobileTel, protraitPath.equals("") ? null : protraitPath), password)) {
 			logger.info("UPDATED");
 			return "redirect:login?staffId=" + staffId + "&password=" + password;
 		}
@@ -190,6 +193,7 @@ public class StaffManagentController {
 			@RequestParam(value = "nameLocale", required = false) String nameLocale,
 			@RequestParam(value = "email", required = true) String email,
 			@RequestParam(value = "tel", required = true) String tel,
+			@RequestParam(value = "mobileTel", required = false) String mobileTel,
 			@RequestParam(value = "division", required = true) String division,
 			@RequestParam(value = "position", required = true) String position,
 			@RequestParam(value = "protraitPathOld", required = false) String protraitPathOld,
@@ -201,7 +205,7 @@ public class StaffManagentController {
 			throws IllegalStateException, IOException, UnauthorizedAccessException {
 		authenCheck(request);
 		MultipartHttpServletRequest mrequest = multipartResolver.resolveMultipart(request);
-		Staff staff = new Staff(staffId, name, nameLocale, email, tel, division, position, null, hostManagerId, gender, staffType);
+		Staff staff = new Staff(staffId, name, nameLocale, email, tel, mobileTel, division, position, null, hostManagerId, gender, staffType);
 		logger.info(staff.toString() + " PWD : " + password);
 		String imgName = img.isEmpty() ? Staff.getStaffInstance().getProtraitPath()
 				: Generator.getInstance().genImageName(img.getOriginalFilename());
@@ -211,7 +215,7 @@ public class StaffManagentController {
 			File oldImg = new File(mrequest.getRealPath(PORTRAIT_DIR + protraitPathOld));
 			oldImg.delete();
 			if (staffManager.editStaff(
-					new Staff(staffId, name, nameLocale, email, tel, division, position, imgName, hostManagerId, gender, staffType),
+					new Staff(staffId, name, nameLocale, email, tel, mobileTel, division, position, imgName, hostManagerId, gender, staffType),
 					password)) {
 				logger.info("prev "+prevStaffType+" ::: new "+staffType);
 				if(prevStaffType.equals(Staff.TYPE_MANAGER) && staffType.equals(Staff.TYPE_STAFF)){ // If Manager became a staff then.. unbind staff;
@@ -224,7 +228,7 @@ public class StaffManagentController {
 			}
 		} else { // <-- Need Test
 			if (staffManager.editStaffForNoImage(
-					new Staff(staffId, name, nameLocale, email, tel, division, position, null, hostManagerId, gender, staffType),
+					new Staff(staffId, name, nameLocale, email, tel, mobileTel, division, position, null, hostManagerId, gender, staffType),
 					password)) {
 				if(prevStaffType.equals(Staff.TYPE_MANAGER) && staffType.equals(Staff.TYPE_STAFF)){ // If Manager became a staff then.. unbind staff;
 					staffBinder.unbindStaffsFromManager(staffId); //<-- This Id is surely Manager.
@@ -253,7 +257,7 @@ public class StaffManagentController {
 
 		if (staffManager.editSelfStaff(
 				new Staff(mrequest.getParameter("staffId"), mrequest.getParameter("name"), mrequest.getParameter("nameLocale"),
-						mrequest.getParameter("email"), mrequest.getParameter("tel"), imgName),
+						mrequest.getParameter("email"), mrequest.getParameter("tel"), mrequest.getParameter("mobileTel"), imgName),
 				mrequest.getParameter("password"))) {
 			
 			return "redirect:login?staffId=" + mrequest.getParameter("staffId") + "&password="
@@ -271,6 +275,7 @@ public class StaffManagentController {
 			@RequestParam(value = "nameLocale", required = false) String nameLocale,
 			@RequestParam(value = "email", required = true) String email,
 			@RequestParam(value = "tel", required = true) String tel,
+			@RequestParam(value = "mobileTel", required = false) String mobileTel,
 			@RequestParam(value = "division", required = true) String division,
 			@RequestParam(value = "position", required = true) String position,
 			@RequestParam(value = "hostManagerId", required = false) String hostManagerId,
@@ -283,7 +288,7 @@ public class StaffManagentController {
 		logger.info("i.f");
 		String imgName = img.isEmpty() ? null : Generator.getInstance().genImageName(img.getOriginalFilename());
 		if (staffManager.insertStaff(
-				new Staff(staffId, name, nameLocale, email, tel, division, position, imgName, hostManagerId.equals("")?null:hostManagerId, gender, insertType),
+				new Staff(staffId, name, nameLocale, email, tel, mobileTel, division, position, imgName, hostManagerId.equals("")?null:hostManagerId, gender, insertType),
 				password.equals("") ? Generator.getInstance().genPassword() : password)) {
 			img.transferTo(new File(mrequest.getRealPath(PORTRAIT_DIR) + imgName));
 			model.addAttribute("msg", "สำเร็จ!");
