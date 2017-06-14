@@ -476,18 +476,22 @@
 			var tableResultBody = $('#table-search-staff-list tbody');
 			tableResultBody.empty();
 			var searchTitle;
-
+			var isEmpty = true;
 			switch (mode) {
 			case 'namelike':
 				$.each(staffList, function(index, val) {
-					if (val.name.toUpperCase().indexOf(searchElement.toUpperCase()) !== -1 | val.nameLocale.indexOf(searchElement) !== -1) {
+					if (val.name.toUpperCase().indexOf(
+							searchElement.toUpperCase()) !== -1
+							| val.nameLocale.indexOf(searchElement) !== -1) {
 						renderRowStaffSearchResult(val, tableResultBody);
 					}
 				});
 				if (tmpSearcTotalStaffs.length > 0) {
 					searchTitle = "Results of By Name Search ("
 							+ tmpSearcTotalStaffs.length + ").";
+					isEmpty = false;
 				} else {
+					isEmpty = true;
 					searchTitle = "No Results for \"" + searchElement + "\".";
 				}
 
@@ -510,20 +514,22 @@
 				log(tmpSearchStaffOrMng);
 				if (tmpSearchStaffs != null) {
 					$('#h2-view-staff-topic').html(
-							"Results for [" + tmpSearchStaffOrMng.name + "].");
+							"Staffs of [" + tmpSearchStaffOrMng.name + "].");
+					isEmpty = false;
 				} else {
-					searchTitle = "No Results for [" + tmpSearchStaffOrMng.name
+					searchTitle = "No Staffs of [" + tmpSearchStaffOrMng.name
 							+ "].";
+					isEmpty = true;
 				}
 
-				$('#modal-view-staff').modal();
 				log(tmpSearchStaffOrMng);
 				log(tmpSearchStaffs);
 				break;
 			case 'staffid':
 				tmpSearchStaffOrMng = null;
 				$.each(staffList, function(index, val) {
-					if (val.staffId.toUpperCase() == searchElement.toUpperCase()) {
+					if (val.staffId.toUpperCase() == searchElement
+							.toUpperCase()) {
 						/* TODO FOund Staff */
 						tmpSearchStaffOrMng = val;
 						renderStaffInfoModal(val);
@@ -543,13 +549,17 @@
 				tmpSearchStaffs = staffList; /* This is a total */
 				tmpSearchStaffs = staffs;
 				tmpSearchManagers = managers;
+				if (staffList == []) {
+					isEmpty = true;
+					break;
+				}
 				$.each(staffList, function(index, val) {
 					tmpSearchStaffs.push(val);
 					/* TODO FOund Staff */
 					renderRowStaffSearchResult(val, tableResultBody);
 				});
+				isEmpty = false;
 				$('#h2-view-staff-topic').html("Magic Software Staff's Board.");
-				$('#modal-view-staff').modal();
 
 				log(managers);
 				log(staffs);
@@ -558,8 +568,12 @@
 				break;
 			default: //TODO
 			}
-			$('#modal-view-staff').modal();
-			$('#h2-view-staff-topic').html(searchTitle);
+			if (!isEmpty) {
+				$('#modal-view-staff').modal();
+				$('#h2-view-staff-topic').html(searchTitle);
+			} else {
+				alert("No Result For \"" + searchElement + "\".");
+			}
 		}
 
 		/* For Render a Set of Result as Table's Row */
@@ -577,11 +591,11 @@
 			var staffType = val.staffType;
 			var staffId = val.staffId;
 
-			var rowResultBody = $("<tr><td>" + staffId + "</td><td>" +honorific +" "+ name
-					+ "</td><td>" + email + "</td></tr>");
+			var rowResultBody = $("<tr><td>" + staffId + "</td><td>"
+					+ honorific + " " + name + "</td><td>" + email
+					+ "</td></tr>");
 			tableResultBody.append(rowResultBody.click(function() {
 				renderStaffInfoModal(val);
-				$('#modal-view-staff-info').modal();
 			}));
 		}
 
@@ -629,6 +643,7 @@
 				$('#span-info-mng').html(
 						hostManagerName != null ? hostManagerName : '-');
 			}
+			$('#modal-view-staff-info').modal();
 		}
 
 		function log(str) {
