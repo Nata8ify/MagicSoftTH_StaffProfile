@@ -1,6 +1,5 @@
 package com.n8ify.mgs.stffp.utils;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 

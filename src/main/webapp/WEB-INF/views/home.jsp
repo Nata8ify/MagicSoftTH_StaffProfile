@@ -26,11 +26,9 @@
 <link
 	href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic"
 	rel="stylesheet" type="text/css">
-
-<!-- Awesome Ico -->
 <link
-	href="http://fontawesome.io/assets/font-awesome/css/font-awesome.css"
-	rel="stylesheet" type="text/css" />
+	href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css"
+	rel="stylesheet" type="text/css">
 
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -45,7 +43,10 @@
 
 #table-search-staff-list tbody tr:hover {
 	cursor: pointer;
-}
+}/* 
+#home, #signin{
+	background-color: #2b3b5a;
+} */
 </style>
 </head>
 <body id="page-top" class="index">
@@ -85,14 +86,23 @@
 	<!-- Header -->
 	<header id='home'>
 		<div class="container" id="maincontent" tabindex="-1">
-			<div class="row">
-				<div class="col-lg-12">
-					<img class="img-responsive"
-						src="${contextPath}/resources/img/profile.png" alt="">
+			<div class="row ">
+				<div class="col-lg-12" >
 					<div class="intro-text">
-						<h1 class="name">STFFPF</h1>
-						<hr class="star-light">
-						<span class="skills">MST Staff Profile</span>
+						<h1 class="name">MST Staff Profile</h1>
+						<hr/>
+					</div>
+					<div class='row well' style="color: #000;">
+						<table id='table-total-staff' style="text-align: left;">
+							<thead>
+								<tr>
+									<th>Staff ID</th>
+									<th>Name and Surname</th>
+									<th>E-mail Address</th>
+								</tr>
+							</thead>
+							<tbody></tbody>
+						</table>
 					</div>
 				</div>
 			</div>
@@ -104,15 +114,22 @@
 			<div class="row">
 				<div class="col-lg-12 text-center">
 					<h2>Search</h2>
-					<hr class="star-primary">
+					<hr/>
 					<div class="row control-group">
+						<div class='col-xs-3'></div>
 						<div
-							class="form-group col-xs-12 floating-label-form-group controls">
-							<label for="Staff ID" id='label-search'>Part of the Name</label>
-							<input type="text" class="form-control text-center"
-								placeholder="&#xe003; Search" id="input-search" required
-								maxlength="40"
-								data-validation-required-message="Please enter a Part of the Staff Name.">
+							class="form-group col-xs-6 floating-label-form-group controls">
+							<label for="Staff ID" id='label-search'>By Name</label>
+							<div class='input-group'>
+								<span class="input-group-addon"
+									style="background: #eee; border: 0px;"><i
+									class="glyphicon glyphicon-search"></i></span> <input type="text"
+									class="form-control text-center" placeholder="Search"
+									id="input-search" required maxlength="40"
+									style="background-color: #eee"
+									data-validation-required-message="Please enter a Part of the Staff Name.">
+							</div>
+
 							<!-- 							<input
 								type="button"
 								class="btn btn-default text-center"
@@ -121,6 +138,7 @@
 							 > -->
 							<p class="help-block text-danger"></p>
 						</div>
+						<div class='col-xs-3 '></div>
 					</div>
 					<div class="row control-group">
 						<div
@@ -173,7 +191,7 @@
 				<div class="row">
 					<div class="col-lg-12 text-center">
 						<h2>Sign In</h2>
-						<hr class="star-light">
+						<hr/>
 						<br>
 						<div class="row">
 							<div class="col-lg-8 col-lg-offset-2 jumbotron"
@@ -332,6 +350,8 @@
 	<script src="${contextPath}/resources/js/contact_me.js"></script>
 	<!-- Theme JavaScript -->
 	<script src="${contextPath}/resources/js/freelancer.min.js"></script>
+	<script
+	src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
 	<jsp:include page="manage/modal_editself.jsp" />
 	<jsp:include page="manage/modal_pickmng.jsp" />
 	<jsp:include page="manage/modal_viewstaff.jsp" />
@@ -371,6 +391,21 @@
 				isStaffListReady = true;
 				enableSearch();
 			});
+			
+			var staffsTable =  $('#table-total-staff').DataTable({"ajax" : {
+				"url" : "${pageContext.request.contextPath}/viewAll?json=true",
+				"dataSrc" : ""
+			},
+			"columns" : [  {
+				"data" : "staffId",
+				"width" : "20%"
+			}, {
+				"data" : "name",
+				"width" : "40%"
+			}, {
+				"data" : "email",
+				"width" : "40%"
+			}]});
 
 		});
 
@@ -389,7 +424,7 @@
 					case 'namelike':
 						$('#input-search').prop("placeholder",
 								"ex. Anserson, Cean, Lee, etc.");
-						$('#label-search').html("Name Like Searching");
+						$('#label-search').html("By Name Search");
 						break;
 					case 'bymng':
 						/* Pop the Modal Manager up! */
@@ -399,7 +434,7 @@
 						break;
 					case 'staffid':
 						$('#input-search').prop("placeholder", "ex. M60999.");
-						$('#label-search').html("Staff ID Searching");
+						$('#label-search').html("By Staff ID Search");
 						break;
 					case 'viewAll':
 						$('#input-search').prop("placeholder",

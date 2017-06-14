@@ -11,8 +11,7 @@
 					<div class="modal-body" style='margin: auto'>
 						<h2 id='h2-view-staff-topic'></h2>
 						<hr class="star-primary" id='hr-search-dline'>
-						<table class='table table-ressponsive table-hover table-striped'
-							id='table-search-staff-list' style="text-align: left;">
+						<table id='table-search-staff-list'>
 							<thead>
 								<tr>
 									<th>Staff ID</th>

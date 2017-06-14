@@ -22,9 +22,10 @@
 							class="form-group col-xs-12 floating-label-form-group controls">
 							<label for="name">Name and Last Name</label> <input type="text"
 								class="form-control" placeholder="Name & Lastname" id="name"
-								name='name' maxlength="40" required
+								name='name' maxlength="40" required readonly
 								data-validation-required-message="Please enter your Name and Lastname."
 								value="${thisStaff.name}">
+							
 							<p class="help-block text-danger"></p>
 						</div>
 					</div>
@@ -34,7 +35,7 @@
 							<label for="name">Name and Last Name (In Your Local
 								Language)</label> <input type="text" class="form-control"
 								placeholder="Name & Lastname (In Your Local Language)"
-								id="nameLocale" name='nameLocale' maxlength="40"
+								id="nameLocale" name='nameLocale' maxlength="40" readonly
 								data-validation-required-message="Please enter your Name and Lastname (In Your Local Language)."
 								value="${thisStaff.nameLocale}">
 							<p class="help-block text-danger"></p>
