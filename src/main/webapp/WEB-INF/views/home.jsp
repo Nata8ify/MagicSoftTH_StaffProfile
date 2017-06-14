@@ -41,12 +41,11 @@
 	padding: 5px;
 }
 
-#table-search-staff-list tbody tr:hover {
+#table-search-staff-list tbody tr:hover, #table-total-staff tbody tr:hover {
 	cursor: pointer;
-}/* 
-#home, #signin{
-	background-color: #2b3b5a;
-} */
+}
+
+
 </style>
 </head>
 <body id="page-top" class="index">
@@ -93,7 +92,7 @@
 						<hr/>
 					</div>
 					<div class='row well' style="color: #000;">
-						<table id='table-total-staff' style="text-align: left;">
+						<table id='table-total-staff' style="text-align: left;" class='hover' >
 							<thead>
 								<tr>
 									<th>Staff ID</th>
@@ -358,6 +357,7 @@
 	<jsp:include page="manage/modal_viewstaff_info.jsp" />
 	<script type="text/javascript">
 		/* initial stuffs */
+		var staffsTable; /* Data Table */
 		var staffs;
 		var managers;
 		var staffList; /* This is a total */
@@ -392,7 +392,7 @@
 				enableSearch();
 			});
 			
-			var staffsTable =  $('#table-total-staff').DataTable({"ajax" : {
+			staffsTable =  $('#table-total-staff').DataTable({"ajax" : {
 				"url" : "${pageContext.request.contextPath}/viewAll?json=true",
 				"dataSrc" : ""
 			},
@@ -415,6 +415,12 @@
 			}
 		}
 
+		/* Staff List Listener */
+		$('#table-total-staff').on('click', 'tbody tr', function(evt){
+			var selectedStaffId = staffsTable.row($(this)).data().staffId;
+			searchStaff('staffid', selectedStaffId);
+		});
+		
 		var modeSearch = 'namelike'; /* As Default */
 		$('input[name = "modeSearch"]').click(
 				function() {
