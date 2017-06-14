@@ -39,13 +39,12 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 <style>
-.card-staff {
-	padding-top: 10px;
+#table-search-staff-list tbody tr {
+	padding: 5px;
 }
 
-.card-staff:hover {
+#table-search-staff-list tbody tr:hover {
 	cursor: pointer;
-	background-color: #eee;
 }
 </style>
 </head>
@@ -337,7 +336,7 @@
 	<jsp:include page="manage/modal_pickmng.jsp" />
 	<jsp:include page="manage/modal_viewstaff.jsp" />
 	<jsp:include page="manage/modal_viewstaff_info.jsp" />
-	<script type="text/javascript" >
+	<script type="text/javascript">
 		/* initial stuffs */
 		var staffs;
 		var managers;
@@ -468,66 +467,28 @@
 		var tmpSearchManagers; /* keep the everytime search result. */
 		var tmpSearchStaffOrMng; /* Just Single Staff / Manager Result. */
 		function searchStaff(mode, searchElement) {
+			searchElement = searchElement.trim();
 			tmpSearcTotalStaffs = [];
 			tmpSearchStaffs = [];
 			tmpSearchManager = [];
 			var cardResultBody = null; /* Keep it to build appened body.*/
 			log(mode + " :: " + searchElement);
-			var varStatus = 1;
-			var divResultBody = $('#div-searchrs-out');
-			divResultBody.empty();
+			var tableResultBody = $('#table-search-staff-list tbody');
+			tableResultBody.empty();
 			var searchTitle;
 
 			switch (mode) {
 			case 'namelike':
-				divResultBody.append($("<div class='row'>"));
-				$
-						.each(
-								staffList,
-								function(index, val) {
-									if (val.name.indexOf(searchElement) !== -1) {
-										log(varStatus);
-										tmpSearcTotalStaffs.push(val);
-										var protraitPath = val.protraitPath == null ? 'noimg.png'
-												: val.protraitPath;
-										var name = val.name;
-										var email = val.email;
-										var tel = val.tel;
-										var division = val.division;
-										var position = val.position;
-										var hostManagerName = val.hostManagerName;
-										var staffType = val.staffType;
-										var staffId = val.staffId;
-										cardResultBody = $("<div class='col-sm-2'><div class='card card-staff' style='width: 20rem;'>"
-												+ "<img class='card-img-top' width='150px' src='${contextPath}/resources/portraits/"+protraitPath+"' alt='Portrait'>"
-												+ "<div class='card-block'> <h5 class='card-title'>"
-												+ name
-												+ "</h5> <h6 class='card-text'>"
-												+ position
-												+ "</h6></div></div></div>");
-										if (varStatus % 5 == 0) {
-											log(varStatus % 5 == 0);
-											divResultBody
-													.append($("<tr></tr>"));
-										}
-										divResultBody.append(cardResultBody
-												.click(function() {
-													renderStaffInfoModal(val);
-													$('#modal-view-staff-info')
-															.modal();
-												}));
-										varStatus++;
-									}
-								});
-				divResultBody.append($("</div>"));
-
-				log("cardResultBody: " + cardResultBody);
+				$.each(staffList, function(index, val) {
+					if (val.name.toUpperCase().indexOf(searchElement.toUpperCase()) !== -1 | val.nameLocale.indexOf(searchElement) !== -1) {
+						renderRowStaffSearchResult(val, tableResultBody);
+					}
+				});
 				if (tmpSearcTotalStaffs.length > 0) {
-					searchTitle = "Results of Name Like Search ("
+					searchTitle = "Results of By Name Search ("
 							+ tmpSearcTotalStaffs.length + ").";
 				} else {
-					searchTitle = "No Results for ["
-							+ tmpSearcTotalStaffs.length + "].";
+					searchTitle = "No Results for \"" + searchElement + "\".";
 				}
 
 				log(tmpSearcTotalStaffs);
@@ -535,50 +496,17 @@
 				break;
 			case 'bymng':
 				tmpSearchStaffOrMng = null;
-				divResultBody.empty();
-				$
-						.each(
-								staffList,
-								function(index, val) {
-									if (val.hostManagerId == searchElement) {
-										tmpSearchStaffs.push(val);
-										/* TODO FOund Staff */
-										var protraitPath = val.protraitPath == null ? 'noimg.png'
-												: val.protraitPath;
-										var name = val.name;
-										var email = val.email;
-										var tel = val.tel;
-										var division = val.division;
-										var position = val.position;
-										var hostManagerName = val.hostManagerName;
-										var staffType = val.staffType;
-										var staffId = val.staffId;
-										cardResultBody = $("<div class='col-sm-2'><div class='card card-staff' style='width: 20rem;'>"
-												+ "<img class='card-img-top' width='150px' src='${contextPath}/resources/portraits/"+protraitPath+"' alt='Portrait'>"
-												+ "<div class='card-block'> <h5 class='card-title'>"
-												+ name
-												+ "</h5> <h6 class='card-text'>"
-												+ position
-												+ "</h6></div></div></div>");
-										if (varStatus % 5 == 0) {
-											log(varStatus % 5 == 0);
-											divResultBody
-													.append($("<tr></tr>"));
-										}
-										divResultBody.append(cardResultBody
-												.click(function() {
-													renderStaffInfoModal(val)
-													$('#modal-view-staff-info')
-															.modal();
-												}));
-										varStatus++;
-									}
-									if (val.staffId == searchElement) {
-										tmpSearchStaffOrMng = val;
+				$.each(staffList, function(index, val) {
+					if (val.hostManagerId == searchElement.toUpperCase()) {
+						tmpSearchStaffs.push(val);
+						/* TODO FOund Staff */
+						renderRowStaffSearchResult(val, tableResultBody);
+					}
+					if (val.staffId == searchElement) {
+						tmpSearchStaffOrMng = val;
 
-									}
-								});
-				divResultBody.append($("</div>"));
+					}
+				});
 				log(tmpSearchStaffOrMng);
 				if (tmpSearchStaffs != null) {
 					$('#h2-view-staff-topic').html(
@@ -595,8 +523,7 @@
 			case 'staffid':
 				tmpSearchStaffOrMng = null;
 				$.each(staffList, function(index, val) {
-					if (val.staffId.toLowerCase() == searchElement
-							.toLowerCase()) {
+					if (val.staffId.toUpperCase() == searchElement.toUpperCase()) {
 						/* TODO FOund Staff */
 						tmpSearchStaffOrMng = val;
 						renderStaffInfoModal(val);
@@ -616,45 +543,11 @@
 				tmpSearchStaffs = staffList; /* This is a total */
 				tmpSearchStaffs = staffs;
 				tmpSearchManagers = managers;
-
-				divResultBody.empty();
-				$
-						.each(
-								staffList,
-								function(index, val) {
-
-									tmpSearchStaffs.push(val);
-									/* TODO FOund Staff */
-									var protraitPath = val.protraitPath == null ? 'noimg.png'
-											: val.protraitPath;
-									var name = val.name;
-									var email = val.email;
-									var tel = val.tel;
-									var division = val.division;
-									var position = val.position;
-									var hostManagerName = val.hostManagerName;
-									var staffType = val.staffType;
-									var staffId = val.staffId;
-									cardResultBody = $("<div class='col-sm-2'><div class='card card-staff' style='width: 20rem;'>"
-											+ "<img class='card-img-top' width='150em' src='${contextPath}/resources/portraits/"+protraitPath+"' alt='Portrait'>"
-											+ "<div class='card-block'> <h5 class='card-title'>"
-											+ name
-											+ "</h5> <h6 class='card-text'>"
-											+ position
-											+ "</h6></div></div></div>");
-									if (varStatus % 5 == 0) {
-										log(varStatus % 5 == 0);
-										divResultBody.append($("<tr></tr>"));
-									}
-									divResultBody.append(cardResultBody
-											.click(function() {
-												renderStaffInfoModal(val);
-												$('#modal-view-staff-info')
-														.modal();
-											}));
-
-								});
-				divResultBody.append($("</div>"));
+				$.each(staffList, function(index, val) {
+					tmpSearchStaffs.push(val);
+					/* TODO FOund Staff */
+					renderRowStaffSearchResult(val, tableResultBody);
+				});
 				$('#h2-view-staff-topic').html("Magic Software Staff's Board.");
 				$('#modal-view-staff').modal();
 
@@ -669,8 +562,30 @@
 			$('#h2-view-staff-topic').html(searchTitle);
 		}
 
-		/* For Render Selected Staff Information. */
+		/* For Render a Set of Result as Table's Row */
+		function renderRowStaffSearchResult(val, tableResultBody) {
+			tmpSearcTotalStaffs.push(val);
+			var protraitPath = val.protraitPath == null ? 'noimg.png'
+					: val.protraitPath;
+			var honorific = val.gender;
+			var name = val.name;
+			var email = val.email;
+			var tel = val.tel;
+			var division = val.division;
+			var position = val.position;
+			var hostManagerName = val.hostManagerName;
+			var staffType = val.staffType;
+			var staffId = val.staffId;
 
+			var rowResultBody = $("<tr><td>" + staffId + "</td><td>" +honorific +" "+ name
+					+ "</td><td>" + email + "</td></tr>");
+			tableResultBody.append(rowResultBody.click(function() {
+				renderStaffInfoModal(val);
+				$('#modal-view-staff-info').modal();
+			}));
+		}
+
+		/* For Render Selected Staff Information. [Bind 'val' On renderRowStaffSearchResult]*/
 		function renderStaffInfoModal(val) {
 			var protraitPath = val.protraitPath == null ? 'noimg.png'
 					: val.protraitPath;
@@ -694,7 +609,7 @@
 			$('#span-info-name').html(name);
 			$('#span-info-name').html(name);
 			/* $('#pan-info-name-local-honf').html(""); */
-			$('#span-info-name-locale').html("("+ nameLocale + ")");
+			$('#span-info-name-locale').html("(" + nameLocale + ")");
 			$('#span-info-email').html(email);
 			$('#span-info-tel').html(tel);
 			$('#span-info-mobileTel').html(mobileTel == null ? '' : mobileTel);

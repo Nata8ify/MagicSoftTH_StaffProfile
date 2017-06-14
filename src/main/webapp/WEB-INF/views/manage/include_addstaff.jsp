@@ -59,9 +59,9 @@
 					name="gender"
 					class="form-control"
 					id='gender'>
-					<option value="mr">Mr.</option>
-					<option value="mrs">Mrs.</option>
-					<option value="ms">Ms.</option>
+					<option value="Mr">Mr.</option>
+					<option value="Mrs">Mrs.</option>
+					<option value="Ms">Ms.</option>
 				</select>
 			</div>
 			<div class="form-group col-xs-5 floating-label-form-group controls">
