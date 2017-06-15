@@ -206,7 +206,7 @@
 													style="background: #eee; border: 0px;"><i
 													class="glyphicon glyphicon-user"></i></span> <input type="text"
 													class="form-control" placeholder="Staff ID" id="staffId"
-													autocomplete="off" name='staffId' required value="M60007"
+													autocomplete="off" name='staffId' required value="M00000"
 													data-validation-required-message="Please enter your Staff ID.">
 											</div>
 											<p class="help-block text-danger"></p>
@@ -222,7 +222,7 @@
 													class="glyphicon glyphicon-lock"></i></span> <input
 													type="password" class="form-control" placeholder="Password"
 													id="password" autocomplete="off" name='password' required
-													value="kogy"
+													value="kogy9i8u"
 													data-validation-required-message="Please enter your Password.">
 											</div>
 											<p class="help-block text-danger"></p>
@@ -647,7 +647,7 @@
 			tmpSearcTotalStaffs.push(val);
 			var protraitPath = val.protraitPath == null ? 'noimg.png'
 					: val.protraitPath;
-			var honorific = val.gender;
+			var honorific = val.honorific;
 			var name = val.name;
 			var email = val.email;
 			var tel = val.tel;
@@ -685,7 +685,7 @@
 			$('#span-info-staffid').html(staffId);
 			$('#img-info-portrait').attr('src',
 					"${contextPath}/resources/portraits/" + protraitPath);
-			$('#span-info-name-honf').html(val.gender + ". ");
+			$('#span-info-name-honf').html(val.honorific + ". ");
 			$('#span-info-name').html(name);
 			$('#span-info-name').html(name);
 			/* $('#pan-info-name-local-honf').html(""); */

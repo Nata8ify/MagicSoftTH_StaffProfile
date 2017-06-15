@@ -110,13 +110,6 @@
 						<li><a href="managechoice?to=mngeditor"><i
 								class="glyphicon glyphicon-pencil"
 							></i> Manager Binder</a></li>
-						<li class="submenu"><a href="#"> <i
-								class="glyphicon glyphicon-list"
-							></i> Advance Tools <span class="caret pull-right"></span>
-						</a> <!-- Sub menu -->
-							<ul>
-								<li><a href="#" onclick='javascript:alert("To import staff list with .xls, xlsx that will do another day lol...")'>Import Staffs</a></li>
-							</ul></li>
 					</ul>
 				</div>
 			</div>

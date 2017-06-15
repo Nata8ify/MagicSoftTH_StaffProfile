@@ -11,7 +11,7 @@ public class Staff {
 	private String position;
 	private String protraitPath;
 	private String hostManagerId;
-	private String gender;
+	private String honorific;
 	private String staffType;
 
 	public static final String TYPE_STAFF = "s";
@@ -35,7 +35,7 @@ public class Staff {
 	}
 
 	public Staff(String staffId, String name, String nameLocale, String email, String tel, String mobileTel, String division,
-			String position, String protraitPath, String hostManagerId, String gender, String staffType) {
+			String position, String protraitPath, String hostManagerId, String honorific, String staffType) {
 		this.staffId = staffId;
 		this.name = name;
 		this.nameLocale = nameLocale;
@@ -46,7 +46,7 @@ public class Staff {
 		this.position = position;
 		this.protraitPath = protraitPath;
 		this.hostManagerId = hostManagerId;
-		this.gender = gender;
+		this.honorific = honorific;
 		this.staffType = staffType;
 	}
 
@@ -72,8 +72,8 @@ public class Staff {
 		return staffId;
 	}
 
-	public String getGender() {
-		return gender;
+	public String getHonorific() {
+		return honorific;
 	}
 
 	public String getStaffType() {
@@ -84,8 +84,8 @@ public class Staff {
 		this.staffType = staffType;
 	}
 
-	public void setGender(String gender) {
-		this.gender = gender;
+	public void setHonorific(String honorific) {
+		this.honorific = honorific;
 	}
 
 	public void setStaffId(String staffId) {
@@ -162,7 +162,7 @@ public class Staff {
 	public String toString() {
 		return "Staff [staffId=" + staffId + ", name=" + name + ", nameLocale=" + nameLocale + ", email=" + email
 				+ ", tel=" + tel + ", division=" + division + ", position=" + position + ", protraitPath="
-				+ protraitPath + ", hostManagerId=" + hostManagerId + ", gender=" + gender + ", staffType=" + staffType
+				+ protraitPath + ", hostManagerId=" + hostManagerId + ", honorific=" + honorific + ", staffType=" + staffType
 				+ ", hostManagerName=" + hostManagerName + ", hostManagerEmail=" + hostManagerEmail + "]";
 	}
 

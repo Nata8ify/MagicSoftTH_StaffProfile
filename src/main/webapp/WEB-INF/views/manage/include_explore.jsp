@@ -162,7 +162,7 @@
 														value.division);
 												$('#position').val(
 														value.position);
-												$('#gender').val(value.gender);
+												$('#honorific').val(value.honorific);
 												$('#hostManagerId').val(
 														value.hostManagerId);
 												$('#protraitPathOld').val(

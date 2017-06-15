@@ -23,7 +23,6 @@
 	<br>
 	<h3>Staffs</h3>
 	<div id='div-action-set'>
-		&nbsp;
 		<h3 id='h3-of-mng'>
 			<!-- Of The Manager -->
 		</h3>
@@ -31,20 +30,21 @@
 		<button
 			class='btn btn-default'
 			id='btn-view-all'
-		><i class='glyphicon glyphicon-eye-open'></i> View All</button>
+		><i class='glyphicon glyphicon-eye-open'></i> View All Assigned Staffs</button>
 		&nbsp;
 		<button
 			class='btn btn-warning btn-staction'
 			disabled
 			id='btn-transfer-all'
-		>Transfer</button>
+		><i class='glyphicon glyphicon-transfer'></i> Transfer</button>
 		&nbsp;
 		<button
 			class='btn btn-danger btn-staction'
 			disabled
 			id='btn-unbind-all'
-		>Unbind</button>
-	</div>
+		><i class='glyphicon glyphicon-remove-sign'></i> Unbind from the Manager</button>
+	</div><br/>
+	<h4 id='h4-assigned-staff'>Assigned Staffs</h4>
 	<hr>
 	<table
 		class="table table-responsive table-hover"
@@ -66,7 +66,7 @@
 		</tbody>
 	</table>
 	<br>
-	<h3>Unassigned Staffs</h3>
+	<h4>Unassigned Staffs</h4>
 	<hr>
 	<table
 		class="table table-responsive  table-hover"
@@ -209,7 +209,7 @@
 			.DataTable(
 					{
 						"ajax" : {
-							"url" : "${pageContext.request.contextPath}/viewAllStaffs?json=true",
+							"url" : "${pageContext.request.contextPath}/viewAllAssignedStaffs?json=true",
 							"dataSrc" : ""
 						},
 						"columns" : [ {
@@ -262,17 +262,17 @@
 					'click',
 					'tr .mng-bind',
 					function() {
-						var mngId = managersDataTable
-								.row($(this).parents('tr')).data().staffId;
-						console.log(mngId);
+						var mngSelectedRowData = managersDataTable.row($(this).parents('tr')).data();
+						console.log(mngSelectedRowData.staffId);
 						$.ajax({
 							"url" : "${pageContext.request.contextPath}/searchMngsStaff?json=true&managerId="
-									+ mngId,
+									+ mngSelectedRowData.staffId,
 							"success" : function(slist) {
 								unassignedStaffs = $.parseJSON(slist);
 								staffsDataTable.clear().draw();
 								staffsDataTable.rows.add(unassignedStaffs);
 								staffsDataTable.columns.adjust().draw();
+								viewAssigedTitle("Total Assigned Staffs of <b>"+mngSelectedRowData.name+"</b> ("+unassignedStaffs.length+")");
 							}
 						});
 
@@ -281,12 +281,13 @@
 	/* This Event will request for total staffs and draw on the datatable. */
 	$('#btn-view-all').click(function() {
 						$.ajax({
-							"url" : "${pageContext.request.contextPath}/viewAllStaffs?json=true",
+							"url" : "${pageContext.request.contextPath}/viewAllAssignedStaffs?json=true",
 							"success" : function(slist) {
 								unassignedStaffs = $.parseJSON(slist);
 								staffsDataTable.clear().draw();
 								staffsDataTable.rows.add(unassignedStaffs);
 								staffsDataTable.columns.adjust().draw();
+									
 							}
 						});
 
@@ -383,4 +384,12 @@
 		});
 		location.reload();
 	});
+	
+	/* Listener */
+	$('#btn-view-all').click(function(){
+		viewAssigedTitle("Total Assigned Staff");
+	});
+	function viewAssigedTitle(message){
+		$('#h4-assigned-staff').html(message);
+	}
 </script>

@@ -59,7 +59,7 @@ public class SttfpAccess implements StffpfAccessInterface {
 		public Staff mapRow(ResultSet rs, int i) throws SQLException {
 			Staff staff = new Staff();
 			staff.setStaffId(rs.getString("staffId"));
-			staff.setGender(rs.getString("gender"));
+			staff.setHonorific(rs.getString("honorific"));
 			staff.setName(rs.getString("name"));
 			staff.setNameLocale(rs.getString("nameLocale"));
 			staff.setEmail(rs.getString("email"));

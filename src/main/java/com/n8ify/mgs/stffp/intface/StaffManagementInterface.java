@@ -29,6 +29,8 @@ public interface StaffManagementInterface {
 
 	public List<Staff> getTotalStaffs();
 
+	public List<Staff> getTotalAssignedStaffs();
+	
 	public List<Staff> getTotalUnassignedStaffs();
 
 }

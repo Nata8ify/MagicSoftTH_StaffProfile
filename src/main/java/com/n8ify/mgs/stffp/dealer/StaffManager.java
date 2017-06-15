@@ -49,10 +49,10 @@ private ForwardMail forwardMail;
 	@Override
 	public boolean insertStaff(Staff staff, String password) {
 		String sql = "INSERT INTO `Staff`"
-				+ "(`staffId`, `gender`, `name`, `nameLocale`, `email`, `tel`, `mobileTel`, `division`, `position`, `protraitPath`, `hostManagerId`, `staffType`)"
+				+ "(`staffId`, `honorific`, `name`, `nameLocale`, `email`, `tel`, `mobileTel`, `division`, `position`, `protraitPath`, `hostManagerId`, `staffType`)"
 				+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 		boolean is1stSuccess = jdbcTemplate.update(sql,
-				new Object[] { staff.getStaffId(), staff.getGender(), staff.getName(), staff.getNameLocale(), staff.getEmail(), staff.getTel(), staff.getMobileTel(),
+				new Object[] { staff.getStaffId(), staff.getHonorific(), staff.getName(), staff.getNameLocale(), staff.getEmail(), staff.getTel(), staff.getMobileTel(),
 						staff.getDivision(), staff.getPosition(), staff.getProtraitPath(), staff.getHostManagerId(),
 						staff.getStaffType() }) > 0;
 		sql = " INSERT INTO `StaffAccess`(`staffId`, `password`) VALUES (?,?);";
@@ -62,10 +62,10 @@ private ForwardMail forwardMail;
 
 	@Override
 	public boolean editStaff(final Staff staff, final String newPassword) {
-		String sql = "UPDATE `Staff` s SET s.`name`=?, `nameLocale`=?, s.`gender`=? ,s.`email`=?,s.`tel`=?, `mobileTel`=?,s.`division`=?, s.`position`=?,s.`protraitPath`=?"
+		String sql = "UPDATE `Staff` s SET s.`name`=?, `nameLocale`=?, s.`honorific`=? ,s.`email`=?,s.`tel`=?, `mobileTel`=?,s.`division`=?, s.`position`=?,s.`protraitPath`=?"
 				+ ",s.`hostManagerId`=?, s.staffType = ? WHERE s.`staffId` = ?;";
 		boolean is1stSuccess = jdbcTemplate.update(sql,
-				new Object[] { staff.getName(), staff.getNameLocale(), staff.getGender(), staff.getEmail(), staff.getTel(), staff.getMobileTel(),
+				new Object[] { staff.getName(), staff.getNameLocale(), staff.getHonorific(), staff.getEmail(), staff.getTel(), staff.getMobileTel(),
 						staff.getDivision(), staff.getPosition(), staff.getProtraitPath(), staff.getHostManagerId(),
 						staff.getStaffType(), staff.getStaffId() }) > 0;
 		if (staff.getStaffType().equals(Staff.TYPE_MANAGER)) {
@@ -88,10 +88,10 @@ private ForwardMail forwardMail;
 
 	@Override
 	public boolean editStaffForNoImage(final Staff staff, final String newPassword) {
-		String sql = "UPDATE `Staff` s SET s.`name`=?, `nameLocale`=?, s.`gender`=? ,s.`email`=?,s.`tel`=?, `mobileTel`=?,s.`division`=?, s.`position`=?"
+		String sql = "UPDATE `Staff` s SET s.`name`=?, `nameLocale`=?, s.`honorific`=? ,s.`email`=?,s.`tel`=?, `mobileTel`=?,s.`division`=?, s.`position`=?"
 				+ ",s.`hostManagerId`=?, s.staffType = ? WHERE s.`staffId` = ?;";
 		boolean is1stSuccess = jdbcTemplate.update(sql,
-				new Object[] { staff.getName(), staff.getNameLocale(), staff.getGender(), staff.getEmail(), staff.getTel(), staff.getMobileTel(),
+				new Object[] { staff.getName(), staff.getNameLocale(), staff.getHonorific(), staff.getEmail(), staff.getTel(), staff.getMobileTel(),
 						staff.getDivision(), staff.getPosition(), staff.getHostManagerId(), staff.getStaffType(),
 						staff.getStaffId() }) > 0;
 
@@ -187,6 +187,12 @@ private ForwardMail forwardMail;
 	}
 
 	@Override
+	public List<Staff> getTotalAssignedStaffs() {
+		String sql = "SELECT * FROM `Staff` WHERE  `staffType` != ? AND hostManagerId IS NOT NULL;";
+		return jdbcTemplate.query(sql, new Object[] { Staff.TYPE_MANAGER }, new StaffMapper());
+	}
+	
+	@Override
 	public List<Staff> getTotalUnassignedStaffs() {
 		String sql = "SELECT * FROM `Staff` WHERE  `staffType` != ? AND hostManagerId IS NULL;";
 		return jdbcTemplate.query(sql, new Object[] { Staff.TYPE_MANAGER }, new StaffMapper());
@@ -205,7 +211,7 @@ private ForwardMail forwardMail;
 		public Staff mapRow(ResultSet rs, int i) throws SQLException {
 			Staff staff = new Staff();
 			staff.setStaffId(rs.getString("staffId"));
-			staff.setGender(rs.getString("gender")); 
+			staff.setHonorific(rs.getString("honorific")); 
 			staff.setName(rs.getString("name"));
 			staff.setNameLocale(rs.getString("nameLocale"));
 			staff.setEmail(rs.getString("email"));
@@ -227,7 +233,7 @@ private ForwardMail forwardMail;
 		public Staff mapRow(ResultSet rs, int i) throws SQLException {
 			Staff staff = new Staff();
 			staff.setStaffId(rs.getString("staffId"));
-			staff.setGender(rs.getString("gender"));
+			staff.setHonorific(rs.getString("honorific"));
 			staff.setName(rs.getString("name"));
 			staff.setNameLocale(rs.getString("nameLocale"));
 			staff.setEmail(rs.getString("email"));
@@ -244,5 +250,6 @@ private ForwardMail forwardMail;
 		}
 
 	}
+
 
 }

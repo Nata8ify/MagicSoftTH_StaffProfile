@@ -60,6 +60,18 @@ public class StaffViewerController {
 		return "list";
 	}
 
+	@RequestMapping(value = "/viewAllAssignedStaffs", method = RequestMethod.GET)
+	public String viewAllAssignedStaffs(Model model,
+			@RequestParam(value = "json", required = true, defaultValue = "false") boolean json) {
+		if (json) {
+			gsonb.serializeNulls();
+			model.addAttribute("results", gsonb.create().toJson(staffManager.getTotalAssignedStaffs()));
+			return "result/result";
+		}
+		model.addAttribute("staffs", staffManager.getEntireStaffs());
+		return "list";
+	}
+	
 	@RequestMapping(value = "/viewAllUnassignedStaffs", method = RequestMethod.GET)
 	public String viewAllUnassignedStaffs(Model model,
 			@RequestParam(value = "json", required = true, defaultValue = "false") boolean json) {
