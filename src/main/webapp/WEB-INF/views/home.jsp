@@ -26,8 +26,7 @@
 <link
 	href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic"
 	rel="stylesheet" type="text/css">
-<link
-	href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css"
+<link href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css"
 	rel="stylesheet" type="text/css">
 
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -41,11 +40,10 @@
 	padding: 5px;
 }
 
-#table-search-staff-list tbody tr:hover, #table-total-staff tbody tr:hover {
+#table-search-staff-list tbody tr:hover, #table-total-staff tbody tr:hover
+	{
 	cursor: pointer;
 }
-
-
 </style>
 </head>
 <body id="page-top" class="index">
@@ -71,7 +69,7 @@
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav navbar-right">
 					<li class="hidden"><a href="#page-top"></a></li>
-					<li class="page-scroll"><a href="#home">Home</a></li>
+					<li class="page-scroll"><a href="#home">Staff List</a></li>
 					<li class="page-scroll"><a href="#search">Search</a></li>
 					${thisStaff.staffType == 'm'?'<li class="page-scroll" ><a href="#a-view-my-staff" id="a-view-my-staff" >My Staff</a></li>':''}
 					<li class="page-scroll">${thisStaff.name==null?'<a href="#signin">Sign in</a>': '<a href="logout" style="color:red">Sign Out</a> '}
@@ -86,13 +84,14 @@
 	<header id='home'>
 		<div class="container" id="maincontent" tabindex="-1">
 			<div class="row ">
-				<div class="col-lg-12" >
+				<div class="col-lg-12">
 					<div class="intro-text">
 						<h1 class="name">MST Staff Profile</h1>
-						<hr/>
+						<hr />
 					</div>
 					<div class='row well' style="color: #000;">
-						<table id='table-total-staff' style="text-align: left;" class='hover' >
+						<table id='table-total-staff' style="text-align: left;"
+							class='hover'>
 							<thead>
 								<tr>
 									<th>Staff ID</th>
@@ -113,7 +112,7 @@
 			<div class="row">
 				<div class="col-lg-12 text-center">
 					<h2>Search</h2>
-					<hr/>
+					<hr />
 					<div class="row control-group">
 						<div class='col-xs-3'></div>
 						<div
@@ -143,23 +142,22 @@
 						<div
 							class="form-group col-xs-3 floating-label-form-group controls"></div>
 						<div
-							class="form-group col-xs-2 floating-label-form-group controls">
-							<input type="radio" class="text-center" id="mode-namelike-search"
+							class="form-group col-xs-3 floating-label-form-group controls">
+							<input type="radio" class="text-center" id="mode-namelike-search" class=''
 								name='modeSearch' value="namelike" checked> : By Name
 						</div>
-						<div style='display: none;' /* Yoc can't see
-							me... */
+						<div style='display: none;' /* Yoc can't see me... */
 							class="form-group col-xs-2 floating-label-form-group controls">
 							<input type="radio" class="text-center" id="mode-bymng-search"
 								name='modeSearch' value="bymng"> : Host Manager
 						</div>
-						<div
-							class="form-group col-xs-2 floating-label-form-group controls">
+						<div 
+							class="form-group col-xs-3 floating-label-form-group controls">
 							<input type="radio" class="text-center" value="staffid"
 								id="mode-staffid-search" name='modeSearch'> : By Staff
 							ID
 						</div>
-						<div
+						<div style='display: none;' /* Yoc can't see me... */
 							class="form-group col-xs-2 floating-label-form-group controls">
 							<input type="radio" class="text-center" value="viewAll"
 								id="mode-viewall-search" name='modeSearch'> : Everybodys
@@ -190,7 +188,7 @@
 				<div class="row">
 					<div class="col-lg-12 text-center">
 						<h2>Sign In</h2>
-						<hr/>
+						<hr />
 						<br>
 						<div class="row">
 							<div class="col-lg-8 col-lg-offset-2 jumbotron"
@@ -202,20 +200,31 @@
 									<div class="row control-group">
 										<div
 											class="form-group col-xs-12 floating-label-form-group controls">
-											<label for="Staff ID">Staff ID</label> <input type="text"
-												class="form-control" placeholder="Staff ID" id="staffId"
-												autocomplete="off" name='staffId' required value="M60007"
-												data-validation-required-message="Please enter your Staff ID.">
+											<label for="Staff ID">Staff ID</label>
+											<div class='input-group'>
+												<span class="input-group-addon"
+													style="background: #eee; border: 0px;"><i
+													class="glyphicon glyphicon-user"></i></span> <input type="text"
+													class="form-control" placeholder="Staff ID" id="staffId"
+													autocomplete="off" name='staffId' required value="M60007"
+													data-validation-required-message="Please enter your Staff ID.">
+											</div>
 											<p class="help-block text-danger"></p>
 										</div>
 									</div>
 									<div class="row control-group">
 										<div
 											class="form-group col-xs-12 floating-label-form-group controls">
-											<label for="password">Password</label> <input type="password"
-												class="form-control" placeholder="Password" id="password"
-												autocomplete="off" name='password' required value="kogy"
-												data-validation-required-message="Please enter your Password.">
+											<label for="password">Password</label>
+											<div class='input-group'>
+												<span class="input-group-addon"
+													style="background: #eee; border: 0px;"><i
+													class="glyphicon glyphicon-lock"></i></span> <input
+													type="password" class="form-control" placeholder="Password"
+													id="password" autocomplete="off" name='password' required
+													value="kogy"
+													data-validation-required-message="Please enter your Password.">
+											</div>
 											<p class="help-block text-danger"></p>
 										</div>
 									</div>
@@ -247,7 +256,8 @@
 					<div class="footer-col col-md-4">
 						<h3>Location</h3>
 						<p>
-							3481 Melrose Place <br>Beverly Hills, CA 90210
+							<i>MST Place</i> <br>
+							<i>Beverly Hills, CA 90210</i>
 						</p>
 					</div>
 					<div class="footer-col col-md-4">
@@ -350,7 +360,7 @@
 	<!-- Theme JavaScript -->
 	<script src="${contextPath}/resources/js/freelancer.min.js"></script>
 	<script
-	src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+		src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
 	<jsp:include page="manage/modal_editself.jsp" />
 	<jsp:include page="manage/modal_pickmng.jsp" />
 	<jsp:include page="manage/modal_viewstaff.jsp" />
@@ -364,50 +374,65 @@
 		var isStaffsReady = false;
 		var isManagerReady = false;
 		var isStaffListReady = false;
-		$(document).ready(function() {
-			$.ajax({
-				"url" : "viewAllStaffs?json=true",
-				"success" : function(slist) {
-					staffs = $.parseJSON(slist);
-					console.log(staffs);
-					isStaffsReady = true;
-					enableSearch();
-				}
-			});
-			$.ajax({
-				"url" : "viewAllMngs?json=true",
-				"success" : function(mlist) {
-					managers = $.parseJSON(mlist);
-					console.log(managers);
-					isManagerReady = true;
-					enableSearch();
-				}
-			});
+		$(document)
+				.ready(
+						function() {
+							$.ajax({
+								"url" : "viewAllStaffs?json=true",
+								"success" : function(slist) {
+									staffs = $.parseJSON(slist);
+									console.log(staffs);
+									isStaffsReady = true;
+									enableSearch();
+								}
+							});
+							$.ajax({
+								"url" : "viewAllMngs?json=true",
+								"success" : function(mlist) {
+									managers = $.parseJSON(mlist);
+									console.log(managers);
+									isManagerReady = true;
+									enableSearch();
+								}
+							});
 
-			$.when($.ajax({
-				"url" : "${pageContext.request.contextPath}/viewAll?json=true"
-			})).then(function(json) {
-				staffList = $.parseJSON(json);
-				isStaffListReady = true;
-				enableSearch();
-			});
-			
-			staffsTable =  $('#table-total-staff').DataTable({"ajax" : {
-				"url" : "${pageContext.request.contextPath}/viewAll?json=true",
-				"dataSrc" : ""
-			},
-			"columns" : [  {
-				"data" : "staffId",
-				"width" : "20%"
-			}, {
-				"data" : "name",
-				"width" : "40%"
-			}, {
-				"data" : "email",
-				"width" : "40%"
-			}]});
+							$
+									.when(
+											$
+													.ajax({
+														"url" : "${pageContext.request.contextPath}/viewAll?json=true"
+													})).then(function(json) {
+										staffList = $.parseJSON(json);
+										isStaffListReady = true;
+										enableSearch();
+									});
 
-		});
+							staffsTable = $('#table-total-staff')
+									.DataTable(
+											{
+												"ajax" : {
+													"url" : "${pageContext.request.contextPath}/viewAll?json=true",
+													"dataSrc" : ""
+												},
+												"columns" : [ {
+													"data" : "staffId",
+													"width" : "20%"
+												}, {
+													"data" : "name",
+													"width" : "40%"
+												}, {
+													"data" : "email",
+													"width" : "40%"
+												} ],
+												"columnDefs" : [ {
+													targets : -1,
+													orderable : false
+												} ] /* E-mail is Unorderable */
+												,
+												"bFilter" : false
+											});
+
+						});
 
 		function enableSearch() {
 			if (isStaffListReady & isManagerReady & isStaffsReady) {
@@ -416,11 +441,11 @@
 		}
 
 		/* Staff List Listener */
-		$('#table-total-staff').on('click', 'tbody tr', function(evt){
+		$('#table-total-staff').on('click', 'tbody tr', function(evt) {
 			var selectedStaffId = staffsTable.row($(this)).data().staffId;
 			searchStaff('staffid', selectedStaffId);
 		});
-		
+
 		var modeSearch = 'namelike'; /* As Default */
 		$('input[name = "modeSearch"]').click(
 				function() {
