@@ -13,11 +13,11 @@
 					<div class="modal-body" style='margin: auto'
 						id='modal-search-result'>
 						<h4 id='h4-view-staff-info-title'>TITLE</h4>
-						<div class='row'>
-							<div class='col-sm-2' style="margin: 0 auto;">
-								<img id='img-info-portrait' width='150px' />
+						<div class='row' style="vertical-align: middle;">
+							<div class='col-sm-2' style="vertical-align: middle;">
+								<img id='img-info-portrait' width='150px' class='img img-responsive'/>
 							</div>
-							<div class='col-sm-5'>
+							<div class='col-sm-6'>
 								<table class='table table-responsive' id='table-view-staff-info'>
 									<tbody>
 										<tr>
@@ -59,7 +59,7 @@
 									</tbody>
 								</table>
 							</div>
-							<div class='col-sm-5'>
+							<div class='col-sm-4'>
 								<table class='table table-responsive' id='table-staff-mng-info'>
 									<tbody>
 										<tr>

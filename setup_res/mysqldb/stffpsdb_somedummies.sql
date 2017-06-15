@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jun 08, 2017 at 04:23 PM
+-- Generation Time: Jun 15, 2017 at 02:27 PM
 -- Server version: 5.7.18-0ubuntu0.16.04.1
 -- PHP Version: 7.0.15-0ubuntu0.16.04.4
 
@@ -28,11 +28,13 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `Staff` (
   `staffId` varchar(6) COLLATE utf8_unicode_ci NOT NULL,
-  `gender` varchar(1) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `honorific` varchar(4) COLLATE utf8_unicode_ci DEFAULT NULL,
   `name` varchar(40) COLLATE utf8_unicode_ci NOT NULL,
+  `nameLocale` varchar(40) COLLATE utf8_unicode_ci DEFAULT NULL,
   `email` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL,
   `tel` varchar(12) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `division` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `mobileTel` varchar(12) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `division` varchar(40) COLLATE utf8_unicode_ci DEFAULT NULL,
   `position` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `protraitPath` text COLLATE utf8_unicode_ci,
   `hostManagerId` varchar(6) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -43,8 +45,13 @@ CREATE TABLE `Staff` (
 -- Dumping data for table `Staff`
 --
 
-INSERT INTO `Staff` (`staffId`, `gender`, `name`, `email`, `tel`, `division`, `position`, `protraitPath`, `hostManagerId`, `staffType`) VALUES
-('M00000', 'f', 'Nudee Paisoonsin', NULL, NULL, NULL, NULL, NULL, NULL, 'a');
+INSERT INTO `Staff` (`staffId`, `honorific`, `name`, `nameLocale`, `email`, `tel`, `mobileTel`, `division`, `position`, `protraitPath`, `hostManagerId`, `staffType`) VALUES
+('M00000', 'Mrs', 'Nudee Paisoonsin', 'นุดี ภัยสูญสิ้น', 'M60000@staff.mgs.com', '034-375000', '+66845711000', 'Development Department', 'Programmer', NULL, 'M60001', 'a'),
+('M60001', 'Ms', 'Pantita Udomanong', 'ปัณฑิตา อุดมอนงค์', 'M60001@staff.mgs.com', '034-375001', '+66845708901', 'Development Department', 'Head of Development Department', NULL, NULL, 'm'),
+('M60002', 'Mr', 'Pradit Wata', 'ประดิษฐ์ วาทะ', 'M60002@staff.mgs.com', '034-375002', '+66845708902', 'Marketing Department', 'Head of Marketing Department', NULL, '', 'm'),
+('M60003', 'Mrs', 'Wiparda Kamsanya', 'วิภาดา คำสัญญา', 'M60003@staff.mgs.com', '034-375003', '+66845708903', 'Development Department', 'System Tester', NULL, NULL, 's'),
+('M60004', 'Mr', 'Somsak Lilit', 'สมสักดิ์ ลิลิตต์', 'M60004@staff.mgs.com', '034-375004', '+66845708904', 'Organization Management', 'Head of Organization Management Department', NULL, '', 'm'),
+('M60005', 'Mr', 'Siwachat Pawarit', 'ศิวฉัตร ปวริศ', 'M60005@staff.mgs.com', '034-375006', '+66845708906', 'Development Department', 'Programmer', '2017061532372824self-portrait.jpg', 'M60001', 's');
 
 -- --------------------------------------------------------
 
@@ -62,7 +69,12 @@ CREATE TABLE `StaffAccess` (
 --
 
 INSERT INTO `StaffAccess` (`staffId`, `password`) VALUES
-('M00000', '1f7c381e83c87b875265b52adc64617a');
+('M00000', '1f7c381e83c87b875265b52adc64617a'),
+('M60001', 'c6903bfad07dee3d10f6e7ced271492c'),
+('M60002', 'c6903bfad07dee3d10f6e7ced271492c'),
+('M60003', 'c6903bfad07dee3d10f6e7ced271492c'),
+('M60004', 'c6903bfad07dee3d10f6e7ced271492c'),
+('M60005', 'c6903bfad07dee3d10f6e7ced271492c');
 
 --
 -- Indexes for dumped tables
@@ -74,7 +86,8 @@ INSERT INTO `StaffAccess` (`staffId`, `password`) VALUES
 ALTER TABLE `Staff`
   ADD PRIMARY KEY (`staffId`),
   ADD UNIQUE KEY `name` (`name`),
-  ADD UNIQUE KEY `email` (`email`);
+  ADD UNIQUE KEY `email` (`email`),
+  ADD UNIQUE KEY `nameLocale` (`nameLocale`);
 
 --
 -- Indexes for table `StaffAccess`

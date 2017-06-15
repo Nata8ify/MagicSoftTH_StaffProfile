@@ -200,6 +200,12 @@ private ForwardMail forwardMail;
 	}
 
 	@Override
+	public boolean resetStaffPortrait(String staffId) {
+		String sql = "UPDATE `Staff` SET `protraitPath`= NULL WHERE `staffId` = ?;";
+		return jdbcTemplate.update(sql, staffId) > 0;
+	}
+	
+	@Override
 	public boolean editPassword(String staffId, String password) {
 		// TODO Auto-generated method stub
 		return false;
@@ -250,6 +256,8 @@ private ForwardMail forwardMail;
 		}
 
 	}
+
+
 
 
 }

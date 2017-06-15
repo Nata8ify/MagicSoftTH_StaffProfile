@@ -25,7 +25,7 @@
 								name='name' maxlength="40" required readonly
 								data-validation-required-message="Please enter your Name and Lastname."
 								value="${thisStaff.name}">
-							
+
 							<p class="help-block text-danger"></p>
 						</div>
 					</div>
@@ -72,11 +72,33 @@
 					</div>
 					<div class="row control-group">
 						<div
-							class="form-group col-xs-12 floating-label-form-group controls">
+							class="form-group col-xs-8 floating-label-form-group controls">
 							<label for="protraitPath">Portrait Image</label> <input
-								type="file" class="form-control" id="protraitPath"
+								type="file" class="form-control" id="protraitPathNew"
 								name='protraitPath' value="${thisStaff.protraitPath}">
 							<p class="help-block text-danger"></p>
+						</div>
+						<div
+							class="form-group col-xs-4 floating-label-form-group controls">
+							<table>
+								<tr>
+									<td><input type="radio" value="keep"
+										name='portraitPathOpt' checked>
+									<td>
+									<td>: Keep No Change</td>
+								</tr>
+								<tr>
+									<td><input type="radio" value="new" name='portraitPathOpt'>
+									<td>
+									<td>: Upload New Image</td>
+								</tr>
+								<tr>
+									<td><input type="radio" value="default"
+										name='portraitPathOpt'>
+									<td>
+									<td>: Use No Image</td>
+								</tr>
+							</table>
 						</div>
 					</div>
 					<hr>
@@ -132,6 +154,26 @@
 			$('#label-pwd-msg').html('Matched');
 			$('#label-pwd-msg').css('color', 'green');
 			$('#btn-submit-editself').prop("disabled", false);
+		}
+	});
+
+	/* Listen If Portrait Path Option is Changed */
+	$('input[name="portraitPathOpt"]').change(function() {
+		switch ($('input[name="portraitPathOpt"]:checked').val()) {
+		case "new":
+			$('#protraitPathNew').prop('disabled', false);
+			$('#protraitPathNew').prop('readonly', false);
+			$('#protraitPathNew').prop('required', true);
+			break;
+		case "keep":
+			$('#protraitPathNew').prop('readonly', true);
+			$('#protraitPathNew').prop('disabled', false);
+			$('#protraitPathNew').prop('required', false);
+			$('#protraitPathNew').val("");
+			break;
+		default:
+			$('#protraitPathNew').prop('disabled', true);
+			$('#protraitPathNew').prop('required', false);
 		}
 	});
 </script>

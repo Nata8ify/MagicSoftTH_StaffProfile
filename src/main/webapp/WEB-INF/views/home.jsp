@@ -122,7 +122,7 @@
 								<span class="input-group-addon"
 									style="background: #eee; border: 0px;"><i
 									class="glyphicon glyphicon-search"></i></span> <input type="text"
-									class="form-control text-center" placeholder="Search"
+									class="form-control text-center input-lg" placeholder="Search"
 									id="input-search" required maxlength="40"
 									style="background-color: #eee"
 									data-validation-required-message="Please enter a Part of the Staff Name.">

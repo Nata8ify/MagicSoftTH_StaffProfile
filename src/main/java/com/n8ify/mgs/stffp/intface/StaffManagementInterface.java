@@ -11,6 +11,8 @@ public interface StaffManagementInterface {
 
 	public boolean editStaffForNoImage(Staff staff, String newPassword);
 
+	public boolean resetStaffPortrait(String StaffId);
+	
 	public boolean editSelfStaff(Staff staff, String newPassword);
 
 	public boolean editPassword(String staffId, String password);
