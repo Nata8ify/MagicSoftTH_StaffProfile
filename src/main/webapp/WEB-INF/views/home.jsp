@@ -102,7 +102,10 @@
 							<tbody></tbody>
 						</table>
 					</div>
-						<h5 style='color: #000;'><a href='https://datatables.net/license/mit'>Copyright (C) 2008-2017, SpryMedia Ltd.</a></h5>
+					<h5 style='color: #000;'>
+						<a href='https://datatables.net/license/mit'>Copyright (C)
+							2008-2017, SpryMedia Ltd.</a>
+					</h5>
 				</div>
 			</div>
 		</div>
@@ -144,21 +147,24 @@
 							class="form-group col-xs-3 floating-label-form-group controls"></div>
 						<div
 							class="form-group col-xs-3 floating-label-form-group controls">
-							<input type="radio" class="text-center" id="mode-namelike-search" class=''
-								name='modeSearch' value="namelike" checked> : By Name
+							<input type="radio" class="text-center" id="mode-namelike-search"
+								class='' name='modeSearch' value="namelike" checked> :
+							By Name
 						</div>
-						<div style='display: none;' /* Yoc can't see me... */
+						<div style='display: none;' /* Yoc can't see
+							me... */
 							class="form-group col-xs-2 floating-label-form-group controls">
 							<input type="radio" class="text-center" id="mode-bymng-search"
 								name='modeSearch' value="bymng"> : Host Manager
 						</div>
-						<div 
+						<div
 							class="form-group col-xs-3 floating-label-form-group controls">
 							<input type="radio" class="text-center" value="staffid"
 								id="mode-staffid-search" name='modeSearch'> : By Staff
 							ID
 						</div>
-						<div style='display: none;' /* Yoc can't see me... */
+						<div style='display: none;' /* Yoc can't see
+							me... */
 							class="form-group col-xs-2 floating-label-form-group controls">
 							<input type="radio" class="text-center" value="viewAll"
 								id="mode-viewall-search" name='modeSearch'> : Everybodys
@@ -257,8 +263,7 @@
 					<div class="footer-col col-md-4">
 						<h3>Location</h3>
 						<p>
-							<i>MST Place</i> <br>
-							<i>Beverly Hills, CA 90210</i>
+							<i>MST Place</i> <br> <i>Beverly Hills, CA 90210</i>
 						</p>
 					</div>
 					<div class="footer-col col-md-4">
@@ -430,7 +435,8 @@
 													orderable : false
 												} ] /* E-mail is Unorderable */
 												,
-												"bFilter" : false
+												"bFilter" : false,
+												"pageLength" : 50
 											});
 
 						});
