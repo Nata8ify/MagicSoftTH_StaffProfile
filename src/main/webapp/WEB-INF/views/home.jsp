@@ -85,10 +85,10 @@
 		<div class="container" id="maincontent" tabindex="-1">
 			<div class="row ">
 				<div class="col-lg-12">
-					<div class="intro-text">
+				<!-- 	<div class="intro-text">
 						<h1 class="name">MST Staff Profile</h1>
 						<hr />
-					</div>
+					</div> -->
 					<div class='row well' style="color: #000;">
 						<table id='table-total-staff' style="text-align: left;"
 							class='hover'>
@@ -96,6 +96,7 @@
 								<tr>
 									<th>Staff ID</th>
 									<th>Name and Surname</th>
+									<th></th>
 									<th>E-mail Address</th>
 								</tr>
 							</thead>
@@ -425,10 +426,13 @@
 													"width" : "20%"
 												}, {
 													"data" : "name",
-													"width" : "40%"
+													"width" : "30%"
+												}, {
+													"data" : "nameLocale",
+													"width" : "30%"
 												}, {
 													"data" : "email",
-													"width" : "40%"
+													"width" : "20%"
 												} ],
 												"columnDefs" : [ {
 													targets : -1,
@@ -676,7 +680,7 @@
 		function renderStaffInfoModal(val) {
 			var protraitPath = val.protraitPath == null ? 'noimg.png'
 					: val.protraitPath;
-			var honorific;
+			var honorific = val.honorific;
 			var name = val.name;
 			var nameLocale = val.nameLocale;
 			var email = val.email;
@@ -684,19 +688,21 @@
 			var mobileTel = val.mobileTel;
 			var division = val.division;
 			var position = val.position;
-			var hostManagerName = val.hostManagerName;
-			var hostManagerEmail = val.hostManagerEmail;
+			var manager = findManagerByManagerId(val.hostManagerId); //<-Better than 3 lines below.
+			log(manager);
+			var hostManagerName = val.hostManagerName; //<-Defauq?
+			var hostManagerNameLocale = val.hostManagerNameLocale; //<-Defauq?
+			var hostManagerEmail = val.hostManagerEmail; //<-Defauq?
 			var staffType = val.staffType;
 			var staffId = val.staffId;
 			$('#h4-view-staff-info-title').html("Information of " + name);
 			$('#span-info-staffid').html(staffId);
 			$('#img-info-portrait').attr('src',
 					"${contextPath}/resources/portraits/" + protraitPath);
-			$('#span-info-name-honf').html(val.honorific + ". ");
-			$('#span-info-name').html(name);
+			$('#span-info-name-honf').html(honorific + ". ");
 			$('#span-info-name').html(name);
 			/* $('#pan-info-name-local-honf').html(""); */
-			$('#span-info-name-locale').html("(" + nameLocale + ")");
+			if(nameLocale!=""){$('#span-info-name-locale').html("<br/>(" + nameLocale +")");}
 			$('#span-info-email').html(email);
 			$('#span-info-tel').html(tel);
 			$('#span-info-mobileTel').html(mobileTel == null ? '' : mobileTel);
@@ -704,12 +710,14 @@
 			$('#span-info-position').html(position);
 			if (staffType != 'm') {
 				$('#table-staff-mng-info').show();
-				$('#span-info-mng').html(
-						hostManagerName != null ? hostManagerName : '-');
+				$('#span-info-name-mng-honf').html(manager.honorific+". ");
+				$('#span-info-mng').html(hostManagerName != null ? hostManagerName : '-');
+				if(hostManagerNameLocale!=null){$('#span-info-name-mng-locale').html(" <br/>("+hostManagerNameLocale+")");}
 				$('#span-info-mng-email').html(
 						hostManagerEmail != null ? hostManagerEmail : '-');
 				if (hostManagerName != null) {
 					$('#span-info-mng-email').html(hostManagerEmail);
+					
 				}
 			} else {
 				$('#table-staff-mng-info').hide();
@@ -757,6 +765,17 @@
 				function(e) {
 					$('#btn-search').prop('disabled', true);
 				});
+		
+		/* Method's Name says Everythings. */
+		function findManagerByManagerId(managerId){
+			var manager;
+			$.each(managers, function(index, val){
+				if(val.staffId == managerId){
+					manager = val;
+				}
+			});
+			return manager;
+		}
 	</script>
 </body>
 </html>

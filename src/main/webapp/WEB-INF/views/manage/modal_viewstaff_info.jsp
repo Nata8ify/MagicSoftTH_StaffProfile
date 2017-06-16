@@ -65,7 +65,7 @@
 										<tr>
 											<td></td>
 											<td>Manager :</td>
-											<td><span id='span-info-mng'></span></td>
+											<td><span id='span-info-name-mng-honf'></span><span id='span-info-mng'></span><span id='span-info-name-mng-locale'></span></td>
 										</tr>
 										<tr>
 											<td></td>

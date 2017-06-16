@@ -158,7 +158,7 @@ private ForwardMail forwardMail;
 	@Override
 	public List<Staff> getEntireStaffs() {
 		// String sql = "SELECT * FROM `Staff`;";
-		String sql = "SELECT s.*, sm.name AS managerName, sm.email AS managerEmail FROM `Staff` s LEFT JOIN Staff sm on s.`hostManagerId` = sm.staffId ;";
+		String sql = "SELECT s.*, sm.name AS managerName, sm.nameLocale AS managerNameLocale, sm.email AS managerEmail FROM `Staff` s LEFT JOIN Staff sm on s.`hostManagerId` = sm.staffId ;";
 		// String sql = "SELECT s.*, sm.name AS managerName FROM `Staff` s JOIN
 		// StaffAccess sa on s.`staffId` = sa.staffId;";
 		return jdbcTemplate.query(sql, new StaffOnMoreDetailsMapper());
@@ -253,6 +253,7 @@ private ForwardMail forwardMail;
 			staff.setHostManagerId(rs.getString("hostManagerId"));
 			staff.setStaffType(rs.getString("staffType"));
 			staff.setHostManagerName(rs.getString("managerName"));
+			staff.setHostManagerNameLocale(rs.getString("managerNameLocale"));
 			staff.setHostManagerEmail(rs.getString("managerEmail"));
 			return staff;
 		}

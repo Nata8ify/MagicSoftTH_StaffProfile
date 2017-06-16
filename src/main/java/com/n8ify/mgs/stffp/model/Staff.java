@@ -168,14 +168,24 @@ public class Staff {
 
 	// Required Information every Non-manager Staff must have.
 	private String hostManagerName;
+	private String hostManagerNameLocale;
 	private String hostManagerEmail;
-
+	
 	public String getHostManagerName() {
 		return hostManagerName;
 	}
 
 	public void setHostManagerName(String hostManagerName) {
 		this.hostManagerName = hostManagerName;
+	}
+	
+	
+	public String getHostManagerNameLocale() {
+		return hostManagerNameLocale;
+	}
+
+	public void setHostManagerNameLocale(String hostManagerNameLocale) {
+		this.hostManagerNameLocale = hostManagerNameLocale;
 	}
 
 	public String getHostManagerEmail() {
