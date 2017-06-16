@@ -223,10 +223,10 @@
 							"width" : "25%"
 						}, {
 							"data" : "position",
-							"width" : "30%"
+							"width" : "15%"
 						}, {
 							"data" : "division",
-							"width" : "5%"
+							"width" : "20%"
 						} ],
 						"order" : [ [ 0, "asc" ] ]
 					});
@@ -249,10 +249,10 @@
 							"width" : "25%"
 						}, {
 							"data" : "position",
-							"width" : "30%"
+							"width" : "15%"
 						}, {
 							"data" : "division",
-							"width" : "5%"
+							"width" : "20%"
 						} ],
 					});
 

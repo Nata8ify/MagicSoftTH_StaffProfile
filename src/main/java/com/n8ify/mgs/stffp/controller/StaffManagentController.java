@@ -72,6 +72,9 @@ public class StaffManagentController {
 		case "mngeditor":
 			model.addAttribute("manage", "mngeditor");
 			break;
+		case "dangerzone":
+			model.addAttribute("manage", "dangerzone");
+			break;
 		default:
 			model.addAttribute("manage", "explore");
 			break;
@@ -386,6 +389,22 @@ public class StaffManagentController {
 		return "redirect:managechoice?to=add";
 	}
 
+	// DANGER ZONE
+	@RequestMapping(value = "/adm/deleteAll", method = RequestMethod.POST)
+	public String insertPerson(Model model, HttpServletRequest request,
+			@RequestParam(value = "confirmPharse", required = true) String confirmPharse)
+			throws UnauthorizedAccessException {
+		// Checking Is this an Administrator Account Roll.
+		authenCheck(request);
+		if(!confirmPharse.equals("CONFIRM_DELETE_ALL")){ 
+			staffManager.deleteAll();
+			model.addAttribute("manage", "dangerzone");
+			return "manage/manage";
+		}
+		return "home";
+	}
+	
+	
 	@ExceptionHandler({ UnauthorizedAccessException.class })
 	public ModelAndView nullAccountException(UnauthorizedAccessException npex) {
 		ModelAndView mav = new ModelAndView("result/errpage");

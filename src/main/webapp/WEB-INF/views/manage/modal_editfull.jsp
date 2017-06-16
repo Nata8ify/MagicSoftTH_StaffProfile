@@ -220,7 +220,6 @@
 			.click(
 					function() {
 						/* document.location = "deletePerson?staffId="+$('#staffId').val(value.staffId); */
-						alert($('#hide-cur-staffType').val());
 						if (confirm("Please, Confirm this Permantly Staff Deleting Action...")) {
 							$.ajax({
 								"url" : "deletePerson",

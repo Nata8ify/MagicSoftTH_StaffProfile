@@ -1,42 +1,26 @@
-<%@ taglib
-	uri="http://java.sun.com/jsp/jstl/core"
-	prefix="c"
-%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page session="true"%>
 <%@page contentType="text/html; charset=UTF-8"%>
-<c:set
-	var="resContextPath"
-	value="${pageContext.request.contextPath}/resources/"
-/>
+<c:set var="resContextPath"
+	value="${pageContext.request.contextPath}/resources/" />
 <!DOCTYPE html>
 <html>
 <head>
 <title>MST Staff Profile | Administrator Section</title>
-<meta
-	name="viewport"
-	content="width=device-width, initial-scale=1.0"
->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Bootstrap -->
-<link
-	href="${resContextPath}admbootstrap/css/bootstrap.min.css"
-	rel="stylesheet"
->
+<link href="${resContextPath}admbootstrap/css/bootstrap.min.css"
+	rel="stylesheet">
 <!-- Data Table -->
 <link
 	href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css"
-	rel="stylesheet"
->
+	rel="stylesheet">
 <!-- styles -->
-<link
-	href="${resContextPath}admcss/styles.css"
-	rel="stylesheet"
->
+<link href="${resContextPath}admcss/styles.css" rel="stylesheet">
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script
-	src="https://code.jquery.com/jquery-3.2.1.min.js"
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"
 	integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-	crossorigin="anonymous"
-></script>
+	crossorigin="anonymous"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="${resContextPath}vendor/bootstrap/js/bootstrap.min.js"></script>
 <script src="${resContextPath}admjs/custom.js"></script>
@@ -46,9 +30,11 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
-    <style>
-    	#table-staffs-unassigned tr:hover,  #table-staffs-assigned tr:hover {cursor: pointer;}
-    </style>
+<style>
+#table-staffs-unassigned tr:hover, #table-staffs-assigned tr:hover {
+	cursor: pointer;
+}
+</style>
 </head>
 <body>
 	<div class="header">
@@ -58,7 +44,8 @@
 					<!-- Logo -->
 					<div class="logo">
 						<h1>
-							<a href="${pageContext.request.contextPath}/adm/manage">MST Staff Profile | Administrator </a>
+							<a href="${pageContext.request.contextPath}/adm/manage">MST
+								Staff Profile | Administrator </a>
 						</h1>
 					</div>
 				</div>
@@ -75,14 +62,10 @@
 					</div>
 				</div>
 				<div class="col-md-2">
-					<div
-						class="navbar navbar-inverse"
-						role="banner"
-					>
+					<div class="navbar navbar-inverse" role="banner">
 						<nav
 							class="collapse navbar-collapse bs-navbar-collapse navbar-right"
-							role="navigation"
-						>
+							role="navigation">
 							<ul class="nav navbar-nav">
 								<li><a href="logout">Logout</a></li>
 							</ul>
@@ -95,21 +78,17 @@
 	<div class="page-content">
 		<div class="row">
 			<div class="col-md-2">
-				<div
-					class="sidebar content-box"
-					style="display: block;"
-				>
+				<div class="sidebar content-box" style="display: block;">
 					<ul class="nav">
 						<!-- Main menu -->
 						<li class="current"><a href="manage"><i
-								class="glyphicon glyphicon-search"
-							></i> Explore</a></li>
+								class="glyphicon glyphicon-search"></i> Explore</a></li>
 						<li><a href="managechoice?to=addstaff"><i
-								class="glyphicon glyphicon-plus"
-							></i> Add</a></li>
+								class="glyphicon glyphicon-plus"></i> Add</a></li>
 						<li><a href="managechoice?to=mngeditor"><i
-								class="glyphicon glyphicon-pencil"
-							></i> Manager Binder</a></li>
+								class="glyphicon glyphicon-pencil"></i> Manager Binder</a></li>
+						<li><a href="managechoice?to=dangerzone"><i
+								class="glyphicon glyphicon-info-sign"></i> Advance</a></li>
 					</ul>
 				</div>
 			</div>
@@ -118,12 +97,15 @@
 					<c:choose>
 						<c:when test="${manage == 'mngeditor'}">
 							<jsp:include page="modal_pickmng.jsp" />
-							<jsp:include page="include_mngeditor.jsp"/>
+							<jsp:include page="include_mngeditor.jsp" />
 							<jsp:include page="modal_pickmng.jsp" />
 						</c:when>
 						<c:when test="${manage == 'add'}">
 							<jsp:include page="modal_pickmng.jsp" />
 							<jsp:include page="include_addstaff.jsp" />
+						</c:when>
+						<c:when test="${manage == 'dangerzone'}">
+							<jsp:include page="include_dangerzone.jsp" />
 						</c:when>
 						<c:otherwise>
 							<jsp:include page="modal_editfull.jsp" />

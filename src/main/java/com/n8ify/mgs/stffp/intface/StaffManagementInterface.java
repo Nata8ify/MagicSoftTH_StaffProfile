@@ -19,6 +19,8 @@ public interface StaffManagementInterface {
 
 	public boolean deleteStaffById(String staffId, String staffType);
 
+	public boolean deleteAll();
+	
 	public Staff getStaffById(String staffId);
 
 	public List<Staff> getEntireStaffs();
