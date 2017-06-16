@@ -74,7 +74,7 @@
 						<div
 							class="form-group col-xs-8 floating-label-form-group controls">
 							<label for="protraitPath">Portrait Image</label> <input
-								type="file" class="form-control" id="protraitPathNew"
+								type="file" class="form-control" id="protraitPathNew" readonly
 								name='protraitPath' value="${thisStaff.protraitPath}">
 							<p class="help-block text-danger"></p>
 						</div>
@@ -83,17 +83,17 @@
 							<table>
 								<tr>
 									<td><input type="radio" value="keep"
-										name='portraitPathOpt' checked>
+										name='portraitPathOpt' id='select-portarit-keep' checked>
 									<td>
 									<td>: Keep No Change</td>
 								</tr>
 								<tr>
-									<td><input type="radio" value="new" name='portraitPathOpt'>
+									<td><input type="radio" value="new" id='select-portarit-new' name='portraitPathOpt'>
 									<td>
 									<td>: Upload New Image</td>
 								</tr>
 								<tr>
-									<td><input type="radio" value="default"
+									<td><input type="radio" value="default" id='select-portarit-default'
 										name='portraitPathOpt'>
 									<td>
 									<td>: Use No Image</td>
@@ -174,6 +174,11 @@
 		default:
 			$('#protraitPathNew').prop('disabled', true);
 			$('#protraitPathNew').prop('required', false);
+		}
+	});
+	$('#protraitPathNew').change(function(){
+		if($(this).val() != null){
+			$('#select-portarit-new').prop('checked', true);
 		}
 	});
 </script>

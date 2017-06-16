@@ -102,6 +102,7 @@
 							<tbody></tbody>
 						</table>
 					</div>
+						<h5 style='color: #000;'><a href='https://datatables.net/license/mit'>Copyright (C) 2008-2017, SpryMedia Ltd.</a></h5>
 				</div>
 			</div>
 		</div>
