@@ -86,7 +86,6 @@
 					id="nameLocale"
 					name='nameLocale'
 					maxlength="40"
-					required
 					data-validation-required-message="Please enter Name and Lastname."
 				>
 				<p class="help-block text-danger"></p>

@@ -102,7 +102,7 @@ public class StaffManagentController {
 		case Staff.TYPE_STAFF:
 			if (staffManager.insertStaff(
 					new Staff(staffId, name, nameLocale, email, tel, mobileTel, division, position, protraitPath,
-							hostManagerId.equals("") ? null : hostManagerId, honorific, insertType),
+							hostManagerId.isEmpty() ? null : hostManagerId, honorific, insertType),
 					password.equals("") ? Generator.getInstance().genPassword() : password)) {
 				model.addAttribute("msg", "done");
 			} else {
@@ -295,7 +295,7 @@ public class StaffManagentController {
 																										// became
 																										// a
 																										// staff
-																										// then..
+																										// then
 																										// unbind
 																										// staff;
 					logger.info("TRUE UNB");
@@ -347,7 +347,7 @@ public class StaffManagentController {
 
 				return "redirect:login?staffId=" + mrequest.getParameter("staffId") + "&password="
 						+ mrequest.getParameter("password");
-		}
+			}
 		}
 		return "home";
 	}
@@ -372,11 +372,11 @@ public class StaffManagentController {
 			throws IllegalStateException, IOException, UnauthorizedAccessException {
 		// Checking Is this an Administrator Account Roll.
 		authenCheck(request);
-		logger.info("i.f");
+		logger.info(hostManagerId);
 		String imgName = img.isEmpty() ? null : Generator.getInstance().genImageName(img.getOriginalFilename());
 		if (staffManager.insertStaff(
 				new Staff(staffId, name, nameLocale, email, tel, mobileTel, division, position, imgName,
-						hostManagerId.equals("") ? null : hostManagerId, honorific, insertType),
+						hostManagerId.isEmpty() ? null : hostManagerId, honorific, insertType),
 				password.equals("") ? Generator.getInstance().genPassword() : password)) {
 			img.transferTo(new File(mrequest.getRealPath(PORTRAIT_DIR) + imgName));
 			model.addAttribute("msg", "สำเร็จ!");

@@ -50,7 +50,7 @@
 							<label for="name">Name and Surname (Local)</label> <input
 								type="text" class="form-control"
 								placeholder="Name & Lastname (In Local Language)"
-								id="nameLocale" name='nameLocale' maxlength="40" required
+								id="nameLocale" name='nameLocale' maxlength="40"
 								data-validation-required-message="Please enter Name and Lastname.">
 							<p class="help-block text-danger"></p>
 						</div>
