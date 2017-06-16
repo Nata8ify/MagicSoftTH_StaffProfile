@@ -391,17 +391,16 @@ public class StaffManagentController {
 
 	// DANGER ZONE
 	@RequestMapping(value = "/adm/deleteAll", method = RequestMethod.POST)
-	public String insertPerson(Model model, HttpServletRequest request,
+	public String deleteAllStaffInfos(Model model, HttpServletRequest request,
 			@RequestParam(value = "confirmPharse", required = true) String confirmPharse)
 			throws UnauthorizedAccessException {
 		// Checking Is this an Administrator Account Roll.
 		authenCheck(request);
-		if(!confirmPharse.equals("CONFIRM_DELETE_ALL")){ 
+		if(confirmPharse.equals("CONFIRM_DELETE_ALL")){ 
 			staffManager.deleteAll();
-			model.addAttribute("manage", "dangerzone");
-			return "manage/manage";
+			return "home";
 		}
-		return "home";
+		return "manage/manage";
 	}
 	
 	

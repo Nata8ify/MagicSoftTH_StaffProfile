@@ -85,7 +85,7 @@
 		<div class="container" id="maincontent" tabindex="-1">
 			<div class="row ">
 				<div class="col-lg-12">
-				<!-- 	<div class="intro-text">
+					<!-- 	<div class="intro-text">
 						<h1 class="name">MST Staff Profile</h1>
 						<hr />
 					</div> -->
@@ -702,7 +702,9 @@
 			$('#span-info-name-honf').html(honorific + ". ");
 			$('#span-info-name').html(name);
 			/* $('#pan-info-name-local-honf').html(""); */
-			if(nameLocale!=""){$('#span-info-name-locale').html("<br/>(" + nameLocale +")");}
+			if (nameLocale != "" || nameLocale != null) {
+				$('#span-info-name-locale').html("<br/>(" + nameLocale + ")");
+			}
 			$('#span-info-email').html(email);
 			$('#span-info-tel').html(tel);
 			$('#span-info-mobileTel').html(mobileTel == null ? '' : mobileTel);
@@ -710,14 +712,19 @@
 			$('#span-info-position').html(position);
 			if (staffType != 'm') {
 				$('#table-staff-mng-info').show();
-				$('#span-info-name-mng-honf').html(manager.honorific+". ");
-				$('#span-info-mng').html(hostManagerName != null ? hostManagerName : '-');
-				if(hostManagerNameLocale!=null){$('#span-info-name-mng-locale').html(" <br/>("+hostManagerNameLocale+")");}
+				if(manager != null){$('#span-info-name-mng-honf').html(manager.honorific + ". ");}
+				
+				$('#span-info-mng').html(
+						hostManagerName != null ? hostManagerName : '-');
+				if (hostManagerNameLocale != null) {
+					$('#span-info-name-mng-locale').html(
+							" <br/>(" + hostManagerNameLocale + ")");
+				}
 				$('#span-info-mng-email').html(
 						hostManagerEmail != null ? hostManagerEmail : '-');
 				if (hostManagerName != null) {
 					$('#span-info-mng-email').html(hostManagerEmail);
-					
+
 				}
 			} else {
 				$('#table-staff-mng-info').hide();
@@ -765,12 +772,12 @@
 				function(e) {
 					$('#btn-search').prop('disabled', true);
 				});
-		
+
 		/* Method's Name says Everythings. */
-		function findManagerByManagerId(managerId){
+		function findManagerByManagerId(managerId) {
 			var manager;
-			$.each(managers, function(index, val){
-				if(val.staffId == managerId){
+			$.each(managers, function(index, val) {
+				if (val.staffId == managerId) {
 					manager = val;
 				}
 			});
