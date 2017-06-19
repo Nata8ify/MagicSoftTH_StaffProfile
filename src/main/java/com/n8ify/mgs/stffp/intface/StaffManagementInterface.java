@@ -12,7 +12,7 @@ public interface StaffManagementInterface {
 	public boolean editStaffForNoImage(Staff staff, String newPassword);
 
 	public boolean resetStaffPortrait(String StaffId);
-	
+
 	public boolean editSelfStaff(Staff staff, String newPassword);
 
 	public boolean editPassword(String staffId, String password);
@@ -20,7 +20,7 @@ public interface StaffManagementInterface {
 	public boolean deleteStaffById(String staffId, String staffType);
 
 	public boolean deleteAll();
-	
+
 	public Staff getStaffById(String staffId);
 
 	public List<Staff> getEntireStaffs();
@@ -34,7 +34,7 @@ public interface StaffManagementInterface {
 	public List<Staff> getTotalStaffs();
 
 	public List<Staff> getTotalAssignedStaffs();
-	
+
 	public List<Staff> getTotalUnassignedStaffs();
 
 }

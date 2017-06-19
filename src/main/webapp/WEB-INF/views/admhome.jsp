@@ -74,7 +74,7 @@
 								placeholder="Staff ID"
 								id="staffId"
 								name='staffId'
-								value="M60001"
+
 								required
 								data-validation-required-message="Please enter your Staff ID."
 								 
@@ -92,7 +92,7 @@
 								placeholder="Password"
 								id="password"
 								name='password'
-								value="kogy9i8u"
+
 								required
 								data-validation-required-message="Please enter your Password."
 								 

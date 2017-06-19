@@ -71,7 +71,7 @@ public class StaffViewerController {
 		model.addAttribute("staffs", staffManager.getEntireStaffs());
 		return "list";
 	}
-	
+
 	@RequestMapping(value = "/viewAllUnassignedStaffs", method = RequestMethod.GET)
 	public String viewAllUnassignedStaffs(Model model,
 			@RequestParam(value = "json", required = true, defaultValue = "false") boolean json) {

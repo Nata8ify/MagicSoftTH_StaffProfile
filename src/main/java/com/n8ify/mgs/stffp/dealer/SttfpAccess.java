@@ -28,7 +28,7 @@ public class SttfpAccess implements StffpfAccessInterface {
 
 	@Override
 	public Staff login(String staffId, String password) {
-		String sql = "SELECT * FROM `Staff` s JOIN StaffAccess sa on s.`staffId` = sa.staffId WHERE sa.staffId = ? AND sa.password = ?;";
+		String sql = "SELECT * FROM `Staff` s JOIN StaffAccess sa on s.`staffId` = sa.staffId WHERE UPPER(sa.staffId) = ? AND sa.password = ?;";
 		try {
 			return jdbcTemplate.queryForObject(sql, new Object[] { staffId, password }, new StaffMapper());
 		} catch (EmptyResultDataAccessException erex) {
@@ -38,7 +38,7 @@ public class SttfpAccess implements StffpfAccessInterface {
 
 	@Override
 	public Staff login(String staffId, String password, String staffType) {
-		String sql = "SELECT * FROM `Staff` s JOIN StaffAccess sa on s.`staffId` = sa.staffId WHERE sa.staffId = ? AND sa.password = ? AND staffType = ?;";
+		String sql = "SELECT * FROM `Staff` s JOIN StaffAccess sa on s.`staffId` = sa.staffId WHERE UPPER(sa.staffId) = ? AND sa.password = ? AND staffType = ?;";
 		try {
 			return jdbcTemplate.queryForObject(sql, new Object[] { staffId, password, staffType }, new StaffMapper());
 		} catch (EmptyResultDataAccessException erex) {

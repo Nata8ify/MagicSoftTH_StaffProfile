@@ -27,7 +27,7 @@
 										</tr>
 										<tr>
 											<td></td>
-											<td>Name & Last Name :</td>
+											<td>Name & Surname :</td>
 											<td><span id='span-info-name-honf'></span><span
 												id='span-info-name'></span> <span id='span-info-name-locale'></span></td>
 										</tr>

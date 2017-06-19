@@ -104,8 +104,8 @@ public class StaffManagentController {
 		switch (insertType) {
 		case Staff.TYPE_STAFF:
 			if (staffManager.insertStaff(
-					new Staff(staffId, name, nameLocale, email, tel, mobileTel, division, position, protraitPath,
-							hostManagerId.isEmpty() ? null : hostManagerId, honorific, insertType),
+					new Staff(staffId.toUpperCase(), name, nameLocale, email, tel, mobileTel, division, position,
+							protraitPath, hostManagerId.isEmpty() ? null : hostManagerId, honorific, insertType),
 					password.equals("") ? Generator.getInstance().genPassword() : password)) {
 				model.addAttribute("msg", "done");
 			} else {
@@ -378,7 +378,7 @@ public class StaffManagentController {
 		logger.info(hostManagerId);
 		String imgName = img.isEmpty() ? null : Generator.getInstance().genImageName(img.getOriginalFilename());
 		if (staffManager.insertStaff(
-				new Staff(staffId, name, nameLocale, email, tel, mobileTel, division, position, imgName,
+				new Staff(staffId.toUpperCase(), name, nameLocale, email, tel, mobileTel, division, position, imgName,
 						hostManagerId.isEmpty() ? null : hostManagerId, honorific, insertType),
 				password.equals("") ? Generator.getInstance().genPassword() : password)) {
 			img.transferTo(new File(mrequest.getRealPath(PORTRAIT_DIR) + imgName));
@@ -396,14 +396,13 @@ public class StaffManagentController {
 			throws UnauthorizedAccessException {
 		// Checking Is this an Administrator Account Roll.
 		authenCheck(request);
-		if(confirmPharse.equals("CONFIRM_DELETE_ALL")){ 
+		if (confirmPharse.equals("CONFIRM_DELETE_ALL")) {
 			staffManager.deleteAll();
 			return "home";
 		}
 		return "manage/manage";
 	}
-	
-	
+
 	@ExceptionHandler({ UnauthorizedAccessException.class })
 	public ModelAndView nullAccountException(UnauthorizedAccessException npex) {
 		ModelAndView mav = new ModelAndView("result/errpage");

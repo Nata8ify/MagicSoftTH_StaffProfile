@@ -214,7 +214,8 @@
 													style="background: #eee; border: 0px;"><i
 													class="glyphicon glyphicon-user"></i></span> <input type="text"
 													class="form-control" placeholder="Staff ID" id="staffId"
-													autocomplete="off" name='staffId' required value="M00000"
+													autocomplete="off" name='staffId' required 
+
 													data-validation-required-message="Please enter your Staff ID.">
 											</div>
 											<p class="help-block text-danger"></p>
@@ -230,7 +231,7 @@
 													class="glyphicon glyphicon-lock"></i></span> <input
 													type="password" class="form-control" placeholder="Password"
 													id="password" autocomplete="off" name='password' required
-													value="kogy9i8u"
+
 													data-validation-required-message="Please enter your Password.">
 											</div>
 											<p class="help-block text-danger"></p>
@@ -258,41 +259,6 @@
 
 	<!-- Footer -->
 	<footer class="text-center">
-		<div class="footer-above">
-			<div class="container">
-				<div class="row">
-					<div class="footer-col col-md-4">
-						<h3>Location</h3>
-						<p>
-							<i>MST Place</i> <br> <i>Beverly Hills, CA 90210</i>
-						</p>
-					</div>
-					<div class="footer-col col-md-4">
-						<h3>Around the Web</h3>
-						<ul class="list-inline">
-							<li><a href="#" class="btn-social btn-outline"><span
-									class="sr-only">Facebook</span><i class="fa fa-fw fa-facebook"></i></a></li>
-							<li><a href="#" class="btn-social btn-outline"><span
-									class="sr-only">Google Plus</span><i
-									class="fa fa-fw fa-google-plus"></i></a></li>
-							<li><a href="#" class="btn-social btn-outline"><span
-									class="sr-only">Twitter</span><i class="fa fa-fw fa-twitter"></i></a></li>
-							<li><a href="#" class="btn-social btn-outline"><span
-									class="sr-only">Linked In</span><i class="fa fa-fw fa-linkedin"></i></a></li>
-							<li><a href="#" class="btn-social btn-outline"><span
-									class="sr-only">Dribble</span><i class="fa fa-fw fa-dribbble"></i></a></li>
-						</ul>
-					</div>
-					<div class="footer-col col-md-4">
-						<h3>explore Freelancer</h3>
-						<p>
-							Freelance is a free to use, open source Bootstrap theme created
-							by <a href="http://startbootstrap.com">Start Bootstrap</a>.
-						</p>
-					</div>
-				</div>
-			</div>
-		</div>
 		<div class="footer-below">
 			<div class="container">
 				<div class="row">
@@ -652,6 +618,7 @@
 				alert("No Result For \"" + searchElement + "\".");
 			}
 		}
+		
 
 		/* For Render a Set of Result as Table's Row */
 		function renderRowStaffSearchResult(val, tableResultBody) {
@@ -667,9 +634,9 @@
 			var hostManagerName = val.hostManagerName;
 			var staffType = val.staffType;
 			var staffId = val.staffId;
-
+			var nameLocaleFmt = val.nameLocale == "" ? "" : ("<br/>("+val.nameLocale+ ")");
 			var rowResultBody = $("<tr><td>" + staffId + "</td><td>"
-					+ honorific + " " + name + "</td><td>" + email
+					+ honorific + " " + name + nameLocaleFmt+ "</td><td>" + email
 					+ "</td></tr>");
 			tableResultBody.append(rowResultBody.click(function() {
 				renderStaffInfoModal(val);
@@ -703,7 +670,7 @@
 			$('#span-info-name').html(name);
 			/* $('#pan-info-name-local-honf').html(""); */
 			if (nameLocale != "" || nameLocale != null) {
-				$('#span-info-name-locale').html("<br/>(" + nameLocale + ")");
+				$('#span-info-name-locale').html(nameLocale==""?"":("<br/>(" + nameLocale + ")"));
 			}
 			$('#span-info-email').html(email);
 			$('#span-info-tel').html(tel);
@@ -712,8 +679,11 @@
 			$('#span-info-position').html(position);
 			if (staffType != 'm') {
 				$('#table-staff-mng-info').show();
-				if(manager != null){$('#span-info-name-mng-honf').html(manager.honorific + ". ");}
-				
+				if (manager != null) {
+					$('#span-info-name-mng-honf')
+							.html(manager.honorific + ". ");
+				}
+
 				$('#span-info-mng').html(
 						hostManagerName != null ? hostManagerName : '-');
 				if (hostManagerNameLocale != null) {

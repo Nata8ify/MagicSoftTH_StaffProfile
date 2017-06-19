@@ -44,7 +44,8 @@ public class Generator {
 	// In the beginning is the words and the words made the world when the word
 	// end the world end.
 	private final String SALT_SOME = "allKiNdoFEVeRyThINGs";
-	public String genMd5(String str)  {
+
+	public String genMd5(String str) {
 		MessageDigest md5 = null;
 		try {
 			md5 = MessageDigest.getInstance("md5");
@@ -54,7 +55,7 @@ public class Generator {
 		}
 		md5.update(SALT_SOME.getBytes());
 		StringBuilder pwdBuilder = new StringBuilder();
-		for(byte b : md5.digest(str.getBytes())){
+		for (byte b : md5.digest(str.getBytes())) {
 			pwdBuilder.append(String.format("%02x", b & 0xff));
 		}
 		return pwdBuilder.toString();

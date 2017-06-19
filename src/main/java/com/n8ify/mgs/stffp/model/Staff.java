@@ -34,8 +34,9 @@ public class Staff {
 		super();
 	}
 
-	public Staff(String staffId, String name, String nameLocale, String email, String tel, String mobileTel, String division,
-			String position, String protraitPath, String hostManagerId, String honorific, String staffType) {
+	public Staff(String staffId, String name, String nameLocale, String email, String tel, String mobileTel,
+			String division, String position, String protraitPath, String hostManagerId, String honorific,
+			String staffType) {
 		this.staffId = staffId;
 		this.name = name;
 		this.nameLocale = nameLocale;
@@ -50,7 +51,8 @@ public class Staff {
 		this.staffType = staffType;
 	}
 
-	public Staff(String staffId, String name, String nameLocale, String email, String tel, String mobileTel, String protraitPath) {
+	public Staff(String staffId, String name, String nameLocale, String email, String tel, String mobileTel,
+			String protraitPath) {
 		this.staffId = staffId;
 		this.name = name;
 		this.nameLocale = nameLocale;
@@ -124,8 +126,6 @@ public class Staff {
 		this.tel = tel;
 	}
 
-	
-	
 	public String getMobileTel() {
 		return mobileTel;
 	}
@@ -162,15 +162,15 @@ public class Staff {
 	public String toString() {
 		return "Staff [staffId=" + staffId + ", name=" + name + ", nameLocale=" + nameLocale + ", email=" + email
 				+ ", tel=" + tel + ", division=" + division + ", position=" + position + ", protraitPath="
-				+ protraitPath + ", hostManagerId=" + hostManagerId + ", honorific=" + honorific + ", staffType=" + staffType
-				+ ", hostManagerName=" + hostManagerName + ", hostManagerEmail=" + hostManagerEmail + "]";
+				+ protraitPath + ", hostManagerId=" + hostManagerId + ", honorific=" + honorific + ", staffType="
+				+ staffType + ", hostManagerName=" + hostManagerName + ", hostManagerEmail=" + hostManagerEmail + "]";
 	}
 
 	// Required Information every Non-manager Staff must have.
 	private String hostManagerName;
 	private String hostManagerNameLocale;
 	private String hostManagerEmail;
-	
+
 	public String getHostManagerName() {
 		return hostManagerName;
 	}
@@ -178,8 +178,7 @@ public class Staff {
 	public void setHostManagerName(String hostManagerName) {
 		this.hostManagerName = hostManagerName;
 	}
-	
-	
+
 	public String getHostManagerNameLocale() {
 		return hostManagerNameLocale;
 	}

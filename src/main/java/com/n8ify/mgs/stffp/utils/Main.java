@@ -8,6 +8,6 @@ public class Main {
 		// new StaffBinder().getDynamicINClauseStatement(new
 		// Object[]{"M60001","M60002","M60003","M60007"}));
 		// System.out.println(Generator.getInstance().genImageName("juree.png"));
-System.out.println(Generator.getInstance().genMd5("kogy9i8u"));
+		System.out.println(Generator.getInstance().genMd5("kogy9i8u"));
 	}
 }

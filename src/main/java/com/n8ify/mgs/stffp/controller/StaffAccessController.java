@@ -36,7 +36,7 @@ public class StaffAccessController {
 			request.getSession(false).invalidate();
 		}
 		Staff staff = sttfpAccess.login(staffId, Generator.getInstance().genMd5(password));
-		if (staff.getStaffId().equals(staffId)) {
+		if (staff.getStaffId().equalsIgnoreCase(staffId)) {
 			Staff.setStaffInstance(staff);
 			StaffAccess.setAccessInstance(new StaffAccess(staffId, password));
 			request.getSession(true).setAttribute("thisStaff", staff);
@@ -55,7 +55,7 @@ public class StaffAccessController {
 			request.getSession(false).invalidate();
 		}
 		Staff staff = sttfpAccess.login(staffId, Generator.getInstance().genMd5(password), Staff.TYPE_ADMINISTRATOR);
-		if (staff.getStaffId().equals(staffId)) {
+		if (staff.getStaffId().equalsIgnoreCase(staffId)) {
 			Staff.setStaffInstance(staff);
 			StaffAccess.setAccessInstance(new StaffAccess(staffId, password));
 			request.getSession(true).setAttribute("thisStaff", staff);
@@ -66,7 +66,7 @@ public class StaffAccessController {
 		throw new UnauthorizedAccessException();
 	}
 
-	@RequestMapping(value={"/logout","/adm/logout"})
+	@RequestMapping(value = { "/logout", "/adm/logout" })
 	public String logout(Model model, HttpServletRequest request) {
 		if (request.getSession(false).getAttribute("thisStaff") != null) {
 			logger.info("NOT NULL STAFF");
@@ -74,12 +74,13 @@ public class StaffAccessController {
 		}
 		return "home";
 	}
-	
-//	Exception Handler Here!
-	@ExceptionHandler({NullPointerException.class})
-	public ModelAndView nullAccountException(NullPointerException npex){
+
+	// Exception Handler Here!
+	@ExceptionHandler({ NullPointerException.class })
+	public ModelAndView nullAccountException(NullPointerException npex) {
 		ModelAndView mav = new ModelAndView("result/errpage");
-		return ModelBody.setErrorBody(HttpStatus.INTERNAL_SERVER_ERROR, ModelBody.ERR_ICO_WARN_NORM, "Oops!", "It seem your Staff ID or Password is not valid or not exists.", mav);
+		return ModelBody.setErrorBody(HttpStatus.INTERNAL_SERVER_ERROR, ModelBody.ERR_ICO_WARN_NORM, "Oops!",
+				"It seem your Staff ID or Password is not valid or not exists.", mav);
 	}
 
 }
