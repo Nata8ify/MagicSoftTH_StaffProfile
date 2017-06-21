@@ -38,7 +38,7 @@ public class SttfpAccess implements StffpfAccessInterface {
 
 	@Override
 	public Staff login(String staffId, String password, String staffType) {
-		String sql = "SELECT * FROM `Staff` s JOIN StaffAccess sa on s.`staffId` = sa.staffId WHERE UPPER(sa.staffId) = ? AND sa.password = ? AND staffType = ?;";
+		String sql = "SELECT * FROM `Staff` s JOIN StaffAccess sa on s.`staffId` = sa.staffId WHERE UPPER(sa.staffId) = ? AND sa.password = ? AND sa.stffpsRole = ?;";
 		try {
 			return jdbcTemplate.queryForObject(sql, new Object[] { staffId, password, staffType }, new StaffMapper());
 		} catch (EmptyResultDataAccessException erex) {
@@ -53,6 +53,13 @@ public class SttfpAccess implements StffpfAccessInterface {
 		return null;
 	}
 
+
+	@Override
+	public boolean setToStffpsRole(String staffId, String stffpsRole) {
+		String sql = "UPDATE `StaffAccess` SET `stffpsRole`=?  WHERE `staffId` = ?";
+		return jdbcTemplate.update(sql, new Object[]{stffpsRole, staffId}) > 0;
+	}
+	
 	class StaffMapper implements RowMapper<Staff> {
 
 		@Override
@@ -79,8 +86,9 @@ public class SttfpAccess implements StffpfAccessInterface {
 
 		@Override
 		public StaffAccess mapRow(ResultSet rs, int arg1) throws SQLException {
-			return new StaffAccess(rs.getString("staffId"), rs.getString("password"));
+			return new StaffAccess(rs.getString("staffId"), rs.getString("password"), rs.getString("stffpsRole"));
 		}
 	}
+
 
 }

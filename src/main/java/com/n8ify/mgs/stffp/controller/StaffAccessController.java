@@ -38,7 +38,7 @@ public class StaffAccessController {
 		Staff staff = sttfpAccess.login(staffId, Generator.getInstance().genMd5(password));
 		if (staff.getStaffId().equalsIgnoreCase(staffId)) {
 			Staff.setStaffInstance(staff);
-			StaffAccess.setAccessInstance(new StaffAccess(staffId, password));
+			StaffAccess.setAccessInstance(new StaffAccess(staffId, password)); //No need System role to be assigned.
 			request.getSession(true).setAttribute("thisStaff", staff);
 			request.getSession(true).setAttribute("thisStaffAccess", StaffAccess.getAccessInstance());
 			logger.info("SESSION CREATED FOR :" + staff.getStaffId());
@@ -57,7 +57,7 @@ public class StaffAccessController {
 		Staff staff = sttfpAccess.login(staffId, Generator.getInstance().genMd5(password), Staff.TYPE_ADMINISTRATOR);
 		if (staff.getStaffId().equalsIgnoreCase(staffId)) {
 			Staff.setStaffInstance(staff);
-			StaffAccess.setAccessInstance(new StaffAccess(staffId, password));
+			StaffAccess.setAccessInstance(new StaffAccess(staffId, password, Staff.TYPE_ADMINISTRATOR)); //Assigned System Role as Administrator.
 			request.getSession(true).setAttribute("thisStaff", staff);
 			request.getSession(true).setAttribute("thisStaffAccess", StaffAccess.getAccessInstance());
 			logger.info("SESSION CREATED FOR ADMIN :" + staff.getStaffId());

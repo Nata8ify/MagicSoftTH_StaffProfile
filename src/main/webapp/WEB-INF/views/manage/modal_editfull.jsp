@@ -15,7 +15,6 @@
 								name="editType" class="form-control" id='editType'>
 								<option value="m">Manager</option>
 								<option value="s">Staff</option>
-								<option value="a">Administrator (System User)</option>
 							</select> <input type='hidden' id='hide-cur-staffType' name='prevEditType' />
 						</div>
 						<div

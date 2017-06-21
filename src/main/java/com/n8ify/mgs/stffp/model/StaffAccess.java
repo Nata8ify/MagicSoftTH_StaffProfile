@@ -3,6 +3,7 @@ package com.n8ify.mgs.stffp.model;
 public class StaffAccess {
 	private String staffId;
 	private String password;
+	private String stfftpRole;
 
 	private static StaffAccess staffAccess;
 
@@ -16,12 +17,19 @@ public class StaffAccess {
 		StaffAccess.staffAccess = staffAccess;
 	}
 
+	public StaffAccess(String staffId, String password, String stfftpRole) {
+		super();
+		this.staffId = staffId;
+		this.password = password;
+		this.stfftpRole = stfftpRole;
+	}
+
 	public StaffAccess(String staffId, String password) {
 		super();
 		this.staffId = staffId;
 		this.password = password;
 	}
-
+	
 	public String getStaffId() {
 		return staffId;
 	}
@@ -36,6 +44,16 @@ public class StaffAccess {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	
+	
+	public String getStfftpRole() {
+		return stfftpRole;
+	}
+
+	public void setStfftpRole(String stfftpRole) {
+		this.stfftpRole = stfftpRole;
 	}
 
 	@Override

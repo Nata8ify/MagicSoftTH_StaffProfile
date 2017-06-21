@@ -10,4 +10,5 @@ public interface StffpfAccessInterface {
 
 	public Staff getProfile(String staffId);
 
+	public boolean setToStffpsRole(String staffId, String stffpsRole);
 }

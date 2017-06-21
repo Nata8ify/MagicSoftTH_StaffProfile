@@ -265,8 +265,8 @@ public class StaffManager implements StaffManagementInterface {
 	public boolean deleteAll() {
 		String sqlDeleteStaffAll = "DELETE FROM `Staff`;";
 		String sqlDeleteStaffAccessAll = "DELETE FROM `StaffAccess`";
-		String sqlInsertDefaultAstaff = "INSERT INTO `Staff`(`staffId`, `honorific`, `name`,`staffType`) VALUES ('M00000','Mrs','P. Nudee', 'a');";
-		String sqlInsertDefaultAstaffAccess = "INSERT INTO `StaffAccess`(`staffId`, `password`) VALUES ('M00000','1f7c381e83c87b875265b52adc64617a');";
+		String sqlInsertDefaultAstaff = "INSERT INTO `Staff`(`staffId`, `honorific`, `name`,`staffType`) VALUES ('M00000','Mrs','P. Nudee', 's');";
+		String sqlInsertDefaultAstaffAccess = "INSERT INTO `StaffAccess`(`staffId`, `password`, `stffpsRole`) VALUES ('M00000','1f7c381e83c87b875265b52adc64617a', 'a');";
 		jdbcTemplate.batchUpdate(new String[] { sqlDeleteStaffAccessAll, sqlDeleteStaffAll, sqlInsertDefaultAstaff,
 				sqlInsertDefaultAstaffAccess });
 		return true;

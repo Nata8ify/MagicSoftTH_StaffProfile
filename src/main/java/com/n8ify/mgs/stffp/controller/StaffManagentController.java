@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
@@ -23,8 +24,10 @@ import org.springframework.web.servlet.ModelAndView;
 import com.mysql.jdbc.MysqlDataTruncation;
 import com.n8ify.mgs.stffp.dealer.StaffBinder;
 import com.n8ify.mgs.stffp.dealer.StaffManager;
+import com.n8ify.mgs.stffp.dealer.SttfpAccess;
 import com.n8ify.mgs.stffp.excp.UnauthorizedAccessException;
 import com.n8ify.mgs.stffp.model.Staff;
+import com.n8ify.mgs.stffp.model.StaffAccess;
 import com.n8ify.mgs.stffp.utils.Generator;
 import com.n8ify.mgs.stffp.utils.ModelBody;
 
@@ -40,6 +43,9 @@ public class StaffManagentController {
 	private StaffBinder staffBinder;
 
 	@Autowired
+	private SttfpAccess sttfpAccess;
+	
+	@Autowired
 	private CommonsMultipartResolver multipartResolver;
 
 	private final String PORTRAIT_DIR = "/resources/portraits/";
@@ -47,12 +53,15 @@ public class StaffManagentController {
 	private final String MANAGE_PATH = "manage/manage";
 
 	public void authenCheck(HttpServletRequest request) throws UnauthorizedAccessException {
-		Staff accessStaff = (Staff) request.getSession(false).getAttribute("thisStaff");
+		StaffAccess accessStaff = (StaffAccess) request.getSession(false).getAttribute("thisStaffAccess");
 		if (accessStaff == null)
 			throw new UnauthorizedAccessException();
-		logger.info(">>>>" + accessStaff.getStaffType());
-		if (!accessStaff.getStaffType().equals(Staff.TYPE_ADMINISTRATOR))
+		if(accessStaff.getStfftpRole() == null){//Login As Administrator is required 'Again' Even admin force to access admin's page.
 			throw new UnauthorizedAccessException();
+		}
+		if (!accessStaff.getStfftpRole().equals(Staff.TYPE_ADMINISTRATOR)){
+			throw new UnauthorizedAccessException();
+		}
 	}
 
 	@RequestMapping(value = "/adm/manage", method = RequestMethod.GET)
@@ -183,7 +192,7 @@ public class StaffManagentController {
 		return "redirect:managechoice?to=explore";
 	}
 
-	@RequestMapping(value = "/editSelf", method = RequestMethod.POST)
+	/*@RequestMapping(value = "/editSelf", method = RequestMethod.POST)
 	public String editSelf(Model model, HttpServletRequest request,
 			@RequestParam(value = "staffId", required = true) String staffId,
 			@RequestParam(value = "name", required = true) String name,
@@ -204,7 +213,7 @@ public class StaffManagentController {
 		}
 		logger.info("NO UPDATE");
 		return "home";
-	}
+	}*/
 
 	@RequestMapping(value = "/adm/editPerson.f", method = RequestMethod.POST)
 	public String editPersonWithPortrait(Model model, HttpServletRequest request,
@@ -231,6 +240,7 @@ public class StaffManagentController {
 		Staff staff = new Staff(staffId, name, nameLocale, email, tel, mobileTel, division, position, null,
 				hostManagerId, honorific, staffType);
 		logger.info(staff.toString() + " PWD : " + password);
+		
 
 		if (img != null) { // If Have a deal on O=Portrait.. Do this cond.
 			String imgName = img.isEmpty() ? Staff.getStaffInstance().getProtraitPath()
@@ -390,6 +400,20 @@ public class StaffManagentController {
 	}
 
 	// DANGER ZONE
+	@RequestMapping("/adm/grantadm")
+	@ResponseBody
+	public String grantAdminPermission(HttpServletRequest request,
+			@RequestParam(value = "staffId", required = true) String staffId,
+			@RequestParam(value = "isGrantAdminRole", required = true) boolean isGrantAdminRole) throws UnauthorizedAccessException{
+		authenCheck(request);
+		if(isGrantAdminRole){ //Change Stffps System Role -> By now just Admin.
+			logger.info(" includeAdminRole : " + isGrantAdminRole);
+			return String.valueOf(sttfpAccess.setToStffpsRole(staffId, Staff.TYPE_ADMINISTRATOR));
+		} else {
+			return String.valueOf(sttfpAccess.setToStffpsRole(staffId, null));
+		}
+	}
+	
 	@RequestMapping(value = "/adm/deleteAll", method = RequestMethod.POST)
 	public String deleteAllStaffInfos(Model model, HttpServletRequest request,
 			@RequestParam(value = "confirmPharse", required = true) String confirmPharse)
@@ -406,8 +430,8 @@ public class StaffManagentController {
 	@ExceptionHandler({ UnauthorizedAccessException.class })
 	public ModelAndView nullAccountException(UnauthorizedAccessException npex) {
 		ModelAndView mav = new ModelAndView("result/errpage");
-		return ModelBody.setErrorBody(HttpStatus.INTERNAL_SERVER_ERROR, ModelBody.ERR_ICO_UNAUTH, "Oops!",
-				"This Section is Authorized for Administrator.", mav);
+		return ModelBody.setErrorBody(HttpStatus.INTERNAL_SERVER_ERROR, ModelBody.ERR_ICO_UNAUTH, "This Section is Authorized for Administrator.!",
+				"If you are the System Administrator you have to Sign In on <u style=\"color:#000\">/admhome</u> to Access this Page.", mav);
 	}
 
 	@ExceptionHandler({ MysqlDataTruncation.class })
