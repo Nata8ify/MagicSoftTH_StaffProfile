@@ -59,7 +59,7 @@
 							class="form-group col-xs-6 floating-label-form-group controls">
 							<label for="email">Email Address</label> <input type="email"
 								class="form-control" placeholder="Email Address" id="email"
-								name='email' maxlength="30" required
+								name='email' maxlength="60" required
 								data-validation-required-message="Please enter Email Address.">
 							<p class="help-block text-danger"></p>
 						</div>
@@ -86,7 +86,7 @@
 							<label for="division">Staff's Department</label> <input
 								type="text" class="form-control"
 								placeholder="Staff's Department" id="division" name='division'
-								maxlength="30" required
+								maxlength="100" required
 								data-validation-required-message="Please enter Staff's Department.">
 							<p class="help-block text-danger"></p>
 						</div>

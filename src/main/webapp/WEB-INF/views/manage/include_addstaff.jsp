@@ -99,7 +99,7 @@
 					placeholder="Email Address"
 					id="email"
 					name='email'
-					maxlength="30"
+					maxlength="60"
 					required
 					data-validation-required-message="Please enter Email Address."
 				>
@@ -140,7 +140,7 @@
 					placeholder="Staff's Department"
 					id="division"
 					name='division'
-					maxlength="30"
+					maxlength="100"
 					required
 					data-validation-required-message="Please enter Staff's Department."
 				>

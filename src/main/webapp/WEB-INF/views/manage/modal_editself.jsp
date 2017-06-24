@@ -46,7 +46,7 @@
 							class="form-group col-xs-5 floating-label-form-group controls">
 							<label for="email">Email Address</label> <input type="email"
 								class="form-control" placeholder="Email Address" id="email"
-								name='email' maxlength="30" required
+								name='email' maxlength="60" required
 								data-validation-required-message="Please enter your Email Address."
 								value="${thisStaff.email}">
 							<p class="help-block text-danger"></p>
