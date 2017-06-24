@@ -145,7 +145,7 @@
 <script>
 	/* This is the Password Validator */
 	$('#cofmpassword, #password').keyup(function() {
-		console.log($('#cofmpassword').val() + " ><><" + $('#password').val());
+	    if($('#cofmpassword').val() == ""){return;}
 		if ($('#cofmpassword').val() != $('#password').val()) {
 			$('#label-pwd-msg').html('Mismatched Password!');
 			$('#label-pwd-msg').css('color', 'red');

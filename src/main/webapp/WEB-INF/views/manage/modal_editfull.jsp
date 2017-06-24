@@ -238,7 +238,7 @@
 
 	/* This is the Password Validator */
 	$('#cofmpassword, #password').keyup(function() {
-		console.log($('#cofmpassword').val() + " ><><" + $('#password').val());
+	    if($('#cofmpassword').val() == ""){return;}
 		if ($('#cofmpassword').val() != $('#password').val()) {
 			$('#b-pwd-msg').html('Mismatched Password!');
 			$('#b-pwd-msg').css('color', 'red');
