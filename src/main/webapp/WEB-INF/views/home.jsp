@@ -335,6 +335,7 @@
 	<jsp:include page="manage/modal_pickmng.jsp" />
 	<jsp:include page="home_include/modal_viewtotal.jsp" />
 	<jsp:include page="home_include/modal_viewstaff_info.jsp" />
+	<jsp:include page="home_include/modal_viewmng_info.jsp" />
 	<script type="text/javascript">
 	/* initial stuffs */
 	var staffsTable; /* Data Table */
@@ -650,7 +651,6 @@
 	    var division = val.division;
 	    var position = val.position;
 	    var manager = findManagerByManagerId(val.hostManagerId); //<-Better than 3 lines below.
-	    log("manager : " + (manager === undefined));
 	    var hostManagerId = val.hostManagerId;
 	    var hostManagerName = val.hostManagerName; //<-Defauq?
 	    var hostManagerNameLocale = val.hostManagerNameLocale; //<-Defauq?
@@ -688,7 +688,7 @@
 		    $('#span-info-name-mng-locale').html(
 			    " <br/>(" + hostManagerNameLocale + ")");
 		    $('#span-info-mng-email').html(hostManagerEmail);
-		    $('#btn-view-thismng').data("managerId", hostManagerId);
+		    $('#btn-view-thismng').data("managerId", manager.staffId); //Keep manager in data-manager.
 		} else {
 		    $('#span-info-name-mng-honf').html("");
 		    $('#span-info-name-mng-locale').html("");
@@ -749,8 +749,19 @@
 		    manager = val;
 		}
 	    });
+	    if(manager === undefined){return null;}
 	    return manager;
 	}
+    </script>
+    <script type="text/javascript">
+    	/** LISTENER **/
+    	/* #btn-view-thismng : Listening View Manager Info Nutton */
+    	$("#btn-view-thismng").click(function(){
+    	    log("ID : "+$(this).data("managerId"));
+    	var manager = findManagerByManagerId($(this).data("managerId"));
+    	renderStaffInfoModal(manager);
+    	    $("#modal-view-manager-info").modal("show");    	    
+    	});
     </script>
 </body>
 </html>
