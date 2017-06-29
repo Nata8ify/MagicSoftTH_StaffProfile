@@ -1,5 +1,7 @@
 package com.n8ify.mgs.stffp.model;
 
+import java.sql.Date;
+
 public class Staff {
 	private String staffId;
 	private String name;
@@ -13,6 +15,8 @@ public class Staff {
 	private String hostManagerId;
 	private String honorific;
 	private String staffType;
+	private Date birthDate;
+	private Date startWorkingDate;
 
 	public static final String TYPE_STAFF = "s";
 	public static final String TYPE_ADMINISTRATOR = "a";
@@ -36,7 +40,7 @@ public class Staff {
 
 	public Staff(String staffId, String name, String nameLocale, String email, String tel, String mobileTel,
 			String division, String position, String protraitPath, String hostManagerId, String honorific,
-			String staffType) {
+			String staffType, Date birthDate, Date startWorkingDate) {
 		this.staffId = staffId;
 		this.name = name;
 		this.nameLocale = nameLocale;
@@ -49,6 +53,8 @@ public class Staff {
 		this.hostManagerId = hostManagerId;
 		this.honorific = honorific;
 		this.staffType = staffType;
+		this.startWorkingDate = startWorkingDate;
+		this.birthDate = birthDate;
 	}
 
 	public Staff(String staffId, String name, String nameLocale, String email, String tel, String mobileTel,
@@ -158,13 +164,35 @@ public class Staff {
 		this.hostManagerId = hostManagerId;
 	}
 
+	
+
+	public Date getBirthDate() {
+		return birthDate;
+	}
+
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
+	}
+
+	public Date getStartWorkingDate() {
+		return startWorkingDate;
+	}
+
+	public void setStartWorkingDate(Date startWorkingDate) {
+		this.startWorkingDate = startWorkingDate;
+	}
+
 	@Override
 	public String toString() {
 		return "Staff [staffId=" + staffId + ", name=" + name + ", nameLocale=" + nameLocale + ", email=" + email
-				+ ", tel=" + tel + ", division=" + division + ", position=" + position + ", protraitPath="
-				+ protraitPath + ", hostManagerId=" + hostManagerId + ", honorific=" + honorific + ", staffType="
-				+ staffType + ", hostManagerName=" + hostManagerName + ", hostManagerEmail=" + hostManagerEmail + "]";
+				+ ", tel=" + tel + ", mobileTel=" + mobileTel + ", division=" + division + ", position=" + position
+				+ ", protraitPath=" + protraitPath + ", hostManagerId=" + hostManagerId + ", honorific=" + honorific
+				+ ", staffType=" + staffType + ", startWorkingDate=" + startWorkingDate + ", birthDate=" + birthDate
+				+ ", hostManagerName=" + hostManagerName + ", hostManagerNameLocale=" + hostManagerNameLocale
+				+ ", hostManagerEmail=" + hostManagerEmail + "]";
 	}
+
+
 
 	// Required Information every Non-manager Staff must have.
 	private String hostManagerName;

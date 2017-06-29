@@ -2,6 +2,7 @@ package com.n8ify.mgs.stffp.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -104,6 +105,8 @@ public class StaffManagentController {
 			@RequestParam(value = "position", required = true) String position,
 			@RequestParam(value = "protraitPath", required = false) String protraitPath,
 			@RequestParam(value = "hostManagerId", required = false) String hostManagerId,
+			@RequestParam(value = "startWorkingDate", required = false, defaultValue = "") String startWorkingDate,
+			@RequestParam(value = "birthDate", required = false, defaultValue = "") String birthDate,
 			@RequestParam(value = "password", required = false, defaultValue = "") String password,
 			@RequestParam(value = "insertType", required = true) String insertType) throws UnauthorizedAccessException { // insertType
 																															// is
@@ -114,7 +117,7 @@ public class StaffManagentController {
 		case Staff.TYPE_STAFF:
 			if (staffManager.insertStaff(
 					new Staff(staffId.toUpperCase(), name, nameLocale, email, tel, mobileTel, division, position,
-							protraitPath, hostManagerId.isEmpty() ? null : hostManagerId, honorific, insertType),
+							protraitPath, hostManagerId.isEmpty() ? null : hostManagerId, honorific, insertType, Date.valueOf(birthDate), Date.valueOf(startWorkingDate)),
 					password.equals("") ? Generator.getInstance().genPassword() : password)) {
 				model.addAttribute("msg", "done");
 			} else {
@@ -143,6 +146,8 @@ public class StaffManagentController {
 			@RequestParam(value = "position", required = true) String position,
 			@RequestParam(value = "protraitPath", required = false) String protraitPath,
 			@RequestParam(value = "hostManagerId", required = false) String hostManagerId,
+			@RequestParam(value = "startWorkingDate", required = false, defaultValue = "") String startWorkingDate,
+			@RequestParam(value = "birthDate", required = false, defaultValue = "") String birthDate,
 			@RequestParam(value = "password", required = true) String password,
 			@RequestParam(value = "editType", required = true) String staffType, // editType
 																					// is
@@ -151,7 +156,7 @@ public class StaffManagentController {
 			throws UnauthorizedAccessException {
 		authenCheck(request);
 		if (staffManager.editStaff(new Staff(staffId, name, nameLocale, email, tel, mobileTel, division, position, null,
-				hostManagerId, honorific, staffType), password)) {
+				hostManagerId, honorific, staffType, Date.valueOf(birthDate), Date.valueOf(startWorkingDate)), password)) {
 			if (prevStaffType.equals(Staff.TYPE_MANAGER) && staffType.equals(Staff.TYPE_STAFF)) { // If
 																									// Manager
 																									// became
@@ -226,6 +231,8 @@ public class StaffManagentController {
 			@RequestParam(value = "mobileTel", required = false) String mobileTel,
 			@RequestParam(value = "division", required = true) String division,
 			@RequestParam(value = "position", required = true) String position,
+			@RequestParam(value = "startWorkingDate", required = false, defaultValue = "") String startWorkingDate,
+			@RequestParam(value = "birthDate", required = false, defaultValue = "") String birthDate,
 			@RequestParam(value = "protraitPathOld", required = false) String protraitPathOld,
 			@RequestParam(value = "protraitPath", required = false) MultipartFile img,
 			@RequestParam(value = "hostManagerId", required = false) String hostManagerId,
@@ -238,7 +245,7 @@ public class StaffManagentController {
 		authenCheck(request);
 		MultipartHttpServletRequest mrequest = multipartResolver.resolveMultipart(request);
 		Staff staff = new Staff(staffId, name, nameLocale, email, tel, mobileTel, division, position, null,
-				hostManagerId, honorific, staffType);
+				hostManagerId, honorific, staffType,Date.valueOf(birthDate), Date.valueOf(startWorkingDate));
 		logger.info(staff.toString() + " PWD : " + password);
 		
 
@@ -251,7 +258,7 @@ public class StaffManagentController {
 				File oldImg = new File(mrequest.getRealPath(PORTRAIT_DIR + protraitPathOld));
 				oldImg.delete();
 				if (staffManager.editStaff(new Staff(staffId, name, nameLocale, email, tel, mobileTel, division,
-						position, imgName, hostManagerId, honorific, staffType), password)) {
+						position, imgName, hostManagerId, honorific, staffType, Date.valueOf(birthDate), Date.valueOf(startWorkingDate)), password)) {
 					logger.info("prev " + prevStaffType + " ::: new " + staffType);
 					if (prevStaffType.equals(Staff.TYPE_MANAGER) && staffType.equals(Staff.TYPE_STAFF)) { // If
 																											// Manager
@@ -276,7 +283,7 @@ public class StaffManagentController {
 				if (staffManager.editStaffForNoImage( // Which mean KEEP NO
 														// CHANGE/Unset
 						new Staff(staffId, name, nameLocale, email, tel, mobileTel, division, position, null,
-								hostManagerId, honorific, staffType),
+								hostManagerId, honorific, staffType, Date.valueOf(birthDate), Date.valueOf(startWorkingDate)),
 						password)) {
 					if (prevStaffType.equals(Staff.TYPE_MANAGER) && staffType.equals(Staff.TYPE_STAFF)) { // If
 																											// Manager
@@ -301,7 +308,7 @@ public class StaffManagentController {
 			File oldImg = new File(mrequest.getRealPath(PORTRAIT_DIR + Staff.getStaffInstance().getProtraitPath()));
 			oldImg.delete();
 			if (staffManager.editStaff(new Staff(staffId, name, nameLocale, email, tel, mobileTel, division, position,
-					null, hostManagerId, honorific, staffType), password)) {
+					null, hostManagerId, honorific, staffType, Date.valueOf(birthDate), Date.valueOf(startWorkingDate)), password)) {
 				logger.info("prev " + prevStaffType + " ::: new " + staffType);
 				if (prevStaffType.equals(Staff.TYPE_MANAGER) && staffType.equals(Staff.TYPE_STAFF)) { // If
 																										// Manager
@@ -378,6 +385,8 @@ public class StaffManagentController {
 			@RequestParam(value = "position", required = true) String position,
 			@RequestParam(value = "hostManagerId", required = false) String hostManagerId,
 			@RequestParam(value = "password", required = false) String password,
+			@RequestParam(value = "startWorkingDate", required = false, defaultValue = "") String startWorkingDate,
+			@RequestParam(value = "birthDate", required = false, defaultValue = "") String birthDate,
 			@RequestParam(value = "insertType", required = true) String insertType, // insertType
 																					// is
 																					// staffType.
@@ -385,11 +394,14 @@ public class StaffManagentController {
 			throws IllegalStateException, IOException, UnauthorizedAccessException {
 		// Checking Is this an Administrator Account Roll.
 		authenCheck(request);
-		logger.info(hostManagerId);
+		logger.info("birthDate: "+birthDate);
+		logger.info("startWorkingDate: "+startWorkingDate);
+		logger.info("birthDate: "+Date.valueOf(birthDate).getMonth());
+		logger.info("startWorkingDate: "+Date.valueOf(startWorkingDate).getMonth());
 		String imgName = img.isEmpty() ? null : Generator.getInstance().genImageName(img.getOriginalFilename());
 		if (staffManager.insertStaff(
 				new Staff(staffId.toUpperCase(), name, nameLocale, email, tel, mobileTel, division, position, imgName,
-						hostManagerId.isEmpty() ? null : hostManagerId, honorific, insertType),
+						hostManagerId.isEmpty() ? null : hostManagerId, honorific, insertType, Date.valueOf(birthDate), Date.valueOf(startWorkingDate)),
 				password.equals("") ? Generator.getInstance().genPassword() : password)) {
 			img.transferTo(new File(mrequest.getRealPath(PORTRAIT_DIR) + imgName));
 			model.addAttribute("msg", "สำเร็จ!");

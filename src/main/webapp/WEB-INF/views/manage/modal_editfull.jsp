@@ -1,5 +1,6 @@
+
 <div class="modal fade" id='modal-staff-edit'>
-	<div class="modal-dialog">
+	<div class="modal-dialog" style="width: 80%">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -36,7 +37,7 @@
 							</select>
 						</div>
 						<div
-							class="form-group col-xs-5 floating-label-form-group controls">
+							class="form-group col-xs-3 floating-label-form-group controls">
 							<label for="name">Name and Surname (English)</label> <input
 								type="text" class="form-control" placeholder="Name & Lastname"
 								id="name" name='name' maxlength="40" required
@@ -45,12 +46,19 @@
 							<p class="help-block text-danger"></p>
 						</div>
 						<div
-							class="form-group col-xs-5 floating-label-form-group controls">
+							class="form-group col-xs-4 floating-label-form-group controls">
 							<label for="name">Name and Surname (Local)</label> <input
 								type="text" class="form-control"
 								placeholder="Name & Lastname (In Local Language)"
 								id="nameLocale" name='nameLocale' maxlength="40"
 								data-validation-required-message="Please enter Name and Lastname.">
+							<p class="help-block text-danger"></p>
+						</div>
+						<div
+							class="form-group col-xs-3 floating-label-form-group controls">
+							<label for="birthDate">Birth Date</label> <input type="date"
+								class="form-control" id="birthDate" name='birthDate' required=''
+								data-validation-required-message="Please Choose a Birth date of Staff.">
 							<p class="help-block text-danger"></p>
 						</div>
 					</div>
@@ -82,7 +90,7 @@
 					</div>
 					<div class="row control-group">
 						<div
-							class="form-group col-xs-6 floating-label-form-group controls">
+							class="form-group col-xs-5 floating-label-form-group controls">
 							<label for="division">Staff's Department</label> <input
 								type="text" class="form-control"
 								placeholder="Staff's Department" id="division" name='division'
@@ -91,11 +99,19 @@
 							<p class="help-block text-danger"></p>
 						</div>
 						<div
-							class="form-group col-xs-6 floating-label-form-group controls">
+							class="form-group col-xs-4 floating-label-form-group controls">
 							<label for="position">Staff's Position</label> <input type="text"
 								class="form-control" placeholder="Staff's Position"
 								id="position" name='position' maxlength="50" required
 								data-validation-required-message="Please enter Staff's Position.">
+							<p class="help-block text-danger"></p>
+						</div>
+						<div
+							class="form-group col-xs-3 floating-label-form-group controls">
+							<label for="startWorkingDate">Start Working Date</label> <input
+								type="date" class="form-control" id="startWorkingDate"
+								name='startWorkingDate' required=''
+								data-validation-required-message="Start Working Date is Require.">
 							<p class="help-block text-danger"></p>
 						</div>
 					</div>
@@ -131,13 +147,14 @@
 									<td>: Keep No Change</td>
 								</tr>
 								<tr>
-									<td><input type="radio" value="new" id='select-portarit-new' name='portraitPathOpt'>
+									<td><input type="radio" value="new"
+										id='select-portarit-new' name='portraitPathOpt'>
 									<td>
 									<td>: Upload New Image</td>
 								</tr>
 								<tr>
-									<td><input type="radio" value="default" id='select-portarit-default'
-										name='portraitPathOpt'>
+									<td><input type="radio" value="default"
+										id='select-portarit-default' name='portraitPathOpt'>
 									<td>
 									<td>: Use No Image</td>
 								</tr>
@@ -198,89 +215,91 @@
 	</div>
 </div>
 <script>
-	/* 	This Event will disabled the password form and its confirm form 
-	 if admin prefer to not change this staff's password.  */
-	$('#chkprvpass').click(function() {
-		if ($('#chkprvpass').is(":checked")) {
-			$('#password').prop('disabled', true);
-			$('#cofmpassword').prop('disabled', true);
-			$('#btn-submit-edit').prop("disabled", false);
-			$('#b-pwd-msg').html('');
-			$('#cofmpassword').val('');
-			$('#password').val('');
-		} else {
-			$('#password').prop('disabled', false);
-			$('#cofmpassword').prop('disabled', false);
-		}
-	});
+    /* 	This Event will disabled the password form and its confirm form 
+     if admin prefer to not change this staff's password.  */
+    $('#chkprvpass').click(function() {
+	if ($('#chkprvpass').is(":checked")) {
+	    $('#password').prop('disabled', true);
+	    $('#cofmpassword').prop('disabled', true);
+	    $('#btn-submit-edit').prop("disabled", false);
+	    $('#b-pwd-msg').html('');
+	    $('#cofmpassword').val('');
+	    $('#password').val('');
+	} else {
+	    $('#password').prop('disabled', false);
+	    $('#cofmpassword').prop('disabled', false);
+	}
+    });
 
-	/* This Event will performs the permantly delete action of selected staff. */
-	$('#lnk-delstaff')
-			.click(
-					function() {
-						/* document.location = "deletePerson?staffId="+$('#staffId').val(value.staffId); */
-						if (confirm("Please, Confirm this Permantly Staff Deleting Action...")) {
-							$.ajax({
-								"url" : "deletePerson",
-								"type" : "POST",
-								"data" : {
-									ajax : true,
-									staffId : $('#staffId').val(),
-									staffType : $('#hide-cur-staffType').val()
-								},
-								"success" : function(result) {
-									alert("Deleted");
-									location.reload();
-								}
-							});
-						}
-					});
+    /* This Event will performs the permantly delete action of selected staff. */
+    $('#lnk-delstaff')
+	    .click(
+		    function() {
+			/* document.location = "deletePerson?staffId="+$('#staffId').val(value.staffId); */
+			if (confirm("Please, Confirm this Permantly Staff Deleting Action...")) {
+			    $.ajax({
+				"url" : "deletePerson",
+				"type" : "POST",
+				"data" : {
+				    ajax : true,
+				    staffId : $('#staffId').val(),
+				    staffType : $('#hide-cur-staffType').val()
+				},
+				"success" : function(result) {
+				    alert("Deleted");
+				    location.reload();
+				}
+			    });
+			}
+		    });
 
-	/* This is the Password Validator */
-	$('#cofmpassword, #password').keyup(function() {
-	    if($('#cofmpassword').val() == ""){return;}
-		if ($('#cofmpassword').val() != $('#password').val()) {
-			$('#b-pwd-msg').html('Mismatched Password!');
-			$('#b-pwd-msg').css('color', 'red');
-			$('#btn-submit-edit').prop("disabled", true);
-		} else {
-			$('#b-pwd-msg').html('Matched');
-			$('#b-pwd-msg').css('color', 'green');
-			$('#btn-submit-edit').prop("disabled", false);
-		}
-	});
+    /* This is the Password Validator */
+    $('#cofmpassword, #password').keyup(function() {
+	if ($('#cofmpassword').val() == "") {
+	    return;
+	}
+	if ($('#cofmpassword').val() != $('#password').val()) {
+	    $('#b-pwd-msg').html('Mismatched Password!');
+	    $('#b-pwd-msg').css('color', 'red');
+	    $('#btn-submit-edit').prop("disabled", true);
+	} else {
+	    $('#b-pwd-msg').html('Matched');
+	    $('#b-pwd-msg').css('color', 'green');
+	    $('#btn-submit-edit').prop("disabled", false);
+	}
+    });
 
-	/* If the Staff is Manager then 'Assign manager' Should be disable. */
-	$('#editType').on('change', function(e) {
-		if ($('#editType').val() != 'm') {
-			$('#btn-assign-mng').prop('disabled', false);
-		} else {
-			$('#btn-assign-mng').prop('disabled', true);
-		}
-	});
+    /* If the Staff is Manager then 'Assign manager' Should be disable. */
+    $('#editType').on('change', function(e) {
+	if ($('#editType').val() != 'm') {
+	    $('#btn-assign-mng').prop('disabled', false);
+	} else {
+	    $('#btn-assign-mng').prop('disabled', true);
+	}
+    });
 
-	/* Listen If Portrait Path Option is Changed */
-	$('input[name="portraitPathOpt"]').change(function() {
-		switch ($('input[name="portraitPathOpt"]:checked').val()) {
-		case "new":
-			$('#protraitPathNew').prop('disabled', false);
-			$('#protraitPathNew').prop('readonly', false);
-			$('#protraitPathNew').prop('required', true);
-			break;
-		case "keep":
-			$('#protraitPathNew').prop('readonly', true);
-			$('#protraitPathNew').prop('required', false);
-			$('#protraitPathNew').val("");
-			break;
-		default:
-			$('#protraitPathNew').prop('disabled', true);
-			$('#protraitPathNew').prop('required', false);
-		}
-	});
-	
-	$('#protraitPathNew').change(function(){
-		if($(this).val() != null){
-			$('#select-portarit-new').prop('checked', true);
-		}
-	});
+    /* Listen If Portrait Path Option is Changed */
+    $('input[name="portraitPathOpt"]').change(function() {
+	switch ($('input[name="portraitPathOpt"]:checked').val()) {
+	case "new":
+	    $('#protraitPathNew').prop('disabled', false);
+	    $('#protraitPathNew').prop('readonly', false);
+	    $('#protraitPathNew').prop('required', true);
+	    break;
+	case "keep":
+	    $('#protraitPathNew').prop('readonly', true);
+	    $('#protraitPathNew').prop('required', false);
+	    $('#protraitPathNew').val("");
+	    break;
+	default:
+	    $('#protraitPathNew').prop('disabled', true);
+	    $('#protraitPathNew').prop('required', false);
+	}
+    });
+
+    $('#protraitPathNew').change(function() {
+	if ($(this).val() != null) {
+	    $('#select-portarit-new').prop('checked', true);
+	}
+    });
 </script>

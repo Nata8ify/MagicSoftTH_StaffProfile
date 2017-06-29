@@ -47,13 +47,13 @@ public class StaffManager implements StaffManagementInterface {
 	@Override
 	public boolean insertStaff(Staff staff, String password) {
 		String sql = "INSERT INTO `Staff`"
-				+ "(`staffId`, `honorific`, `name`, `nameLocale`, `email`, `tel`, `mobileTel`, `division`, `position`, `protraitPath`, `hostManagerId`, `staffType`)"
-				+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+				+ "(`staffId`, `honorific`, `name`, `nameLocale`, `email`, `tel`, `mobileTel`, `division`, `position`, `protraitPath`, `hostManagerId`, `staffType`, `startWorkingDate`, `birthDate`)"
+				+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 		boolean is1stSuccess = jdbcTemplate.update(sql,
 				new Object[] { staff.getStaffId(), staff.getHonorific(), staff.getName(), staff.getNameLocale(),
 						staff.getEmail(), staff.getTel(), staff.getMobileTel(), staff.getDivision(),
 						staff.getPosition(), staff.getProtraitPath(), staff.getHostManagerId(),
-						staff.getStaffType() }) > 0;
+						staff.getStaffType(), staff.getBirthDate(), staff.getStartWorkingDate() }) > 0;
 		sql = " INSERT INTO `StaffAccess`(`staffId`, `password`) VALUES (?,?);";
 		return jdbcTemplate.update(sql,
 				new Object[] { staff.getStaffId(), Generator.getInstance().genMd5(password) }) > 0 & is1stSuccess;
@@ -62,12 +62,12 @@ public class StaffManager implements StaffManagementInterface {
 	@Override
 	public boolean editStaff(final Staff staff, final String newPassword) {
 		String sql = "UPDATE `Staff` s SET s.`name`=?, `nameLocale`=?, s.`honorific`=? ,s.`email`=?,s.`tel`=?, `mobileTel`=?,s.`division`=?, s.`position`=?,s.`protraitPath`=?"
-				+ ",s.`hostManagerId`=?, s.staffType = ? WHERE s.`staffId` = ?;";
+				+ ",s.`hostManagerId`=?, s.staffType = ?, `startWorkingDate` = ?, `birthDate` = ? WHERE s.`staffId` = ?;";
 		boolean is1stSuccess = jdbcTemplate.update(sql,
 				new Object[] { staff.getName(), staff.getNameLocale(), staff.getHonorific(), staff.getEmail(),
 						staff.getTel(), staff.getMobileTel(), staff.getDivision(), staff.getPosition(),
 						staff.getProtraitPath(), staff.getHostManagerId(), staff.getStaffType(),
-						staff.getStaffId() }) > 0;
+						staff.getStartWorkingDate(), staff.getBirthDate(), staff.getStaffId() }) > 0;
 		if (staff.getStaffType().equals(Staff.TYPE_MANAGER)) {
 			String sqlNullHostMng = "UPDATE `Staff` SET `hostManagerId`= NULL WHERE `hostManagerId` = ?;";
 			return jdbcTemplate.update(sqlNullHostMng, new Object[] { null }) >= 0;
@@ -89,11 +89,11 @@ public class StaffManager implements StaffManagementInterface {
 	@Override
 	public boolean editStaffForNoImage(final Staff staff, final String newPassword) {
 		String sql = "UPDATE `Staff` s SET s.`name`=?, `nameLocale`=?, s.`honorific`=? ,s.`email`=?,s.`tel`=?, `mobileTel`=?,s.`division`=?, s.`position`=?"
-				+ ",s.`hostManagerId`=?, s.staffType = ? WHERE s.`staffId` = ?;";
+				+ ",s.`hostManagerId`=?, s.staffType = ?, `startWorkingDate` = ?, `birthDate`= ? WHERE s.`staffId` = ?;";
 		boolean is1stSuccess = jdbcTemplate.update(sql,
 				new Object[] { staff.getName(), staff.getNameLocale(), staff.getHonorific(), staff.getEmail(),
 						staff.getTel(), staff.getMobileTel(), staff.getDivision(), staff.getPosition(),
-						staff.getHostManagerId(), staff.getStaffType(), staff.getStaffId() }) > 0;
+						staff.getHostManagerId(), staff.getStaffType(), staff.getStartWorkingDate(), staff.getBirthDate(), staff.getStaffId() }) > 0;
 
 		if (staff.getStaffType().equals(Staff.TYPE_MANAGER)) {
 			String sqlNullHostMng = "UPDATE `Staff` SET `hostManagerId`= NULL WHERE `hostManagerId` = ?;";
@@ -252,6 +252,8 @@ public class StaffManager implements StaffManagementInterface {
 			staff.setProtraitPath(rs.getString("protraitPath"));
 			staff.setHostManagerId(rs.getString("hostManagerId"));
 			staff.setStaffType(rs.getString("staffType"));
+			staff.setBirthDate(rs.getDate("birthDate"));
+			staff.setStartWorkingDate(rs.getDate("birthDate"));
 			staff.setHostManagerName(rs.getString("managerName"));
 			staff.setHostManagerNameLocale(rs.getString("managerNameLocale"));
 			staff.setHostManagerEmail(rs.getString("managerEmail"));

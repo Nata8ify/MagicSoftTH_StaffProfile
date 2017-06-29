@@ -108,6 +108,8 @@
 							<jsp:include page="include_dangerzone.jsp" />
 						</c:when>
 						<c:otherwise>
+							<script src="https://momentjs.com/downloads/moment.js"
+								type="text/javascript"></script>
 							<jsp:include page="modal_editfull.jsp" />
 							<jsp:include page="modal_pickmng.jsp" />
 							<jsp:include page="include_explore.jsp" />

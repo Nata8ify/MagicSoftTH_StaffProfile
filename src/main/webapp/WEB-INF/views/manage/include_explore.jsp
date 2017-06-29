@@ -170,12 +170,17 @@
 												$('#protraitPathOld').val(
 														value.protraitPath);
 												$('#hide-cur-staffType').val(
-														value.staffType)
+														value.staffType);
+												$('#birthDate').val(
+													moment(new Date(value.birthDate)).format("YYYY-MM-DD"));
+												$('#startWorkingDate').val(
+													moment(new Date(value.birthDate)).format("YYYY-MM-DD"));
 												$('#hostManagerName-show')
 														.val(
 																value.hostManagerName != null ? value.hostManagerName
 																		: "Unassigned");
 												console.log(value);
+												console.log(moment(new Date(value.birthDate)).format("YYYY-MM-DD"));
 											}
 										})
 						$('#modal-staff-edit').modal();
