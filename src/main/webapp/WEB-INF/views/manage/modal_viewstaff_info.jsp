@@ -56,6 +56,11 @@
 											<td>Position :</td>
 											<td><span id='span-info-position'></span></td>
 										</tr>
+										<tr>
+											<td></td>
+											<td>Working date :</td>
+											<td><span id='span-info-workingdate'></span></td>
+										</tr>
 									</tbody>
 								</table>
 							</div>

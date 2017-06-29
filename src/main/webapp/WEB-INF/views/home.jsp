@@ -655,6 +655,9 @@
 	    var hostManagerNameLocale = val.hostManagerNameLocale; //<-Defauq?
 	    var hostManagerEmail = val.hostManagerEmail; //<-Defauq?
 	    var staffType = val.staffType;
+	    var startWorkingDate = val.startWorkingDate;
+		$('#span-info-workingdate').html(startWorkingDate!=null?startWorkingDate:"Not Available");
+		
 	    var staffId = val.staffId;
 	    $('#h4-view-staff-info-title').html("Information of " + name);
 	    $('#span-info-staffid').html(staffId);
