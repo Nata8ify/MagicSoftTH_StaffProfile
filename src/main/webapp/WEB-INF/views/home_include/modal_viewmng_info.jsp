@@ -70,12 +70,12 @@
 										<tr>
 											<td></td>
 											<td>Manager :</td>
-											<td><span id='span-info-name-mng-honf'></span><span id='span-info-mng'></span><span id='span-info-name-mng-locale'></span></td>
+											<td><span id='span-info-name-mng-honf'></span><span id='span-info-mng'>-</span><span id='span-info-name-mng-locale'></span></td>
 										</tr>
 										<tr>
 											<td></td>
 											<td>Manager E-mail :</td>
-											<td><span id='span-info-mng-email'></span></td>
+											<td><span id='span-info-mng-email'>-</span></td>
 										</tr>
 									</tbody>
 								</table>

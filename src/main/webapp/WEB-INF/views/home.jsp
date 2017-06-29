@@ -333,8 +333,8 @@
 		src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
 	<jsp:include page="manage/modal_editself.jsp" />
 	<jsp:include page="manage/modal_pickmng.jsp" />
-	<jsp:include page="manage/modal_viewstaff.jsp" />
-	<jsp:include page="manage/modal_viewstaff_info.jsp" />
+	<jsp:include page="home_include/modal_viewtotal.jsp" />
+	<jsp:include page="home_include/modal_viewstaff_info.jsp" />
 	<script type="text/javascript">
 	/* initial stuffs */
 	var staffsTable; /* Data Table */
@@ -650,14 +650,17 @@
 	    var division = val.division;
 	    var position = val.position;
 	    var manager = findManagerByManagerId(val.hostManagerId); //<-Better than 3 lines below.
-	    log(manager);
+	    log("manager : " + (manager === undefined));
+	    var hostManagerId = val.hostManagerId;
 	    var hostManagerName = val.hostManagerName; //<-Defauq?
 	    var hostManagerNameLocale = val.hostManagerNameLocale; //<-Defauq?
 	    var hostManagerEmail = val.hostManagerEmail; //<-Defauq?
 	    var staffType = val.staffType;
 	    var startWorkingDate = val.startWorkingDate;
-		$('#span-info-workingdate').html(startWorkingDate!=null?startWorkingDate:"Not Available");
-		
+	    $('#span-info-workingdate').html(
+		    startWorkingDate != null ? startWorkingDate
+			    : "Not Available");
+
 	    var staffId = val.staffId;
 	    $('#h4-view-staff-info-title').html("Information of " + name);
 	    $('#span-info-staffid').html(staffId);
@@ -677,29 +680,26 @@
 	    $('#span-info-position').html(position);
 	    if (staffType != 'm') {
 		$('#table-staff-mng-info').show();
-		if (manager != null) {
+		if (manager !== undefined) {
+		    console.log("manager : " + manager);
 		    $('#span-info-name-mng-honf')
 			    .html(manager.honorific + ". ");
-		}
-
-		$('#span-info-mng').html(
-			hostManagerName != null ? hostManagerName : '-');
-		if (hostManagerNameLocale != null) {
+		    $('#span-info-mng').html(hostManagerName);
 		    $('#span-info-name-mng-locale').html(
 			    " <br/>(" + hostManagerNameLocale + ")");
-		}
-		$('#span-info-mng-email').html(
-			hostManagerEmail != null ? hostManagerEmail : '-');
-		if (hostManagerName != null) {
 		    $('#span-info-mng-email').html(hostManagerEmail);
-
+		    $('#btn-view-thismng').data("managerId", hostManagerId);
+		} else {
+		    $('#span-info-name-mng-honf').html("");
+		    $('#span-info-name-mng-locale').html("");
+		    $('#span-info-mng').html("-");
+		    $('#span-info-mng-email').html("-");
 		}
 	    } else {
 		$('#table-staff-mng-info').hide();
-		$('#span-info-mng').html(
-			hostManagerName != null ? hostManagerName : '-');
 	    }
 	    $('#modal-view-staff-info').modal();
+
 	}
 
 	function log(str) {
