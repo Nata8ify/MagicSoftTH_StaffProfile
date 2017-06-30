@@ -30,7 +30,8 @@
 											<td></td>
 											<td>Name & Surname :</td>
 											<td><span id='span-mnginfo-name-honf'></span><span
-												id='span-mnginfo-name'></span> <span id='span-mnginfo-name-locale'></span></td>
+												id='span-mnginfo-name'></span> <span
+												id='span-mnginfo-name-locale'></span></td>
 										</tr>
 										<tr>
 											<td></td>
@@ -74,7 +75,22 @@
 						</div>
 						<div class='row'>
 							<div class='col-lg-12'>
-								<hr/>
+								<hr />
+								<div class="col-lg-12">
+									<table
+											class='table table-ressponsive table-hover table-striped'
+											id='table-mng-staff-list' style="text-align: left;">
+											<thead>
+												<tr>
+													<th>Staff ID</th>
+													<th>Name and Surname</th>
+													<th>E-mail Address</th>
+												</tr>
+											</thead>
+											<tbody>
+											</tbody>
+										</table>
+								</div>
 							</div>
 						</div>
 

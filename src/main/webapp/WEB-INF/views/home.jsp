@@ -40,7 +40,7 @@
 	padding: 5px;
 }
 
-#table-search-staff-list tbody tr:hover, #table-total-staff tbody tr:hover
+#table-search-staff-list tbody tr:hover, #table-total-staff tbody tr:hover, #table-mng-staff-list tr:hover
 	{
 	cursor: pointer;
 }
@@ -546,7 +546,6 @@
 		    }
 		    if (val.staffId == searchElement) {
 			tmpSearchStaffOrMng = val;
-
 		    }
 		});
 		log(tmpSearchStaffOrMng);
@@ -570,6 +569,7 @@
 			    .toUpperCase()) {
 			/* TODO FOund Staff */
 			tmpSearchStaffOrMng = val;
+			
 			renderStaffInfoModal(val);
 
 		    }
@@ -593,16 +593,10 @@
 		}
 		$.each(staffList, function(index, val) {
 		    tmpSearchStaffs.push(val);
-		    /* TODO FOund Staff */
 		    renderRowStaffSearchResult(val, tableResultBody);
 		});
 		isEmpty = false;
 		$('#h2-view-staff-topic').html("Magic Software Staff's Board.");
-
-		log(managers);
-		log(staffs);
-		/* TODO Render */
-
 		break;
 	    default: //TODO
 	    }
@@ -614,6 +608,14 @@
 	    }
 	}
 
+	function renderDialogToMode(staff){
+	    if (staff.staffType === 's') {
+		    renderStaffInfoModal(staff);
+		} else if (staff.staffType === 'm') {
+		    renderManagerInfoModal(staff);
+		}
+	}
+	
 	/* For Render a Set of Result as Table's Row */
 	function renderRowStaffSearchResult(val, tableResultBody) {
 	    tmpSearcTotalStaffs.push(val);
@@ -634,12 +636,7 @@
 		    + honorific + " " + name + nameLocaleFmt + "</td><td>"
 		    + email + "</td></tr>");
 	    tableResultBody.append(rowResultBody.click(function() {
-		if(staffType === 's'){
-		    renderStaffInfoModal(val);
-		} else if(staffType === 'm'){
-		    renderManagerInfoModal(val);
-		}
-		
+		renderDialogToMode(val);
 	    }));
 	}
 
@@ -695,17 +692,19 @@
 		    $('#span-info-mng-email').html(hostManagerEmail);
 		    $('#btn-view-thismng').data("managerId", manager.staffId); //Keep manager in data-manager.
 		} else {
+		    $("#btn-view-thismng").prop("hidden", true);
 		    $('#span-info-name-mng-honf').html("");
 		    $('#span-info-name-mng-locale').html("");
 		    $('#span-info-mng').html("-");
 		    $('#span-info-mng-email').html("-");
+		    $('#btn-view-thismng').data("managerId", null); //Keep 'null' in data-manager.
 		}
 	    } else {
 		$('#table-staff-mng-info').hide();
 	    }
 	    $('#modal-view-staff-info').modal();
 	}
-	
+
 	/* For Render Selected Manager Information.*/
 	function renderManagerInfoModal(val) {
 	    var protraitPath = val.protraitPath == null ? 'noimg.png'
@@ -743,11 +742,12 @@
 	    }
 	    $('#span-mnginfo-email').html(email);
 	    $('#span-mnginfo-tel').html(tel);
-	    $('#span-mnginfo-mobileTel').html(mobileTel == null ? '' : mobileTel);
+	    $('#span-mnginfo-mobileTel').html(
+		    mobileTel == null ? '' : mobileTel);
 	    $('#span-mnginfo-division').html(division);
 	    $('#span-mnginfo-position').html(position);
-	    
-	    $("#modal-view-manager-info").modal();  
+
+	    $("#modal-view-manager-info").modal();
 	}
 
 	function log(str) {
@@ -791,27 +791,34 @@
 
 	/* Method's Name says Everythings. */
 	function findManagerByManagerId(managerId) {
-	    var manager;
+	    var manager = null;
 	    $.each(managers, function(index, val) {
 		if (val.staffId == managerId) {
 		    manager = val;
 		}
 	    });
-	    if(manager === undefined){return null;}
+	    if (manager === undefined) {
+		return null;
+	    }
 	    return manager;
 	}
     </script>
 	<script type="text/javascript">
-    	/** LISTENER **/
-    	/* #btn-view-thismng : Listening View Manager Info Nutton */
-    	$("#btn-view-thismng").click(function(){
-    	    $("#modal-view-staff-info").removeClass('show');
-    	    $("body").addClass('modal-open');
-    	var manager = findManagerByManagerId($(this).data("managerId"));
-    	renderManagerInfoModal(manager);
-    	log("manager : "+manager.name);
-    	    	    
-    	});
+	/** LISTENER **/
+	/* #btn-view-thismng : Listening View Manager Info Nutton */
+	$("#btn-view-thismng").click(function() {
+	    $("#table-mng-staff-list").empty();
+	    var manager = findManagerByManagerId($(this).data("managerId"));
+	    log("is null "+manager==null);
+	    if(manager === null){alert("No Result of Manager of this Staff."); return;}
+	    $.each(staffList, function(index, val) {
+		if (val.hostManagerId == manager.staffId) {
+		    renderRowStaffSearchResult(val, $("#table-mng-staff-list"));
+		}});
+	    renderManagerInfoModal(manager);
+	    log("manager : " + manager.name);
+
+	});
     </script>
 </body>
 </html>
