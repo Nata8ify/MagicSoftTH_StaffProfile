@@ -1,6 +1,6 @@
 <!-- Staff Info Results Modals -->
 <div class=" modal fade" id="modal-view-staff-info" role="dialog"
-	aria-hidden="true" style="z-index: 1041">
+	aria-hidden="true" >
 	<div class="modal-content" tabindex="-2">
 		<div class="close-modal" data-dismiss="modal">
 			<div class="lr">

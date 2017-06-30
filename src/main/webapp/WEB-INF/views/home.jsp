@@ -348,6 +348,7 @@
 	$(document)
 		.ready(
 			function() {
+			    
 			    $.ajax({
 				"url" : "viewAllStaffs?json=true",
 				"success" : function(slist) {
@@ -565,16 +566,16 @@
 		$.each(staffList, function(index, val) {
 		    if (val.staffId.toUpperCase() == searchElement
 			    .toUpperCase()) {
-			/* TODO FOund Staff */
 			tmpSearchStaffOrMng = val;
-			renderStaffInfoModal(val, true);
-
 		    }
 		});
 		log(tmpSearchStaffOrMng);
 		/* TODO Render */
 		if (tmpSearchStaffOrMng != null) {
-		    $('#modal-view-staff-info').modal();
+		    switch(tmpSearchStaffOrMng.staffType){
+			case 's' : renderStaffInfoModal(tmpSearchStaffOrMng, true); break;
+			case 'm' : prependStaffsManagerDialog(tmpSearchStaffOrMng.staffId); break;
+			}
 		} else {
 		    alert(searchElement + " is Not Found.");
 		}
@@ -694,6 +695,7 @@
 			$('#span-info-name-mng-locale').html(
 				" <br/>(" + hostManagerNameLocale + ")");
 			$('#span-info-mng-email').html(hostManagerEmail);
+			$('#btn-view-thismng').prop("disabled", false);
 			$('#btn-view-thismng').data("managerId",
 				manager.staffId); //Keep manager in data-manager.
 		    } else {
@@ -701,6 +703,7 @@
 			$('#span-info-name-mng-locale').html("");
 			$('#span-info-mng').html("-");
 			$('#span-info-mng-email').html("-");
+			$('#btn-view-thismng').prop("disabled", true);
 		    }
 		} else {
 		    $('#table-staff-mng-info').hide();
@@ -823,12 +826,12 @@
 	/* #btn-view-thismng : Listening View Manager Info Nutton */
 	var staffsMngTable;
 	$("#btn-view-thismng").click(function() {
+	    $("#modal-view-staff-info").modal("hide");
 	    prependStaffsManagerDialog($(this).data("managerId"));
 	});
 	function prependStaffsManagerDialog(managerId) {
 	    var manager = findManagerByManagerId(managerId);
 	    renderManagerInfoModal(manager);
-	    $("#modal-view-staff-info").modal("hide");
 	    setTimeout(() => {
 		var mngStaffs = findStaffByManagerId(manager.staffId);
 		    if (staffsMngTable == undefined) {

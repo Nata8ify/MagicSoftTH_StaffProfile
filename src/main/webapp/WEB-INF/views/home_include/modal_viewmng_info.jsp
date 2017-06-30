@@ -1,5 +1,5 @@
 <!-- Staff Info Results Modals -->
-<div class="portfolio-modal modal fade" id="modal-view-manager-info" role="dialog"
+<div class="modal fade" id="modal-view-manager-info" role="dialog"
 	aria-hidden="true" >
 	<div class="modal-content" tabindex="-2">
 		<div class="close-modal" data-dismiss="modal">
