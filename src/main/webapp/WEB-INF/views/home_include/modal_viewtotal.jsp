@@ -1,4 +1,4 @@
-<div class="portfolio-modal modal fade" id="modal-view-staff">
+<div class="modal fade" id="modal-view-staff">
 	<div class="modal-content">
 		<div class="close-modal" data-dismiss="modal">
 			<div class="lr">
