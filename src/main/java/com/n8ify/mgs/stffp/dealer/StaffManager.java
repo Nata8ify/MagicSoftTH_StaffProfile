@@ -253,7 +253,7 @@ public class StaffManager implements StaffManagementInterface {
 			staff.setHostManagerId(rs.getString("hostManagerId"));
 			staff.setStaffType(rs.getString("staffType"));
 			staff.setBirthDate(rs.getDate("birthDate"));
-			staff.setStartWorkingDate(rs.getDate("birthDate"));
+			staff.setStartWorkingDate(rs.getDate("startWorkingDate"));
 			staff.setHostManagerName(rs.getString("managerName"));
 			staff.setHostManagerNameLocale(rs.getString("managerNameLocale"));
 			staff.setHostManagerEmail(rs.getString("managerEmail"));

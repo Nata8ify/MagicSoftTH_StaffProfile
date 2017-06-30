@@ -1,6 +1,6 @@
 <!-- Staff Info Results Modals -->
-<div class="modal fade" id="modal-view-manager-info" role="dialog"
-	aria-hidden="true">
+<div class="portfolio-modal modal fade" id="modal-view-manager-info" role="dialog"
+	aria-hidden="true" >
 	<div class="modal-content" tabindex="-2">
 		<div class="close-modal" data-dismiss="modal">
 			<div class="lr">
@@ -76,8 +76,8 @@
 						<div class='row'>
 							<div class='col-lg-12'>
 								<hr />
-								<table id='table-mng-staffs' style="text-align: left; width: 100%"
-									class='hover'>
+								<table id='table-mng-staffs'
+									style="text-align: left; width: 100%" class='hover'>
 									<thead>
 										<tr>
 											<th>Staff ID</th>
@@ -106,3 +106,13 @@
 		</div>
 	</div>
 </div>
+<script>
+	$("#table-mng-staffs").on("click", "tbody tr", function(evt){
+	    var rowData = staffsMngTable.row($(this)).data();
+	    setTimeout(() => {
+		renderStaffInfoModal(rowData, false);
+	    }, 500);
+	    log(rowData);
+	});
+	
+</script>

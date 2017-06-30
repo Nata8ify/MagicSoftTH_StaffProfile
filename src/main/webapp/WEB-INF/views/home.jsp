@@ -40,8 +40,8 @@
 	padding: 5px;
 }
 
-#table-search-staff-list tbody tr:hover, #table-total-staff tbody tr:hover
-	{
+#table-search-staff-list tbody tr:hover, #table-total-staff tbody tr:hover,
+	#table-mng-staffs tbody tr:hover {
 	cursor: pointer;
 }
 </style>
@@ -69,7 +69,7 @@
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav navbar-right">
 					<li class="hidden"><a href="#page-top"></a></li>
-					<li class="page-scroll"><a href="#home">Staff List</a></li>
+					<li class="page-scroll"><a href="#home">Staffs</a></li>
 					<li class="page-scroll"><a href="#search">Search</a></li>
 					${thisStaff.staffType == 'm'?'<li class="page-scroll" ><a href="#a-view-my-staff" id="a-view-my-staff" >My Staff</a></li>':''}
 					<li class="page-scroll">${thisStaff.name==null?'<a href="#signin">Sign in</a>': '<a href="logout" style="color:red">Sign Out</a>'}</li>
@@ -559,9 +559,6 @@
 			    + "].";
 		    isEmpty = true;
 		}
-
-		log(tmpSearchStaffOrMng);
-		log(tmpSearchStaffs);
 		break;
 	    case 'staffid':
 		tmpSearchStaffOrMng = null;
@@ -570,7 +567,7 @@
 			    .toUpperCase()) {
 			/* TODO FOund Staff */
 			tmpSearchStaffOrMng = val;
-			renderStaffInfoModal(val);
+			renderStaffInfoModal(val, true);
 
 		    }
 		});
@@ -635,7 +632,7 @@
 		    + email + "</td></tr>");
 	    tableResultBody.append(rowResultBody.click(function() {
 		if (staffType === 's') {
-		    renderStaffInfoModal(val);
+		    renderStaffInfoModal(val, true);
 		} else if (staffType === 'm') {
 		    renderManagerInfoModal(val);
 		}
@@ -644,7 +641,8 @@
 	}
 
 	/* For Render Selected Staff Information. [Bind 'val' On renderRowStaffSearchResult]*/
-	function renderStaffInfoModal(val) {
+	function renderStaffInfoModal(val, isMngViewInclude) {
+
 	    var protraitPath = val.protraitPath == null ? 'noimg.png'
 		    : val.protraitPath;
 	    var honorific = val.honorific;
@@ -662,48 +660,55 @@
 	    var hostManagerEmail = val.hostManagerEmail; //<-Defauq?
 	    var staffType = val.staffType;
 	    var startWorkingDate = val.startWorkingDate;
-	    $('#span-info-workingdate').html(
-		    startWorkingDate != null ? startWorkingDate
-			    : "Not Available");
+	    if (true) {
+		$('#span-info-workingdate').html(
+			startWorkingDate != null ? startWorkingDate
+				: "Not Available");
 
-	    var staffId = val.staffId;
-	    $('#h4-view-staff-info-title').html("Information of " + name);
-	    $('#span-info-staffid').html(staffId);
-	    $('#img-info-portrait').attr('src',
-		    "${contextPath}/resources/portraits/" + protraitPath);
-	    $('#span-info-name-honf').html(honorific + ". ");
-	    $('#span-info-name').html(name);
-	    /* $('#pan-info-name-local-honf').html(""); */
-	    if (nameLocale != "" || nameLocale != null) {
-		$('#span-info-name-locale').html(
-			nameLocale == "" ? "" : ("<br/>(" + nameLocale + ")"));
-	    }
-	    $('#span-info-email').html(email);
-	    $('#span-info-tel').html(tel);
-	    $('#span-info-mobileTel').html(mobileTel == null ? '' : mobileTel);
-	    $('#span-info-division').html(division);
-	    $('#span-info-position').html(position);
-	    if (staffType === 's') {
-		$('#table-staff-mng-info').show();
-		if (manager !== null) {
-		    console.log("manager : " + manager);
-		    $('#span-info-name-mng-honf')
-			    .html(manager.honorific + ". ");
-		    $('#span-info-mng').html(hostManagerName);
-		    $('#span-info-name-mng-locale').html(
-			    " <br/>(" + hostManagerNameLocale + ")");
-		    $('#span-info-mng-email').html(hostManagerEmail);
-		    $('#btn-view-thismng').data("managerId", manager.staffId); //Keep manager in data-manager.
-		} else {
-		    $('#span-info-name-mng-honf').html("");
-		    $('#span-info-name-mng-locale').html("");
-		    $('#span-info-mng').html("-");
-		    $('#span-info-mng-email').html("-");
+		var staffId = val.staffId;
+		$('#h4-view-staff-info-title').html("Information of " + name);
+		$('#span-info-staffid').html(staffId);
+		$('#img-info-portrait').attr('src',
+			"${contextPath}/resources/portraits/" + protraitPath);
+		$('#span-info-name-honf').html(honorific + ". ");
+		$('#span-info-name').html(name);
+		/* $('#pan-info-name-local-honf').html(""); */
+		if (nameLocale != "" || nameLocale != null) {
+		    $('#span-info-name-locale').html(
+			    nameLocale == "" ? ""
+				    : ("<br/>(" + nameLocale + ")"));
 		}
-	    } else {
-		$('#table-staff-mng-info').hide();
+		$('#span-info-email').html(email);
+		$('#span-info-tel').html(tel);
+		$('#span-info-mobileTel').html(
+			mobileTel == null ? '' : mobileTel);
+		$('#span-info-division').html(division);
+		$('#span-info-position').html(position);
+		if (staffType === 's') {
+		    $('#table-staff-mng-info').show();
+		    if (manager !== null) {
+			console.log("manager : " + manager);
+			$('#span-info-name-mng-honf').html(
+				manager.honorific + ". ");
+			$('#span-info-mng').html(hostManagerName);
+			$('#span-info-name-mng-locale').html(
+				" <br/>(" + hostManagerNameLocale + ")");
+			$('#span-info-mng-email').html(hostManagerEmail);
+			$('#btn-view-thismng').data("managerId",
+				manager.staffId); //Keep manager in data-manager.
+		    } else {
+			$('#span-info-name-mng-honf').html("");
+			$('#span-info-name-mng-locale').html("");
+			$('#span-info-mng').html("-");
+			$('#span-info-mng-email').html("-");
+		    }
+		} else {
+		    $('#table-staff-mng-info').hide();
+		}
+		$('#modal-view-staff-info').modal();
+	    } else{
+		log(false);
 	    }
-	    $('#modal-view-staff-info').modal();
 	}
 
 	/* For Render Selected Manager Information.*/
@@ -818,28 +823,38 @@
 	/* #btn-view-thismng : Listening View Manager Info Nutton */
 	var staffsMngTable;
 	$("#btn-view-thismng").click(function() {
-	    var manager = findManagerByManagerId($(this).data("managerId"));
-	    renderManagerInfoModal(manager);
-
-	    var mngStaffs = findStaffByManagerId(manager.staffId);
-	    log(mngStaffs);
-	    staffsMngTable = $("#table-mng-staffs").DataTable({
-		"data" : mngStaffs,
-		"columns" : [ {
-		    "data" : "staffId",
-		    "width" : "20%"
-		}, {
-		    "data" : "name",
-		    "width" : "30%"
-		}, {
-		    "data" : "nameLocale",
-		    "width" : "30%"
-		}, {
-		    "data" : "email",
-		    "width" : "20%"
-		} ]
-	    });
+	    prependStaffsManagerDialog($(this).data("managerId"));
 	});
+	function prependStaffsManagerDialog(managerId) {
+	    var manager = findManagerByManagerId(managerId);
+	    renderManagerInfoModal(manager);
+	    $("#modal-view-staff-info").modal("hide");
+	    setTimeout(() => {
+		var mngStaffs = findStaffByManagerId(manager.staffId);
+		    if (staffsMngTable == undefined) {
+			staffsMngTable = $("#table-mng-staffs").DataTable({
+			    "data" : mngStaffs,
+			    "columns" : [ {
+				"data" : "staffId",
+				"width" : "20%"
+			    }, {
+				"data" : "name",
+				"width" : "30%"
+			    }, {
+				"data" : "nameLocale",
+				"width" : "30%"
+			    }, {
+				"data" : "email",
+				"width" : "20%"
+			    } ]
+			});
+		    } else {
+			staffsMngTable.clear().draw();
+			staffsMngTable.rows.add(mngStaffs);
+			staffsMngTable.columns.adjust().draw();
+		    }
+	    }, 700);
+	}
     </script>
 </body>
 </html>

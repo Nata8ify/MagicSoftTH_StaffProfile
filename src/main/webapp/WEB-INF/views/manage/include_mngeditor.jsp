@@ -263,7 +263,6 @@
 					'tr .mng-bind',
 					function() {
 						var mngSelectedRowData = managersDataTable.row($(this).parents('tr')).data();
-						console.log(mngSelectedRowData.staffId);
 						$.ajax({
 							"url" : "${pageContext.request.contextPath}/searchMngsStaff?json=true&managerId="
 									+ mngSelectedRowData.staffId,
