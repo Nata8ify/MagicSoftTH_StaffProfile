@@ -12,10 +12,10 @@
 				<div class="col-lg-12">
 					<div class="modal-body" style='margin: auto'
 						id='modal-search-result'>
-						<h4 id='h4-view-staff-info-title'>TITLE</h4>
+						<h4 id='h4-view-mng-info-title'>TITLE</h4>
 						<div class='row' style="vertical-align: middle;">
 							<div class='col-sm-2' style="vertical-align: middle;">
-								<img id='img-info-portrait' width='150px'
+								<img id='img-mnginfo-portrait' width='150px'
 									class='img img-responsive' />
 							</div>
 							<div class='col-sm-5'>
@@ -24,28 +24,28 @@
 										<tr>
 											<td></td>
 											<td>Staff ID :</td>
-											<td><span id='span-info-staffid'></span></td>
+											<td><span id='span-mnginfo-staffid'></span></td>
 										</tr>
 										<tr>
 											<td></td>
 											<td>Name & Surname :</td>
-											<td><span id='span-info-name-honf'></span><span
-												id='span-info-name'></span> <span id='span-info-name-locale'></span></td>
+											<td><span id='span-mnginfo-name-honf'></span><span
+												id='span-mnginfo-name'></span> <span id='span-mnginfo-name-locale'></span></td>
 										</tr>
 										<tr>
 											<td></td>
 											<td>Department :</td>
-											<td><span id='span-info-division'></span></td>
+											<td><span id='span-mnginfo-division'></span></td>
 										</tr>
 										<tr>
 											<td></td>
 											<td>Position :</td>
-											<td><span id='span-info-position'></span></td>
+											<td><span id='span-mnginfo-position'></span></td>
 										</tr>
 										<tr>
 											<td></td>
 											<td>Working date :</td>
-											<td><span id='span-info-workingdate'></span></td>
+											<td><span id='span-mnginfo-workingdate'></span></td>
 										</tr>
 									</tbody>
 								</table>
@@ -56,17 +56,17 @@
 										<tr>
 											<td></td>
 											<td>E-mail :</td>
-											<td><span id='span-info-email'></span></td>
+											<td><span id='span-mnginfo-email'></span></td>
 										</tr>
 										<tr>
 											<td></td>
 											<td>Tel. :</td>
-											<td><span id='span-info-tel'></span></td>
+											<td><span id='span-mnginfo-tel'></span></td>
 										</tr>
 										<tr>
 											<td></td>
 											<td>Mobile No. :</td>
-											<td><span id='span-info-mobileTel'></span></td>
+											<td><span id='span-mnginfo-mobileTel'></span></td>
 										</tr>
 									</tbody>
 								</table>

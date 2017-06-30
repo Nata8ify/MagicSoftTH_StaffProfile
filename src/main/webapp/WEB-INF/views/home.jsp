@@ -634,7 +634,12 @@
 		    + honorific + " " + name + nameLocaleFmt + "</td><td>"
 		    + email + "</td></tr>");
 	    tableResultBody.append(rowResultBody.click(function() {
-		renderStaffInfoModal(val);
+		if(staffType === 's'){
+		    renderStaffInfoModal(val);
+		} else if(staffType === 'm'){
+		    renderManagerInfoModal(val);
+		}
+		
 	    }));
 	}
 
@@ -678,9 +683,9 @@
 	    $('#span-info-mobileTel').html(mobileTel == null ? '' : mobileTel);
 	    $('#span-info-division').html(division);
 	    $('#span-info-position').html(position);
-	    if (staffType != 'm') {
+	    if (staffType === 's') {
 		$('#table-staff-mng-info').show();
-		if (manager !== undefined) {
+		if (manager !== null) {
 		    console.log("manager : " + manager);
 		    $('#span-info-name-mng-honf')
 			    .html(manager.honorific + ". ");
@@ -699,7 +704,50 @@
 		$('#table-staff-mng-info').hide();
 	    }
 	    $('#modal-view-staff-info').modal();
+	}
+	
+	/* For Render Selected Manager Information.*/
+	function renderManagerInfoModal(val) {
+	    var protraitPath = val.protraitPath == null ? 'noimg.png'
+		    : val.protraitPath;
+	    var honorific = val.honorific;
+	    var name = val.name;
+	    var nameLocale = val.nameLocale;
+	    var email = val.email;
+	    var tel = val.tel;
+	    var mobileTel = val.mobileTel;
+	    var division = val.division;
+	    var position = val.position;
+	    var manager = findManagerByManagerId(val.hostManagerId); //<-Better than 3 lines below.
+	    var hostManagerId = val.hostManagerId;
+	    var hostManagerName = val.hostManagerName; //<-Defauq?
+	    var hostManagerNameLocale = val.hostManagerNameLocale; //<-Defauq?
+	    var hostManagerEmail = val.hostManagerEmail; //<-Defauq?
+	    var staffType = val.staffType;
+	    var startWorkingDate = val.startWorkingDate;
+	    $('#span-mnginfo-workingdate').html(
+		    startWorkingDate != null ? startWorkingDate
+			    : "Not Available");
 
+	    var staffId = val.staffId;
+	    $('#h4-view-mng-info-title').html("Information of " + name);
+	    $('#span-mnginfo-staffid').html(staffId);
+	    $('#img-mnginfo-portrait').attr('src',
+		    "${contextPath}/resources/portraits/" + protraitPath);
+	    $('#span-mnginfo-name-honf').html(honorific + ". ");
+	    $('#span-mnginfo-name').html(name);
+	    /* $('#pan-info-name-local-honf').html(""); */
+	    if (nameLocale != "" || nameLocale != null) {
+		$('#span-mnginfo-name-locale').html(
+			nameLocale == "" ? "" : ("<br/>(" + nameLocale + ")"));
+	    }
+	    $('#span-mnginfo-email').html(email);
+	    $('#span-mnginfo-tel').html(tel);
+	    $('#span-mnginfo-mobileTel').html(mobileTel == null ? '' : mobileTel);
+	    $('#span-mnginfo-division').html(division);
+	    $('#span-mnginfo-position').html(position);
+	    
+	    $("#modal-view-manager-info").modal();  
 	}
 
 	function log(str) {
@@ -753,14 +801,16 @@
 	    return manager;
 	}
     </script>
-    <script type="text/javascript">
+	<script type="text/javascript">
     	/** LISTENER **/
     	/* #btn-view-thismng : Listening View Manager Info Nutton */
     	$("#btn-view-thismng").click(function(){
-    	    log("ID : "+$(this).data("managerId"));
+    	    $("#modal-view-staff-info").removeClass('show');
+    	    $("body").addClass('modal-open');
     	var manager = findManagerByManagerId($(this).data("managerId"));
-    	renderStaffInfoModal(manager);
-    	    $("#modal-view-manager-info").modal("show");    	    
+    	renderManagerInfoModal(manager);
+    	log("manager : "+manager.name);
+    	    	    
     	});
     </script>
 </body>
