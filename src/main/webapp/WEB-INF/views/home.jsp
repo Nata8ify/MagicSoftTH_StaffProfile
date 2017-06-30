@@ -634,12 +634,12 @@
 		    + honorific + " " + name + nameLocaleFmt + "</td><td>"
 		    + email + "</td></tr>");
 	    tableResultBody.append(rowResultBody.click(function() {
-		if(staffType === 's'){
+		if (staffType === 's') {
 		    renderStaffInfoModal(val);
-		} else if(staffType === 'm'){
+		} else if (staffType === 'm') {
 		    renderManagerInfoModal(val);
 		}
-		
+
 	    }));
 	}
 
@@ -705,7 +705,7 @@
 	    }
 	    $('#modal-view-staff-info').modal();
 	}
-	
+
 	/* For Render Selected Manager Information.*/
 	function renderManagerInfoModal(val) {
 	    var protraitPath = val.protraitPath == null ? 'noimg.png'
@@ -743,11 +743,12 @@
 	    }
 	    $('#span-mnginfo-email').html(email);
 	    $('#span-mnginfo-tel').html(tel);
-	    $('#span-mnginfo-mobileTel').html(mobileTel == null ? '' : mobileTel);
+	    $('#span-mnginfo-mobileTel').html(
+		    mobileTel == null ? '' : mobileTel);
 	    $('#span-mnginfo-division').html(division);
 	    $('#span-mnginfo-position').html(position);
-	    
-	    $("#modal-view-manager-info").modal();  
+
+	    $("#modal-view-manager-info").modal();
 	}
 
 	function log(str) {
@@ -797,21 +798,48 @@
 		    manager = val;
 		}
 	    });
-	    if(manager === undefined){return null;}
+	    if (manager === undefined) {
+		return null;
+	    }
 	    return manager;
+	}
+	function findStaffByManagerId(managerId) {
+	    var mngStaffs = [];
+	    $.each(staffList, function(index, val) {
+		if (val.hostManagerId == managerId) {
+		    mngStaffs.push(val);
+		}
+	    });
+	    return mngStaffs;
 	}
     </script>
 	<script type="text/javascript">
-    	/** LISTENER **/
-    	/* #btn-view-thismng : Listening View Manager Info Nutton */
-    	$("#btn-view-thismng").click(function(){
-    	    $("#modal-view-staff-info").removeClass('show');
-    	    $("body").addClass('modal-open');
-    	var manager = findManagerByManagerId($(this).data("managerId"));
-    	renderManagerInfoModal(manager);
-    	log("manager : "+manager.name);
-    	    	    
-    	});
+	/** LISTENER **/
+	/* #btn-view-thismng : Listening View Manager Info Nutton */
+	var staffsMngTable;
+	$("#btn-view-thismng").click(function() {
+	    var manager = findManagerByManagerId($(this).data("managerId"));
+	    renderManagerInfoModal(manager);
+
+	    var mngStaffs = findStaffByManagerId(manager.staffId);
+	    log(mngStaffs);
+	    staffsMngTable = $("#table-mng-staffs").DataTable({
+		"data" : mngStaffs,
+		"columns" : [ {
+		    "data" : "staffId",
+		    "width" : "20%"
+		}, {
+		    "data" : "name",
+		    "width" : "30%"
+		}, {
+		    "data" : "nameLocale",
+		    "width" : "30%"
+		}, {
+		    "data" : "email",
+		    "width" : "20%"
+		} ]
+	    });
+	});
     </script>
 </body>
 </html>
