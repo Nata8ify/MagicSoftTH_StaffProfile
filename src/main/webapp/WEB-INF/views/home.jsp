@@ -88,6 +88,18 @@
 						<h1 class="name">MST Staff Profile</h1>
 						<hr />
 					</div> -->
+					<div class="row">
+						<div class="col-sm-1">View for :</div>
+						<div class="col-sm-4">
+							<select id="select-filter-staff-type" class="form-control"
+								style="color: black">
+								<option value="all">All</option>
+								<option value="s">Staff</option>
+								<option value="m">Manager</option>
+							</select> <br />
+						</div>
+						<div class="col-sm-7"></div>
+					</div>
 					<div class='row well' style="color: #000;">
 						<table id='table-total-staff' style="text-align: left;"
 							class='hover'>
@@ -334,8 +346,8 @@
 	<jsp:include page="manage/modal_editself.jsp" />
 	<jsp:include page="manage/modal_pickmng.jsp" />
 	<jsp:include page="home_include/modal_viewtotal.jsp" />
-	<jsp:include page="home_include/modal_viewstaff_info.jsp" />
 	<jsp:include page="home_include/modal_viewmng_info.jsp" />
+	<jsp:include page="home_include/modal_viewstaff_info.jsp" />
 	<script type="text/javascript">
 	/* initial stuffs */
 	var staffsTable; /* Data Table */
@@ -798,31 +810,19 @@
 		    $('#btn-search').prop('disabled', true);
 		});
 
-	/* Method's Name says Everythings. */
-	function findManagerByManagerId(managerId) {
-	    var manager;
-	    $.each(managers, function(index, val) {
-		if (val.staffId == managerId) {
-		    manager = val;
-		}
-	    });
-	    if (manager === undefined) {
-		return null;
-	    }
-	    return manager;
-	}
-	function findStaffByManagerId(managerId) {
-	    var mngStaffs = [];
-	    $.each(staffList, function(index, val) {
-		if (val.hostManagerId == managerId) {
-		    mngStaffs.push(val);
-		}
-	    });
-	    return mngStaffs;
-	}
+	
     </script>
 	<script type="text/javascript">
 	/** LISTENER **/
+	/* #select-filter-staff-type : Filter the type of Staff Requested to View.*/
+	$("#select-filter-staff-type").change(function(){
+	    switch($(this).val()){
+	    case "all" : updateMainStaffTable(staffsTable, staffList); break;
+	    case "s" : updateMainStaffTable(staffsTable, staffs); break;
+	    case "m" : updateMainStaffTable(staffsTable, managers); break;
+	    }
+	});
+	
 	/* #btn-view-thismng : Listening View Manager Info Nutton */
 	var staffsMngTable;
 	$("#btn-view-thismng").click(function() {
@@ -851,13 +851,45 @@
 				"width" : "20%"
 			    } ]
 			});
-		    } else {
+		    } else {/* 
 			staffsMngTable.clear().draw();
 			staffsMngTable.rows.add(mngStaffs);
-			staffsMngTable.columns.adjust().draw();
+			staffsMngTable.columns.adjust().draw(); */
+			updateMainStaffTable(staffsMngTable, mngStaffs);
 		    }
 	    }, 700);
 	}
+    </script>
+	<script>
+    /** Utility Functions  **/
+    function updateMainStaffTable(dataTable, staffs){
+	dataTable.clear().draw();
+	dataTable.rows.add(staffs);
+	dataTable.columns.adjust().draw();
+    }
+    /* Method's Name says Everythings. */
+	function findManagerByManagerId(managerId) {
+	    var manager;
+	    $.each(managers, function(index, val) {
+		if (val.staffId == managerId) {
+		    manager = val;
+		}
+	    });
+	    if (manager === undefined) {
+		return null;
+	    }
+	    return manager;
+	}
+	function findStaffByManagerId(managerId) {
+	    var mngStaffs = [];
+	    $.each(staffList, function(index, val) {
+		if (val.hostManagerId == managerId) {
+		    mngStaffs.push(val);
+		}
+	    });
+	    return mngStaffs;
+	}
+    
     </script>
 </body>
 </html>
