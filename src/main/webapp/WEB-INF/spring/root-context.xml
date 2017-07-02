@@ -5,31 +5,28 @@
 
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<!--Data Source Conf -->
- 		<bean id="mgsdbSource"
+	<bean id="mgsdbSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url"
 			value="jdbc:mysql://54.169.83.168:3306/mgsdb?useUnicode=true&amp;characterEncoding=utf8" />
 		<property name="username" value="mgshost" />
 		<property name="password" value="@Nintendo64" />
-	</bean> 
+	</bean>
 	<!--Production Data Source Conf -->
-	<!--  <bean id="mgsdbSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> 
+	<!-- <bean id="mgsdbSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> 
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" /> <property 
 		name="url" value="jdbc:mysql://localhost/mgsdb?useUnicode=true&amp;characterEncoding=utf8" 
 		/> <property name="username" value="mgshost" /> <property name="password" 
 		value="@Nintendo64" /> </bean> -->
 
 	<!--Dev Local Data Source Conf -->
-<!-- 	<bean id="mgsdbSource"
-		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url"
-			value="jdbc:mysql://localhost:3306/mgsdb?useUnicode=true&amp;characterEncoding=utf8" />
-		<property name="username" value="root" />
-		<property name="password" value="" />
-	</bean>  -->
-	
+	<!-- <bean id="mgsdbSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> 
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" /> <property 
+		name="url" value="jdbc:mysql://localhost:3306/mgsdb?useUnicode=true&amp;characterEncoding=utf8" 
+		/> <property name="username" value="root" /> <property name="password" value="" 
+		/> </bean> -->
+
 	<bean id="staffManager" class="com.n8ify.mgs.stffp.dealer.StaffManager">
 		<property name="dataSource" ref="mgsdbSource" />
 		<property name="forwardMail" ref="forwardMail"></property>
@@ -37,6 +34,10 @@
 
 	<bean id="staffBinder" class="com.n8ify.mgs.stffp.dealer.StaffBinder">
 		<property name="dataSource" ref="mgsdbSource" />
+	</bean>
+
+	<bean id="staffDepartment" class="com.n8ify.mgs.stffp.dealer.StaffDepartmentManagement">
+		<constructor-arg name="dataSource" ref="mgsdbSource"/>
 	</bean>
 
 	<bean id="staffAccess" class="com.n8ify.mgs.stffp.dealer.SttfpAccess">
@@ -62,7 +63,7 @@
 		<property name="port" value="587" />
 		<property name="username" value="fure4ify@gmail.com" />
 		<property name="password" value="412369875" />
-		<property name="defaultEncoding" value="UTF-8"/> 
+		<property name="defaultEncoding" value="UTF-8" />
 		<property name="javaMailProperties">
 			<props>
 				<prop key="mail.smtp.auth">true</prop>

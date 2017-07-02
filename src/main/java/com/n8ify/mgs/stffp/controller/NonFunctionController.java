@@ -13,7 +13,6 @@ import com.n8ify.mgs.stffp.utils.Generator;
 
 @Controller
 public class NonFunctionController {
-
 	private static final Logger logger = LoggerFactory.getLogger(StaffAccessController.class);
 
 	@Autowired
@@ -24,7 +23,7 @@ public class NonFunctionController {
 		model.addAttribute("results", gen.genLatestMGSStaffId());
 		return "result/result";
 	}
-
+/*
 	@RequestMapping(value = "/mp", method = RequestMethod.GET)
 	public String testMultiParam(Model model, @RequestParam(value = "param", required = false) String[] params) {
 		for (String s : params) {
@@ -32,5 +31,5 @@ public class NonFunctionController {
 		}
 		return "result/result";
 	}
-
+*/
 }

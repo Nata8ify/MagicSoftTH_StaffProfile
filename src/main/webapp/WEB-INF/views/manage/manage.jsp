@@ -3,6 +3,7 @@
 <%@page contentType="text/html; charset=UTF-8"%>
 <c:set var="resContextPath"
 	value="${pageContext.request.contextPath}/resources/" />
+<c:set var="context" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -86,7 +87,9 @@
 						<li><a href="managechoice?to=addstaff"><i
 								class="glyphicon glyphicon-plus"></i> Add</a></li>
 						<li><a href="managechoice?to=mngeditor"><i
-								class="glyphicon glyphicon-pencil"></i> Manager Binder</a></li>
+								class="glyphicon glyphicon-pencil"></i> Staff Transfer</a></li>
+						<li><a href="managechoice?to=department"><i
+								class="glyphicon glyphicon-briefcase"></i> Department Manager</a></li>
 						<li><a href="managechoice?to=dangerzone"><i
 								class="glyphicon glyphicon-info-sign"></i> Advance</a></li>
 					</ul>
@@ -105,7 +108,7 @@
 							<jsp:include page="include_addstaff.jsp" />
 						</c:when>
 						<c:when test="${manage == 'dangerzone'}">
-							<jsp:include page="include_dangerzone.jsp" />
+							<jsp:include page="include_advance.jsp" />
 						</c:when>
 						<c:otherwise>
 							<script src="https://momentjs.com/downloads/moment.js"
@@ -128,3 +131,4 @@
 	</footer>
 </body>
 </html>
+
