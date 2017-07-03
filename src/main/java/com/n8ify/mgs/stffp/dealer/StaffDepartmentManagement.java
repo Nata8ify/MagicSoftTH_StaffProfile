@@ -27,9 +27,14 @@ public class StaffDepartmentManagement implements StaffDepartmentManagementInter
 
 	@Override
 	public boolean update(StaffDepartment department) {
+		String sqlFindOldDepartment = "SELECT `department` FROM `StaffDepartment` WHERE `departmentId` = ?;";
 		String sqlUpdate = "UPDATE `StaffDepartment` SET `department`= ? WHERE `departmentId` = ?;";
 		String sqlUpateStaffDivision = "UPDATE `Staff` SET `division` = ? WHERE `division` = ?;";
-		return jdbc.update(sqlUpdate, new Object[]{department.getDepartment(), department.getDepartmentId()}) == 1;
+		String oldDepartment = jdbc.queryForObject(sqlFindOldDepartment, new Object[]{department.getDepartmentId()}, String.class);
+		if(jdbc.update(sqlUpdate, new Object[]{department.getDepartment(), department.getDepartmentId()}) == 1){
+			return jdbc.update(sqlUpateStaffDivision, new Object[]{department.getDepartment(), oldDepartment}) >= 0;
+		}
+		return false;
 	}
 
 	@Override
