@@ -94,7 +94,7 @@
 
 
 						<div class='row'>
-							<div class='col-lg-12'>
+							<div class='col-lg-12' style="text-align: right;">
 								<br>
 								<button style='margin-right: 1%' type="button"
 									class="btn btn-default btn-close-modal" data-dismiss="modal">

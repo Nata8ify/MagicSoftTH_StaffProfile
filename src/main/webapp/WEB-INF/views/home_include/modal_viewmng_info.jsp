@@ -73,9 +73,10 @@
 								</table>
 							</div>
 						</div>
+						
 						<div class='row'>
-							<div class='col-lg-12'>
-								<hr />
+							<div class='col-lg-12'><hr />
+							<br/><h5 id="h5-mng-staff-title"></h5><br/>
 								<table id='table-mng-staffs'
 									style="text-align: left; width: 100%" class='hover'>
 									<thead>
@@ -92,7 +93,7 @@
 						</div>
 
 						<div class='row'>
-							<div class='col-lg-12'>
+							<div class='col-lg-12' style="text-align: right;">
 								<br>
 								<button style='margin-right: 1%' type="button"
 									class="btn btn-default btn-close-modal" data-dismiss="modal">

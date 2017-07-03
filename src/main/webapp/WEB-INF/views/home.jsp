@@ -82,27 +82,25 @@
 	<!-- Header -->
 	<header id='home'>
 		<div class="container" id="maincontent" tabindex="-1">
-			<div class="row ">
-				<div class="col-lg-12">
+			<div class="row well" style="color: black; text-align: left;">
+				<div class="col-lg-2">
 					<!-- 	<div class="intro-text">
 						<h1 class="name">MST Staff Profile</h1>
 						<hr />
 					</div> -->
-					<div class="row">
-						<div class="col-sm-1">View for :</div>
-						<div class="col-sm-4">
-							<select id="select-filter-staff-type" class="form-control"
-								style="color: black">
-								<option value="all">All</option>
-								<option value="s">Staff</option>
-								<option value="m">Manager</option>
-							</select> <br />
-						</div>
-						<div class="col-sm-7"></div>
+					<div class="form-group">
+						<label>View for :</label> <select id="select-filter-staff-type"
+							class="form-control" style="color: black">
+							<option value="all">All</option>
+							<option value="s">Staff</option>
+							<option value="m">Manager</option>
+						</select> <br />
 					</div>
+				</div>
+				<div class="col-lg-10">
 					<div class='row well' style="color: #000;">
 						<table id='table-total-staff' style="text-align: left;"
-							class='hover'>
+							class='hover stripe'>
 							<thead>
 								<tr>
 									<th>Staff ID</th>
@@ -123,86 +121,13 @@
 		</div>
 	</header>
 	<!-- Search Section -->
-	<section id='search'>
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12 text-center">
-					<h2>Search</h2>
-					<hr />
-					<div class="row control-group">
-						<div class='col-xs-3'></div>
-						<div
-							class="form-group col-xs-6 floating-label-form-group controls">
-							<label for="Staff ID" id='label-search'>By Name</label>
-							<div class='input-group'>
-								<span class="input-group-addon"
-									style="background: #eee; border: 0px;"><i
-									class="glyphicon glyphicon-search"></i></span> <input type="text"
-									class="form-control text-center input-lg" placeholder="Search"
-									id="input-search" required maxlength="40"
-									style="background-color: #eee"
-									data-validation-required-message="Please enter a Part of the Staff Name.">
-							</div>
-
-							<!-- 							<input
-								type="button"
-								class="btn btn-default text-center"
-								id="btn-search-bymng"
-								required
-							 > -->
-							<p class="help-block text-danger"></p>
-						</div>
-						<div class='col-xs-3 '></div>
-					</div>
-					<div class="row control-group">
-						<div
-							class="form-group col-xs-3 floating-label-form-group controls"></div>
-						<div
-							class="form-group col-xs-3 floating-label-form-group controls">
-							<input type="radio" class="text-center" id="mode-namelike-search"
-								class='' name='modeSearch' value="namelike" checked> :
-							By Name
-						</div>
-						<div style='display: none;' /* Yoc can't see
-							me... */
-							class="form-group col-xs-2 floating-label-form-group controls">
-							<input type="radio" class="text-center" id="mode-bymng-search"
-								name='modeSearch' value="bymng"> : Host Manager
-						</div>
-						<div
-							class="form-group col-xs-3 floating-label-form-group controls">
-							<input type="radio" class="text-center" value="staffid"
-								id="mode-staffid-search" name='modeSearch'> : By Staff
-							ID
-						</div>
-						<div style='display: none;' /* Yoc can't see
-							me... */
-							class="form-group col-xs-2 floating-label-form-group controls">
-							<input type="radio" class="text-center" value="viewAll"
-								id="mode-viewall-search" name='modeSearch'> : Everybodys
-						</div>
-						<div
-							class="form-group col-xs-3 floating-label-form-group controls"></div>
-					</div>
-					<br>
-					<div id="success"></div>
-					<div class="row">
-						<div class="form-group col-xs-12">
-							<button disabled id='btn-search' type="submit"
-								class="btn btn-success btn-lg">Search</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
 	<!-- Staff Board Section -->
 	<%
 		if (request.getAttribute("managers") == null)
 			response.sendRedirect(request.getContextPath());
 	%>
 	<c:if test="${thisStaff == null }">
-		<section class="success" id="signin">
+		<section id="signin">
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-12 text-center">
@@ -366,8 +291,6 @@
 				"success" : function(slist) {
 				    staffs = $.parseJSON(slist);
 				    console.log(staffs);
-				    isStaffsReady = true;
-				    enableSearch();
 				}
 			    });
 			    $.ajax({
@@ -375,20 +298,14 @@
 				"success" : function(mlist) {
 				    managers = $.parseJSON(mlist);
 				    console.log(managers);
-				    isManagerReady = true;
-				    enableSearch();
 				}
 			    });
 
 			    $
-				    .when(
-					    $
-						    .ajax({
+				    .when($.ajax({
 							"url" : "${pageContext.request.contextPath}/viewAll?json=true"
 						    })).then(function(json) {
 					staffList = $.parseJSON(json);
-					isStaffListReady = true;
-					enableSearch();
 				    });
 
 			    staffsTable = $('#table-total-staff')
@@ -416,17 +333,10 @@
 						    orderable : false
 						} ] /* E-mail is Unorderable */
 						,
-						"bFilter" : false,
 						"pageLength" : 50
 					    });
 
 			});
-
-	function enableSearch() {
-	    if (isStaffListReady & isManagerReady & isStaffsReady) {
-		$('#btn-search').prop('disabled', false);
-	    }
-	}
 
 	/* Staff List Listener */
 	$('#table-total-staff').on('click', 'tbody tr', function(evt) {
@@ -499,20 +409,6 @@
 	    $('#modal-assign-mng').modal();
 	};
 
-	/* Action after do Searching */
-	$('#btn-search').click(
-		function() {
-		    log($('#input-search').is(":disabled"));
-		    if ($('#input-search').val() != ''
-			    || $('#input-search').is(":disabled")) {
-
-			var searchElement = $('#input-search').val();
-			searchStaff(modeSearch, searchElement);
-		    } else {
-			alert("Empty Field is Unaccepted.");
-		    }
-		});
-
 	var tmpSearcTotalStaffs; /* keep the everytime search result. But this included total staff/manager. */
 	var tmpSearchStaffs; /* keep the everytime search result. */
 	var tmpSearchManagers; /* keep the everytime search result. */
@@ -529,26 +425,6 @@
 	    var searchTitle;
 	    var isEmpty = true;
 	    switch (mode) {
-	    case 'namelike':
-		$.each(staffList, function(index, val) {
-		    if (val.name.toUpperCase().indexOf(
-			    searchElement.toUpperCase()) !== -1
-			    | val.nameLocale.indexOf(searchElement) !== -1) {
-			renderRowStaffSearchResult(val, tableResultBody);
-		    }
-		});
-		if (tmpSearcTotalStaffs.length > 0) {
-		    searchTitle = "Results of By Name Search ("
-			    + tmpSearcTotalStaffs.length + ").";
-		    isEmpty = false;
-		} else {
-		    isEmpty = true;
-		    searchTitle = "No Results for \"" + searchElement + "\".";
-		}
-
-		log(tmpSearcTotalStaffs);
-		/* appendNameLikeSearchResult(); */
-		break;
 	    case 'bymng':
 		tmpSearchStaffOrMng = null;
 		$.each(staffList, function(index, val) {
@@ -592,28 +468,6 @@
 		    alert(searchElement + " is Not Found.");
 		}
 		return;
-	    case 'viewAll':
-		tmpSearchStaffOrMng = null;
-		tmpSearchStaffs = staffList; /* This is a total */
-		tmpSearchStaffs = staffs;
-		tmpSearchManagers = managers;
-		if (staffList == []) {
-		    isEmpty = true;
-		    break;
-		}
-		$.each(staffList, function(index, val) {
-		    tmpSearchStaffs.push(val);
-		    /* TODO FOund Staff */
-		    renderRowStaffSearchResult(val, tableResultBody);
-		});
-		isEmpty = false;
-		$('#h2-view-staff-topic').html("Magic Software Staff's Board.");
-
-		log(managers);
-		log(staffs);
-		/* TODO Render */
-
-		break;
 	    default: //TODO
 	    }
 	    if (!isEmpty) {
@@ -673,7 +527,7 @@
 	    var hostManagerEmail = val.hostManagerEmail; //<-Defauq?
 	    var staffType = val.staffType;
 	    var startWorkingDate = val.startWorkingDate;
-	    if (true) {
+	    
 		$('#span-info-workingdate').html(
 			startWorkingDate != null ? startWorkingDate
 				: "Not Available");
@@ -721,8 +575,11 @@
 		    $('#table-staff-mng-info').hide();
 		}
 		$('#modal-view-staff-info').modal();
-	    } else{
-		log(false);
+		if (isMngViewInclude) {
+		    $('#table-staff-mng-info').show();
+		} else{
+		    $('#table-staff-mng-info').hide();
+			log(false);
 	    }
 	}
 
@@ -750,7 +607,9 @@
 			    : "Not Available");
 
 	    var staffId = val.staffId;
+	    
 	    $('#h4-view-mng-info-title').html("Information of " + name);
+		$('#h5-mng-staff-title').html("Staffs of "+honorific+". "+name);
 	    $('#span-mnginfo-staffid').html(staffId);
 	    $('#img-mnginfo-portrait').attr('src',
 		    "${contextPath}/resources/portraits/" + protraitPath);
@@ -851,10 +710,7 @@
 				"width" : "20%"
 			    } ]
 			});
-		    } else {/* 
-			staffsMngTable.clear().draw();
-			staffsMngTable.rows.add(mngStaffs);
-			staffsMngTable.columns.adjust().draw(); */
+		    } else {
 			updateMainStaffTable(staffsMngTable, mngStaffs);
 		    }
 	    }, 700);
