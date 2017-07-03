@@ -174,7 +174,7 @@
 												$('#birthDate').val(
 													moment(new Date(value.birthDate)).format("YYYY-MM-DD"));
 												$('#startWorkingDate').val(
-													moment(new Date(value.birthDate)).format("YYYY-MM-DD"));
+													moment(new Date(value.startWorkingDate)).format("YYYY-MM-DD"));
 												$('#hostManagerName-show')
 														.val(
 																value.hostManagerName != null ? value.hostManagerName

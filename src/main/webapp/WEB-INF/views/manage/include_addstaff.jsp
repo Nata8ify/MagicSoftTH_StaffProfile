@@ -145,13 +145,13 @@
 </div>
 <script>
     /* If the role is manager then no need to assign the manager. */
-    $('#insertType').on('change', function() {
+/*     $('#insertType').on('change', function() {
 	if ($('#insertType').val() == "m") {
 	    $('#btn-assign-mng').prop('disabled', true);
 	} else {
 	    $("#btn-assign-mng").removeAttr("disabled");
 	}
-    });
+    }); */
 
     /* System will generate the recomendation and usable MagicSoftware Staff ID. */
     $('#btn-gen-id').click(function() {

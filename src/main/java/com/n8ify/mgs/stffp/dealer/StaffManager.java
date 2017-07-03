@@ -53,7 +53,7 @@ public class StaffManager implements StaffManagementInterface {
 				new Object[] { staff.getStaffId(), staff.getHonorific(), staff.getName(), staff.getNameLocale(),
 						staff.getEmail(), staff.getTel(), staff.getMobileTel(), staff.getDivision(),
 						staff.getPosition(), staff.getProtraitPath(), staff.getHostManagerId(),
-						staff.getStaffType(), staff.getBirthDate(), staff.getStartWorkingDate() }) > 0;
+						staff.getStaffType(), staff.getStartWorkingDate(), staff.getBirthDate() }) > 0;
 		sql = " INSERT INTO `StaffAccess`(`staffId`, `password`) VALUES (?,?);";
 		return jdbcTemplate.update(sql,
 				new Object[] { staff.getStaffId(), Generator.getInstance().genMd5(password) }) > 0 & is1stSuccess;
