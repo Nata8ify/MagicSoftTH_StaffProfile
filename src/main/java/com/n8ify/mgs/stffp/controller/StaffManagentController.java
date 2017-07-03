@@ -24,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.mysql.jdbc.MysqlDataTruncation;
 import com.n8ify.mgs.stffp.dealer.StaffBinder;
+import com.n8ify.mgs.stffp.dealer.StaffDepartmentManagement;
 import com.n8ify.mgs.stffp.dealer.StaffManager;
 import com.n8ify.mgs.stffp.dealer.SttfpAccess;
 import com.n8ify.mgs.stffp.excp.UnauthorizedAccessException;
@@ -45,6 +46,9 @@ public class StaffManagentController {
 
 	@Autowired
 	private SttfpAccess sttfpAccess;
+	
+	@Autowired
+	private StaffDepartmentManagement departmentMng;
 	
 	@Autowired
 	private CommonsMultipartResolver multipartResolver;
@@ -82,6 +86,9 @@ public class StaffManagentController {
 		case "mngeditor":
 			model.addAttribute("manage", "mngeditor");
 			break;
+		case "departmentmng":
+			model.addAttribute("manage", "departmentmng");
+			break;	
 		case "dangerzone":
 			model.addAttribute("manage", "dangerzone");
 			break;

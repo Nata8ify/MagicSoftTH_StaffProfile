@@ -88,7 +88,7 @@
 								class="glyphicon glyphicon-plus"></i> Add</a></li>
 						<li><a href="managechoice?to=mngeditor"><i
 								class="glyphicon glyphicon-pencil"></i> Staff Transfer</a></li>
-						<li><a href="managechoice?to=department"><i
+						<li><a href="managechoice?to=departmentmng"><i
 								class="glyphicon glyphicon-briefcase"></i> Department Manager</a></li>
 						<li><a href="managechoice?to=dangerzone"><i
 								class="glyphicon glyphicon-info-sign"></i> Advance</a></li>
@@ -106,6 +106,9 @@
 						<c:when test="${manage == 'add'}">
 							<jsp:include page="modal_pickmng.jsp" />
 							<jsp:include page="include_addstaff.jsp" />
+						</c:when>
+						<c:when test="${manage == 'departmentmng'}">
+							<jsp:include page="include_managedepartment.jsp" />
 						</c:when>
 						<c:when test="${manage == 'dangerzone'}">
 							<jsp:include page="include_advance.jsp" />

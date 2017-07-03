@@ -47,7 +47,7 @@ public class StaffAccessController {
 		return "NO_WHERE_LOGIN_MODULE_IS_DEFECTED";
 	}
 
-	@RequestMapping(value = "/admlogin")
+	@RequestMapping(value = "/adm/admlogin")
 	public String adminLogin(Model model, HttpServletRequest request,
 			@RequestParam(value = "staffId", required = true) String staffId,
 			@RequestParam(value = "password", required = true) String password) throws UnauthorizedAccessException {
@@ -61,7 +61,7 @@ public class StaffAccessController {
 			request.getSession(true).setAttribute("thisStaff", staff);
 			request.getSession(true).setAttribute("thisStaffAccess", StaffAccess.getAccessInstance());
 			logger.info("SESSION CREATED FOR ADMIN :" + staff.getStaffId());
-			return "redirect:adm/manage";
+			return "redirect:manage";
 		}
 		throw new UnauthorizedAccessException();
 	}
