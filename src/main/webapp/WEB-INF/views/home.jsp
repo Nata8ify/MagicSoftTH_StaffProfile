@@ -520,7 +520,7 @@
 	    var mobileTel = val.mobileTel;
 	    var division = val.division;
 	    var position = val.position;
-	    var manager = findManagerByManagerId(val.hostManagerId); //<-Better than 3 lines below.
+	    var manager = findManagerByManagerId(val.hostManagerId); //<-Better than 3 lines down below.
 	    var hostManagerId = val.hostManagerId;
 	    var hostManagerName = val.hostManagerName; //<-Defauq?
 	    var hostManagerNameLocale = val.hostManagerNameLocale; //<-Defauq?
@@ -585,6 +585,7 @@
 
 	/* For Render Selected Manager Information.*/
 	function renderManagerInfoModal(val) {
+	    $("#table-staff-mng-info").empty();
 	    var protraitPath = val.protraitPath == null ? 'noimg.png'
 		    : val.protraitPath;
 	    var honorific = val.honorific;
@@ -595,7 +596,7 @@
 	    var mobileTel = val.mobileTel;
 	    var division = val.division;
 	    var position = val.position;
-	    var manager = findManagerByManagerId(val.hostManagerId); //<-Better than 3 lines below.
+	    var manager = findManagerByManagerId(val.hostManagerId); //<-Better than 3 lines down below.
 	    var hostManagerId = val.hostManagerId;
 	    var hostManagerName = val.hostManagerName; //<-Defauq?
 	    var hostManagerNameLocale = val.hostManagerNameLocale; //<-Defauq?
@@ -626,7 +627,25 @@
 		    mobileTel == null ? '' : mobileTel);
 	    $('#span-mnginfo-division').html(division);
 	    $('#span-mnginfo-position').html(position);
-
+	    $('#table-staff-mng-info').show();
+	    if (manager !== null) {
+		console.log("manager : " + manager);
+		$('#span-info-name-mng-honf').html(
+			manager.honorific + ". ");
+		$('#span-mnginfo-mng').html(manager.name);
+		$('#span-info-name-mng-locale').html(
+			" <br/>(" + manager.nameLocale + ")");
+		$('#span-mnginfo-mng-email').html(manager.email);
+		$('#btn-mngview-thismng').prop("disabled", false);
+		$('#btn-mngview-thismng').data("managerId",
+			manager.staffId); //Keep manager in data-manager.
+	    } else {
+		$('#span-mnginfo-name-mng-honf').html("");
+		$('#span-mnginfo-name-mng-locale').html("");
+		$('#span-mnginfo-mng').html("-");
+		$('#span-mnginfo-mng-email').html("-");
+		$('#btn-mngview-thismng').prop("disabled", true);
+	    }
 	    $("#modal-view-manager-info").modal();
 	}
 
@@ -684,7 +703,7 @@
 	
 	/* #btn-view-thismng : Listening View Manager Info Nutton */
 	var staffsMngTable;
-	$("#btn-view-thismng").click(function() {
+	$("#btn-view-thismng, #btn-mngview-thismng").click(function() {
 	    $("#modal-view-staff-info").modal("hide");
 	    prependStaffsManagerDialog($(this).data("managerId"));
 	});

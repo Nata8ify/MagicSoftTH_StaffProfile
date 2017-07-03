@@ -34,21 +34,6 @@
 										</tr>
 										<tr>
 											<td></td>
-											<td>E-mail :</td>
-											<td><span id='span-info-email'></span></td>
-										</tr>
-										<tr>
-											<td></td>
-											<td>Tel. :</td>
-											<td><span id='span-info-tel'></span></td>
-										</tr>
-										<tr>
-											<td></td>
-											<td>Mobile No. :</td>
-											<td><span id='span-info-mobileTel'></span></td>
-										</tr>
-										<tr>
-											<td></td>
 											<td>Department :</td>
 											<td><span id='span-info-division'></span></td>
 										</tr>
@@ -61,6 +46,21 @@
 											<td></td>
 											<td>Working date :</td>
 											<td><span id='span-info-workingdate'></span></td>
+										</tr>
+										<tr>
+											<td></td>
+											<td>E-mail :</td>
+											<td><span id='span-info-email'></span></td>
+										</tr>
+										<tr>
+											<td></td>
+											<td>Tel. :</td>
+											<td><span id='span-info-tel'></span></td>
+										</tr>
+										<tr>
+											<td></td>
+											<td>Mobile No. :</td>
+											<td><span id='span-info-mobileTel'></span></td>
 										</tr>
 									</tbody>
 								</table>

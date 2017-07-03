@@ -48,12 +48,6 @@
 											<td>Working date :</td>
 											<td><span id='span-mnginfo-workingdate'></span></td>
 										</tr>
-									</tbody>
-								</table>
-							</div>
-							<div class='col-sm-5'>
-								<table class='table table-responsive'>
-									<tbody>
 										<tr>
 											<td></td>
 											<td>E-mail :</td>
@@ -68,6 +62,31 @@
 											<td></td>
 											<td>Mobile No. :</td>
 											<td><span id='span-mnginfo-mobileTel'></span></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<div class='col-sm-5'>
+								<table class='table table-responsive'>
+									<tbody>
+										<tr>
+											<td></td>
+											<td>Manager :</td>
+											<td><span id='span-mnginfo-name-mng-honf'></span><span
+												id='span-mnginfo-mng'></span><span
+												id='span-mnginfo-name-mng-locale'></span></td>
+										</tr>
+										<tr>
+											<td></td>
+											<td>Manager E-mail :</td>
+											<td><span id='span-mnginfo-mng-email'></span></td>
+										</tr>
+										<tr>
+											<td></td>
+											<td></td>
+											<td><button data-managerId="" id="btn-mngview-thismng" class="btn btn-default">
+													<i class="glyphicon glyphicon-user"  data-dismiss="modal"></i>View Manager Info
+												</button></td>
 										</tr>
 									</tbody>
 								</table>
