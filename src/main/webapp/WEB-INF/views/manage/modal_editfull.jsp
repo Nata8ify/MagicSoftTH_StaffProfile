@@ -91,7 +91,7 @@
 					<div class="row control-group">
 						<div
 							class="form-group col-xs-5 floating-label-form-group controls">
-							<label for="division">Staff's Department</label> <input
+							<label for="division">Staff's Department <a href="#division" data-target="#modal-assign-department" data-toggle="modal"> [Choose]</a></label> <input
 								type="text" class="form-control"
 								placeholder="Staff's Department" id="division" name='division'
 								maxlength="100" required

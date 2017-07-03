@@ -28,7 +28,7 @@ public class StaffDepartmentController {
 	@Qualifier("gsonb")
 	private GsonBuilder gsonb;
 	
-	@RequestMapping(value = "adm//department/departments", method = RequestMethod.POST)
+	@RequestMapping(value = "adm/department/departments", method = RequestMethod.POST)
 	@ResponseBody
 	public String getAllDepartments(){
 		return gsonb.create().toJson(departmentMng.findAll());

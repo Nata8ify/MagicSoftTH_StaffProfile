@@ -104,8 +104,9 @@
 							<jsp:include page="modal_pickmng.jsp" />
 						</c:when>
 						<c:when test="${manage == 'add'}">
-							<jsp:include page="modal_pickmng.jsp" />
 							<jsp:include page="include_addstaff.jsp" />
+							<jsp:include page="modal_pickmng.jsp" />
+							<jsp:include page="modal_pickdepartment.jsp" />
 						</c:when>
 						<c:when test="${manage == 'departmentmng'}">
 							<jsp:include page="include_managedepartment.jsp" />
@@ -118,8 +119,8 @@
 								type="text/javascript"></script>
 							<jsp:include page="modal_editfull.jsp" />
 							<jsp:include page="modal_pickmng.jsp" />
-							<jsp:include page="include_explore.jsp" />
-						</c:otherwise>
+							<jsp:include page="modal_pickdepartment.jsp" />
+							<jsp:include page="include_explore.jsp" />						</c:otherwise>
 					</c:choose>
 				</div>
 			</div>

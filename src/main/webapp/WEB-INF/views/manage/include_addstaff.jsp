@@ -83,7 +83,7 @@
 </div>
 <div class="row control-group">
 	<div class="form-group col-xs-5 floating-label-form-group controls">
-		<label for="division">Staff's Department</label> <input type="text"
+		<label for="division">Staff's Department</label> <a href="#division" data-target="#modal-assign-department" data-toggle="modal"> [Choose]</a> <input type="text"
 			class="form-control" placeholder="Staff's Department" id="division"
 			name='division' maxlength="100" required
 			data-validation-required-message="Please enter Staff's Department.">
