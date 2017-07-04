@@ -265,12 +265,17 @@ public class StaffManager implements StaffManagementInterface {
 	// DANGER ZONE
 	@Override
 	public boolean deleteAll() {
-		String sqlDeleteStaffAll = "DELETE FROM `Staff`;";
-		String sqlDeleteStaffAccessAll = "DELETE FROM `StaffAccess`";
+		String sqlDisableFkCheck = "SET FOREIGN_KEY_CHECKS = 0;";
+		String sqlEnableFkCheck = "SET FOREIGN_KEY_CHECKS = 1;";
+		String sqlDeleteStaffAll = "TRUNCATE TABLE `Staff`;";
+		String sqlDeleteStaffAccessAll = "TRUNCATE TABLE `StaffAccess`;";
+		String sqlDeleteStaffDepartmentAll = "TRUNCATE TABLE `StaffDepartment`;";
+		String sqlDeleteRoomReservationUsage = "TRUNCATE TABLE `RoomUsage`;";
+		String sqlDeleteRoomFaciliUsage = "TRUNCATE TABLE `RoomFacilitiyUsage`;";
 		String sqlInsertDefaultAstaff = "INSERT INTO `Staff`(`staffId`, `honorific`, `name`,`staffType`) VALUES ('M00000','Mrs','P. Nudee', 's');";
 		String sqlInsertDefaultAstaffAccess = "INSERT INTO `StaffAccess`(`staffId`, `password`, `stffpsRole`) VALUES ('M00000','1f7c381e83c87b875265b52adc64617a', 'a');";
-		jdbcTemplate.batchUpdate(new String[] { sqlDeleteStaffAccessAll, sqlDeleteStaffAll, sqlInsertDefaultAstaff,
-				sqlInsertDefaultAstaffAccess });
+		jdbcTemplate.batchUpdate(new String[] {sqlDisableFkCheck, sqlDeleteStaffAccessAll, sqlDeleteRoomFaciliUsage, sqlDeleteRoomReservationUsage, sqlDeleteStaffAll, sqlDeleteStaffDepartmentAll, sqlEnableFkCheck});
+		jdbcTemplate.batchUpdate(new String[] { sqlInsertDefaultAstaff, sqlInsertDefaultAstaffAccess });
 		return true;
 	}
 
