@@ -33,6 +33,8 @@
 <!-- Velocity - Make Animation Stuffs. -->
 <script src="${contextPath}/resources/js/velocity.min.js"
 	type="text/javascript"></script>
+<script src="${contextPath}/resources/js/velocity.ui.js"
+	type="text/javascript"></script>
 <style>
 #table-search-staff-list tbody tr {
 	padding: 5px;
@@ -77,8 +79,8 @@
 		<!-- /.container-fluid -->
 	</nav>
 	<!-- Header -->
-	<header id='home'>
-		<div class="container" id="maincontent" tabindex="-1">
+	<header id='home' >
+		<div class="container" id="maincontent" tabindex="-1" style="height: 800px">
 			<div class="row well" style="color: black; text-align: left;">
 				<div class="col-lg-2">
 					<!-- 	<div class="intro-text">
@@ -94,7 +96,7 @@
 							<option value="department">Specific Department</option>
 						</select> <br />
 					</div>
-					<div class="form-group" id="div-department-search-sec">
+					<div class="form-group" id="div-department-search-sec" style="opacity: 0">
 						<label>Department Of :</label> <select
 							id="select-filter-staff-by-department" class="form-control"
 							style="color: black">

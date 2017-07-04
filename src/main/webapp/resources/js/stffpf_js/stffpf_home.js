@@ -422,12 +422,14 @@ $('#table-total-staff').on('click', 'tbody tr', function (evt) {
  * View.
  */
 $("#select-filter-staff-by").change(function () {
+    var isShow = false;
 	switch ($(this).val()) {
 		case "all": updateMainStaffTable(staffsTable, staffList); break;
 		case "s": updateMainStaffTable(staffsTable, staffs); break;
 		case "m": updateMainStaffTable(staffsTable, managers); break;
-		case "department": slideFadeDepartmentSearch(true);
+		case "department": isShow = true;
 	}
+	slideFadeDepartmentSearch(isShow);
 });
 
 /* #btn-view-thismng : Listening View Manager Info Nutton */

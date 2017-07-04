@@ -4,9 +4,9 @@ var departmentSeacrhSection = $("#div-department-search-sec");
 /** Animation Function **/
 function slideFadeDepartmentSearch(isShow){
     if(isShow){
-	departmentSeacrhSection.velocity("fadeIn",{duration: 1500});
+	departmentSeacrhSection.velocity('transition.slideDownBigIn');
     }else{
-	
+	departmentSeacrhSection.velocity('transition.slideDownBigOut');
     }
 }
 
