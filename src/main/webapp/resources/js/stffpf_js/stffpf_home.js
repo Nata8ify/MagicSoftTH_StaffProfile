@@ -426,7 +426,7 @@ $("#select-filter-staff-by").change(function () {
 		case "all": updateMainStaffTable(staffsTable, staffList); break;
 		case "s": updateMainStaffTable(staffsTable, staffs); break;
 		case "m": updateMainStaffTable(staffsTable, managers); break;
-		case "department": $("select-filter-staff-by-department").fadeIn();
+		case "department": slideFadeDepartmentSearch(true);
 	}
 });
 

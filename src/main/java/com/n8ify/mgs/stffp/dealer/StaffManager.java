@@ -232,7 +232,6 @@ public class StaffManager implements StaffManagementInterface {
 			staff.setHostManagerId(rs.getString("hostManagerId"));
 			return staff;
 		}
-
 	}
 
 	class StaffOnMoreDetailsMapper implements RowMapper<Staff> {
