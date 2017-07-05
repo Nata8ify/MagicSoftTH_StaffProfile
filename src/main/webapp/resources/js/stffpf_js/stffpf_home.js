@@ -54,7 +54,7 @@ $(document).ready(function () {
 				orderable: false
 			}] /* E-mail is Unorderable */
 			,
-			"pageLength": 50
+			"pageLength": 10
 		});
 
 });

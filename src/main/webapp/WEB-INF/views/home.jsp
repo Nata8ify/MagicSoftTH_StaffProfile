@@ -28,6 +28,8 @@
 	rel="stylesheet" type="text/css">
 <link href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css"
 	rel="stylesheet" type="text/css">
+<!-- Require -->
+
 <!-- jQuery -->
 <script src="${contextPath}/resources/vendor/jquery/jquery.min.js"></script>
 <!-- Velocity - Make Animation Stuffs. -->
@@ -55,13 +57,13 @@
 		class="navbar navbar-default navbar-fixed-top navbar-custom">
 		<div class="container">
 			<!-- Brand and toggle get grouped for better mobile display -->
-			<div class="navbar-header page-scroll">
+			<div class="navbar-header page-scroll" id="div-header-title">
 				<button type="button" class="navbar-toggle" data-toggle="collapse"
 					data-target="#bs-example-navbar-collapse-1">
 					<span class="sr-only">Toggle navigation</span> Menu <i
 						class="fa fa-bars"></i>
 				</button>
-				<a class="navbar-brand" href="#page-top">
+				<a class="navbar-brand" href="#page-top" id="a-mst-title">
 					${thisStaff.name==null?'MST Staff Profile': 'Welcome! '}${thisStaff.name}${thisStaff.name==null?'': '<i><u><a href="#" data-toggle="modal" data-target="#modal-editself">Edit</a></u> <i>'}</a>
 			</div>
 			<!-- Collect the nav links, forms, and other content for toggling -->
@@ -79,15 +81,16 @@
 		<!-- /.container-fluid -->
 	</nav>
 	<!-- Header -->
-	<header id='home' >
-		<div class="container" id="maincontent" tabindex="-1" style="height: 800px">
+	<header id='home'>
+		<div class="container" id="maincontent" tabindex="-1"
+			style="height: 800px">
 			<div class="row well" style="color: black; text-align: left;">
 				<div class="col-lg-2">
 					<!-- 	<div class="intro-text">
 						<h1 class="name">MST Staff Profile</h1>
 						<hr />
 					</div> -->
-					<div class="form-group">
+					<div class="form-group" id="div-department-view-for">
 						<label>View for :</label> <select id="select-filter-staff-by"
 							class="form-control" style="color: black">
 							<option value="all">All</option>
@@ -96,7 +99,8 @@
 							<option value="department">Specific Department</option>
 						</select> <br />
 					</div>
-					<div class="form-group" id="div-department-search-sec" style="opacity: 0">
+					<div class="form-group" id="div-department-search-sec"
+						style="opacity: 0">
 						<label>Department Of :</label> <select
 							id="select-filter-staff-by-department" class="form-control"
 							style="color: black">
@@ -105,8 +109,9 @@
 						</select> <br />
 					</div>
 				</div>
-				<div class="col-lg-10">
-					<div class='row well' style="color: #000;">
+				<div class="col-lg-10"  style="height: 500px">
+					<div class='row well' style="color: #000;"
+						id="div-table-total-staff">
 						<table id='table-total-staff' style="text-align: left;"
 							class='hover stripe'>
 							<thead>
@@ -281,7 +286,8 @@
 	<jsp:include page="home_include/modal_viewstaff_info.jsp" />
 	<jsp:include page="${contextPath}/resources/js/contact_me.js" />
 	<script src="${contextPath}/resources/js/stffpf_js/stffpf_home.js"></script>
-	<script src="${contextPath}/resources/js/stffpf_js/stffpf_home_animate.js"></script>
+	<script
+		src="${contextPath}/resources/js/stffpf_js/stffpf_home_animate.js"></script>
 	<script>
 	/* Just for the manager view their staffs. */
 	$('#a-view-my-staff').click(function() {
