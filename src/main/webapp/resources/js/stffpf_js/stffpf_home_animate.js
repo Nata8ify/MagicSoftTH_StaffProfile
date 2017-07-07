@@ -36,7 +36,7 @@ function onStartVisible(){
     homeSection.velocity('transition.slideDownBigIn');
     departmentViewfor.velocity('transition.slideDownBigIn');
     staffsTableSection.velocity('transition.slideRightIn', function(){
-	setUpStaffsTable(staffsTable); //> Show Data After the Table is Animated.
+	setUpStaffsTable(); //> Show Data After the Table is Animated.
     });
  /*   navbMSTTitle.velocity('transition.slideLeftIn');*/
     navbMenu.velocity('transition.slideRightIn');

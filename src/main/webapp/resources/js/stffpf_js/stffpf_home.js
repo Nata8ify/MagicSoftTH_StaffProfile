@@ -8,6 +8,7 @@ var isStaffsReady = false;
 var isManagerReady = false;
 var isStaffListReady = false;
 $(document).ready(function () {
+    	
 	appendSearchDepartmentModule(findAllDepartment());
 	$.ajax({
 		"url": "viewAllStaffs?json=true",
@@ -463,7 +464,7 @@ function getTHHonorofic(honorofic) {
 	}
 }
 /* Setup Staffs Table */
-function setUpStaffsTable(staffsTable){
+function setUpStaffsTable(){
     staffsTable = $('#table-total-staff').DataTable(
 		{
 			"ajax": {
