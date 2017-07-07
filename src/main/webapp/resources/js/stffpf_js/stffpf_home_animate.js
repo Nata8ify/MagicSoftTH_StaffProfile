@@ -3,6 +3,7 @@
 var departmentSeacrhSection = $("#div-department-search-sec");
 var departmentViewfor = $("#div-department-view-for");
 var staffsTableSection = $("#div-table-total-staff");
+var homeSection =  $("#home");
 
 /* Elements */
 var navbMSTTitle = $("#div-header-title");
@@ -32,8 +33,11 @@ function onStartInvisible(){
     body.velocity("fadeIn", {duration : "slow"});
 }
 function onStartVisible(){
+    homeSection.velocity('transition.slideDownBigIn');
     departmentViewfor.velocity('transition.slideDownBigIn');
-    staffsTableSection.velocity('transition.slideRightIn');
-    navbMSTTitle.velocity('transition.slideLeftIn');
+    staffsTableSection.velocity('transition.slideRightIn', function(){
+	setUpStaffsTable(staffsTable); //> Show Data After the Table is Animated.
+    });
+ /*   navbMSTTitle.velocity('transition.slideLeftIn');*/
     navbMenu.velocity('transition.slideRightIn');
 }

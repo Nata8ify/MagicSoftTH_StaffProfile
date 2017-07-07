@@ -278,4 +278,10 @@ public class StaffManager implements StaffManagementInterface {
 		return true;
 	}
 
+	@Override
+	public boolean isValidStaffId(String staffId) {
+		String sqlCheckDuplicate = "SELECT EXISTS(SELECT * FROM `Staff` WHERE `staffId` = ?);";
+		return jdbcTemplate.queryForInt(sqlCheckDuplicate, new Object[]{staffId})==1?false:true;
+	}
+
 }

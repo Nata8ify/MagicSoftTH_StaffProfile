@@ -104,7 +104,7 @@
 							<jsp:include page="modal_pickmng.jsp" />
 						</c:when>
 						<c:when test="${manage == 'add'}">
-							<jsp:include page="include_addstaff.jsp" />
+							<jsp:include page="include_addstaff.jsp" flush="true" />
 							<jsp:include page="modal_pickmng.jsp" />
 							<jsp:include page="modal_pickdepartment.jsp" />
 						</c:when>

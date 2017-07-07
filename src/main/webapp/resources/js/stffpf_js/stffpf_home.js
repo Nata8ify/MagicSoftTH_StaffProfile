@@ -29,34 +29,6 @@ $(document).ready(function () {
 	})).then(function (json) {
 		staffList = $.parseJSON(json);
 	});
-
-	staffsTable = $('#table-total-staff').DataTable(
-		{
-			"ajax": {
-				"url": "viewAll?json=true",
-				"dataSrc": ""
-			},
-			"columns": [{
-				"data": "staffId",
-				"width": "20%"
-			}, {
-				"data": "name",
-				"width": "30%"
-			}, {
-				"data": "nameLocale",
-				"width": "30%"
-			}, {
-				"data": "email",
-				"width": "20%"
-			}],
-			"columnDefs": [{
-				targets: -1,
-				orderable: false
-			}] /* E-mail is Unorderable */
-			,
-			"pageLength": 10
-		});
-
 });
 
 
@@ -489,6 +461,35 @@ function getTHHonorofic(honorofic) {
 		case "Ms":
 			return "นาง";
 	}
+}
+/* Setup Staffs Table */
+function setUpStaffsTable(staffsTable){
+    staffsTable = $('#table-total-staff').DataTable(
+		{
+			"ajax": {
+				"url": "viewAll?json=true",
+				"dataSrc": ""
+			},
+			"columns": [{
+				"data": "staffId",
+				"width": "20%"
+			}, {
+				"data": "name",
+				"width": "30%"
+			}, {
+				"data": "nameLocale",
+				"width": "30%"
+			}, {
+				"data": "email",
+				"width": "20%"
+			}],
+			"columnDefs": [{
+				targets: -1,
+				orderable: false
+			}] /* E-mail is Unorderable */
+			,
+			"pageLength": 10
+		});
 }
 
 /* Method's Name says Everythings. */

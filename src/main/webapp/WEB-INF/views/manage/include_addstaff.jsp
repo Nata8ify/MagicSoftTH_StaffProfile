@@ -6,8 +6,8 @@
 			<div class="form-group col-xs-2 floating-label-form-group controls">
 				<label for="Staff ID">Staff ID</label> <input type="text"
 					class="form-control" placeholder="Staff ID" id="staffId"
-					name='staffId'>
-				<p class="help-block text-danger"></p>
+					name='staffId' required>
+				<p class="help-block text-danger" id="txt-warn-staffId" style="color: red;"></p>
 			</div>
 			<div class="form-group col-xs-2 floating-label-form-group controls">
 				<label for="gen">System Generate</label>
@@ -85,7 +85,7 @@
 	<div class="form-group col-xs-5 floating-label-form-group controls">
 		<label for="division">Staff's Department</label> <a href="#division" data-target="#modal-assign-department" data-toggle="modal"> [Choose]</a> <input type="text"
 			class="form-control" placeholder="Staff's Department" id="division"
-			name='division' maxlength="100" required
+			name='division' maxlength="100" required readonly
 			data-validation-required-message="Please enter Staff's Department.">
 		<p class="help-block text-danger"></p>
 	</div>
@@ -119,7 +119,7 @@
 			type="password" class="form-control" placeholder="Password"
 			id="password" name='password' required=''
 			data-validation-required-message="Please enter Password.">
-		<p class="help-block text-danger"></p>
+		<p class="help-block text-danger" style="color: red;"></p>
 	</div>
 	<div class="row control-group">
 		<div class="form-group col-xs-6 floating-label-form-group controls">
@@ -135,8 +135,8 @@
 <div id="success"></div>
 <div class="row">
 	<div class="form-group col-xs-12">
-		<button type="submit" class="btn btn-success btn-lg"
-			id='btn-submit-insert'>Submit</button>
+		<button type="submit" class="btn btn-success btn-lg" id="btn-submit-add-staff"
+			id='btn-submit-insert' disabled="disabled">Submit</button>
 	</div>
 </div>
 </form>
@@ -171,6 +171,10 @@
 	}
     });
 
+    $("#staffId").change(function(){
+		staffIdValidator($(this).val());
+    });
+    
     /* This is the Password Validator */
     $('#cofmpassword, #password').keyup(function() {
 	if ($('#cofmpassword').val() == "") {
@@ -211,8 +215,7 @@
 		    function() {
 
 			$('#mnglist-tbody').html("");
-			$
-				.each(
+			$.each(
 					managers,
 					function(index, value) {
 					    var staffId = value.staffId;
@@ -246,6 +249,24 @@
 								    }));
 					});
 			$('#modal-assign-mng').modal();
-
+				
 		    });
+</script>
+<script>
+	/** Utility Functions **/
+	function staffIdValidator(staffId){
+	    $.ajax({
+			"url" : "utils/validateStaffId",
+			"data" : {staffId : staffId},
+	    	"success" : function(isValid){
+	    	   var isIdValid = isValid == "true";
+	    		$("#btn-submit-add-staff").prop("disabled", !isIdValid);
+	    		if(isIdValid){
+	    		    $("#txt-warn-staffId").html("");
+	    		} else {
+	    			$("#txt-warn-staffId").html("\""+staffId.toUpperCase()+"\" is Already Used.");
+	    		}
+	    	}
+	    });
+	}
 </script>

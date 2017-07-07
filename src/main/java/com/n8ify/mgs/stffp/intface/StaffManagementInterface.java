@@ -37,4 +37,5 @@ public interface StaffManagementInterface {
 
 	public List<Staff> getTotalUnassignedStaffs();
 
+	public boolean isValidStaffId(String staffId);
 }
