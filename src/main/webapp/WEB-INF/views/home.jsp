@@ -285,6 +285,7 @@
 	<jsp:include page="home_include/modal_viewmng_info.jsp" />
 	<jsp:include page="home_include/modal_viewstaff_info.jsp" />
 	<jsp:include page="${contextPath}/resources/js/contact_me.js" />
+	<script src="${contextPath}/resources/js/jquery.smoothscroll.min.js"></script>
 	<script src="${contextPath}/resources/js/stffpf_js/stffpf_home.js"></script>
 	<script
 		src="${contextPath}/resources/js/stffpf_js/stffpf_home_animate.js"></script>

@@ -10,6 +10,7 @@ var navbMSTTitle = $("#div-header-title");
 var navbMenu = $("#bs-example-navbar-collapse-1");
 
 /*  HTML Tags */
+var html = $("html");
 var body = $("body");
 
 /** Animation Function **/
@@ -38,6 +39,10 @@ function onStartVisible(){
     staffsTableSection.velocity('transition.slideRightIn', function(){
 	setUpStaffsTable(); //> Show Data After the Table is Animated.
     });
- /*   navbMSTTitle.velocity('transition.slideLeftIn');*/
-    navbMenu.velocity('transition.slideRightIn');
+ /*   navbMSTTitle.velocity('transition.slideLeftIn');*//*
+    navbMenu.velocity('transition.slideRightIn');*/
+    
+    
+/* etc. */
+html.smoothScroll();
 }

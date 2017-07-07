@@ -6,7 +6,7 @@
 			<div class="form-group col-xs-2 floating-label-form-group controls">
 				<label for="Staff ID">Staff ID</label> <input type="text"
 					class="form-control" placeholder="Staff ID" id="staffId"
-					name='staffId' required>
+					name='staffId' required maxlength="6">
 				<p class="help-block text-danger" id="txt-warn-staffId" style="color: red;"></p>
 			</div>
 			<div class="form-group col-xs-2 floating-label-form-group controls">
@@ -159,6 +159,7 @@
 	    "url" : "${pageContext.request.contextPath}/utils/latestMgsId",
 	    "success" : function(rawId) {
 		$('#staffId').val(rawId);
+		staffIdValidator(rawId);
 	    }
 	});
     });
