@@ -204,29 +204,6 @@ public class StaffManagentController {
 		return "redirect:managechoice?to=explore";
 	}
 
-	/*@RequestMapping(value = "/editSelf", method = RequestMethod.POST)
-	public String editSelf(Model model, HttpServletRequest request,
-			@RequestParam(value = "staffId", required = true) String staffId,
-			@RequestParam(value = "name", required = true) String name,
-			@RequestParam(value = "nameLocale", required = false) String nameLocale,
-			@RequestParam(value = "email", required = true) String email,
-			@RequestParam(value = "tel", required = true) String tel,
-			@RequestParam(value = "mobileTel", required = false) String mobileTel,
-			@RequestParam(value = "protraitPath", required = false) String protraitPath,
-			@RequestParam(value = "password", required = true) String password,
-			@RequestParam(value = "editType", required = false) String editType) { // editType
-																					// is
-																					// staffType.
-
-		if (staffManager.editSelfStaff(new Staff(staffId, name, nameLocale, email, tel, mobileTel,
-				protraitPath.equals("") ? null : protraitPath), password)) {
-			logger.info("UPDATED");
-			return "redirect:login?staffId=" + staffId + "&password=" + password;
-		}
-		logger.info("NO UPDATE");
-		return "home";
-	}*/
-
 	@RequestMapping(value = "/adm/editPerson.f", method = RequestMethod.POST)
 	public String editPersonWithPortrait(Model model, HttpServletRequest request,
 			@RequestParam(value = "staffId", required = true) String staffId,
@@ -265,7 +242,7 @@ public class StaffManagentController {
 				File oldImg = new File(mrequest.getRealPath(PORTRAIT_DIR + protraitPathOld));
 				oldImg.delete();
 				if (staffManager.editStaff(new Staff(staffId, name, nameLocale, email, tel, mobileTel, division,
-						position, imgName, hostManagerId, honorific, staffType, Date.valueOf(birthDate), Date.valueOf(startWorkingDate)), password)) {
+						position, imgName, hostManagerId.isEmpty()?null:hostManagerId, honorific, staffType, Date.valueOf(birthDate), Date.valueOf(startWorkingDate)), password)) {
 					logger.info("prev " + prevStaffType + " ::: new " + staffType);
 					if (prevStaffType.equals(Staff.TYPE_MANAGER) && staffType.equals(Staff.TYPE_STAFF)) { // If
 																											// Manager
@@ -290,7 +267,7 @@ public class StaffManagentController {
 				if (staffManager.editStaffForNoImage( // Which mean KEEP NO
 														// CHANGE/Unset
 						new Staff(staffId, name, nameLocale, email, tel, mobileTel, division, position, null,
-								hostManagerId, honorific, staffType, Date.valueOf(birthDate), Date.valueOf(startWorkingDate)),
+								hostManagerId.isEmpty()?null:hostManagerId, honorific, staffType, Date.valueOf(birthDate), Date.valueOf(startWorkingDate)),
 						password)) {
 					if (prevStaffType.equals(Staff.TYPE_MANAGER) && staffType.equals(Staff.TYPE_STAFF)) { // If
 																											// Manager
@@ -315,7 +292,7 @@ public class StaffManagentController {
 			File oldImg = new File(mrequest.getRealPath(PORTRAIT_DIR + Staff.getStaffInstance().getProtraitPath()));
 			oldImg.delete();
 			if (staffManager.editStaff(new Staff(staffId, name, nameLocale, email, tel, mobileTel, division, position,
-					null, hostManagerId, honorific, staffType, Date.valueOf(birthDate), Date.valueOf(startWorkingDate)), password)) {
+					null, hostManagerId.isEmpty()?null:hostManagerId, honorific, staffType, Date.valueOf(birthDate), Date.valueOf(startWorkingDate)), password)) {
 				logger.info("prev " + prevStaffType + " ::: new " + staffType);
 				if (prevStaffType.equals(Staff.TYPE_MANAGER) && staffType.equals(Staff.TYPE_STAFF)) { // If
 																										// Manager
@@ -361,7 +338,6 @@ public class StaffManagentController {
 
 				return "redirect:login?staffId=" + mrequest.getParameter("staffId") + "&password="
 						+ mrequest.getParameter("password");
-
 			}
 		} else {
 			File oldImg = new File(mrequest.getRealPath(PORTRAIT_DIR + Staff.getStaffInstance().getProtraitPath()));
