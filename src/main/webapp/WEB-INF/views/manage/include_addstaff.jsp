@@ -16,7 +16,7 @@
 			<div class="form-group col-xs-6 floating-label-form-group controls">
 				<label for="insertType">Role</label> <select name="insertType"
 					class="form-control" id='insertType'>
-					<option value="m">Manager</option>
+					<option value="m" id='opt-manager' >Manager</option>
 					<option value="s" id='opt-staff' selected>Staff</option>
 				</select>
 			</div>
@@ -29,7 +29,7 @@
 		</div>
 		<div class="row control-group">
 			<div class="form-group col-xs-2 floating-label-form-group controls">
-				<label for="honorific">Honorific</label> <select name="honorific"
+				<label for="honorific">Title</label> <select name="honorific"
 					class="form-control" id='honorific'>
 					<option value="Mr">Mr.</option>
 					<option value="Mrs">Mrs.</option>
@@ -60,23 +60,27 @@
 		</div>
 <div class="row control-group">
 	<div class="form-group col-xs-6 floating-label-form-group controls">
-		<label for="email">Email Address</label> <input type="email"
+		<label for="email">Email Address</label> 
+		<div class="input-group" >
+		<input
 			class="form-control" placeholder="Email Address" id="email"
 			name='email' maxlength="60" required
 			data-validation-required-message="Please enter Email Address.">
+			<span class="input-group-addon" id="basic-addon2">@magicsoftware.co.th</span>
+		</div>
 		<p class="help-block text-danger"></p>
 	</div>
 	<div class="form-group col-xs-3 floating-label-form-group controls">
 		<label for="tel">Contact Number</label> <input type="tel"
-			class="form-control" placeholder="Contact Number" id="tel" name='tel'
-			maxlength="12" required
-			data-validation-required-message="Please enter Contact Number.">
+			class="form-control" placeholder="Contact Number (without '-')" id="tel" name='tel'
+			maxlength="12" required 
+			data-validation-required-message="Please enter Contact Number. ">
 		<p class="help-block text-danger"></p>
 	</div>
 	<div class="form-group col-xs-3 floating-label-form-group controls">
-		<label for="tel">Mobile Contact Number</label> <input type="tel"
-			class="form-control" placeholder="Mobile Contact Number"
-			id="mobileTel" name='mobileTel' maxlength="12" required
+		<label for="tel">Mobile Contact Number </label> <input type="tel"
+			class="form-control" placeholder="Mobile Contact Number (without '-')"
+			id="mobileTel" name='mobileTel' maxlength="12" required 
 			data-validation-required-message="Please enter Mobile Contact Number.">
 		<p class="help-block text-danger"></p>
 	</div>
@@ -136,7 +140,9 @@
 <div class="row">
 	<div class="form-group col-xs-12">
 		<button type="submit" class="btn btn-success btn-lg" id="btn-submit-add-staff"
-			id='btn-submit-insert' disabled="disabled">Submit</button>
+			id='btn-submit-insert' disabled="disabled">Submit</button> 
+		<button type="reset" class="btn btn-waring btn-lg" id="btn-submit-add-staff"
+			id='btn-submit-insert' onclick="resetRoleDropdown()">Reset</button>	
 	</div>
 </div>
 </form>
@@ -244,6 +250,12 @@
 												+ name
 												+ ")");
 									$(
+									"#opt-manager")
+									.html(
+										"Manager (assign to "
+											+ name
+											+ ")");
+									$(
 										'#modal-assign-mng')
 										.modal(
 											'hide');
@@ -269,5 +281,11 @@
 	    		}
 	    	}
 	    });
+	}
+	function resetRoleDropdown(){
+	    //Clean Assign Manager's Dropdown.
+	    $("#opt-manager").html("Manager");
+	    $("#opt-staff").html("Staff");
+	    $("#hostManagerId").val("");
 	}
 </script>

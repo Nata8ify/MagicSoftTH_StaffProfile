@@ -66,13 +66,22 @@ public class StaffAccessController {
 		throw new UnauthorizedAccessException();
 	}
 
-	@RequestMapping(value = { "/logout", "/adm/logout" })
+	@RequestMapping(value = { "/logout"})
 	public String logout(Model model, HttpServletRequest request) {
 		if (request.getSession(false).getAttribute("thisStaff") != null) {
 			logger.info("NOT NULL STAFF");
 			request.getSession(false).invalidate();
 		}
 		return "home";
+	}
+	
+	@RequestMapping(value = {"/adm/logout" })
+	public String adminLogout(Model model, HttpServletRequest request) {
+		if (request.getSession(false).getAttribute("thisStaff") != null) {
+			logger.info("NOT NULL STAFF");
+			request.getSession(false).invalidate();
+		}
+		return "admhome";
 	}
 
 	// Exception Handler Here!

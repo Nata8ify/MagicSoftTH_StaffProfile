@@ -229,6 +229,8 @@ public class StaffManager implements StaffManagementInterface {
 			staff.setPosition(rs.getString("position"));
 			staff.setProtraitPath(rs.getString("protraitPath"));
 			staff.setStaffType(rs.getString("staffType"));
+			staff.setBirthDate(rs.getDate("birthDate"));
+			staff.setStartWorkingDate(rs.getDate("startWorkingDate"));
 			staff.setHostManagerId(rs.getString("hostManagerId"));
 			return staff;
 		}

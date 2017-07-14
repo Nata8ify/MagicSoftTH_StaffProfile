@@ -334,7 +334,6 @@ function renderManagerInfoModal(val) {
 	$('#span-mnginfo-position').html(position);
 	$('#table-staff-mng-info').show();
 	if (manager !== null) {
-		console.log("manager : " + manager);
 		$('#span-info-name-mng-honf').html(
 			manager.honorific + ". ");
 		$('#span-mnginfo-mng').html(manager.name);
@@ -431,7 +430,10 @@ function prependStaffsManagerDialog(managerId) {
 				}, {
 					"data": "email",
 					"width": "20%"
-				}]
+				}],
+				"language": {
+				        searchPlaceholder: "ID, Name, E-mail"
+				    }
 			});
 		} else {
 			updateMainStaffTable(staffsMngTable, mngStaffs);
@@ -489,7 +491,10 @@ function setUpStaffsTable(){
 				orderable: false
 			}] /* E-mail is Unorderable */
 			,
-			"pageLength": 10
+			"pageLength": 10,
+			"language": {
+			        searchPlaceholder: "ID, Name, E-mail"
+			    }
 		});
 }
 
@@ -535,7 +540,6 @@ function findStaffByDepartment(department) {
 			staffsOnDepartment.push(val);
 		}
 	});
-	log(staffsOnDepartment);
 	return staffsOnDepartment;
 }
 /*

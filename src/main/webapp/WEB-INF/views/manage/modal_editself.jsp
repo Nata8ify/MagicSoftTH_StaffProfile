@@ -1,3 +1,4 @@
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <div class="modal fade" id='modal-editself'>
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -43,28 +44,34 @@
 					</div>
 					<div class="row control-group">
 						<div
-							class="form-group col-xs-5 floating-label-form-group controls">
-							<label for="email">Email Address</label> <input type="email"
+							class="form-group col-xs-12 floating-label-form-group">
+							<label for="email">Email Address</label> 
+							<div class="input-group">
+							<input type="text"
 								class="form-control" placeholder="Email Address" id="email"
 								name='email' maxlength="60" required
 								data-validation-required-message="Please enter your Email Address."
-								value="${thisStaff.email}">
+								value="${fn:substring(thisStaff.email, 0, fn:indexOf(thisStaff.email, '@'))}">
+								<span class="input-group-addon" id="basic-addon2">@magicsoftware.co.th</span>
+							</div>
 							<p class="help-block text-danger"></p>
 						</div>
+					</div>
+						<div class="row control-group">
 						<div
-							class="form-group col-xs-3 floating-label-form-group controls">
+							class="form-group col-xs-6 floating-label-form-group controls">
 							<label for="tel">Contact Number</label> <input type="tel"
-								class="form-control" placeholder="Contact Number" id="tel"
-								name='tel' maxlength="12" required
+								class="form-control" placeholder="Contact Number (without '-')" id="tel"
+								name='tel' maxlength="12" required p
 								data-validation-required-message="Please enter your Contact Number."
 								value="${thisStaff.tel}">
 							<p class="help-block text-danger"></p>
 						</div>
 						<div
-							class="form-group col-xs-4 floating-label-form-group controls">
+							class="form-group col-xs-6 floating-label-form-group controls">
 							<label for="tel">Mobile No.</label> <input type="tel"
-								class="form-control" placeholder="Mobile No." id="mobileTel"
-								name='mobileTel' maxlength="12" required
+								class="form-control" placeholder="Mobile No. (without '-')" id="mobileTel"
+								name='mobileTel' maxlength="12" required 
 								value="${thisStaff.mobileTel}"
 								data-validation-required-message="Please enter Mobile Contact Number.">
 							<p class="help-block text-danger"></p>

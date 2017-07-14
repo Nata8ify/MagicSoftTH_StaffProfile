@@ -56,7 +56,7 @@ public class StaffManagentController {
 	private final String PORTRAIT_DIR = "/resources/portraits/";
 	private final String RESULT_PATH = "result/result";
 	private final String MANAGE_PATH = "manage/manage";
-
+	private final String MST_EMAIL_PREFIX = "@magicsoftware.co.th";
 	public void authenCheck(HttpServletRequest request) throws UnauthorizedAccessException {
 		StaffAccess accessStaff = (StaffAccess) request.getSession(false).getAttribute("thisStaffAccess");
 		if (accessStaff == null)
@@ -123,7 +123,7 @@ public class StaffManagentController {
 		switch (insertType) {
 		case Staff.TYPE_STAFF:
 			if (staffManager.insertStaff(
-					new Staff(staffId.toUpperCase(), name, nameLocale, email, tel, mobileTel, division, position,
+					new Staff(staffId.toUpperCase(), name, nameLocale, email.concat(MST_EMAIL_PREFIX), tel, mobileTel, division, position,
 							protraitPath, hostManagerId.isEmpty() ? null : hostManagerId, honorific, insertType, Date.valueOf(birthDate), Date.valueOf(startWorkingDate)),
 					password.equals("") ? Generator.getInstance().genPassword() : password)) {
 				model.addAttribute("msg", "done");
@@ -162,7 +162,7 @@ public class StaffManagentController {
 			@RequestParam(value = "prevEditType", required = true) String prevStaffType)
 			throws UnauthorizedAccessException {
 		authenCheck(request);
-		if (staffManager.editStaff(new Staff(staffId, name, nameLocale, email, tel, mobileTel, division, position, null,
+		if (staffManager.editStaff(new Staff(staffId, name, nameLocale, email.concat(MST_EMAIL_PREFIX), tel, mobileTel, division, position, null,
 				hostManagerId, honorific, staffType, Date.valueOf(birthDate), Date.valueOf(startWorkingDate)), password)) {
 			if (prevStaffType.equals(Staff.TYPE_MANAGER) && staffType.equals(Staff.TYPE_STAFF)) { // If
 																									// Manager
@@ -228,7 +228,7 @@ public class StaffManagentController {
 			throws IllegalStateException, IOException, UnauthorizedAccessException {
 		authenCheck(request);
 		MultipartHttpServletRequest mrequest = multipartResolver.resolveMultipart(request);
-		Staff staff = new Staff(staffId, name, nameLocale, email, tel, mobileTel, division, position, null,
+		Staff staff = new Staff(staffId, name, nameLocale, email.concat(MST_EMAIL_PREFIX), tel, mobileTel, division, position, null,
 				hostManagerId, honorific, staffType,Date.valueOf(birthDate), Date.valueOf(startWorkingDate));
 		logger.info(staff.toString() + " PWD : " + password);
 		
@@ -241,7 +241,7 @@ public class StaffManagentController {
 				logger.info("protraitInputName : " + protraitPathOld);
 				File oldImg = new File(mrequest.getRealPath(PORTRAIT_DIR + protraitPathOld));
 				oldImg.delete();
-				if (staffManager.editStaff(new Staff(staffId, name, nameLocale, email, tel, mobileTel, division,
+				if (staffManager.editStaff(new Staff(staffId, name, nameLocale, email.concat(MST_EMAIL_PREFIX), tel, mobileTel, division,
 						position, imgName, hostManagerId.isEmpty()?null:hostManagerId, honorific, staffType, Date.valueOf(birthDate), Date.valueOf(startWorkingDate)), password)) {
 					logger.info("prev " + prevStaffType + " ::: new " + staffType);
 					if (prevStaffType.equals(Staff.TYPE_MANAGER) && staffType.equals(Staff.TYPE_STAFF)) { // If
@@ -266,7 +266,7 @@ public class StaffManagentController {
 			} else { // <-- Need Test
 				if (staffManager.editStaffForNoImage( // Which mean KEEP NO
 														// CHANGE/Unset
-						new Staff(staffId, name, nameLocale, email, tel, mobileTel, division, position, null,
+						new Staff(staffId, name, nameLocale, email.concat(MST_EMAIL_PREFIX), tel, mobileTel, division, position, null,
 								hostManagerId.isEmpty()?null:hostManagerId, honorific, staffType, Date.valueOf(birthDate), Date.valueOf(startWorkingDate)),
 						password)) {
 					if (prevStaffType.equals(Staff.TYPE_MANAGER) && staffType.equals(Staff.TYPE_STAFF)) { // If
@@ -291,7 +291,7 @@ public class StaffManagentController {
 		} else {// Portrait not even empty but it's NULL and then go reset.
 			File oldImg = new File(mrequest.getRealPath(PORTRAIT_DIR + Staff.getStaffInstance().getProtraitPath()));
 			oldImg.delete();
-			if (staffManager.editStaff(new Staff(staffId, name, nameLocale, email, tel, mobileTel, division, position,
+			if (staffManager.editStaff(new Staff(staffId, name, nameLocale, email.concat(MST_EMAIL_PREFIX), tel, mobileTel, division, position,
 					null, hostManagerId.isEmpty()?null:hostManagerId, honorific, staffType, Date.valueOf(birthDate), Date.valueOf(startWorkingDate)), password)) {
 				logger.info("prev " + prevStaffType + " ::: new " + staffType);
 				if (prevStaffType.equals(Staff.TYPE_MANAGER) && staffType.equals(Staff.TYPE_STAFF)) { // If
@@ -332,7 +332,7 @@ public class StaffManagentController {
 
 			if (staffManager.editSelfStaff(
 					new Staff(mrequest.getParameter("staffId"), mrequest.getParameter("name"),
-							mrequest.getParameter("nameLocale"), mrequest.getParameter("email"),
+							mrequest.getParameter("nameLocale"), mrequest.getParameter("email").concat(MST_EMAIL_PREFIX),
 							mrequest.getParameter("tel"), mrequest.getParameter("mobileTel"), imgName),
 					mrequest.getParameter("password"))) {
 
@@ -344,7 +344,7 @@ public class StaffManagentController {
 			oldImg.delete();
 			if (staffManager.editSelfStaff(
 					new Staff(mrequest.getParameter("staffId"), mrequest.getParameter("name"),
-							mrequest.getParameter("nameLocale"), mrequest.getParameter("email"),
+							mrequest.getParameter("nameLocale"), mrequest.getParameter("email").concat(MST_EMAIL_PREFIX),
 							mrequest.getParameter("tel"), mrequest.getParameter("mobileTel"), null),
 					mrequest.getParameter("password"))) {
 
@@ -383,7 +383,7 @@ public class StaffManagentController {
 		logger.info("startWorkingDate: "+Date.valueOf(startWorkingDate).getMonth());
 		String imgName = img.isEmpty() ? null : Generator.getInstance().genImageName(img.getOriginalFilename());
 		if (staffManager.insertStaff(
-				new Staff(staffId.toUpperCase(), name, nameLocale, email, tel, mobileTel, division, position, imgName,
+				new Staff(staffId.toUpperCase(), name, nameLocale, email.concat(MST_EMAIL_PREFIX), tel, mobileTel, division, position, imgName,
 						hostManagerId.isEmpty() ? null : hostManagerId, honorific, insertType, Date.valueOf(birthDate), Date.valueOf(startWorkingDate)),
 				password.equals("") ? Generator.getInstance().genPassword() : password)) {
 			img.transferTo(new File(mrequest.getRealPath(PORTRAIT_DIR) + imgName));

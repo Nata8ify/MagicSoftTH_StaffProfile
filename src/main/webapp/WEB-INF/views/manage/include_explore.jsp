@@ -155,7 +155,7 @@
 												$('#name').val(value.name);
 												$('#nameLocale').val(
 														value.nameLocale);
-												$('#email').val(value.email);
+												$('#email').val(value.email.substring(0, value.email.indexOf("@")));
 												$('#tel').val(value.tel);
 												$('#mobileTel').val(
 														value.mobileTel);

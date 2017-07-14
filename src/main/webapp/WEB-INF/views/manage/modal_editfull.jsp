@@ -6,9 +6,9 @@
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 				<h4 class="modal-title">Profile Editor</h4>
 			</div>
-			<div class="modal-body">
-				<form name="staff-edit-form" id="staff-edit-form"
+			<form name="staff-edit-form" id="staff-edit-form"
 					action="editPerson.f" method="POST" enctype="multipart/form-data">
+			<div class="modal-body">
 					<div class="row control-group">
 						<div
 							class="form-group col-xs-4 floating-label-form-group controls">
@@ -29,7 +29,7 @@
 					<div class="row control-group">
 						<div
 							class="form-group col-xs-2 floating-label-form-group controls">
-							<label for="honorific">Honorific</label> <select name="honorific"
+							<label for="honorific">Title</label> <select name="honorific"
 								class="form-control" id='honorific'>
 								<option value="Mr">Mr.</option>
 								<option value="Mrs">Mrs.</option>
@@ -41,7 +41,7 @@
 							<label for="name">Name and Surname (English)</label> <input
 								type="text" class="form-control" placeholder="Name & Lastname"
 								id="name" name='name' maxlength="40" required
-								pattern="[a-zA-Z\s]+"
+								pattern="[a-zA-Z\s\-]+"
 								data-validation-required-message="Please enter Name and Lastname.">
 							<p class="help-block text-danger"></p>
 						</div>
@@ -65,25 +65,29 @@
 					<div class="row control-group">
 						<div
 							class="form-group col-xs-6 floating-label-form-group controls">
-							<label for="email">Email Address</label> <input type="email"
+							<label for="email">Email Address</label> 
+							<div class="input-group">
+							<input type="text"
 								class="form-control" placeholder="Email Address" id="email"
 								name='email' maxlength="60" required
 								data-validation-required-message="Please enter Email Address.">
+								<span class="input-group-addon" id="basic-addon2">@magicsoftware.co.th</span>
+							</div>
 							<p class="help-block text-danger"></p>
 						</div>
 						<div
 							class="form-group col-xs-3 floating-label-form-group controls">
 							<label for="tel">Contact Number</label> <input type="tel"
-								class="form-control" placeholder="Contact Number" id="tel"
-								name='tel' maxlength="12" required
+								class="form-control" placeholder="Contact Number (without '-')" id="tel"
+								name='tel' maxlength="12" required 
 								data-validation-required-message="Please enter Contact Number.">
 							<p class="help-block text-danger"></p>
 						</div>
 						<div
 							class="form-group col-xs-3 floating-label-form-group controls">
 							<label for="tel">Mobile No.</label> <input type="tel"
-								class="form-control" placeholder="Mobile No." id="mobileTel"
-								name='mobileTel' maxlength="12" required
+								class="form-control" placeholder="Mobile No. (without '-')" id="mobileTel"
+								name='mobileTel' maxlength="12" required 
 								data-validation-required-message="Please enter Mobile Contact Number.">
 							<p class="help-block text-danger"></p>
 						</div>
@@ -191,26 +195,24 @@
 							<input type="checkbox" class="" id="chkprvpass" name='chkprvpass'
 								checked> : Prefer to Staff's Original.
 						</div>
-						<div class="form-group col-xs-6  controls">
+<!-- 						<div class="form-group col-xs-6  controls">
 							<a href='#' style='color: red' id='lnk-delstaff'>Delete This
 								Staff from The System</a>
-						</div>
+						</div> -->
 					</div>
 					<input type="hidden" id="protraitPathOld" name="protraitPathOld" />
 					<br>
 					<div id="success"></div>
-					<div class="row">
-						<div class="form-group col-xs-12">
-							<button id='btn-submit-edit' type="submit"
-								class="btn btn-success btn-lg">Submit</button>
-						</div>
-					</div>
-				</form>
 			</div>
 			<div class="modal-footer">
+				<button id='btn-submit-edit' type="submit"
+					class="btn btn-success">Submit</button> &nbsp;&nbsp;
+				<a href='#' style='color: red' id='lnk-delstaff'><button id='btn-submit-delete' type="button"
+					class="btn btn-danger">Delete</button></a> &nbsp;&nbsp;
 				<button type="button" class="btn btn-default" id='btn-submit'
 					data-dismiss="modal">Close</button>
 			</div>
+			</form>
 		</div>
 	</div>
 </div>
@@ -302,4 +304,13 @@
 	    $('#select-portarit-new').prop('checked', true);
 	}
     });
+</script>
+
+<script>
+/** Utility Functions **/
+function resetRoleDropdown(){
+    //Clean Assign Manager's Dropdown.
+    $("#hostManagerName-show").val("Unassigned");
+    $("#hostManagerId").val("");
+}
 </script>
