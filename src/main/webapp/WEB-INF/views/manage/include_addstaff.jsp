@@ -51,8 +51,8 @@
 				<p class="help-block text-danger"></p>
 			</div>
 			<div class="form-group col-xs-3 floating-label-form-group controls">
-				<label for="birthDate">Birth Date</label> <input type="date"
-					class="form-control" id="birthDate" name='birthDate'   required=''
+				<label for="birthDate">Birth Date (yyyy-mm-dd)</label> <input
+					class="form-control" id="birthDate" name='birthDate'   required='' pattern="[0-9\-]{10}" maxlength="10"
 					data-validation-required-message="Please Choose a Birth date of Staff.">
 				<p class="help-block text-danger"></p>
 			</div>
@@ -100,8 +100,8 @@
 		<p class="help-block text-danger"></p>
 	</div>
 	<div class="form-group col-xs-3 floating-label-form-group controls">
-		<label for="startWorkingDate">Start Working Date</label> <input type="date"
-			class="form-control" id="startWorkingDate"
+		<label for="startWorkingDate">Start Working Date (yyyy-mm-dd)</label> <input
+			class="form-control" id="startWorkingDate" pattern="[0-9\-]{10}" maxlength="10"
 			name='startWorkingDate' required=''
 			data-validation-required-message="Start Working Date is Require.">
 		<p class="help-block text-danger"></p>
