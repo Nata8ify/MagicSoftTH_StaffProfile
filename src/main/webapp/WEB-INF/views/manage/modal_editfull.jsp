@@ -136,13 +136,15 @@
 					<div class="row control-group">
 						<div
 							class="form-group col-xs-8 floating-label-form-group controls">
-							<label for="protraitPath">Portrait Image</label> <input readonly
+							<label for="protraitPath">Portrait Image</label> <input
 								type="file" class="form-control" id="protraitPathNew"
 								name='protraitPath'>
 							<p class="help-block text-danger"></p>
 						</div>
-						<div
-							class="form-group col-xs-4 floating-label-form-group controls">
+						
+						<!-- Safe to Remove -->
+						<div 
+							class="form-group col-xs-4 floating-label-form-group controls" style="display: none;">
 							<table>
 								<tr>
 									<td><input type="radio" value="keep"
@@ -164,6 +166,7 @@
 								</tr>
 							</table>
 						</div>
+						<!-- /Safe to Remove -->
 					</div>
 					<hr>
 					<!-- Access Section -->

@@ -35,6 +35,12 @@ public class NonFunctionController {
 		return String.valueOf(isValid);
 	}
 	
+	
+	@RequestMapping(value = "/adm/utils/genPassword", method = RequestMethod.POST)
+	public @ResponseBody String generatePassword() {
+		return gen.genPassword();
+	}
+	
 /*
 	@RequestMapping(value = "/mp", method = RequestMethod.GET)
 	public String testMultiParam(Model model, @RequestParam(value = "param", required = false) String[] params) {

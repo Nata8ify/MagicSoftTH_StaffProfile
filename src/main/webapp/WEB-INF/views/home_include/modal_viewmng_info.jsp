@@ -102,7 +102,7 @@
 										<tr>
 											<th>Staff ID</th>
 											<th>Name and Surname</th>
-											<th></th>
+											<th>Local Name and Surname</th>
 											<th>E-mail Address</th>
 										</tr>
 									</thead>

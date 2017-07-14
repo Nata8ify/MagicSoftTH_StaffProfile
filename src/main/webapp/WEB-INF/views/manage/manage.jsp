@@ -22,6 +22,7 @@
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"
 	integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
 	crossorigin="anonymous"></script>
+	
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="${resContextPath}vendor/bootstrap/js/bootstrap.min.js"></script>
 <script src="${resContextPath}admjs/custom.js"></script>

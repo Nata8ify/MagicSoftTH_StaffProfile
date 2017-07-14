@@ -1,4 +1,3 @@
-
 <div class="content-box-large box-with-header">
 	<form name="add-staff-form" id="add-staff-form" action="insertPerson.f"
 		method="POST" enctype="multipart/form-data">
@@ -118,26 +117,20 @@
 <hr>
 <!-- Access Section -->
 <div class="row control-group">
-	<div class="form-group col-xs-6 floating-label-form-group controls">
-		<label for="password">Password <b id='b-pwd-msg'></b></label> <input
-			type="password" class="form-control" placeholder="Password"
-			id="password" name='password' required=''
+	<div class="form-group col-xs-2 floating-label-form-group controls">
+		<label for="password">Default Password <b id='b-pwd-msg'></b></label> <input
+			type="text" class="form-control" placeholder="Password"
+			id="password" name='password' 
 			data-validation-required-message="Please enter Password.">
 		<p class="help-block text-danger" style="color: red;"></p>
 	</div>
-	<div class="row control-group">
-		<div class="form-group col-xs-6 floating-label-form-group controls">
-			<label for="confirm password">Confirm Password</label> <input
-				type="password" class="form-control" placeholder="Confirm Password"
-				id="cofmpassword" name='cofmpassword' required=''
-				data-validation-required-message="Confirm New-password.">
-			<p class="help-block text-danger"></p>
-		</div>
+	<div class="form-group col-xs-10 floating-label-form-group controls"><br>
+		<b class="help-block">* Please Keep this Password to this Staff. [No E-mail Forwarding by Now]</b>
 	</div>
 </div>
 <br>
 <div id="success"></div>
-<div class="row">
+<div class="row" align="right">
 	<div class="form-group col-xs-12">
 		<button type="submit" class="btn btn-success btn-lg" id="btn-submit-add-staff"
 			id='btn-submit-insert' disabled="disabled">Submit</button> 
@@ -183,25 +176,7 @@
     });
     
     /* This is the Password Validator */
-    $('#cofmpassword, #password').keyup(function() {
-	if ($('#cofmpassword').val() == "") {
-	    return;
-	}
-	if ($('#cofmpassword').val() != $('#password').val()) {
-	    $('#b-pwd-msg').html('Mismatched Password!');
-	    $('#b-pwd-msg').css('color', 'red');
-	    $('#btn-submit-insert').prop("disabled", true);
-	} else {
-	    if ($('#password').val() != '') {
-		$('#b-pwd-msg').html('Matched');
-		$('#b-pwd-msg').css('color', 'green');
-		$('#btn-submit-insert').prop("disabled", false);
-	    } else {
-		$('#b-pwd-msg').html('Password is Empty.');
-		$('#b-pwd-msg').css('color', 'red');
-	    }
-	}
-    });
+    
 </script>
 <script>
     /* This section will load the manager list to be picked when admin need to assign the manager to staff.*/
@@ -213,6 +188,14 @@
 		managers = $.parseJSON(mlist);
 		$('#btn-assign-mng').prop("disabled", false);
 		$('#btn-assign-mng').html("Assign Manager");
+	    }
+	});
+	$.ajax({
+	    "type" : "post",
+	    "url" : "utils/genPassword",
+	    "success" : function(result){
+		console.log("result : "+result);
+			$("#password").val(result);
 	    }
 	});
     });

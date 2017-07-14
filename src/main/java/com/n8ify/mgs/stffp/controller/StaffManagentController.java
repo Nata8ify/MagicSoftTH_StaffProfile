@@ -164,17 +164,8 @@ public class StaffManagentController {
 		authenCheck(request);
 		if (staffManager.editStaff(new Staff(staffId, name, nameLocale, email.concat(MST_EMAIL_PREFIX), tel, mobileTel, division, position, null,
 				hostManagerId, honorific, staffType, Date.valueOf(birthDate), Date.valueOf(startWorkingDate)), password)) {
-			if (prevStaffType.equals(Staff.TYPE_MANAGER) && staffType.equals(Staff.TYPE_STAFF)) { // If
-																									// Manager
-																									// became
-																									// a
-																									// staff
-																									// then..
-																									// unbind
-																									// staff;
-				staffBinder.unbindStaffFromManager(staffId); // <-- This Id is
-																// surely
-																// Manager.
+			if (prevStaffType.equals(Staff.TYPE_MANAGER) && staffType.equals(Staff.TYPE_STAFF)) { 
+				staffBinder.unbindStaffFromManager(staffId);
 			}
 			model.addAttribute("msg", "done");
 		} else {
