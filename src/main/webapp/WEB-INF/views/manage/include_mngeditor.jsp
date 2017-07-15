@@ -42,7 +42,7 @@
 			class='btn btn-danger btn-staction'
 			disabled
 			id='btn-unbind-all'
-		><i class='glyphicon glyphicon-remove-sign'></i> Unbind from the Manager</button>
+		><i class='glyphicon glyphicon-remove-sign'></i> Set Unassigned of Manager</button>
 	</div><br/>
 	<h4 id='h4-assigned-staff'>Assigned Staffs</h4>
 	<hr>

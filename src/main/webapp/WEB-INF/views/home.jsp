@@ -110,9 +110,9 @@
 					</div>
 				</div>
 				<div class="col-lg-10"  style="height: 500px">
-					<div class='row well' style="color: #000;"
+					<div class='row well' 
 						id="div-table-total-staff">
-						<table id='table-total-staff' style="text-align: left;"
+						<table id='table-total-staff' style="text-align: left;" style="color: #000;"
 							class='hover stripe'>
 							<thead>
 								<tr>
@@ -211,7 +211,7 @@
 		<div class="footer-below">
 			<div class="container">
 				<div class="row">
-					<div class="col-lg-12">Copyright &copy; STFFPF 2016</div>
+					<div class="col-lg-12">Copyright &copy; STFFPF 2017</div>
 				</div>
 			</div>
 		</div>

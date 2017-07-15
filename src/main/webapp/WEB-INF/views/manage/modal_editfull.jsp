@@ -7,8 +7,8 @@
 				<h4 class="modal-title">Profile Editor</h4>
 			</div>
 			<form name="staff-edit-form" id="staff-edit-form"
-					action="editPerson.f" method="POST" enctype="multipart/form-data">
-			<div class="modal-body">
+				action="editPerson.f" method="POST" enctype="multipart/form-data">
+				<div class="modal-body">
 					<div class="row control-group">
 						<div
 							class="form-group col-xs-4 floating-label-form-group controls">
@@ -56,9 +56,9 @@
 						</div>
 						<div
 							class="form-group col-xs-3 floating-label-form-group controls">
-							<input type="hidden" name='birthDate' />
-							<label for="birthDate">Birth Date (A.D. : dd-mm-yyyy)</label> <input
-								class="form-control" id="birthDate" required='' placeholder="A.D. as dd-mm-yyyy"
+							<input type="hidden" name='birthDate' /> <label for="birthDate">Birth
+								Date (A.D. : dd-mm-yyyy)</label> <input class="form-control"
+								id="birthDate" required='' placeholder="A.D. as dd-mm-yyyy"
 								data-validation-required-message="Please Choose a Birth date of Staff.">
 							<p class="help-block text-danger"></p>
 						</div>
@@ -66,12 +66,12 @@
 					<div class="row control-group">
 						<div
 							class="form-group col-xs-6 floating-label-form-group controls">
-							<label for="email">Email Address</label> 
+							<label for="email">Email Address</label>
 							<div class="input-group">
-							<input type="text"
-								class="form-control" placeholder="Email Address" id="email"
-								name='email' maxlength="60" required
-								data-validation-required-message="Please enter Email Address.">
+								<input type="text" class="form-control"
+									placeholder="Email Address" id="email" name='email'
+									maxlength="60" required
+									data-validation-required-message="Please enter Email Address.">
 								<span class="input-group-addon" id="basic-addon2">@magicsoftware.co.th</span>
 							</div>
 							<p class="help-block text-danger"></p>
@@ -79,16 +79,16 @@
 						<div
 							class="form-group col-xs-3 floating-label-form-group controls">
 							<label for="tel">Contact Number</label> <input type="tel"
-								class="form-control" placeholder="Contact Number (without '-')" id="tel"
-								name='tel' maxlength="12" required 
+								class="form-control" placeholder="Contact Number (without '-')"
+								id="tel" name='tel' maxlength="12" required
 								data-validation-required-message="Please enter Contact Number.">
 							<p class="help-block text-danger"></p>
 						</div>
 						<div
 							class="form-group col-xs-3 floating-label-form-group controls">
 							<label for="tel">Mobile No.</label> <input type="tel"
-								class="form-control" placeholder="Mobile No. (without '-')" id="mobileTel"
-								name='mobileTel' maxlength="12" required 
+								class="form-control" placeholder="Mobile No. (without '-')"
+								id="mobileTel" name='mobileTel' maxlength="12" required
 								data-validation-required-message="Please enter Mobile Contact Number.">
 							<p class="help-block text-danger"></p>
 						</div>
@@ -96,10 +96,11 @@
 					<div class="row control-group">
 						<div
 							class="form-group col-xs-5 floating-label-form-group controls">
-							<label for="division">Staff's Department <a href="#division" data-target="#modal-assign-department" data-toggle="modal"> [Choose]</a></label> <input
-								type="text" class="form-control"
-								placeholder="Staff's Department" id="division" name='division'
-								maxlength="100" required
+							<label for="division">Staff's Department <a
+								href="#division" data-target="#modal-assign-department"
+								data-toggle="modal"> [Choose]</a></label> <input type="text"
+								class="form-control" placeholder="Staff's Department"
+								id="division" name='division' maxlength="100" required
 								data-validation-required-message="Please enter Staff's Department.">
 							<p class="help-block text-danger"></p>
 						</div>
@@ -113,9 +114,10 @@
 						</div>
 						<div
 							class="form-group col-xs-3 floating-label-form-group controls">
-							<input type="hidden" name='startWorkingDate' />
-							<label for="startWorkingDate">Start Working Date (A.D. : dd-mm-yyyy)</label> <input 
-								class="form-control" id="startWorkingDate" required='' placeholder="A.D. as dd-mm-yyyy"
+							<input type="hidden" name='startWorkingDate' /> <label
+								for="startWorkingDate">Start Working Date (A.D. :
+								dd-mm-yyyy)</label> <input class="form-control" id="startWorkingDate"
+								required='' placeholder="A.D. as dd-mm-yyyy"
 								data-validation-required-message="Start Working Date is Require.">
 							<p class="help-block text-danger"></p>
 						</div>
@@ -135,17 +137,10 @@
 						</div>
 					</div>
 					<div class="row control-group">
-						<div
-							class="form-group col-xs-8 floating-label-form-group controls">
-							<label for="protraitPath">Portrait Image</label> <input
-								type="file" class="form-control" id="protraitPathNew"
-								name='protraitPath'>
-							<p class="help-block text-danger"></p>
-						</div>
-						
 						<!-- Safe to Remove -->
-						<div 
-							class="form-group col-xs-4 floating-label-form-group controls" style="display: none;">
+						<div
+							class="form-group col-xs-6 floating-label-form-group controls">
+							<label>Portrait Image</label>
 							<table>
 								<tr>
 									<td><input type="radio" value="keep"
@@ -158,6 +153,11 @@
 										id='select-portarit-new' name='portraitPathOpt'>
 									<td>
 									<td>: Upload New Image</td>
+									<td>
+											<input style="display: none;"
+												type="file" class="form-control" id="protraitPathNew"
+												name='protraitPath'>
+									</td>
 								</tr>
 								<tr>
 									<td><input type="radio" value="default"
@@ -172,75 +172,57 @@
 					<hr>
 					<!-- Access Section -->
 					<div class="row control-group">
-						<div
-							class="form-group col-xs-6 floating-label-form-group controls">
-							<label for="password">Password <b id='b-pwd-msg'></b></label> <input
-								type="password" class="form-control" placeholder="Password"
-								id="password" name='password' required
+						<div class="form-group col-xs-6  controls">
+							<input type="checkbox" class="" id="chkresetpass"
+								name='chkresetpass'> <label> : Reset a Password
+							</label> <input style="display: none;" class="form-control"
+								placeholder="Password" id="password" name='password' required
 								data-validation-required-message="Please enter Password."
 								disabled>
 							<p class="help-block text-danger"></p>
 						</div>
-						<div class="row control-group">
-							<div
-								class="form-group col-xs-6 floating-label-form-group controls">
-								<label for="confirm password">Confirm Password</label> <input
-									type="password" class="form-control"
-									placeholder="Confirm Password" id="cofmpassword"
-									name='cofmpassword' required
-									data-validation-required-message="Confirm New-password."
-									disabled>
-								<p class="help-block text-danger"></p>
-							</div>
-						</div>
 					</div>
-					<div class="row control-group">
-						<div class="form-group col-xs-6  controls">
-							<input type="checkbox" class="" id="chkprvpass" name='chkprvpass'
-								checked> : Prefer to Staff's Original.
-						</div>
-<!-- 						<div class="form-group col-xs-6  controls">
-							<a href='#' style='color: red' id='lnk-delstaff'>Delete This
-								Staff from The System</a>
-						</div> -->
-					</div>
+
 					<input type="hidden" id="protraitPathOld" name="protraitPathOld" />
 					<br>
 					<div id="success"></div>
-			</div>
-			<div class="modal-footer">
-				<button id='btn-submit-edit' type="submit"
-					class="btn btn-success">Submit</button> &nbsp;&nbsp;
-				<a href='#' style='color: red' id='lnk-delstaff'><button id='btn-submit-delete' type="button"
-					class="btn btn-danger">Delete</button></a> &nbsp;&nbsp;
-				<button type="button" class="btn btn-default" id='btn-submit'
-					data-dismiss="modal">Close</button>
-			</div>
+				</div>
+				<div class="modal-footer">
+					<button id='btn-submit-edit' type="submit" class="btn btn-success">Submit</button>
+					&nbsp;&nbsp; <a href='#' style='color: red' id='lnk-delstaff'><button
+							id='btn-submit-delete' type="button" class="btn btn-danger">Delete</button></a>
+					&nbsp;&nbsp;
+					<button type="button" class="btn btn-default" id='btn-submit'
+						data-dismiss="modal">Close</button>
+				</div>
 			</form>
 		</div>
 	</div>
 </div>
 <script>
-	/* Do somethings when a Document is Ready. */
-	$("document").ready(function(){
-		/* #birthDate, #startWorkingDate : Mask Date's Format into date these Inputs. */
-		$("#birthDate").mask('99-99-9999');
-		$("#startWorkingDate").mask('99-99-9999');
-	});
+    /* Do somethings when a Document is Ready. */
+    $("document").ready(function() {
+	/* #birthDate, #startWorkingDate : Mask Date's Format into date these Inputs. */
+	$("#birthDate").mask('99-99-9999');
+	$("#startWorkingDate").mask('99-99-9999');
+    });
 
     /* 	This Event will disabled the password form and its confirm form 
      if admin prefer to not change this staff's password.  */
-    $('#chkprvpass').click(function() {
-	if ($('#chkprvpass').is(":checked")) {
-	    $('#password').prop('disabled', true);
-	    $('#cofmpassword').prop('disabled', true);
-	    $('#btn-submit-edit').prop("disabled", false);
-	    $('#b-pwd-msg').html('');
-	    $('#cofmpassword').val('');
-	    $('#password').val('');
+    $("#chkresetpass").click(function() {
+	if ($(this).prop("checked")) {
+	    $.ajax({
+		"type" : "post",
+		"url" : "utils/genPassword",
+		"success" : function(result) {
+		    $("#password").val(result);
+		}
+	    });
+	    $("#password").prop("disabled", false);
+	    $("#password").css("display", "inline-block");
 	} else {
-	    $('#password').prop('disabled', false);
-	    $('#cofmpassword').prop('disabled', false);
+	    $("#password").prop("disabled", true);
+	    $("#password").css("display", "none");
 	}
     });
 
@@ -266,22 +248,6 @@
 			}
 		    });
 
-    /* This is the Password Validator */
-    $('#cofmpassword, #password').keyup(function() {
-	if ($('#cofmpassword').val() == "") {
-	    return;
-	}
-	if ($('#cofmpassword').val() != $('#password').val()) {
-	    $('#b-pwd-msg').html('Mismatched Password!');
-	    $('#b-pwd-msg').css('color', 'red');
-	    $('#btn-submit-edit').prop("disabled", true);
-	} else {
-	    $('#b-pwd-msg').html('Matched');
-	    $('#b-pwd-msg').css('color', 'green');
-	    $('#btn-submit-edit').prop("disabled", false);
-	}
-    });
-
     /* If the Staff is Manager then 'Assign manager' Should be disable. */
     $('#editType').on('change', function(e) {
 	if ($('#editType').val() != 'm') {
@@ -298,14 +264,17 @@
 	    $('#protraitPathNew').prop('disabled', false);
 	    $('#protraitPathNew').prop('readonly', false);
 	    $('#protraitPathNew').prop('required', true);
+	    $("#protraitPathNew").css('display', 'inline-block');
 	    break;
 	case "keep":
 	    $('#protraitPathNew').prop('readonly', true);
 	    $('#protraitPathNew').prop('required', false);
+	    $("#protraitPathNew").css('display', 'none');
 	    $('#protraitPathNew').val("");
 	    break;
 	default:
 	    $('#protraitPathNew').prop('disabled', true);
+	    $("#protraitPathNew").css('display', 'none');
 	    $('#protraitPathNew').prop('required', false);
 	}
     });
@@ -315,27 +284,30 @@
 	    $('#select-portarit-new').prop('checked', true);
 	}
     });
-    
+
     /* #birthDate, #startWorkingDate : This is the Date  Formatter after these Input Data is Changed.*/
-    $("#birthDate").change(function(){
-		$("input[name='birthDate']").val(formatToModelDate($(this).val()));
+    $("#birthDate").change(function() {
+	$("input[name='birthDate']").val(formatToModelDate($(this).val()));
     });
-    
-    $("#startWorkingDate").change(function(){
-	console.log(formatToModelDate($(this).val()));
-		$("input[name='startWorkingDate']").val(formatToModelDate($(this).val()));
-    });
+
+    $("#startWorkingDate").change(
+	    function() {
+		console.log(formatToModelDate($(this).val()));
+		$("input[name='startWorkingDate']").val(
+			formatToModelDate($(this).val()));
+	    });
 </script>
 
 <script>
-/** Utility Functions **/
-function resetRoleDropdown(){
-    //Clean Assign Manager's Dropdown.
-    $("#hostManagerName-show").val("Unassigned");
-    $("#hostManagerId").val("");
-}
+    /** Utility Functions **/
+    function resetRoleDropdown() {
+	//Clean Assign Manager's Dropdown.
+	$("#hostManagerName-show").val("Unassigned");
+	$("#hostManagerId").val("");
+    }
 
-function formatToModelDate(date){
-    return date.substring(6,10).concat("-").concat(date.substring(3,5)).concat("-").concat(date.substring(0,2));
-}
+    function formatToModelDate(date) {
+	return date.substring(6, 10).concat("-").concat(date.substring(3, 5))
+		.concat("-").concat(date.substring(0, 2));
+    }
 </script>

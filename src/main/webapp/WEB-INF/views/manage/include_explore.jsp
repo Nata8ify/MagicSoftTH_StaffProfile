@@ -1,4 +1,6 @@
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<c:set var="resContextPath"
+	value="${pageContext.request.contextPath}/resources/" />
 <div class="col-md-12 panel-default">
 	<div class="content-box-header panel-heading">
 		<div class="panel-title ">Staff Explorer</div>
@@ -183,7 +185,7 @@
 														.val(
 																value.hostManagerName != null ? value.hostManagerName
 																		: "Unassigned");
-												console.log(value);
+												$("#img-preview-portrait").attr("src", "${resContextPath}portraits/"+(value.protraitPath==null?"noimg.png":value.protraitPath));
 											}
 										})
 						$('#modal-staff-edit').modal();
