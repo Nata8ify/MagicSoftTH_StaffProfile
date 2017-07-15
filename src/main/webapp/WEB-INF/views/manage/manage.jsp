@@ -26,6 +26,8 @@
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="${resContextPath}vendor/bootstrap/js/bootstrap.min.js"></script>
 <script src="${resContextPath}admjs/custom.js"></script>
+<script src="${resContextPath}/js/mark.min.js"
+	type="text/javascript"></script>
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>

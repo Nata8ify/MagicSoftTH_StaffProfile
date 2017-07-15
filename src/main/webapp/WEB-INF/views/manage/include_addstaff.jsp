@@ -51,9 +51,10 @@
 				<p class="help-block text-danger"></p>
 			</div>
 			<div class="form-group col-xs-3 floating-label-form-group controls">
-				<label for="birthDate">Birth Date (yyyy-mm-dd)</label> <input
-					class="form-control" id="birthDate" name='birthDate'   required='' pattern="[0-9\-]{10}" maxlength="10"
-					data-validation-required-message="Please Choose a Birth date of Staff.">
+				<input type="hidden" name='birthDate' />
+				<label for="birthDate">Birth Date</label> <input
+					class="form-control" id="birthDate"    required=''  placeholder="A.D. as dd-mm-yyyy"
+					data-validation-required-message="Please Choose a Birth date of Staff." >
 				<p class="help-block text-danger"></p>
 			</div>
 		</div>
@@ -100,9 +101,10 @@
 		<p class="help-block text-danger"></p>
 	</div>
 	<div class="form-group col-xs-3 floating-label-form-group controls">
-		<label for="startWorkingDate">Start Working Date (yyyy-mm-dd)</label> <input
-			class="form-control" id="startWorkingDate" pattern="[0-9\-]{10}" maxlength="10"
-			name='startWorkingDate' required=''
+	<input type="hidden" name='startWorkingDate' />
+		<label for="startWorkingDate">Start Working Date</label> <input
+			class="form-control" id="startWorkingDate" 
+			 required='' placeholder="A.D. as dd-mm-yyyy"
 			data-validation-required-message="Start Working Date is Require.">
 		<p class="help-block text-danger"></p>
 	</div>
@@ -143,15 +145,6 @@
 <br />
 </div>
 <script>
-    /* If the role is manager then no need to assign the manager. */
-/*     $('#insertType').on('change', function() {
-	if ($('#insertType').val() == "m") {
-	    $('#btn-assign-mng').prop('disabled', true);
-	} else {
-	    $("#btn-assign-mng").removeAttr("disabled");
-	}
-    }); */
-
     /* System will generate the recomendation and usable MagicSoftware Staff ID. */
     $('#btn-gen-id').click(function() {
 	$.ajax({
@@ -175,13 +168,25 @@
 		staffIdValidator($(this).val());
     });
     
-    /* This is the Password Validator */
+    /* #birthDate, #startWorkingDate : This is the Date  Formatter after these Input Data is Changed.*/
+    $("#birthDate").change(function(){
+		$("input[name='birthDate']").val(formatToModelDate($(this).val()));
+    });
+    
+    $("#startWorkingDate").change(function(){
+		
+		$("input[name='startWorkingDate']").val(formatToModelDate($(this).val()));
+    });
     
 </script>
 <script>
     /* This section will load the manager list to be picked when admin need to assign the manager to staff.*/
     var managers;
     $(document).ready(function() {
+	/* #birthDate, #startWorkingDate : Mask Date's Format into date these Inputs. */
+	$("#birthDate").mask('99-99-9999');
+	$("#startWorkingDate").mask('99-99-9999');
+	
 	$.ajax({
 	    "url" : "${pageContext.request.contextPath}/viewAllMngs?json=true",
 	    "success" : function(mlist) {
@@ -245,7 +250,8 @@
 								    }));
 					});
 			$('#modal-assign-mng').modal();
-				
+			
+			
 		    });
 </script>
 <script>
@@ -270,5 +276,9 @@
 	    $("#opt-manager").html("Manager");
 	    $("#opt-staff").html("Staff");
 	    $("#hostManagerId").val("");
+	}
+	
+	function formatToModelDate(date){
+	    return date.substring(6,10).concat("-").concat(date.substring(3,5)).concat("-").concat(date.substring(0,2));
 	}
 </script>

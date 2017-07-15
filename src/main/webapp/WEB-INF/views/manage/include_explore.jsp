@@ -172,15 +172,18 @@
 												$('#hide-cur-staffType').val(
 														value.staffType);
 												$('#birthDate').val(
+													moment(new Date(value.birthDate)).format("DD-MM-YYYY"));
+												$('input[name="birthDate"]').val(
 													moment(new Date(value.birthDate)).format("YYYY-MM-DD"));
 												$('#startWorkingDate').val(
-													moment(new Date(value.startWorkingDate)).format("YYYY-MM-DD"));
+													moment(new Date(value.startWorkingDate)).format("DD-MM-YYYY"));
+												$('input[name="startWorkingDate"]').val(
+													moment(new Date(value.birthDate)).format("YYYY-MM-DD"));
 												$('#hostManagerName-show')
 														.val(
 																value.hostManagerName != null ? value.hostManagerName
 																		: "Unassigned");
 												console.log(value);
-												console.log(moment(new Date(value.birthDate)).format("YYYY-MM-DD"));
 											}
 										})
 						$('#modal-staff-edit').modal();

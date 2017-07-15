@@ -218,10 +218,10 @@ public class StaffManagentController {
 																					// staffType.
 			throws IllegalStateException, IOException, UnauthorizedAccessException {
 		authenCheck(request);
+		logger.info(birthDate+"  "+startWorkingDate);
 		MultipartHttpServletRequest mrequest = multipartResolver.resolveMultipart(request);
 		Staff staff = new Staff(staffId, name, nameLocale, email.concat(MST_EMAIL_PREFIX), tel, mobileTel, division, position, null,
 				hostManagerId, honorific, staffType,Date.valueOf(birthDate), Date.valueOf(startWorkingDate));
-		logger.info(staff.toString() + " PWD : " + password);
 		
 
 		if (img != null) { // If Have a deal on O=Portrait.. Do this cond.
@@ -229,12 +229,10 @@ public class StaffManagentController {
 					: Generator.getInstance().genImageName(img.getOriginalFilename());
 			if (!img.isEmpty()) {
 				img.transferTo(new File(mrequest.getRealPath(PORTRAIT_DIR) + imgName));
-				logger.info("protraitInputName : " + protraitPathOld);
 				File oldImg = new File(mrequest.getRealPath(PORTRAIT_DIR + protraitPathOld));
 				oldImg.delete();
 				if (staffManager.editStaff(new Staff(staffId, name, nameLocale, email.concat(MST_EMAIL_PREFIX), tel, mobileTel, division,
 						position, imgName, hostManagerId.isEmpty()?null:hostManagerId, honorific, staffType, Date.valueOf(birthDate), Date.valueOf(startWorkingDate)), password)) {
-					logger.info("prev " + prevStaffType + " ::: new " + staffType);
 					if (prevStaffType.equals(Staff.TYPE_MANAGER) && staffType.equals(Staff.TYPE_STAFF)) { // If
 																											// Manager
 																											// became
@@ -243,16 +241,13 @@ public class StaffManagentController {
 																											// then..
 																											// unbind
 																											// staff;
-						logger.info("TRUE UNB");
 						staffBinder.unbindStaffsFromManager(staffId); // <--
 																		// This
 																		// Id is
 																		// surely
 																		// Manager.
 					}
-					model.addAttribute("msg", "สำเร็จ!");
 				} else {
-					model.addAttribute("msg", "ไม่สำเร็จ!");
 				}
 			} else { // <-- Need Test
 				if (staffManager.editStaffForNoImage( // Which mean KEEP NO
@@ -274,9 +269,7 @@ public class StaffManagentController {
 																		// surely
 																		// Manager.
 					}
-					model.addAttribute("msg", "สำเร็จ!");
 				} else {
-					model.addAttribute("msg", "ไม่สำเร็จ!");
 				}
 			}
 		} else {// Portrait not even empty but it's NULL and then go reset.
@@ -284,7 +277,6 @@ public class StaffManagentController {
 			oldImg.delete();
 			if (staffManager.editStaff(new Staff(staffId, name, nameLocale, email.concat(MST_EMAIL_PREFIX), tel, mobileTel, division, position,
 					null, hostManagerId.isEmpty()?null:hostManagerId, honorific, staffType, Date.valueOf(birthDate), Date.valueOf(startWorkingDate)), password)) {
-				logger.info("prev " + prevStaffType + " ::: new " + staffType);
 				if (prevStaffType.equals(Staff.TYPE_MANAGER) && staffType.equals(Staff.TYPE_STAFF)) { // If
 																										// Manager
 																										// became
@@ -293,14 +285,11 @@ public class StaffManagentController {
 																										// then
 																										// unbind
 																										// staff;
-					logger.info("TRUE UNB");
 					staffBinder.unbindStaffsFromManager(staffId); // <-- This Id
 																	// is surely
 																	// Manager.
 				}
-				model.addAttribute("msg", "สำเร็จ!");
 			} else {
-				model.addAttribute("msg", "ไม่สำเร็จ!");
 			}
 		}
 		return "redirect:managechoice?to=explore";
@@ -310,7 +299,6 @@ public class StaffManagentController {
 	public String editSelfWithPortrait(Model model, HttpServletRequest request,
 			@RequestParam(value = "protraitPath", required = false) MultipartFile img)
 			throws IllegalStateException, IOException {
-		logger.info("IS MULT : " + multipartResolver.isMultipart(request));
 		MultipartHttpServletRequest mrequest = multipartResolver.resolveMultipart(request);
 		if (img != null) {
 			String imgName = img.isEmpty() ? Staff.getStaffInstance().getProtraitPath()
@@ -368,19 +356,13 @@ public class StaffManagentController {
 			throws IllegalStateException, IOException, UnauthorizedAccessException {
 		// Checking Is this an Administrator Account Roll.
 		authenCheck(request);
-		logger.info("birthDate: "+birthDate);
-		logger.info("startWorkingDate: "+startWorkingDate);
-		logger.info("birthDate: "+Date.valueOf(birthDate).getMonth());
-		logger.info("startWorkingDate: "+Date.valueOf(startWorkingDate).getMonth());
 		String imgName = img.isEmpty() ? null : Generator.getInstance().genImageName(img.getOriginalFilename());
 		if (staffManager.insertStaff(
 				new Staff(staffId.toUpperCase(), name, nameLocale, email.concat(MST_EMAIL_PREFIX), tel, mobileTel, division, position, imgName,
 						hostManagerId.isEmpty() ? null : hostManagerId, honorific, insertType, Date.valueOf(birthDate), Date.valueOf(startWorkingDate)),
 				password.equals("") ? Generator.getInstance().genPassword() : password)) {
 			img.transferTo(new File(mrequest.getRealPath(PORTRAIT_DIR) + imgName));
-			model.addAttribute("msg", "สำเร็จ!");
 		} else {
-			model.addAttribute("msg", "ไม่สำเร็จ!");
 		}
 		return "redirect:managechoice?to=add";
 	}
@@ -393,7 +375,6 @@ public class StaffManagentController {
 			@RequestParam(value = "isGrantAdminRole", required = true) boolean isGrantAdminRole) throws UnauthorizedAccessException{
 		authenCheck(request);
 		if(isGrantAdminRole){ //Change Stffps System Role -> By now just Admin.
-			logger.info(" includeAdminRole : " + isGrantAdminRole);
 			return String.valueOf(sttfpAccess.setToStffpsRole(staffId, Staff.TYPE_ADMINISTRATOR));
 		} else {
 			return String.valueOf(sttfpAccess.setToStffpsRole(staffId, null));
