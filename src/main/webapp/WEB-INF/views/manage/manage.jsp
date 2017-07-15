@@ -92,7 +92,7 @@
 						<li><a href="managechoice?to=mngeditor"><i
 								class="glyphicon glyphicon-pencil"></i> Staff Transfer</a></li>
 						<li><a href="managechoice?to=departmentmng"><i
-								class="glyphicon glyphicon-briefcase"></i> Department Manager</a></li>
+								class="glyphicon glyphicon-briefcase"></i> Department</a></li>
 						<li><a href="managechoice?to=dangerzone"><i
 								class="glyphicon glyphicon-info-sign"></i> Advance</a></li>
 					</ul>

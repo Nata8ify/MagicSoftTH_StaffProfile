@@ -8,6 +8,7 @@ var homeSection =  $("#home");
 /* Elements */
 var navbMSTTitle = $("#div-header-title");
 var navbMenu = $("#bs-example-navbar-collapse-1");
+var selectDepartment = $("#select-filter-staff-by-department");
 
 /*  HTML Tags */
 var html = $("html");
@@ -19,6 +20,7 @@ function slideFadeDepartmentSearch(isShow){
 	departmentSeacrhSection.velocity('transition.slideDownBigIn');
     }else{
 	if(departmentSeacrhSection.css("opacity") == 0){return;}
+	selectDepartment.val("all");
 	departmentSeacrhSection.velocity('transition.slideUpBigOut');
     }
 }

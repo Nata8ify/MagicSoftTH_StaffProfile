@@ -172,7 +172,7 @@
 					<hr>
 					<!-- Access Section -->
 					<div class="row control-group">
-						<div class="form-group col-xs-6  controls">
+						<div class="form-group col-xs-4  controls">
 							<input type="checkbox" class="" id="chkresetpass"
 								name='chkresetpass'> <label> : Reset a Password
 							</label> <input style="display: none;" class="form-control"
@@ -181,6 +181,8 @@
 								disabled>
 							<p class="help-block text-danger"></p>
 						</div>
+						<div class="form-group col-xs-8  controls">
+						</div>
 					</div>
 
 					<input type="hidden" id="protraitPathOld" name="protraitPathOld" />
@@ -188,12 +190,17 @@
 					<div id="success"></div>
 				</div>
 				<div class="modal-footer">
+				<div id="div-restore-data-sec"  style="float: left;">
+					<button type="button" class="btn btn-default" id='btn-restore-default' >Restore to Default</button>
+					&nbsp;<i id="i-restore-data-mgs" hidden="">Information Restored</i>
+				</div>
+				<div id="div-edit-action-sec">
 					<button id='btn-submit-edit' type="submit" class="btn btn-success">Submit</button>
 					&nbsp;&nbsp; <a href='#' style='color: red' id='lnk-delstaff'><button
 							id='btn-submit-delete' type="button" class="btn btn-danger">Delete</button></a>
 					&nbsp;&nbsp;
-					<button type="button" class="btn btn-default" id='btn-submit'
-						data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
 				</div>
 			</form>
 		</div>
@@ -226,6 +233,16 @@
 	}
     });
 
+    /* btn-restore-default : Restore before Editing Staff's Data into Editor.*/
+    $("#btn-restore-default").click(function(){
+		var	restoreDataMsg = $("#i-restore-data-mgs");
+		appendEditStaffData(thisStaff);
+		restoreDataMsg.fadeIn();
+		setTimeout(() => {
+		    restoreDataMsg.fadeOut();
+		}, 3000);
+    });
+    
     /* This Event will performs the permantly delete action of selected staff. */
     $('#lnk-delstaff')
 	    .click(
@@ -247,15 +264,6 @@
 			    });
 			}
 		    });
-
-    /* If the Staff is Manager then 'Assign manager' Should be disable. */
-    $('#editType').on('change', function(e) {
-	if ($('#editType').val() != 'm') {
-	    $('#btn-assign-mng').prop('disabled', false);
-	} else {
-	    $('#btn-assign-mng').prop('disabled', true);
-	}
-    });
 
     /* Listen If Portrait Path Option is Changed */
     $('input[name="portraitPathOpt"]').change(function() {
