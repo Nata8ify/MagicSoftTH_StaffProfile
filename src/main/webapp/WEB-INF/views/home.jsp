@@ -100,7 +100,7 @@
 						</select> <br />
 					</div>
 					<div class="form-group" id="div-department-search-sec"
-						style="opacity: 0">
+						hidden="">
 						<label>Department Of :</label> <select
 							id="select-filter-staff-by-department" class="form-control"
 							style="color: black">
@@ -125,7 +125,7 @@
 							<tbody></tbody>
 						</table>
 					</div>
-					<h5 style='color: #000;'>
+					<h5 style='color: #346;'>
 						<a href='https://datatables.net/license/mit'>Copyright (C)
 							2008-2017, SpryMedia Ltd.</a>
 					</h5>
@@ -186,7 +186,7 @@
 									</div>
 									<div id="success"></div>
 									<div class="row">
-										<div class="form-group col-xs-12">
+										<div class="form-group col-xs-12"><br/>
 											<button type="submit" class="btn btn-success btn-lg">Submit</button>
 										</div>
 									</div>
