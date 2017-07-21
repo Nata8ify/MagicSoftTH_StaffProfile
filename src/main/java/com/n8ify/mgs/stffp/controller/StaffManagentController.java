@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
+import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -421,5 +422,12 @@ public class StaffManagentController {
 		ModelAndView mav = new ModelAndView("result/errpage");
 		return ModelBody.setErrorBody(HttpStatus.INTERNAL_SERVER_ERROR, ModelBody.ERR_ICO_ERROR, "Oops!",
 				"This Staff ID may already been Added on the System, Please check.", mav);
+	}
+	
+	@ExceptionHandler({ CannotGetJdbcConnectionException.class })
+	public ModelAndView cannotGetJdbcConnectionException(CannotGetJdbcConnectionException cgjcex) {
+		ModelAndView mav = new ModelAndView("result/errpage");
+		return ModelBody.setErrorBody(HttpStatus.INTERNAL_SERVER_ERROR, ModelBody.ERR_ICO_ERROR, "Connection Timeout.!",
+				"Please check the Internet Connection.", mav);
 	}
 }

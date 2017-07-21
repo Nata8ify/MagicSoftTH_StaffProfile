@@ -154,7 +154,7 @@
 										href="#division" data-target="#modal-assign-department"
 										data-toggle="modal"> [Choose]</a></label> <input type="text"
 										class="form-control" placeholder="Staff's Department"
-										id="division" name='division' maxlength="100" required
+										id="division" name='division' maxlength="100" required readonly="readonly"
 										data-validation-required-message="Please enter Staff's Department.">
 									<p class="help-block text-danger"></p>
 								</div>

@@ -75,12 +75,12 @@ public class StaffManager implements StaffManagementInterface {
 		if (newPassword == null) {// <-- No Password? then Skip Access Update.
 			return is1stSuccess;
 		}
-		new Thread(new Runnable() {
+		/*new Thread(new Runnable() {
 			@Override
 			public void run() {
 				forwardMail.sendEditByAdministratorInfoMail(staff, newPassword);
 			}
-		}).run();
+		}).run();*/
 		String updateAccessSql = "UPDATE `StaffAccess` SET `password`= ? WHERE `staffId`= ?;";
 		return jdbcTemplate.update(updateAccessSql,
 				new Object[] { Generator.getInstance().genMd5(newPassword), staff.getStaffId() }) > 0 & is1stSuccess;
@@ -102,13 +102,13 @@ public class StaffManager implements StaffManagementInterface {
 		if (newPassword == null) {// <-- No Password? then Skip Access Update.
 			return is1stSuccess;
 		}
-		new Thread(new Runnable() {
+		/*new Thread(new Runnable() {
 			@Override
 			public void run() {
 				forwardMail.sendEditByAdministratorInfoMail(staff, newPassword);
 
 			}
-		}).run();
+		}).run();*/
 		String updateAccessSql = "UPDATE `StaffAccess` SET `password`= ? WHERE `staffId`= ?;";
 		return jdbcTemplate.update(updateAccessSql,
 				new Object[] { Generator.getInstance().genMd5(newPassword), staff.getStaffId() }) > 0 & is1stSuccess;
@@ -118,13 +118,13 @@ public class StaffManager implements StaffManagementInterface {
 	public boolean editSelfStaff(final Staff staff, final String newPassword) {
 		String sql = "UPDATE `Staff` s JOIN `StaffAccess` sa on s.`staffId` = sa.`staffId` SET  s.`name`= ?, s.`nameLocale`= ?, s.`email`= ?, s.`tel`= ?, `mobileTel`=?, s.`protraitPath`= ?, sa.`password`  = ? WHERE s.`staffId`= ?;";
 
-		new Thread(new Runnable() {
+		/*new Thread(new Runnable() {
 			@Override
 			public void run() {
 				forwardMail.sendIfPasswordSelfEditedMail(staff, newPassword);
 
 			}
-		}).run();
+		}).run();*/
 		logger.error(" locale " + staff.toString());
 		return jdbcTemplate.update(sql,
 				new Object[] { staff.getName(), staff.getNameLocale(), staff.getEmail(), staff.getTel(),

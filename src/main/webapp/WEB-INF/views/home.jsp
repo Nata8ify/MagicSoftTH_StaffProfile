@@ -190,9 +190,9 @@
 											<button type="submit" class="btn btn-success btn-lg">Submit</button>
 										</div>
 									</div>
-									<div class="row control-group" align="center">
+									<!-- <div class="row control-group" align="center">
 										<br/><a href="#" style="color:darkslategray;">Forgot the Password</a>
-									</div>
+									</div> -->
 								</form>
 							</div>
 						</div>
