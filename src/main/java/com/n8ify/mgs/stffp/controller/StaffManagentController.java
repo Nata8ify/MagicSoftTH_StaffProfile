@@ -394,6 +394,13 @@ public class StaffManagentController {
 		return "manage/manage";
 	}
 
+	@ExceptionHandler({ NullPointerException.class })
+	public ModelAndView nullPointerException(UnauthorizedAccessException npex) {
+		ModelAndView mav = new ModelAndView("result/errpage");
+		return ModelBody.setErrorBody(HttpStatus.INTERNAL_SERVER_ERROR, ModelBody.ERR_ICO_UNAUTH, "Your Session are Expired.!",
+				"If you are the System Administrator you have to Sign In on <u style=\"color:#000\">/admhome</u> to Access this Page Again.", mav);
+	}
+	
 	@ExceptionHandler({ UnauthorizedAccessException.class })
 	public ModelAndView nullAccountException(UnauthorizedAccessException npex) {
 		ModelAndView mav = new ModelAndView("result/errpage");
