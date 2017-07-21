@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -413,5 +414,12 @@ public class StaffManagentController {
 		ModelAndView mav = new ModelAndView("result/errpage");
 		return ModelBody.setErrorBody(HttpStatus.INTERNAL_SERVER_ERROR, ModelBody.ERR_ICO_ERROR, "Oops!",
 				"Some of your Information is Invalid form, Please Check.", mav);
+	}
+	
+	@ExceptionHandler({ DuplicateKeyException.class })
+	public ModelAndView staffDuplicatedKeyException(MysqlDataTruncation mdtex) {
+		ModelAndView mav = new ModelAndView("result/errpage");
+		return ModelBody.setErrorBody(HttpStatus.INTERNAL_SERVER_ERROR, ModelBody.ERR_ICO_ERROR, "Oops!",
+				"This Staff ID may already been Added on the System, Please check.", mav);
 	}
 }

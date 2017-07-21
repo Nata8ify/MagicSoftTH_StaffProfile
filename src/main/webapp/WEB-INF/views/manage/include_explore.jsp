@@ -171,7 +171,11 @@
 				$('#editType').val(value.staffType);
 				$('#staffId').val(value.staffId);
 				$('#name').val(value.name);
+				$('#fname').val(value.name.substring(0, value.name.indexOf(" ")));
+				$('#lname').val(value.name.substring(value.name.indexOf(" ")+1));
 				$('#nameLocale').val(value.nameLocale);
+				$('#fnameLocale').val(value.nameLocale.substring(0, value.nameLocale.indexOf(" "))); 
+				$('#lnameLocale').val(value.nameLocale.substring(value.nameLocale.indexOf(" ")+1));
 				$('#email').val(value.email.substring(0, value.email.indexOf("@")));
 				$('#tel').val(value.tel);
 				$('#mobileTel').val(value.mobileTel);
@@ -180,6 +184,7 @@
 				$('#honorific').val(value.honorific);
 				$('#hostManagerId').val(value.hostManagerId);
 				$('#protraitPathOld').val(value.protraitPath);
+				$("#span-current-portrait-path").html(value.protraitPath!=null?(" ("+value.protraitPath.substring(value.protraitPath.indexOf("portraits/")+1)+")"):" (No Portrait)");
 				$('#hide-cur-staffType').val(value.staffType);
 				$('#birthDate').val(moment(new Date(value.birthDate)).format("DD-MM-YYYY"));
 				$('input[name="birthDate"]').val(moment(new Date(value.birthDate)).format("YYYY-MM-DD"));
@@ -187,6 +192,8 @@
 				$('input[name="startWorkingDate"]').val(moment(new Date(value.birthDate)).format("YYYY-MM-DD"));
 				$('#hostManagerName-show').val(value.hostManagerName != null ? value.hostManagerName : "Unassigned");
 				$("#img-preview-portrait").attr("src", "${resContextPath}portraits/" + (value.protraitPath == null ? "noimg.png" : value.protraitPath));
+				if(value.protraitPath == null){$("#select-portarit-default").prop("checked", true);}
+				else {$("#select-portarit-keep").prop("checked", true);}
 			}
 		});
 		}

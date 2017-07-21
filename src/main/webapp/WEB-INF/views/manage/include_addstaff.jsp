@@ -27,30 +27,74 @@
 			</div>
 		</div>
 		<div class="row control-group">
-			<div class="form-group col-xs-2 floating-label-form-group controls">
-				<label for="honorific">Title</label> <select name="honorific"
-					class="form-control" id='honorific'>
-					<option value="Mr">Mr.</option>
-					<option value="Mrs">Mrs.</option>
-					<option value="Ms">Ms.</option>
-				</select>
-			</div>
-			<div class="form-group col-xs-3 floating-label-form-group controls">
-				<label for="name">Name and Surname (English)</label> <input
-					type="text" class="form-control" placeholder="Name & Lastname"
-					id="name" name='name' maxlength="40" pattern="[a-zA-Z\s]+" required
-					data-validation-required-message="Please enter Name and Lastname.">
-				<p class="help-block text-danger"></p>
-			</div>
-			<div class="form-group col-xs-4 floating-label-form-group controls">
-				<label for="nameLocale">Name and Surname (Local Language)</label> <input
-					type="text" class="form-control"
-					placeholder="Name & Lastname (Local Language)" id="nameLocale"
-					name='nameLocale' maxlength="40"
-					data-validation-required-message="Please enter Name and Lastname.">
-				<p class="help-block text-danger"></p>
-			</div>
-			<div class="form-group col-xs-3 floating-label-form-group controls">
+								<div
+									class="form-group col-xs-3 floating-label-form-group controls">
+									<label for="honorific">Title</label> <select name="honorific"
+										class="form-control" id='honorific'>
+										<option value="Mr">Mr.</option>
+										<option value="Mrs">Mrs.</option>
+										<option value="Ms">Ms.</option>
+									</select>
+								</div>
+								<div
+									class="form-group col-xs-4 floating-label-form-group controls">
+									<input type="hidden" id="name" name='name' />
+									<label for="name">First Name (English)</label> <input
+										type="text" class="form-control" placeholder="Firstname (Eng)"
+										id="fname" maxlength="40" required
+										pattern="[a-zA-Z\s\-]+"
+										data-validation-required-message="Please enter Name.">
+									<p class="help-block text-danger"></p>
+								</div>
+								<div
+									class="form-group col-xs-5 floating-label-form-group controls">
+									<label for="name">Last Name (English)</label> <input
+										type="text" class="form-control" placeholder="Lastname (Eng)"
+										id="lname"maxlength="40" required
+										pattern="[a-zA-Z\s\-]+"
+										data-validation-required-message="Please enter Lastname.">
+									<p class="help-block text-danger"></p>
+								</div>
+							</div>
+							<div class="row control-group">
+								<div
+									class="form-group col-xs-3 floating-label-form-group controls"></div>
+								<div
+									class="form-group col-xs-4 floating-label-form-group controls">
+									<input type="hidden" id="nameLocale" name='nameLocale' />
+									<label for="name">First Name (Local)</label> <input
+										type="text" class="form-control"
+										placeholder="First Name (In Local Language)"
+										id="fnameLocale"  maxlength="40"
+										data-validation-required-message="Please enter Local Firstname.">
+									<p class="help-block text-danger"></p>
+								</div>
+								<div
+									class="form-group col-xs-5 floating-label-form-group controls">
+									<label for="name">Last Name (Local)</label> <input
+										type="text" class="form-control"
+										placeholder="Lastname (In Local Language)"
+										id="lnameLocale" maxlength="40"
+										data-validation-required-message="Please enter Local Lastname.">
+									<p class="help-block text-danger"></p>
+								</div>
+								<script type="text/javascript">
+									var inputName = $("#name");
+									var inputFirstName = $("#fname");
+									var inputLastName = $("#lname");
+									var inputNameLocale = $("#nameLocale");
+									var inputFirstNameLocal = $("#fnameLocale");
+									var inputLastNameLocal = $("#lnameLocale");
+									$("#add-staff-form").submit(function(){
+									    inputName.val(inputFirstName.val()+" "+inputLastName.val());
+									    console.log(inputName.val());
+									    inputNameLocale.val(inputFirstNameLocal.val()+" "+inputLastNameLocal.val());
+									   
+									});
+								</script>
+							</div>
+		<div class="row control-group">
+			<div class="form-group col-xs-12 floating-label-form-group controls">
 				<input type="hidden" name='birthDate' />
 				<label for="birthDate">Birth Date</label> <input
 					class="form-control" id="birthDate"    required=''  placeholder="A.D. as dd-mm-yyyy"
@@ -135,7 +179,7 @@
 <div class="row" align="right">
 	<div class="form-group col-xs-12">
 		<button type="submit" class="btn btn-success btn-lg" id="btn-submit-add-staff"
-			id='btn-submit-insert' disabled="disabled">Submit</button> 
+			disabled="disabled">Submit</button> 
 		<button type="reset" class="btn btn-waring btn-lg" id="btn-submit-add-staff"
 			id='btn-submit-insert' onclick="resetRoleDropdown()">Reset</button>	
 	</div>

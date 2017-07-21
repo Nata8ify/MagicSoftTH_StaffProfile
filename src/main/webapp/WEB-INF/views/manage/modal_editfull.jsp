@@ -47,12 +47,22 @@
 									</select>
 								</div>
 								<div
-									class="form-group col-xs-9 floating-label-form-group controls">
-									<label for="name">Name and Surname (English)</label> <input
-										type="text" class="form-control" placeholder="Name & Lastname"
-										id="name" name='name' maxlength="40" required
+									class="form-group col-xs-4 floating-label-form-group controls">
+									<input type="hidden" id="name" name='name' />
+									<label for="name">First Name (English)</label> <input
+										type="text" class="form-control" placeholder="Firstname (Eng)"
+										id="fname" maxlength="40" required
 										pattern="[a-zA-Z\s\-]+"
-										data-validation-required-message="Please enter Name and Lastname.">
+										data-validation-required-message="Please enter Name.">
+									<p class="help-block text-danger"></p>
+								</div>
+								<div
+									class="form-group col-xs-5 floating-label-form-group controls">
+									<label for="name">Last Name (English)</label> <input
+										type="text" class="form-control" placeholder="Lastname (Eng)"
+										id="lname"maxlength="40" required
+										pattern="[a-zA-Z\s\-]+"
+										data-validation-required-message="Please enter Lastname.">
 									<p class="help-block text-danger"></p>
 								</div>
 							</div>
@@ -60,14 +70,37 @@
 								<div
 									class="form-group col-xs-3 floating-label-form-group controls"></div>
 								<div
-									class="form-group col-xs-9 floating-label-form-group controls">
-									<label for="name">Name and Surname (Local)</label> <input
+									class="form-group col-xs-4 floating-label-form-group controls">
+									<input type="hidden" id="nameLocale" name='nameLocale' />
+									<label for="name">First Name (Local)</label> <input
 										type="text" class="form-control"
-										placeholder="Name & Lastname (In Local Language)"
-										id="nameLocale" name='nameLocale' maxlength="40"
-										data-validation-required-message="Please enter Name and Lastname.">
+										placeholder="First Name (In Local Language)"
+										id="fnameLocale"  maxlength="40"
+										data-validation-required-message="Please enter Local Firstname.">
 									<p class="help-block text-danger"></p>
 								</div>
+								<div
+									class="form-group col-xs-5 floating-label-form-group controls">
+									<label for="name">Last Name (Local)</label> <input
+										type="text" class="form-control"
+										placeholder="Lastname (In Local Language)"
+										id="lnameLocale" maxlength="40"
+										data-validation-required-message="Please enter Local Lastname.">
+									<p class="help-block text-danger"></p>
+								</div>
+								<script type="text/javascript">
+									var inputName = $("#name");
+									var inputFirstName = $("#fname");
+									var inputLastName = $("#lname");
+									var inputNameLocale = $("#nameLocale");
+									var inputFirstNameLocal = $("#fnameLocale");
+									var inputLastNameLocal = $("#lnameLocale");
+									$("#staff-edit-form").submit(function(){
+									    inputName.val(inputFirstName.val()+" "+inputLastName.val());
+									    inputNameLocale.val(inputFirstNameLocal.val()+" "+inputLastNameLocal.val());
+									   
+									});
+								</script>
 							</div>
 							<div class="row control-group">
 								<div
@@ -169,7 +202,7 @@
 											<td><input type="radio" value="keep"
 												name='portraitPathOpt' id='select-portarit-keep' checked></td>
 											<td></td>
-											<td>: Keep No Change</td>
+											<td>: Keep No Change <i><span id="span-current-portrait-path"></span></i></td>
 										</tr>
 										<tr>
 											<td><input type="radio" value="new"
