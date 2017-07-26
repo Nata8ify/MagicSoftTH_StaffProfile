@@ -70,11 +70,13 @@
 			</div>
 		</div>
 		<div class="row pad-small">
-			<div class="col-lg-10 col-lg-offset-2">
+		<div class="col-lg-1"></div>
+			<div class="col-lg-10 text-center">
 				<!-- To configure the contact form email address, go to mail/contact_me.php and update the email address in the PHP file on line 19. -->
 				<!-- The form should work on most web servers, but if the form is not working you may need to configure your web server differently. -->
-				<h3>${errDesc}</h3>
+				<h3 style="margin: auto;">${errDesc}</h3>
 			</div>
+		<div class="col-lg-1"></div>
 		</div>
 		<div class="row pad-small text-center">
 			<div class="col-lg-8 col-lg-offset-2">

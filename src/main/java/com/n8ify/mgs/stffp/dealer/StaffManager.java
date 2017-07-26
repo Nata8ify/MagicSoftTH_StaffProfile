@@ -75,6 +75,7 @@ public class StaffManager implements StaffManagementInterface {
 		if (newPassword == null) {// <-- No Password? then Skip Access Update.
 			return is1stSuccess;
 		}
+		//E-mail Feature
 		/*new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -102,6 +103,7 @@ public class StaffManager implements StaffManagementInterface {
 		if (newPassword == null) {// <-- No Password? then Skip Access Update.
 			return is1stSuccess;
 		}
+		//E-mail Feature
 		/*new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -117,7 +119,7 @@ public class StaffManager implements StaffManagementInterface {
 	@Override
 	public boolean editSelfStaff(final Staff staff, final String newPassword) {
 		String sql = "UPDATE `Staff` s JOIN `StaffAccess` sa on s.`staffId` = sa.`staffId` SET  s.`name`= ?, s.`nameLocale`= ?, s.`email`= ?, s.`tel`= ?, `mobileTel`=?, s.`protraitPath`= ?, sa.`password`  = ? WHERE s.`staffId`= ?;";
-
+		//E-mail Feature
 		/*new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -274,7 +276,7 @@ public class StaffManager implements StaffManagementInterface {
 		String sqlDeleteRoomReservationUsage = "TRUNCATE TABLE `RoomUsage`;";
 		String sqlDeleteRoomFaciliUsage = "TRUNCATE TABLE `RoomFacilitiyUsage`;";
 		String sqlInsertDefaultAstaff = "INSERT INTO `Staff`(`staffId`, `honorific`, `name`,`staffType`) VALUES ('M00000','Mrs','P. Nudee', 's');";
-		String sqlInsertDefaultAstaffAccess = "INSERT INTO `StaffAccess`(`staffId`, `password`, `stffpsRole`) VALUES ('M00000','1f7c381e83c87b875265b52adc64617a', 'a');";
+		String sqlInsertDefaultAstaffAccess = "INSERT INTO `StaffAccess`(`staffId`, `password`, `stffpsRole`, `rmreservRole`) VALUES ('M00000','1f7c381e83c87b875265b52adc64617a', 'a', 'a');";
 		jdbcTemplate.batchUpdate(new String[] {sqlDisableFkCheck, sqlDeleteStaffAccessAll, sqlDeleteRoomFaciliUsage, sqlDeleteRoomReservationUsage, sqlDeleteStaffAll, sqlDeleteStaffDepartmentAll, sqlEnableFkCheck});
 		jdbcTemplate.batchUpdate(new String[] { sqlInsertDefaultAstaff, sqlInsertDefaultAstaffAccess });
 		return true;

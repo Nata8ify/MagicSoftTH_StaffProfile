@@ -3,29 +3,21 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<!-- Root Context: defines shared resources visible to all other web components -->
-	<!--Data Source Conf -->
-	<bean id="mgsdbSource"
-		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url"
-			value="jdbc:mysql://54.169.83.168:3306/mgsdb?useUnicode=true&amp;characterEncoding=utf8" />
-		<property name="username" value="mgshost" />
-		<property name="password" value="@Nintendo64" />
-	</bean>
-	<!--Production Data Source Conf -->
-	<!-- <bean id="mgsdbSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> 
-		<property name="driverClassName" value="com.mysql.jdbc.Driver" /> <property 
-		name="url" value="jdbc:mysql://localhost/mgsdb?useUnicode=true&amp;characterEncoding=utf8" 
-		/> <property name="username" value="mgshost" /> <property name="password" 
-		value="@Nintendo64" /> </bean> -->
+		<!--Production Local Data Source Conf -->
+<!-- 	<bean id="mgsdbSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> 
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" /> 
+		<property name="url" value="jdbc:mysql://localhost:3306/mststrsdb?useUnicode=true&amp;characterEncoding=utf8" /> 
+		<property name="username" value="mgsinapp" /> 
+		<property name="password" value="@eDELwiess64" /> 
+	</bean> -->
 
 	<!--Dev Local Data Source Conf -->
-	<!-- <bean id="mgsdbSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> 
-		<property name="driverClassName" value="com.mysql.jdbc.Driver" /> <property 
-		name="url" value="jdbc:mysql://localhost:3306/mgsdb?useUnicode=true&amp;characterEncoding=utf8" 
-		/> <property name="username" value="root" /> <property name="password" value="" 
-		/> </bean> -->
+	<bean id="mgsdbSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> 
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" /> 
+		<property name="url" value="jdbc:mysql://54.169.83.168:3306/mgsdb?useUnicode=true&amp;characterEncoding=utf8" /> 
+		<property name="username" value="mgshost" /> 
+		<property name="password" value="@Nintendo64" /> 
+	</bean>
 
 	<bean id="staffManager" class="com.n8ify.mgs.stffp.dealer.StaffManager">
 		<property name="dataSource" ref="mgsdbSource" />
@@ -57,12 +49,13 @@
 		<property name="maxInMemorySize" value="1048576" /> <!-- 1MB -->
 	</bean>
 
-	<!-- E-mail Support Things /  *Require MST Mail Server or something not depends on my dummy Gmail -->
+	<!-- E-mail Support Things /  *Require MST Mail Server or something not depends on my G-mail -->
+	<!-- After there are E-mail (G-mail with POP3 E-mail Forwarding Enable) Account on username and password below, then uncomment "//E-mail Feature /* ... */"  on StaffManager.java, and this feature will be work!-->
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-		<property name="host" value="smtp.gmail.com" />
+		<property name="host" value="smtp.gmail.com" /><!-- G-mail -->
 		<property name="port" value="587" />
-		<property name="username" value="fure4ify@gmail.com" />
-		<property name="password" value="412369875" />
+		<property name="username" value="[Volunteer Email's Username]" />
+		<property name="password" value="[Volunteer Email's Password]" />
 		<property name="defaultEncoding" value="UTF-8" />
 		<property name="javaMailProperties">
 			<props>

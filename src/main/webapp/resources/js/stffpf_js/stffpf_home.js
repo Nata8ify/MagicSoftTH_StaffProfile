@@ -184,7 +184,7 @@ function renderRowStaffSearchResult(val, tableResultBody) {
 	var hostManagerName = val.hostManagerName;
 	var staffType = val.staffType;
 	var staffId = val.staffId;
-	var nameLocaleFmt = val.nameLocale == "" ? "" : ("<br/>("
+	var nameLocaleFmt = val.nameLocale == null ? "" : ("<br/>("
 		+ val.nameLocale + ")");
 	var rowResultBody = $("<tr><td>" + staffId + "</td><td>"
 		+ honorific + " " + name + nameLocaleFmt + "</td><td>"
