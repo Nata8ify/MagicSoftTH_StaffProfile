@@ -41,7 +41,6 @@ public class StaffAccessController {
 			StaffAccess.setAccessInstance(new StaffAccess(staffId, password)); //No need System role to be assigned.
 			request.getSession(true).setAttribute("thisStaff", staff);
 			request.getSession(true).setAttribute("thisStaffAccess", StaffAccess.getAccessInstance());
-			logger.info("SESSION CREATED FOR :" + staff.getStaffId());
 			return "home";
 		}
 		return "NO_WHERE_LOGIN_MODULE_IS_DEFECTED";

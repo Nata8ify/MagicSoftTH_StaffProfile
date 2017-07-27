@@ -32,9 +32,7 @@
 				"Administrator Permission Revoked on "
 					+ staffId + ".");
 		    });
-	    /* 	    $("#input-grantadm-staff-id").keyup(function(){
-	     console.log($(this).val());
-	     }); */
+
 	    function grantAdminPermission(staffId, isAdmGrant, preResponse) {
 		if (staffId == "") {
 		    alert("Staff ID Field is Required.");

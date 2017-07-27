@@ -60,6 +60,8 @@ public class StaffManagentController {
 	private final String MANAGE_PATH = "manage/manage";
 	private final String MST_EMAIL_PREFIX = "@magicsoftware.co.th";
 	public void authenCheck(HttpServletRequest request) throws UnauthorizedAccessException {
+		
+		if(request.getSession(false) == null){ throw new UnauthorizedAccessException(); }
 		StaffAccess accessStaff = (StaffAccess) request.getSession(false).getAttribute("thisStaffAccess");
 		if (accessStaff == null)
 			throw new UnauthorizedAccessException();
@@ -376,6 +378,7 @@ public class StaffManagentController {
 			@RequestParam(value = "staffId", required = true) String staffId,
 			@RequestParam(value = "isGrantAdminRole", required = true) boolean isGrantAdminRole) throws UnauthorizedAccessException{
 		authenCheck(request);
+		logger.info(staffId+" :: "+isGrantAdminRole);
 		if(isGrantAdminRole){ //Change Stffps System Role -> By now just Admin.
 			return String.valueOf(sttfpAccess.setToStffpsRole(staffId, Staff.TYPE_ADMINISTRATOR));
 		} else {
@@ -400,14 +403,14 @@ public class StaffManagentController {
 	public ModelAndView nullPointerException(UnauthorizedAccessException npex) {
 		ModelAndView mav = new ModelAndView("result/errpage");
 		return ModelBody.setErrorBody(HttpStatus.INTERNAL_SERVER_ERROR, ModelBody.ERR_ICO_UNAUTH, "Your Session are Expired.!",
-				"If you are the System Administrator you have to Sign In on <u style=\"color:#000\">/admhome</u> to Access this Page Again.", mav);
+				"If you are the System Administrator you have to Sign In on <u style=\"color:#000\">/adm/home</u> to Access this Page Again.", mav);
 	}
 	
 	@ExceptionHandler({ UnauthorizedAccessException.class })
 	public ModelAndView nullAccountException(UnauthorizedAccessException npex) {
 		ModelAndView mav = new ModelAndView("result/errpage");
 		return ModelBody.setErrorBody(HttpStatus.INTERNAL_SERVER_ERROR, ModelBody.ERR_ICO_UNAUTH, "This Section is Authorized for Administrator.!",
-				"If you are the System Administrator you have to Sign In on <u style=\"color:#000\">/admhome</u> to Access this Page.", mav);
+				"If you are the System Administrator you have to Sign In on <u style=\"color:#000\">/adm/home</u> to Access this Page.", mav);
 	}
 
 	@ExceptionHandler({ MysqlDataTruncation.class })

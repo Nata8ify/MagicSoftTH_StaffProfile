@@ -14,14 +14,12 @@ $(document).ready(function () {
 		"url": "viewAllStaffs?json=true",
 		"success": function (slist) {
 			staffs = $.parseJSON(slist);
-			console.log(staffs);
 		}
 	});
 	$.ajax({
 		"url": "viewAllMngs?json=true",
 		"success": function (mlist) {
 			managers = $.parseJSON(mlist);
-			console.log(managers);
 		}
 	});
 
@@ -240,7 +238,7 @@ function renderStaffInfoModal(val, isMngViewInclude) {
 	$('#span-info-name-honf').html(honorific + ". ");
 	$('#span-info-name').html(name);
 	/* $('#pan-info-name-local-honf').html(""); */
-	if (nameLocale != "" || nameLocale != null) {
+	if (nameLocale != "" && nameLocale != null) {
 		$('#span-info-name-locale').html(
 			nameLocale == "" ? ""
 				: ("<br/>(" + nameLocale + ")"));
@@ -254,12 +252,12 @@ function renderStaffInfoModal(val, isMngViewInclude) {
 	if (staffType === 's') {
 		$('#table-staff-mng-info').show();
 		if (manager !== null) {
-			console.log("manager : " + manager);
 			$('#span-info-name-mng-honf').html(
 				manager.honorific + ". ");
 			$('#span-info-mng').html(hostManagerName);
+			if(hostManagerNameLocale != "" && hostManagerNameLocale != null){
 			$('#span-info-name-mng-locale').html(
-				" <br/>(" + hostManagerNameLocale + ")");
+				" <br/>(" + hostManagerNameLocale + ")");}
 			$('#span-info-mng-email').html(hostManagerEmail);
 			$('#btn-view-thismng').prop("disabled", false);
 			$('#btn-view-thismng').data("managerId",
@@ -322,7 +320,7 @@ function renderManagerInfoModal(val) {
 	$('#span-mnginfo-name-honf').html(honorific + ". ");
 	$('#span-mnginfo-name').html(name);
 	/* $('#pan-info-name-local-honf').html(""); */
-	if (nameLocale != "" || nameLocale != null) {
+	if (nameLocale != "" && nameLocale != null) {
 		$('#span-mnginfo-name-locale').html(
 			nameLocale == "" ? "" : ("<br/>(" + nameLocale + ")"));
 	}
@@ -337,8 +335,9 @@ function renderManagerInfoModal(val) {
 		$('#span-info-name-mng-honf').html(
 			manager.honorific + ". ");
 		$('#span-mnginfo-mng').html(manager.name);
-		$('#span-info-name-mng-locale').html(
-			" <br/>(" + manager.nameLocale + ")");
+		if (manager.nameLocale != "" && manager.nameLocale != null) {
+		$('#span-mnginfo-name-mng-locale').html(
+			" <br/>(" + manager.nameLocale + ")");}
 		$('#span-mnginfo-mng-email').html(manager.email);
 		$('#btn-mngview-thismng').prop("disabled", false);
 		$('#btn-mngview-thismng').data("managerId",

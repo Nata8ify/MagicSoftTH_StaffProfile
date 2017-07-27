@@ -124,7 +124,6 @@
 		var thisStaff; /* Selected Staff [GLOBAL] */
 		$('#staff-explore-table tbody').on('click', 'tr .staff-edit', function () {
 		    	thisStaff = staffTable.row($(this).parents('tr')).data();
-		    	console.log(thisStaff);
 				appendEditStaffData(thisStaff);
 				$('#modal-staff-edit').modal();
 			});
@@ -174,7 +173,7 @@
 				$('#fname').val(value.name.substring(0, value.name.indexOf(" ")));
 				$('#lname').val(value.name.substring(value.name.indexOf(" ")+1));
 				$('#nameLocale').val(value.nameLocale);
-				$('#fnameLocale').val(value!=null?value.nameLocale.substring(0, value.nameLocale.indexOf(" "):"")); 
+				$('#fnameLocale').val(value!=null?value.nameLocale.substring(0, value.nameLocale.indexOf(" ")):""); 
 				$('#lnameLocale').val(value!=null?value.nameLocale.substring(value.nameLocale.indexOf(" ")+1):"");
 				$('#email').val(value.email.substring(0, value.email.indexOf("@")));
 				$('#tel').val(value.tel);

@@ -4,20 +4,27 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 		<!--Production Local Data Source Conf -->
-<!-- 	<bean id="mgsdbSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> 
+<!--  	<bean id="mgsdbSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> 
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" /> 
 		<property name="url" value="jdbc:mysql://localhost:3306/mststrsdb?useUnicode=true&amp;characterEncoding=utf8" /> 
 		<property name="username" value="mgsinapp" /> 
 		<property name="password" value="@eDELwiess64" /> 
-	</bean> -->
+	</bean>  -->
+
+	<bean id="mgsdbSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> 
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" /> 
+		<property name="url" value="jdbc:mysql://localhost:3306/mststrsdb?useUnicode=true&amp;characterEncoding=utf8" /> 
+		<property name="username" value="root" /> 
+		<property name="password" value="" /> 
+	</bean>  
 
 	<!--Dev Local Data Source Conf -->
-	<bean id="mgsdbSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> 
+	<!--  <bean id="mgsdbSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> 
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" /> 
 		<property name="url" value="jdbc:mysql://54.169.83.168:3306/mgsdb?useUnicode=true&amp;characterEncoding=utf8" /> 
 		<property name="username" value="mgshost" /> 
 		<property name="password" value="@Nintendo64" /> 
-	</bean>
+	</bean> -->
 
 	<bean id="staffManager" class="com.n8ify.mgs.stffp.dealer.StaffManager">
 		<property name="dataSource" ref="mgsdbSource" />
