@@ -138,8 +138,8 @@ public class StaffManager implements StaffManagementInterface {
 	public boolean deleteStaffById(String staffId, String staffType) {
 		String sqlDelFromStaff = "DELETE FROM `Staff` WHERE `staffId` = ?;";
 		String sqlDelFromStaffAccess = "DELETE FROM `StaffAccess` WHERE `staffId` = ?;";
-		String sqlDelFromRoomUsage = "DELETE FROM `roomusage` WHERE `byStaffId` = ?;";
-		String sqlDelFromFacilisUsage = "DELETE FROM `roomfacilitiyusage` WHERE roomfacilitiyusage.roomUsageId IN (SELECT ru.usageId FROM `roomusage` ru WHERE `byStaffId` = ?);";
+		String sqlDelFromRoomUsage = "DELETE FROM `RoomUsage` WHERE `byStaffId` = ?;";
+		String sqlDelFromFacilisUsage = "DELETE FROM `RoomFacilitiyUsage` WHERE RoomFacilitiyUsage.roomUsageId IN (SELECT ru.usageId FROM `RoomUsage` ru WHERE `byStaffId` = ?);";
 		jdbcTemplate.update(sqlDelFromFacilisUsage, new Object[] { staffId });
 		jdbcTemplate.update(sqlDelFromRoomUsage, new Object[] { staffId });
 		jdbcTemplate.update(sqlDelFromStaffAccess, new Object[] { staffId });
