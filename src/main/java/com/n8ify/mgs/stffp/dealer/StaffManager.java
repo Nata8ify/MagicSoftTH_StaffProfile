@@ -6,18 +6,21 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
 import com.n8ify.mgs.stffp.intface.StaffManagementInterface;
-import com.n8ify.mgs.stffp.model.Administrator;
-import com.n8ify.mgs.stffp.model.Manager;
 import com.n8ify.mgs.stffp.model.Staff;
+import com.n8ify.mgs.stffp.utils.ForwardMail;
+import com.n8ify.mgs.stffp.utils.Generator;
 
 public class StaffManager implements StaffManagementInterface {
-
+	private static final Logger logger = LoggerFactory.getLogger(StaffManager.class);
 	private DataSource dataSource;
 	private JdbcTemplate jdbcTemplate;
+	private ForwardMail forwardMail;
 
 	public DataSource getDataSource() {
 		return dataSource;
@@ -25,6 +28,7 @@ public class StaffManager implements StaffManagementInterface {
 
 	public void setDataSource(DataSource dataSource) {
 		this.dataSource = dataSource;
+		this.jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 
 	public JdbcTemplate getJdbcTemplate() {
@@ -35,40 +39,184 @@ public class StaffManager implements StaffManagementInterface {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 
+	public void setForwardMail(ForwardMail forwardMail) {
+		this.forwardMail = forwardMail;
+	}
+
+	/** If two operation was success, return true */
 	@Override
-	public boolean insertStaff(Staff staff) {
-		// TODO Auto-generated method stub
+	public boolean insertStaff(Staff staff, String password) {
+		String sql = "INSERT INTO `Staff`"
+				+ "(`staffId`, `honorific`, `name`, `nameLocale`, `email`, `tel`, `mobileTel`, `division`, `position`, `protraitPath`, `hostManagerId`, `staffType`, `startWorkingDate`, `birthDate`)"
+				+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+		boolean is1stSuccess = jdbcTemplate.update(sql,
+				new Object[] { staff.getStaffId(), staff.getHonorific(), staff.getName(), staff.getNameLocale(),
+						staff.getEmail(), staff.getTel(), staff.getMobileTel(), staff.getDivision(),
+						staff.getPosition(), staff.getProtraitPath(), staff.getHostManagerId(),
+						staff.getStaffType(), staff.getStartWorkingDate(), staff.getBirthDate() }) > 0;
+		sql = " INSERT INTO `StaffAccess`(`staffId`, `password`) VALUES (?,?);";
+		return jdbcTemplate.update(sql,
+				new Object[] { staff.getStaffId(), Generator.getInstance().genMd5(password) }) > 0 & is1stSuccess;
+	}
+
+	@Override
+	public boolean editStaff(final Staff staff, final String newPassword) {
+		String sql = "UPDATE `Staff` s SET s.`name`=?, `nameLocale`=?, s.`honorific`=? ,s.`email`=?,s.`tel`=?, `mobileTel`=?,s.`division`=?, s.`position`=?,s.`protraitPath`=?"
+				+ ",s.`hostManagerId`=?, s.staffType = ?, `startWorkingDate` = ?, `birthDate` = ? WHERE s.`staffId` = ?;";
+		boolean is1stSuccess = jdbcTemplate.update(sql,
+				new Object[] { staff.getName(), staff.getNameLocale(), staff.getHonorific(), staff.getEmail(),
+						staff.getTel(), staff.getMobileTel(), staff.getDivision(), staff.getPosition(),
+						staff.getProtraitPath(), staff.getHostManagerId(), staff.getStaffType(),
+						staff.getStartWorkingDate(), staff.getBirthDate(), staff.getStaffId() }) > 0;
+		if (staff.getStaffType().equals(Staff.TYPE_MANAGER)) {
+			String sqlNullHostMng = "UPDATE `Staff` SET `hostManagerId`= NULL WHERE `hostManagerId` = ?;";
+			return jdbcTemplate.update(sqlNullHostMng, new Object[] { null }) >= 0;
+		}
+		if (newPassword == null) {// <-- No Password? then Skip Access Update.
+			return is1stSuccess;
+		}
+		//E-mail Feature
+		/*new Thread(new Runnable() {
+			@Override
+			public void run() {
+				forwardMail.sendEditByAdministratorInfoMail(staff, newPassword);
+			}
+		}).run();*/
+		String updateAccessSql = "UPDATE `StaffAccess` SET `password`= ? WHERE `staffId`= ?;";
+		return jdbcTemplate.update(updateAccessSql,
+				new Object[] { Generator.getInstance().genMd5(newPassword), staff.getStaffId() }) > 0 & is1stSuccess;
+	}
+
+	@Override
+	public boolean editStaffForNoImage(final Staff staff, final String newPassword) {
+		String sql = "UPDATE `Staff` s SET s.`name`=?, `nameLocale`=?, s.`honorific`=? ,s.`email`=?,s.`tel`=?, `mobileTel`=?,s.`division`=?, s.`position`=?"
+				+ ",s.`hostManagerId`=?, s.staffType = ?, `startWorkingDate` = ?, `birthDate`= ? WHERE s.`staffId` = ?;";
+		boolean is1stSuccess = jdbcTemplate.update(sql,
+				new Object[] { staff.getName(), staff.getNameLocale(), staff.getHonorific(), staff.getEmail(),
+						staff.getTel(), staff.getMobileTel(), staff.getDivision(), staff.getPosition(),
+						staff.getHostManagerId(), staff.getStaffType(), staff.getStartWorkingDate(), staff.getBirthDate(), staff.getStaffId() }) > 0;
+
+		if (staff.getStaffType().equals(Staff.TYPE_MANAGER)) {
+			String sqlNullHostMng = "UPDATE `Staff` SET `hostManagerId`= NULL WHERE `hostManagerId` = ?;";
+			return jdbcTemplate.update(sqlNullHostMng, new Object[] { null }) >= 0;
+		}
+		if (newPassword == null) {// <-- No Password? then Skip Access Update.
+			return is1stSuccess;
+		}
+		//E-mail Feature
+		/*new Thread(new Runnable() {
+			@Override
+			public void run() {
+				forwardMail.sendEditByAdministratorInfoMail(staff, newPassword);
+
+			}
+		}).run();*/
+		String updateAccessSql = "UPDATE `StaffAccess` SET `password`= ? WHERE `staffId`= ?;";
+		return jdbcTemplate.update(updateAccessSql,
+				new Object[] { Generator.getInstance().genMd5(newPassword), staff.getStaffId() }) > 0 & is1stSuccess;
+	}
+
+	@Override
+	public boolean editSelfStaff(final Staff staff, final String newPassword) {
+		String sql = "UPDATE `Staff` s JOIN `StaffAccess` sa on s.`staffId` = sa.`staffId` SET  s.`name`= ?, s.`nameLocale`= ?, s.`email`= ?, s.`tel`= ?, `mobileTel`=?, s.`protraitPath`= ?, sa.`password`  = ? WHERE s.`staffId`= ?;";
+		//E-mail Feature
+		/*new Thread(new Runnable() {
+			@Override
+			public void run() {
+				forwardMail.sendIfPasswordSelfEditedMail(staff, newPassword);
+
+			}
+		}).run();*/
+		logger.error(" locale " + staff.toString());
+		return jdbcTemplate.update(sql,
+				new Object[] { staff.getName(), staff.getNameLocale(), staff.getEmail(), staff.getTel(),
+						staff.getMobileTel(), staff.getProtraitPath(), Generator.getInstance().genMd5(newPassword),
+						staff.getStaffId() }) > 0;
+	}
+
+	@Override
+	public boolean deleteStaffById(String staffId, String staffType) {
+		String sqlDelFromStaff = "DELETE FROM `Staff` WHERE `staffId` = ?;";
+		String sqlDelFromStaffAccess = "DELETE FROM `StaffAccess` WHERE `staffId` = ?;";
+		String sqlDelFromRoomUsage = "DELETE FROM `roomusage` WHERE `byStaffId` = ?;";
+		String sqlDelFromFacilisUsage = "DELETE FROM `roomfacilitiyusage` WHERE roomfacilitiyusage.roomUsageId IN (SELECT ru.usageId FROM `roomusage` ru WHERE `byStaffId` = ?);";
+		jdbcTemplate.update(sqlDelFromFacilisUsage, new Object[] { staffId });
+		jdbcTemplate.update(sqlDelFromRoomUsage, new Object[] { staffId });
+		jdbcTemplate.update(sqlDelFromStaffAccess, new Object[] { staffId });
+		boolean isDelThingsSuccess = jdbcTemplate.update(sqlDelFromStaff, new Object[] { staffId }) > 0;
+		/* Unbind the Staffs from Deleted Manager too. */
+		if (isDelThingsSuccess && staffType.equals(Staff.TYPE_MANAGER)) {
+			String sqlNullHostMng = "UPDATE `Staff` SET `hostManagerId`= NULL WHERE `hostManagerId` = ?;";
+			return jdbcTemplate.update(sqlNullHostMng, new Object[] { staffId }) >= 0;
+		}
 		return false;
 	}
 
 	@Override
-	public boolean editStaff(Staff staff) {
+	public Staff getStaffById(String staffId) {
+		String sql = "SELECT * FROM `Staff` WHERE `staffId` = ?;";
+		Staff.setStaffInstance(jdbcTemplate.queryForObject(sql, new Object[] { staffId }, new StaffMapper()));
+		return Staff.getStaffInstance();
+	}
+
+	// SELECT s.*, ss.name FROM `Staff` s JOIN Staff sm on s.`hostManagerId` =
+	// ss.staffId
+	@Override
+	public List<Staff> getEntireStaffs() {
+		// String sql = "SELECT * FROM `Staff`;";
+		String sql = "SELECT s.*, sm.name AS managerName, sm.nameLocale AS managerNameLocale, sm.email AS managerEmail FROM `Staff` s LEFT JOIN Staff sm on s.`hostManagerId` = sm.staffId ;";
+		// String sql = "SELECT s.*, sm.name AS managerName FROM `Staff` s JOIN
+		// StaffAccess sa on s.`staffId` = sa.staffId;";
+		return jdbcTemplate.query(sql, new StaffOnMoreDetailsMapper());
+	}
+
+	@Override
+	public List<Staff> getStaffsByNameLike(String nameLike) {
+		String sql = "SELECT * FROM `Staff` WHERE `name` like ?;";
+		return jdbcTemplate.query(sql, new Object[] { "%" + nameLike + "%" }, new StaffMapper());
+	}
+
+	@Override
+	public List<Staff> getStaffsByHostManagerId(String managerId) {
+		String sql = "SELECT * FROM `Staff` WHERE `hostManagerId` = ?;";
+		return jdbcTemplate.query(sql, new Object[] { managerId }, new StaffMapper());
+	}
+
+	@Override
+	public List<Staff> getTotalManagers() {
+		String sql = "SELECT * FROM `Staff` WHERE  `staffType` = ? ;";
+		return jdbcTemplate.query(sql, new Object[] { Staff.TYPE_MANAGER }, new StaffMapper());
+	}
+
+	@Override
+	public List<Staff> getTotalStaffs() {
+		String sql = "SELECT * FROM `Staff` WHERE  `staffType` = ? OR `staffType` = ? ;";
+		return jdbcTemplate.query(sql, new Object[] { Staff.TYPE_STAFF, Staff.TYPE_ADMINISTRATOR }, new StaffMapper());
+	}
+
+	@Override
+	public List<Staff> getTotalAssignedStaffs() {
+		String sql = "SELECT * FROM `Staff` WHERE  `staffType` != ? AND hostManagerId IS NOT NULL;";
+		return jdbcTemplate.query(sql, new Object[] { Staff.TYPE_MANAGER }, new StaffMapper());
+	}
+
+	@Override
+	public List<Staff> getTotalUnassignedStaffs() {
+		String sql = "SELECT * FROM `Staff` WHERE  `staffType` != ? AND hostManagerId IS NULL;";
+		return jdbcTemplate.query(sql, new Object[] { Staff.TYPE_MANAGER }, new StaffMapper());
+
+	}
+
+	@Override
+	public boolean resetStaffPortrait(String staffId) {
+		String sql = "UPDATE `Staff` SET `protraitPath`= NULL WHERE `staffId` = ?;";
+		return jdbcTemplate.update(sql, staffId) > 0;
+	}
+
+	@Override
+	public boolean editPassword(String staffId, String password) {
 		// TODO Auto-generated method stub
 		return false;
-	}
-
-	@Override
-	public boolean deleteStaffById(int staffId) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public Staff getStaffById(int staffId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Staff> getStaffByNameLike(String nameLike) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Staff> getStaffByHostManagerId(int staffId) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	class StaffMapper implements RowMapper<Staff> {
@@ -77,32 +225,71 @@ public class StaffManager implements StaffManagementInterface {
 		public Staff mapRow(ResultSet rs, int i) throws SQLException {
 			Staff staff = new Staff();
 			staff.setStaffId(rs.getString("staffId"));
+			staff.setHonorific(rs.getString("honorific"));
 			staff.setName(rs.getString("name"));
+			staff.setNameLocale(rs.getString("nameLocale"));
 			staff.setEmail(rs.getString("email"));
 			staff.setTel(rs.getString("tel"));
+			staff.setMobileTel(rs.getString("mobileTel"));
 			staff.setDivision(rs.getString("division"));
+			staff.setPosition(rs.getString("position"));
 			staff.setProtraitPath(rs.getString("protraitPath"));
+			staff.setStaffType(rs.getString("staffType"));
+			staff.setBirthDate(rs.getDate("birthDate"));
+			staff.setStartWorkingDate(rs.getDate("startWorkingDate"));
 			staff.setHostManagerId(rs.getString("hostManagerId"));
 			return staff;
 		}
 	}
 
-	class ManagerMapper implements RowMapper<Manager> {
+	class StaffOnMoreDetailsMapper implements RowMapper<Staff> {
 
 		@Override
-		public Manager mapRow(ResultSet rs, int i) throws SQLException {
-			// TODO Auto-generated method stub
-			return null;
+		public Staff mapRow(ResultSet rs, int i) throws SQLException {
+			Staff staff = new Staff();
+			staff.setStaffId(rs.getString("staffId"));
+			staff.setHonorific(rs.getString("honorific"));
+			staff.setName(rs.getString("name"));
+			staff.setNameLocale(rs.getString("nameLocale"));
+			staff.setEmail(rs.getString("email"));
+			staff.setTel(rs.getString("tel"));
+			staff.setMobileTel(rs.getString("mobileTel"));
+			staff.setDivision(rs.getString("division"));
+			staff.setPosition(rs.getString("position"));
+			staff.setProtraitPath(rs.getString("protraitPath"));
+			staff.setHostManagerId(rs.getString("hostManagerId"));
+			staff.setStaffType(rs.getString("staffType"));
+			staff.setBirthDate(rs.getDate("birthDate"));
+			staff.setStartWorkingDate(rs.getDate("startWorkingDate"));
+			staff.setHostManagerName(rs.getString("managerName"));
+			staff.setHostManagerNameLocale(rs.getString("managerNameLocale"));
+			staff.setHostManagerEmail(rs.getString("managerEmail"));
+			return staff;
 		}
-	}
-	
-	class AdministratorMapper implements RowMapper<Administrator> {
 
-		@Override
-		public Administrator mapRow(ResultSet rs, int i) throws SQLException {
-			// TODO Auto-generated method stub
-			return null;
-		}
 	}
-	
+
+	// DANGER ZONE
+	@Override
+	public boolean deleteAll() {
+		String sqlDisableFkCheck = "SET FOREIGN_KEY_CHECKS = 0;";
+		String sqlEnableFkCheck = "SET FOREIGN_KEY_CHECKS = 1;";
+		String sqlDeleteStaffAll = "TRUNCATE TABLE `Staff`;";
+		String sqlDeleteStaffAccessAll = "TRUNCATE TABLE `StaffAccess`;";
+		String sqlDeleteStaffDepartmentAll = "TRUNCATE TABLE `StaffDepartment`;";
+		String sqlDeleteRoomReservationUsage = "TRUNCATE TABLE `RoomUsage`;";
+		String sqlDeleteRoomFaciliUsage = "TRUNCATE TABLE `RoomFacilitiyUsage`;";
+		String sqlInsertDefaultAstaff = "INSERT INTO `Staff`(`staffId`, `honorific`, `name`,`staffType`) VALUES ('M00000','Mrs','P. Nudee', 's');";
+		String sqlInsertDefaultAstaffAccess = "INSERT INTO `StaffAccess`(`staffId`, `password`, `stffpsRole`, `rmreservRole`) VALUES ('M00000','1f7c381e83c87b875265b52adc64617a', 'a', 'a');";
+		jdbcTemplate.batchUpdate(new String[] {sqlDisableFkCheck, sqlDeleteStaffAccessAll, sqlDeleteRoomFaciliUsage, sqlDeleteRoomReservationUsage, sqlDeleteStaffAll, sqlDeleteStaffDepartmentAll, sqlEnableFkCheck});
+		jdbcTemplate.batchUpdate(new String[] { sqlInsertDefaultAstaff, sqlInsertDefaultAstaffAccess });
+		return true;
+	}
+
+	@Override
+	public boolean isValidStaffId(String staffId) {
+		String sqlCheckDuplicate = "SELECT EXISTS(SELECT * FROM `Staff` WHERE `staffId` = ?);";
+		return jdbcTemplate.queryForInt(sqlCheckDuplicate, new Object[]{staffId})==1?false:true;
+	}
+
 }

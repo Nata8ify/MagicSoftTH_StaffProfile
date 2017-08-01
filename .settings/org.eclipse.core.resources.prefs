@@ -1,4 +1,4 @@
 eclipse.preferences.version=1
-encoding//src/main/java/com/n8ify/mgs/stffp/model/Administrator.java=UTF-8
-encoding//src/main/java/com/n8ify/mgs/stffp/model/Manager.java=UTF-8
 encoding//src/main/java/com/n8ify/mgs/stffp/model/Staff.java=UTF-8
+encoding//src/main/webapp/WEB-INF/views/home.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/manage/manage.jsp=UTF-8

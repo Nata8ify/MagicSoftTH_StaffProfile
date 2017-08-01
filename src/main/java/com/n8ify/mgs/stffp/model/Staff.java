@@ -1,30 +1,99 @@
 package com.n8ify.mgs.stffp.model;
 
+import java.sql.Date;
+
 public class Staff {
 	private String staffId;
 	private String name;
+	private String nameLocale;
 	private String email;
 	private String tel;
+	private String mobileTel;
 	private String division;
+	private String position;
 	private String protraitPath;
 	private String hostManagerId;
-	
+	private String honorific;
+	private String staffType;
+	private Date birthDate;
+	private Date startWorkingDate;
+
+	public static final String TYPE_STAFF = "s";
+	public static final String TYPE_ADMINISTRATOR = "a";
+	public static final String TYPE_MANAGER = "m";
+
+	private static Staff staff;
+
+	public static void setStaffInstance(Staff staff) {
+		Staff.staff = staff;
+	}
+
+	public static Staff getStaffInstance() {
+		if (Staff.staff == null)
+			Staff.staff = new Staff();
+		return Staff.staff;
+	}
+
 	public Staff() {
 		super();
 	}
 
-	public Staff(String name, String email, String tel, String division, String protraitPath, String hostManagerId) {
-		super();
+	public Staff(String staffId, String name, String nameLocale, String email, String tel, String mobileTel,
+			String division, String position, String protraitPath, String hostManagerId, String honorific,
+			String staffType, Date birthDate, Date startWorkingDate) {
+		this.staffId = staffId;
 		this.name = name;
+		this.nameLocale = nameLocale;
 		this.email = email;
 		this.tel = tel;
+		this.mobileTel = mobileTel;
 		this.division = division;
+		this.position = position;
 		this.protraitPath = protraitPath;
 		this.hostManagerId = hostManagerId;
+		this.honorific = honorific;
+		this.staffType = staffType;
+		this.startWorkingDate = startWorkingDate;
+		this.birthDate = birthDate;
+	}
+
+	public Staff(String staffId, String name, String nameLocale, String email, String tel, String mobileTel,
+			String protraitPath) {
+		this.staffId = staffId;
+		this.name = name;
+		this.nameLocale = nameLocale;
+		this.email = email;
+		this.tel = tel;
+		this.mobileTel = mobileTel;
+		this.protraitPath = protraitPath;
+	}
+
+	public String getPosition() {
+		return position;
+	}
+
+	public void setPosition(String position) {
+		this.position = position;
 	}
 
 	public String getStaffId() {
 		return staffId;
+	}
+
+	public String getHonorific() {
+		return honorific;
+	}
+
+	public String getStaffType() {
+		return staffType;
+	}
+
+	public void setStaffType(String staffType) {
+		this.staffType = staffType;
+	}
+
+	public void setHonorific(String honorific) {
+		this.honorific = honorific;
 	}
 
 	public void setStaffId(String staffId) {
@@ -37,6 +106,14 @@ public class Staff {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getNameLocale() {
+		return nameLocale;
+	}
+
+	public void setNameLocale(String nameLocale) {
+		this.nameLocale = nameLocale;
 	}
 
 	public String getEmail() {
@@ -55,6 +132,14 @@ public class Staff {
 		this.tel = tel;
 	}
 
+	public String getMobileTel() {
+		return mobileTel;
+	}
+
+	public void setMobileTel(String mobileTel) {
+		this.mobileTel = mobileTel;
+	}
+
 	public String getDivision() {
 		return division;
 	}
@@ -71,8 +156,6 @@ public class Staff {
 		this.protraitPath = protraitPath;
 	}
 
-	
-	
 	public String getHostManagerId() {
 		return hostManagerId;
 	}
@@ -81,9 +164,63 @@ public class Staff {
 		this.hostManagerId = hostManagerId;
 	}
 
+	
+
+	public Date getBirthDate() {
+		return birthDate;
+	}
+
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
+	}
+
+	public Date getStartWorkingDate() {
+		return startWorkingDate;
+	}
+
+	public void setStartWorkingDate(Date startWorkingDate) {
+		this.startWorkingDate = startWorkingDate;
+	}
+
 	@Override
 	public String toString() {
-		return "รหัสบุคคล=" + staffId + ", ชื่อ-สกุล=" + name + ", Email=" + email + ", Tel=" + tel + ", แผนก="
-				+ division + ", ที่อยู่ของรูปภาพ=" + protraitPath + "รหัสบุคคลหัวหน้าแผนก : "+hostManagerId+"=]";
+		return "Staff [staffId=" + staffId + ", name=" + name + ", nameLocale=" + nameLocale + ", email=" + email
+				+ ", tel=" + tel + ", mobileTel=" + mobileTel + ", division=" + division + ", position=" + position
+				+ ", protraitPath=" + protraitPath + ", hostManagerId=" + hostManagerId + ", honorific=" + honorific
+				+ ", staffType=" + staffType + ", startWorkingDate=" + startWorkingDate + ", birthDate=" + birthDate
+				+ ", hostManagerName=" + hostManagerName + ", hostManagerNameLocale=" + hostManagerNameLocale
+				+ ", hostManagerEmail=" + hostManagerEmail + "]";
 	}
+
+
+
+	// Required Information every Non-manager Staff must have.
+	private String hostManagerName;
+	private String hostManagerNameLocale;
+	private String hostManagerEmail;
+
+	public String getHostManagerName() {
+		return hostManagerName;
+	}
+
+	public void setHostManagerName(String hostManagerName) {
+		this.hostManagerName = hostManagerName;
+	}
+
+	public String getHostManagerNameLocale() {
+		return hostManagerNameLocale;
+	}
+
+	public void setHostManagerNameLocale(String hostManagerNameLocale) {
+		this.hostManagerNameLocale = hostManagerNameLocale;
+	}
+
+	public String getHostManagerEmail() {
+		return hostManagerEmail;
+	}
+
+	public void setHostManagerEmail(String hostManagerEmail) {
+		this.hostManagerEmail = hostManagerEmail;
+	}
+
 }
